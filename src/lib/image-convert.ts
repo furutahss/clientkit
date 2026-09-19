@@ -81,15 +81,20 @@ export function convertImage(
   });
 }
 
-export function extensionForFormat(format: OutputFormat): string {
-  switch (format) {
-    case "image/jpeg":
-      return "jpg";
-    case "image/png":
-      return "png";
-    case "image/webp":
-      return "webp";
-  }
+const EXTENSION_BY_MIME: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+};
+
+/**
+ * 実際に生成されたBlobのMIMEタイプから拡張子を求める。
+ * ブラウザが要求したフォーマットに未対応の場合、Canvas.toBlobは
+ * 仕様上 image/png にフォールバックするため、選択中フォーマットではなく
+ * 生成結果の blob.type を必ず使用すること。
+ */
+export function extensionForMimeType(mimeType: string): string {
+  return EXTENSION_BY_MIME[mimeType] ?? mimeType.split("/")[1] ?? "png";
 }
 
 export function withExtension(fileName: string, extension: string): string {
