@@ -3,6 +3,7 @@ import {
   Binary,
   FileJson,
   FileSpreadsheet,
+  Fingerprint,
   ImageDown,
   Link2,
   Regex,
@@ -173,6 +174,27 @@ export const tools: Tool[] = [
       "encodeURI",
     ],
     path: "/tools/url-encoder",
+  },
+  {
+    id: "hash-generator",
+    name: "ハッシュ値生成・照合",
+    description: "MD5/SHA-1/SHA-256/SHA-384/SHA-512を計算し、期待値と照合します。",
+    longDescription:
+      "テキストやファイルからMD5・SHA-1・SHA-256・SHA-384・SHA-512のハッシュ値をWeb Crypto APIでブラウザ内で計算できるツールです。ファイルのドラッグ＆ドロップに対応し、期待値との一致（Match/Mismatch）判定も行えます。",
+    category: "developer",
+    icon: Fingerprint,
+    keywords: [
+      "ハッシュ",
+      "hash",
+      "md5",
+      "sha1",
+      "sha256",
+      "sha384",
+      "sha512",
+      "チェックサム",
+      "checksum",
+    ],
+    path: "/tools/hash-generator",
   },
 ];
 
