@@ -1,0 +1,76 @@
+{
+  "header": {
+    "searchPlaceholder": "Search tools...",
+    "searchAriaLabel": "Search tools",
+    "searchClearAriaLabel": "Clear search",
+    "searchNoResults": "No matching tools found",
+    "githubAriaLabel": "GitHub repository",
+    "themeToggleAriaLabel": "Toggle dark mode",
+    "menuAriaLabel": "Open menu",
+    "languageSwitchAriaLabel": "Switch language"
+  },
+  "sidebar": {
+    "mobileTitle": "Tools"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "ariaLabel": "Breadcrumb"
+  },
+  "home": {
+    "toolsHeading": "Tools",
+    "features": {
+      "secure": {
+        "title": "Secure",
+        "description": "Your input is never sent to a server. Everything runs entirely inside your browser."
+      },
+      "fast": {
+        "title": "Fast",
+        "description": "With no network requests involved, it runs quickly regardless of your connection."
+      },
+      "privacy": {
+        "title": "Privacy-first",
+        "description": "Safe to use even when working with sensitive or personal information."
+      }
+    }
+  },
+  "toolExplorer": {
+    "searchPlaceholder": "Search tools...",
+    "searchAriaLabel": "Search tools",
+    "all": "All",
+    "noResults": "No tools matched your search."
+  },
+  "toolActions": {
+    "copy": "Copy to clipboard",
+    "copied": "Copied",
+    "clear": "Clear"
+  },
+  "toolPage": {
+    "usageHeading": "How to use",
+    "faqHeading": "Frequently asked questions"
+  },
+  "tools": {
+    "base64": {
+      "modeEncode": "Encode",
+      "modeDecode": "Decode",
+      "inputLabelEncode": "Input text",
+      "inputLabelDecode": "Base64 string",
+      "inputPlaceholderEncode": "Enter text to encode...",
+      "inputPlaceholderDecode": "Enter Base64 string to decode...",
+      "outputLabelEncode": "Base64 string",
+      "outputLabelDecode": "Decoded result",
+      "outputPlaceholder": "The result will appear here",
+      "swapButton": "Swap result into the input",
+      "errorEncode": "Failed to encode.",
+      "errorDecode": "Failed to decode. Please enter a valid Base64 string."
+    },
+    "characterCount": {
+      "placeholder": "Type or paste your text here...",
+      "ariaLabel": "Text to count",
+      "statCharacters": "Characters",
+      "statCharactersNoSpaces": "Characters (no spaces)",
+      "statWords": "Words",
+      "statLines": "Lines",
+      "statBytes": "Bytes (UTF-8)"
+    }
+  }
+}

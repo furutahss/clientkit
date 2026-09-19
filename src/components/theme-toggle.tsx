@@ -6,7 +6,7 @@ import { Moon, Sun } from "lucide-react";
 
 import { Switch } from "@/components/ui/switch";
 
-export function ThemeToggle() {
+export function ThemeToggle({ ariaLabel }: { ariaLabel: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -23,7 +23,7 @@ export function ThemeToggle() {
       <Switch
         checked={isDark}
         onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
-        aria-label="ダークモード切替"
+        aria-label={ariaLabel}
       />
       <Moon className="size-4 text-muted-foreground" aria-hidden="true" />
     </div>
