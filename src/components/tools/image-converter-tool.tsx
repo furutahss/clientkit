@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Download, ImageUp, RefreshCw, ShieldCheck } from "lucide-react";
+import {
+  AlertTriangle,
+  Download,
+  ImageUp,
+  RefreshCw,
+  ShieldCheck,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +22,7 @@ import { Slider } from "@/components/ui/slider";
 import { formatBytes } from "@/lib/format-bytes";
 import {
   convertImage,
-  extensionForFormat,
+  extensionForMimeType,
   loadImageFromFile,
   withExtension,
   type OutputFormat,
@@ -38,6 +44,10 @@ const FORMAT_OPTIONS: { value: OutputFormat; label: string }[] = [
   { value: "image/webp", label: "WebP (.webp)" },
 ];
 
+function labelForMimeType(mimeType: string): string {
+  return FORMAT_OPTIONS.find((option) => option.value === mimeType)?.label ?? mimeType;
+}
+
 type SourceImage = {
   file: File;
   image: HTMLImageElement;
@@ -58,6 +68,10 @@ export function ImageConverterTool() {
   const [convertedUrl, setConvertedUrl] = React.useState<string | null>(null);
   const [isConverting, setIsConverting] = React.useState(false);
   const [convertError, setConvertError] = React.useState<string | null>(null);
+  const [unsupportedFormat, setUnsupportedFormat] = React.useState<{
+    requested: OutputFormat;
+    actual: string;
+  } | null>(null);
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const requestIdRef = React.useRef(0);
@@ -68,6 +82,7 @@ export function ImageConverterTool() {
       if (prev) URL.revokeObjectURL(prev);
       return null;
     });
+    setUnsupportedFormat(null);
   }, []);
 
   const handleFile = React.useCallback(
@@ -147,6 +162,13 @@ export function ImageConverterTool() {
             if (prev) URL.revokeObjectURL(prev);
             return URL.createObjectURL(blob);
           });
+          // Canvas.toBlobは要求フォーマットに非対応のブラウザでは
+          // 仕様上 image/png に暗黙フォールバックするため、実際の出力を検証する
+          setUnsupportedFormat(
+            blob.type && blob.type !== format
+              ? { requested: format, actual: blob.type }
+              : null
+          );
         })
         .catch((error: unknown) => {
           if (requestId !== requestIdRef.current) return;
@@ -187,7 +209,10 @@ export function ImageConverterTool() {
     const url = convertedUrl ?? URL.createObjectURL(convertedBlob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = withExtension(source.file.name, extensionForFormat(format));
+    link.download = withExtension(
+      source.file.name,
+      extensionForMimeType(convertedBlob.type)
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -197,6 +222,9 @@ export function ImageConverterTool() {
     source && convertedBlob
       ? Math.round((1 - convertedBlob.size / source.file.size) * 100)
       : null;
+
+  const isEffectivelyLossless =
+    format === "image/png" || unsupportedFormat?.actual === "image/png";
 
   return (
     <div className="flex flex-col gap-4">
@@ -284,6 +312,17 @@ export function ImageConverterTool() {
                     ))}
                   </SelectContent>
                 </Select>
+                {unsupportedFormat && (
+                  <div className="flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300">
+                    <AlertTriangle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                    <span>
+                      お使いのブラウザは{labelForMimeType(unsupportedFormat.requested)}
+                      への変換に対応していないため、代わりに
+                      {labelForMimeType(unsupportedFormat.actual)}
+                      形式で出力されています。
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-col gap-2">
@@ -299,9 +338,9 @@ export function ImageConverterTool() {
                   min={1}
                   max={100}
                   step={1}
-                  disabled={format === "image/png"}
+                  disabled={isEffectivelyLossless}
                 />
-                {format === "image/png" && (
+                {isEffectivelyLossless && (
                   <p className="text-xs text-muted-foreground">
                     PNGはロスレス圧縮のため画質設定は適用されません。サイズを調整したい場合は下のリサイズ設定をご利用ください。
                   </p>
