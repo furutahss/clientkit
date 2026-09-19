@@ -4,6 +4,7 @@ import {
   FileJson,
   FileSpreadsheet,
   ImageDown,
+  Link2,
   Regex,
   TextCursorInput,
 } from "lucide-react";
@@ -153,6 +154,25 @@ export const tools: Tool[] = [
       "regular expression",
     ],
     path: "/tools/regex-tester",
+  },
+  {
+    id: "url-encoder",
+    name: "URLエンコード・クエリ分解",
+    description: "URLのエンコード/デコードと、クエリパラメータの分解・編集を行います。",
+    longDescription:
+      "URLエンコード（encodeURIComponent / encodeURI）・デコードと、URLのクエリパラメータ（?key=value）を表形式で抽出・編集・再生成できるツールです。すべての処理はブラウザ内で完結します。",
+    category: "converter",
+    icon: Link2,
+    keywords: [
+      "url",
+      "エンコード",
+      "デコード",
+      "クエリパラメータ",
+      "query parameter",
+      "encodeURIComponent",
+      "encodeURI",
+    ],
+    path: "/tools/url-encoder",
   },
 ];
 
