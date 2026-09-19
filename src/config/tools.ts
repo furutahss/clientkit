@@ -8,6 +8,7 @@ import {
   ImageDown,
   KeyRound,
   Link2,
+  NotebookText,
   Palette,
   Regex,
   TextCursorInput,
@@ -262,6 +263,25 @@ export const tools: Tool[] = [
       "有効期限",
     ],
     path: "/tools/jwt-decoder",
+  },
+  {
+    id: "markdown-editor",
+    name: "Markdownエディタ・HTML変換",
+    description: "Markdownをリアルタイムプレビューし、HTMLへ変換・出力します。",
+    longDescription:
+      "Markdownをリアルタイムプレビューしながら編集できるエディタです。GitHub Flavored Markdown（テーブル・タスクリスト・取り消し線など）に対応し、変換後のHTMLコードのコピーや、.md/.htmlファイルとしてのダウンロードができます。",
+    category: "converter",
+    icon: NotebookText,
+    keywords: [
+      "markdown",
+      "マークダウン",
+      "html",
+      "変換",
+      "プレビュー",
+      "gfm",
+      "エディタ",
+    ],
+    path: "/tools/markdown-editor",
   },
 ];
 
