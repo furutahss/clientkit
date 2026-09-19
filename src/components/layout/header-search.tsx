@@ -5,10 +5,14 @@ import Link from "next/link";
 import { Search, X } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
-import { searchTools } from "@/config/tools";
+import { getToolPath, searchTools } from "@/config/tools";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
 import { cn } from "@/lib/utils";
 
 export function HeaderSearch() {
+  const locale = useLocale();
+  const dict = getDictionary(locale);
   const [query, setQuery] = React.useState("");
   const [focused, setFocused] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -26,7 +30,7 @@ export function HeaderSearch() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const results = query.trim() ? searchTools(query).slice(0, 8) : [];
+  const results = query.trim() ? searchTools(locale, query).slice(0, 8) : [];
   const showDropdown = focused && query.trim().length > 0;
 
   return (
@@ -35,19 +39,19 @@ export function HeaderSearch() {
         <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="ツールを検索..."
+          placeholder={dict.header.searchPlaceholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
           className="pl-8 pr-8"
-          aria-label="ツールを検索"
+          aria-label={dict.header.searchAriaLabel}
         />
         {query && (
           <button
             type="button"
             onClick={() => setQuery("")}
             className="absolute top-1/2 right-2.5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label="検索をクリア"
+            aria-label={dict.header.searchClearAriaLabel}
           >
             <X className="size-4" />
           </button>
@@ -62,7 +66,7 @@ export function HeaderSearch() {
         >
           {results.length === 0 ? (
             <p className="px-3 py-6 text-center text-sm text-muted-foreground">
-              一致するツールが見つかりません
+              {dict.header.searchNoResults}
             </p>
           ) : (
             results.map((tool) => {
@@ -70,7 +74,7 @@ export function HeaderSearch() {
               return (
                 <Link
                   key={tool.id}
-                  href={tool.path}
+                  href={getToolPath(locale, tool.id)}
                   onClick={() => {
                     setQuery("");
                     setFocused(false);
@@ -79,9 +83,9 @@ export function HeaderSearch() {
                 >
                   <Icon className="mt-0.5 size-4 shrink-0" />
                   <span className="flex flex-col">
-                    <span className="font-medium">{tool.name}</span>
+                    <span className="font-medium">{tool.name[locale]}</span>
                     <span className="line-clamp-1 text-xs text-muted-foreground">
-                      {tool.description}
+                      {tool.description[locale]}
                     </span>
                   </span>
                 </Link>

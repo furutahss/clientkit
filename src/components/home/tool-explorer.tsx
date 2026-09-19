@@ -7,19 +7,23 @@ import { ToolCard } from "@/components/home/tool-card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { categories, searchTools } from "@/config/tools";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
 import { cn } from "@/lib/utils";
 
 export function ToolExplorer() {
+  const locale = useLocale();
+  const dict = getDictionary(locale);
   const [query, setQuery] = React.useState("");
   const [activeCategory, setActiveCategory] = React.useState<string | null>(
     null
   );
 
   const filteredTools = React.useMemo(() => {
-    const matched = searchTools(query);
+    const matched = searchTools(locale, query);
     if (!activeCategory) return matched;
     return matched.filter((tool) => tool.category === activeCategory);
-  }, [query, activeCategory]);
+  }, [locale, query, activeCategory]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -28,11 +32,11 @@ export function ToolExplorer() {
           <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="ツールを検索..."
+            placeholder={dict.toolExplorer.searchPlaceholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="pl-8"
-            aria-label="ツールを検索"
+            aria-label={dict.toolExplorer.searchAriaLabel}
           />
         </div>
 
@@ -42,7 +46,7 @@ export function ToolExplorer() {
             className="cursor-pointer select-none"
             onClick={() => setActiveCategory(null)}
           >
-            すべて
+            {dict.toolExplorer.all}
           </Badge>
           {categories.map((category) => (
             <Badge
@@ -55,7 +59,7 @@ export function ToolExplorer() {
                 )
               }
             >
-              {category.label}
+              {category.label[locale]}
             </Badge>
           ))}
         </div>
@@ -63,12 +67,12 @@ export function ToolExplorer() {
 
       {filteredTools.length === 0 ? (
         <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
-          条件に一致するツールが見つかりませんでした。
+          {dict.toolExplorer.noResults}
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredTools.map((tool) => (
-            <ToolCard key={tool.id} tool={tool} />
+            <ToolCard key={tool.id} tool={tool} lang={locale} />
           ))}
         </div>
       )}

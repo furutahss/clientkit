@@ -5,6 +5,8 @@ import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ToolActions } from "@/components/tools/tool-actions";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
 
 function countStats(text: string) {
   const characters = text.length;
@@ -17,15 +19,17 @@ function countStats(text: string) {
 }
 
 export function CharacterCountTool() {
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.characterCount;
   const [text, setText] = React.useState("");
   const stats = React.useMemo(() => countStats(text), [text]);
 
   const statItems = [
-    { label: "文字数", value: stats.characters },
-    { label: "文字数（空白除く）", value: stats.charactersNoSpaces },
-    { label: "単語数", value: stats.words },
-    { label: "行数", value: stats.lines },
-    { label: "バイト数（UTF-8）", value: stats.bytes },
+    { label: dict.statCharacters, value: stats.characters },
+    { label: dict.statCharactersNoSpaces, value: stats.charactersNoSpaces },
+    { label: dict.statWords, value: stats.words },
+    { label: dict.statLines, value: stats.lines },
+    { label: dict.statBytes, value: stats.bytes },
   ];
 
   return (
@@ -33,9 +37,9 @@ export function CharacterCountTool() {
       <Textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="ここにテキストを入力してください..."
+        placeholder={dict.placeholder}
         className="min-h-48 font-mono text-sm"
-        aria-label="カウント対象のテキスト"
+        aria-label={dict.ariaLabel}
       />
 
       <ToolActions

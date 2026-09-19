@@ -1,0 +1,76 @@
+{
+  "header": {
+    "searchPlaceholder": "ツールを検索...",
+    "searchAriaLabel": "ツールを検索",
+    "searchClearAriaLabel": "検索をクリア",
+    "searchNoResults": "一致するツールが見つかりません",
+    "githubAriaLabel": "GitHubリポジトリ",
+    "themeToggleAriaLabel": "ダークモード切替",
+    "menuAriaLabel": "メニューを開く",
+    "languageSwitchAriaLabel": "言語を切り替え"
+  },
+  "sidebar": {
+    "mobileTitle": "ツール一覧"
+  },
+  "breadcrumb": {
+    "home": "ホーム",
+    "ariaLabel": "パンくずリスト"
+  },
+  "home": {
+    "toolsHeading": "ツール一覧",
+    "features": {
+      "secure": {
+        "title": "安全",
+        "description": "入力したデータはサーバーへ一切送信されません。すべての処理はあなたのブラウザ内で完結します。"
+      },
+      "fast": {
+        "title": "高速",
+        "description": "通信が発生しないため、ネットワーク環境に左右されず高速に動作します。"
+      },
+      "privacy": {
+        "title": "プライバシー保護",
+        "description": "機密情報や個人情報を扱う作業でも安心して利用できます。"
+      }
+    }
+  },
+  "toolExplorer": {
+    "searchPlaceholder": "ツールを検索...",
+    "searchAriaLabel": "ツールを検索",
+    "all": "すべて",
+    "noResults": "条件に一致するツールが見つかりませんでした。"
+  },
+  "toolActions": {
+    "copy": "クリップボードへコピー",
+    "copied": "コピーしました",
+    "clear": "クリア"
+  },
+  "toolPage": {
+    "usageHeading": "使い方",
+    "faqHeading": "よくある質問"
+  },
+  "tools": {
+    "base64": {
+      "modeEncode": "エンコード",
+      "modeDecode": "デコード",
+      "inputLabelEncode": "入力テキスト",
+      "inputLabelDecode": "Base64文字列",
+      "inputPlaceholderEncode": "エンコードするテキストを入力...",
+      "inputPlaceholderDecode": "デコードするBase64文字列を入力...",
+      "outputLabelEncode": "Base64文字列",
+      "outputLabelDecode": "デコード結果",
+      "outputPlaceholder": "結果がここに表示されます",
+      "swapButton": "結果を入力欄に反映して切り替え",
+      "errorEncode": "エンコードに失敗しました。",
+      "errorDecode": "デコードに失敗しました。有効なBase64文字列を入力してください。"
+    },
+    "characterCount": {
+      "placeholder": "ここにテキストを入力してください...",
+      "ariaLabel": "カウント対象のテキスト",
+      "statCharacters": "文字数",
+      "statCharactersNoSpaces": "文字数（空白除く）",
+      "statWords": "単語数",
+      "statLines": "行数",
+      "statBytes": "バイト数（UTF-8）"
+    }
+  }
+}
