@@ -7,6 +7,7 @@ import {
   Fingerprint,
   ImageDown,
   Link2,
+  Palette,
   Regex,
   TextCursorInput,
 } from "lucide-react";
@@ -216,6 +217,29 @@ export const tools: Tool[] = [
       "query",
     ],
     path: "/tools/sql-formatter",
+  },
+  {
+    id: "color-converter",
+    name: "カラーコード変換・アクセシビリティ判定",
+    description: "HEX/RGB/HSL/HSV/CMYKを相互変換し、WCAGコントラスト比を判定します。",
+    longDescription:
+      "HEX・RGB・HSL・HSV・CMYKのカラーコードを相互変換し、コピーできるツールです。カラーピッカーにも対応しています。WCAG 2.1に基づくコントラスト比を計算し、AA/AAA基準のPass/Fail判定をサンプルテキストとともに確認できます。",
+    category: "converter",
+    icon: Palette,
+    keywords: [
+      "カラーコード",
+      "色変換",
+      "hex",
+      "rgb",
+      "hsl",
+      "hsv",
+      "cmyk",
+      "コントラスト比",
+      "wcag",
+      "アクセシビリティ",
+      "color picker",
+    ],
+    path: "/tools/color-converter",
   },
 ];
 
