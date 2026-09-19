@@ -6,6 +6,7 @@ import {
   FileSpreadsheet,
   Fingerprint,
   ImageDown,
+  KeyRound,
   Link2,
   Palette,
   Regex,
@@ -240,6 +241,27 @@ export const tools: Tool[] = [
       "color picker",
     ],
     path: "/tools/color-converter",
+  },
+  {
+    id: "jwt-decoder",
+    name: "JWTデコーダー・構造解析",
+    description: "JWTをHeader/Payload/Signatureに分解し、有効期限を判定します。",
+    longDescription:
+      "JWT（JSON Web Token）文字列をHeader・Payload・Signatureに分解し、それぞれをJSON整形表示できるツールです。exp・nbfなどのUnixタイムスタンプを日時に自動変換し、有効期限切れを警告表示します。署名の検証は行いません。",
+    category: "developer",
+    icon: KeyRound,
+    keywords: [
+      "jwt",
+      "json web token",
+      "デコード",
+      "decode",
+      "認証",
+      "auth",
+      "header",
+      "payload",
+      "有効期限",
+    ],
+    path: "/tools/jwt-decoder",
   },
 ];
 
