@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Binary, TextCursorInput } from "lucide-react";
+import { Binary, FileJson, TextCursorInput } from "lucide-react";
 
 export type ToolCategory = {
   id: string;
@@ -61,6 +61,27 @@ export const tools: Tool[] = [
     icon: Binary,
     keywords: ["base64", "エンコード", "デコード", "encode", "decode", "変換"],
     path: "/tools/base64",
+  },
+  {
+    id: "json-formatter",
+    name: "JSON整形・TypeScript型変換",
+    description: "JSONの整形・Minifyと、TypeScriptの型定義生成を行います。",
+    longDescription:
+      "入力したJSONを2スペース・4スペース・1行化（Minify）で整形したり、TypeScriptのinterface定義コードに変換したりできるツールです。リアルタイムに構文チェックを行い、すべての処理はブラウザ内で完結します。",
+    category: "converter",
+    icon: FileJson,
+    keywords: [
+      "json",
+      "整形",
+      "フォーマット",
+      "minify",
+      "typescript",
+      "型定義",
+      "interface",
+      "変換",
+      "json formatter",
+    ],
+    path: "/tools/json-formatter",
   },
 ];
 
