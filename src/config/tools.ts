@@ -1,5 +1,11 @@
 import type { LucideIcon } from "lucide-react";
-import { Binary, FileJson, ImageDown, TextCursorInput } from "lucide-react";
+import {
+  Binary,
+  FileJson,
+  FileSpreadsheet,
+  ImageDown,
+  TextCursorInput,
+} from "lucide-react";
 
 export type ToolCategory = {
   id: string;
@@ -104,6 +110,25 @@ export const tools: Tool[] = [
       "image converter",
     ],
     path: "/tools/image-converter",
+  },
+  {
+    id: "csv-json-converter",
+    name: "CSV/JSON相互変換",
+    description: "CSVとJSONを相互に変換し、テーブル形式でプレビューします。",
+    longDescription:
+      "CSV形式とJSON形式のデータをブラウザ内で相互に変換できるツールです。区切り文字やヘッダー有無を選択でき、変換結果はテーブル形式でプレビューできます。JSON→CSVではファイルとしてダウンロードも可能です。",
+    category: "converter",
+    icon: FileSpreadsheet,
+    keywords: [
+      "csv",
+      "json",
+      "変換",
+      "テーブル",
+      "スプレッドシート",
+      "csv to json",
+      "json to csv",
+    ],
+    path: "/tools/csv-json-converter",
   },
 ];
 
