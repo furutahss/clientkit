@@ -4,6 +4,8 @@ import * as React from "react";
 import { Check, Copy, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
 
 export function ToolActions({
   onClear,
@@ -16,6 +18,8 @@ export function ToolActions({
   copyDisabled?: boolean;
   clearDisabled?: boolean;
 }) {
+  const locale = useLocale();
+  const dict = getDictionary(locale);
   const [copied, setCopied] = React.useState(false);
 
   async function handleCopy() {
@@ -47,7 +51,7 @@ export function ToolActions({
           ) : (
             <Copy className="size-4" />
           )}
-          {copied ? "コピーしました" : "クリップボードへコピー"}
+          {copied ? dict.toolActions.copied : dict.toolActions.copy}
         </Button>
       )}
       {onClear && (
@@ -59,7 +63,7 @@ export function ToolActions({
           disabled={clearDisabled}
         >
           <Trash2 className="size-4" />
-          クリア
+          {dict.toolActions.clear}
         </Button>
       )}
     </div>

@@ -8,42 +8,50 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ToolActions } from "@/components/tools/tool-actions";
 import { buildUrl, parseQueryParams, splitUrl, type QueryParam } from "@/lib/url-query";
-import { cn } from "@/lib/utils";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
+import { cn, formatTemplate } from "@/lib/utils";
 
 type Tab = "encode" | "query";
 type EncodeMode = "encode" | "decode";
 type EncodeMethod = "component" | "full";
 
-const TABS: { value: Tab; label: string }[] = [
-  { value: "encode", label: "エンコード / デコード" },
-  { value: "query", label: "クエリパラメータ分解" },
-];
-
-function transform(
-  text: string,
-  mode: EncodeMode,
-  method: EncodeMethod
-): { output: string; error: string | null } {
-  try {
-    if (mode === "encode") {
-      return {
-        output: method === "component" ? encodeURIComponent(text) : encodeURI(text),
-        error: null,
-      };
-    }
-    return {
-      output: method === "component" ? decodeURIComponent(text) : decodeURI(text),
-      error: null,
-    };
-  } catch {
-    return {
-      output: "",
-      error: "デコードに失敗しました。不正なエスケープシーケンスが含まれています。",
-    };
-  }
-}
-
 export function UrlEncoderTool() {
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.urlEncoder;
+
+  const TABS: { value: Tab; label: string }[] = [
+    { value: "encode", label: dict.tabEncode },
+    { value: "query", label: dict.tabQuery },
+  ];
+
+  const transform = React.useCallback(
+    (
+      text: string,
+      mode: EncodeMode,
+      method: EncodeMethod
+    ): { output: string; error: string | null } => {
+      try {
+        if (mode === "encode") {
+          return {
+            output: method === "component" ? encodeURIComponent(text) : encodeURI(text),
+            error: null,
+          };
+        }
+        return {
+          output: method === "component" ? decodeURIComponent(text) : decodeURI(text),
+          error: null,
+        };
+      } catch {
+        return {
+          output: "",
+          error: dict.decodeError,
+        };
+      }
+    },
+    [dict]
+  );
+
   const [tab, setTab] = React.useState<Tab>("encode");
 
   const [encodeMode, setEncodeMode] = React.useState<EncodeMode>("encode");
@@ -52,7 +60,7 @@ export function UrlEncoderTool() {
 
   const { output: encodeOutput, error: encodeError } = React.useMemo(
     () => transform(encodeInput, encodeMode, encodeMethod),
-    [encodeInput, encodeMode, encodeMethod]
+    [encodeInput, encodeMode, encodeMethod, transform]
   );
 
   const [urlInput, setUrlInput] = React.useState("");
@@ -111,8 +119,8 @@ export function UrlEncoderTool() {
             <div className="inline-flex w-fit rounded-md border p-1">
               {(
                 [
-                  { value: "encode", label: "エンコード" },
-                  { value: "decode", label: "デコード" },
+                  { value: "encode", label: dict.modeEncode },
+                  { value: "decode", label: dict.modeDecode },
                 ] as { value: EncodeMode; label: string }[]
               ).map((item) => (
                 <button
@@ -133,8 +141,8 @@ export function UrlEncoderTool() {
             <div className="inline-flex w-fit rounded-md border p-1">
               {(
                 [
-                  { value: "component", label: "encodeURIComponent" },
-                  { value: "full", label: "encodeURI" },
+                  { value: "component", label: dict.methodComponent },
+                  { value: "full", label: dict.methodFull },
                 ] as { value: EncodeMethod; label: string }[]
               ).map((item) => (
                 <button
@@ -153,22 +161,19 @@ export function UrlEncoderTool() {
               ))}
             </div>
           </div>
-          <p className="text-xs text-muted-foreground">
-            encodeURIComponentはクエリパラメータの値など単一の文字列全体を、
-            encodeURIはURL全体（:/?#などの予約文字は保持）をエンコードする際に適しています。
-          </p>
+          <p className="text-xs text-muted-foreground">{dict.methodNote}</p>
 
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium">
-              {encodeMode === "encode" ? "入力テキスト" : "エンコード済み文字列"}
+              {encodeMode === "encode" ? dict.inputLabelEncode : dict.inputLabelDecode}
             </label>
             <Textarea
               value={encodeInput}
               onChange={(e) => setEncodeInput(e.target.value)}
               placeholder={
                 encodeMode === "encode"
-                  ? "https://example.com/検索?q=こんにちは 世界"
-                  : "https%3A%2F%2Fexample.com%2F..."
+                  ? dict.inputPlaceholderEncode
+                  : dict.inputPlaceholderDecode
               }
               spellCheck={false}
               className="min-h-32 font-mono text-sm"
@@ -176,11 +181,11 @@ export function UrlEncoderTool() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium">結果</label>
+            <label className="text-sm font-medium">{dict.resultLabel}</label>
             <Textarea
               value={encodeOutput}
               readOnly
-              placeholder="結果がここに表示されます"
+              placeholder={dict.outputPlaceholder}
               spellCheck={false}
               className="min-h-32 font-mono text-sm"
             />
@@ -199,17 +204,17 @@ export function UrlEncoderTool() {
       ) : (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium">URL</label>
+            <label className="text-sm font-medium">{dict.urlLabel}</label>
             <div className="flex flex-col gap-2 sm:flex-row">
               <Input
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
-                placeholder="https://example.com/search?q=clientkit&page=2"
+                placeholder={dict.urlPlaceholder}
                 spellCheck={false}
                 className="font-mono text-sm"
               />
               <Button type="button" onClick={handleParseUrl} disabled={!urlInput}>
-                分解する
+                {dict.parseButton}
               </Button>
             </div>
           </div>
@@ -217,7 +222,7 @@ export function UrlEncoderTool() {
           {hasParsed && (
             <>
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">ベースURL</label>
+                <label className="text-sm font-medium">{dict.baseUrlLabel}</label>
                 <Input
                   value={base}
                   onChange={(e) => setBase(e.target.value)}
@@ -229,17 +234,17 @@ export function UrlEncoderTool() {
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-medium">
-                    クエリパラメータ（{params.length}件）
+                    {formatTemplate(dict.queryParamsLabel, { count: params.length })}
                   </label>
                   <Button type="button" variant="outline" size="sm" onClick={addParam}>
                     <Plus className="size-4" />
-                    パラメータを追加
+                    {dict.addParam}
                   </Button>
                 </div>
 
                 {params.length === 0 ? (
                   <p className="rounded-md border border-dashed p-4 text-center text-sm text-muted-foreground">
-                    クエリパラメータはありません
+                    {dict.noParams}
                   </p>
                 ) : (
                   <div className="flex flex-col gap-2">
@@ -248,7 +253,7 @@ export function UrlEncoderTool() {
                         <Input
                           value={param.key}
                           onChange={(e) => updateParam(index, "key", e.target.value)}
-                          placeholder="キー"
+                          placeholder={dict.keyPlaceholder}
                           spellCheck={false}
                           className="font-mono text-sm"
                         />
@@ -256,7 +261,7 @@ export function UrlEncoderTool() {
                         <Input
                           value={param.value}
                           onChange={(e) => updateParam(index, "value", e.target.value)}
-                          placeholder="値"
+                          placeholder={dict.valuePlaceholder}
                           spellCheck={false}
                           className="font-mono text-sm"
                         />
@@ -265,7 +270,7 @@ export function UrlEncoderTool() {
                           variant="ghost"
                           size="icon"
                           onClick={() => removeParam(index)}
-                          aria-label="このパラメータを削除"
+                          aria-label={dict.removeParamAria}
                         >
                           <X className="size-4" />
                         </Button>
@@ -276,7 +281,7 @@ export function UrlEncoderTool() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">再生成されたURL</label>
+                <label className="text-sm font-medium">{dict.regeneratedUrlLabel}</label>
                 <Textarea
                   value={generatedUrl}
                   readOnly

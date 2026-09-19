@@ -7,38 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ToolActions } from "@/components/tools/tool-actions";
 import { markdownToHtml, wrapHtmlDocument } from "@/lib/markdown";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
 import { cn } from "@/lib/utils";
 
 type Tab = "preview" | "html";
-
-const SAMPLE_MARKDOWN = `# ClientKit Markdown Editor
-
-**ClientKit** はブラウザだけで動く安全なツール集です。
-
-## 特徴
-
-- リアルタイムプレビュー
-- GitHub Flavored Markdown 対応
-- \`HTML\` へのワンクリック変換
-
-## サンプル
-
-1. テーブル
-
-| 項目 | 説明 |
-| --- | --- |
-| 安全 | サーバーにデータを送信しません |
-| 高速 | ブラウザ内で完結します |
-
-2. タスクリスト
-
-- [x] Markdownを書く
-- [ ] プレビューを確認する
-
-> 引用文もサポートしています。
-
-[ClientKit](https://clientkit.dev) を見てみましょう。
-`;
 
 function downloadFile(filename: string, content: string, mimeType: string) {
   const blob = new Blob([content], { type: mimeType });
@@ -53,7 +26,9 @@ function downloadFile(filename: string, content: string, mimeType: string) {
 }
 
 export function MarkdownEditorTool() {
-  const [markdown, setMarkdown] = React.useState(SAMPLE_MARKDOWN);
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.markdownEditor;
+  const [markdown, setMarkdown] = React.useState(dict.sampleMarkdown);
   const [tab, setTab] = React.useState<Tab>("preview");
   const [sanitizedHtml, setSanitizedHtml] = React.useState("");
 
@@ -75,7 +50,7 @@ export function MarkdownEditorTool() {
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">Markdown入力</label>
+          <label className="text-sm font-medium">{dict.inputLabel}</label>
           <Textarea
             value={markdown}
             onChange={(e) => setMarkdown(e.target.value)}
@@ -97,7 +72,7 @@ export function MarkdownEditorTool() {
             disabled={!markdown}
           >
             <Download className="size-4" />
-            Markdown (.md) をダウンロード
+            {dict.downloadMd}
           </Button>
         </div>
 
@@ -105,8 +80,8 @@ export function MarkdownEditorTool() {
           <div className="inline-flex w-fit rounded-md border p-1">
             {(
               [
-                { value: "preview", label: "プレビュー" },
-                { value: "html", label: "HTMLコード" },
+                { value: "preview", label: dict.tabPreview },
+                { value: "html", label: dict.tabHtml },
               ] as { value: Tab; label: string }[]
             ).map((item) => (
               <button
@@ -158,7 +133,7 @@ export function MarkdownEditorTool() {
               disabled={!sanitizedHtml}
             >
               <Download className="size-4" />
-              HTML (.html) をダウンロード
+              {dict.downloadHtml}
             </Button>
           </div>
         </div>

@@ -13,32 +13,37 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { ToolActions } from "@/components/tools/tool-actions";
 import { minifySql } from "@/lib/sql-minify";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
 import { cn } from "@/lib/utils";
 
 type Dialect = NonNullable<FormatOptionsWithLanguage["language"]>;
 type KeywordCase = NonNullable<FormatOptionsWithLanguage["keywordCase"]>;
 type Mode = "format" | "minify";
 
-const DIALECT_OPTIONS: { value: Dialect; label: string }[] = [
-  { value: "sql", label: "標準SQL (Standard)" },
-  { value: "mysql", label: "MySQL" },
-  { value: "postgresql", label: "PostgreSQL" },
-  { value: "sqlite", label: "SQLite" },
-  { value: "mariadb", label: "MariaDB" },
-  { value: "transactsql", label: "Transact-SQL (SQL Server)" },
-  { value: "bigquery", label: "BigQuery" },
-];
-
-const KEYWORD_CASE_OPTIONS: { value: KeywordCase; label: string }[] = [
-  { value: "preserve", label: "そのまま" },
-  { value: "upper", label: "大文字" },
-  { value: "lower", label: "小文字" },
-];
-
 const SAMPLE_SQL =
   "select u.id, u.name, count(o.id) as order_count from users u left join orders o on o.user_id = u.id where u.created_at >= '2024-01-01' group by u.id, u.name having count(o.id) > 0 order by order_count desc limit 10;";
 
 export function SqlFormatterTool() {
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.sqlFormatter;
+
+  const DIALECT_OPTIONS: { value: Dialect; label: string }[] = [
+    { value: "sql", label: dict.dialectStandard },
+    { value: "mysql", label: dict.dialectMysql },
+    { value: "postgresql", label: dict.dialectPostgresql },
+    { value: "sqlite", label: dict.dialectSqlite },
+    { value: "mariadb", label: dict.dialectMariadb },
+    { value: "transactsql", label: dict.dialectTransactsql },
+    { value: "bigquery", label: dict.dialectBigquery },
+  ];
+
+  const KEYWORD_CASE_OPTIONS: { value: KeywordCase; label: string }[] = [
+    { value: "preserve", label: dict.casePreserve },
+    { value: "upper", label: dict.caseUpper },
+    { value: "lower", label: dict.caseLower },
+  ];
+
   const [input, setInput] = React.useState("");
   const [dialect, setDialect] = React.useState<Dialect>("sql");
   const [keywordCase, setKeywordCase] = React.useState<KeywordCase>("upper");
@@ -56,10 +61,10 @@ export function SqlFormatterTool() {
     } catch (e) {
       return {
         output: "",
-        error: e instanceof Error ? e.message : "SQLの整形に失敗しました。",
+        error: e instanceof Error ? e.message : dict.formatError,
       };
     }
-  }, [input, dialect, keywordCase, mode]);
+  }, [input, dialect, keywordCase, mode, dict.formatError]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -67,8 +72,8 @@ export function SqlFormatterTool() {
         <div className="inline-flex w-fit rounded-md border p-1">
           {(
             [
-              { value: "format", label: "整形 (Format)" },
-              { value: "minify", label: "1行化 (Minify)" },
+              { value: "format", label: dict.tabFormat },
+              { value: "minify", label: dict.tabMinify },
             ] as { value: Mode; label: string }[]
           ).map((item) => (
             <button
@@ -90,7 +95,7 @@ export function SqlFormatterTool() {
         {mode === "format" && (
           <>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">SQL方言</span>
+              <span className="text-sm text-muted-foreground">{dict.dialectLabel}</span>
               <Select
                 value={dialect}
                 onValueChange={(value) => setDialect(value as Dialect)}
@@ -131,7 +136,7 @@ export function SqlFormatterTool() {
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">SQL入力</label>
+          <label className="text-sm font-medium">{dict.inputLabel}</label>
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -143,12 +148,12 @@ export function SqlFormatterTool() {
 
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium">
-            {mode === "format" ? "整形結果" : "1行化結果"}
+            {mode === "format" ? dict.outputLabelFormat : dict.outputLabelMinify}
           </label>
           <Textarea
             value={output}
             readOnly
-            placeholder="結果がここに表示されます"
+            placeholder={dict.outputPlaceholder}
             spellCheck={false}
             className="min-h-72 font-mono text-sm"
           />

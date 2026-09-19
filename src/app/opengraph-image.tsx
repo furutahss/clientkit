@@ -1,6 +1,9 @@
 import { ImageResponse } from "next/og";
 
-import { siteConfig } from "@/config/site";
+import { siteConfig, getSiteText } from "@/config/site";
+import { defaultLocale } from "@/i18n/config";
+
+const siteText = getSiteText(defaultLocale);
 
 export const dynamic = "force-static";
 export const alt = siteConfig.name;
@@ -26,7 +29,7 @@ export default async function Image() {
       >
         <div style={{ fontSize: 96, fontWeight: 700 }}>{siteConfig.name}</div>
         <div style={{ fontSize: 36, color: "#a3a3a3" }}>
-          {siteConfig.tagline}
+          {siteText.tagline}
         </div>
       </div>
     ),

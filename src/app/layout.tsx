@@ -1,51 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
 
-import { Header } from "@/components/layout/header";
-import { Sidebar } from "@/components/layout/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
-import { siteConfig } from "@/config/site";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { siteConfig, getSiteText } from "@/config/site";
+import { defaultLocale, locales } from "@/i18n/config";
+import { geistMono, geistSans } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: {
-    default: `${siteConfig.name} - ${siteConfig.tagline}`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  openGraph: {
-    type: "website",
-    locale: "ja_JP",
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    title: `${siteConfig.name} - ${siteConfig.tagline}`,
-    description: siteConfig.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${siteConfig.name} - ${siteConfig.tagline}`,
-    description: siteConfig.description,
-  },
+  title: siteConfig.name,
+  description: getSiteText(defaultLocale).description,
 };
+
+// Sets the initial `<html lang>` from the URL before hydration, so a direct
+// load of e.g. /en doesn't briefly show the default "ja" lang attribute.
+const syncLangScript = `(function(){try{var seg=location.pathname.split("/")[1];var locales=${JSON.stringify(locales)};if(locales.indexOf(seg)!==-1){document.documentElement.lang=seg;}}catch(e){}})();`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="ja"
+      lang={defaultLocale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: syncLangScript }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <ThemeProvider
           attribute="class"
@@ -53,15 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <div className="flex flex-1">
-            <Sidebar />
-            <main className="min-w-0 flex-1">
-              <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 p-4 sm:p-6">
-                {children}
-              </div>
-            </main>
-          </div>
+          {children}
         </ThemeProvider>
       </body>
     </html>

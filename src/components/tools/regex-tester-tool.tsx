@@ -15,50 +15,52 @@ import {
   buildHighlightSegments,
   getRegexMatches,
 } from "@/lib/regex-match";
-import { cn } from "@/lib/utils";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
+import { cn, formatTemplate } from "@/lib/utils";
 
 type FlagKey = "g" | "i" | "m" | "s" | "u";
 
-const FLAG_OPTIONS: { key: FlagKey; label: string; description: string }[] = [
-  { key: "g", label: "g", description: "グローバル（全マッチ検索）" },
-  { key: "i", label: "i", description: "大文字小文字を区別しない" },
-  { key: "m", label: "m", description: "複数行モード（^$が行単位）" },
-  { key: "s", label: "s", description: "ドットが改行にもマッチ" },
-  { key: "u", label: "u", description: "Unicodeモード" },
-];
-
-const PRESETS: { label: string; pattern: string; flags: FlagKey[] }[] = [
-  {
-    label: "メールアドレス",
-    pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
-    flags: ["g"],
-  },
-  {
-    label: "URL",
-    pattern: "https?:\\/\\/[\\w\\-._~:/?#\\[\\]@!$&'()*+,;=%]+",
-    flags: ["g"],
-  },
-  {
-    label: "電話番号（日本）",
-    pattern: "0\\d{1,4}-\\d{1,4}-\\d{4}",
-    flags: ["g"],
-  },
-  {
-    label: "郵便番号（日本）",
-    pattern: "\\d{3}-\\d{4}",
-    flags: ["g"],
-  },
-  {
-    label: "IPv4アドレス",
-    pattern: "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b",
-    flags: ["g"],
-  },
-];
-
-const SAMPLE_TEXT =
-  "お問い合わせは support@example.com まで。詳細は https://clientkit.dev/docs をご覧ください。電話番号は 03-1234-5678 です。";
-
 export function RegexTesterTool() {
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.regexTester;
+
+  const FLAG_OPTIONS: { key: FlagKey; label: string; description: string }[] = [
+    { key: "g", label: "g", description: dict.flagG },
+    { key: "i", label: "i", description: dict.flagI },
+    { key: "m", label: "m", description: dict.flagM },
+    { key: "s", label: "s", description: dict.flagS },
+    { key: "u", label: "u", description: dict.flagU },
+  ];
+
+  const PRESETS: { label: string; pattern: string; flags: FlagKey[] }[] = [
+    {
+      label: dict.presetEmail,
+      pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
+      flags: ["g"],
+    },
+    {
+      label: dict.presetUrl,
+      pattern: "https?:\\/\\/[\\w\\-._~:/?#\\[\\]@!$&'()*+,;=%]+",
+      flags: ["g"],
+    },
+    {
+      label: dict.presetPhone,
+      pattern: "0\\d{1,4}-\\d{1,4}-\\d{4}",
+      flags: ["g"],
+    },
+    {
+      label: dict.presetPostal,
+      pattern: "\\d{3}-\\d{4}",
+      flags: ["g"],
+    },
+    {
+      label: dict.presetIpv4,
+      pattern: "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b",
+      flags: ["g"],
+    },
+  ];
+
   const [pattern, setPattern] = React.useState("");
   const [flags, setFlags] = React.useState<Record<FlagKey, boolean>>({
     g: true,
@@ -107,10 +109,10 @@ export function RegexTesterTool() {
             <input
               value={pattern}
               onChange={(e) => setPattern(e.target.value)}
-              placeholder="正規表現パターン"
+              placeholder={dict.patternPlaceholder}
               spellCheck={false}
               className="flex-1 bg-transparent outline-none"
-              aria-label="正規表現パターン"
+              aria-label={dict.patternAriaLabel}
             />
             <span className="text-muted-foreground">/{flagsString}</span>
           </div>
@@ -121,7 +123,7 @@ export function RegexTesterTool() {
             }}
           >
             <SelectTrigger className="w-full sm:w-56">
-              <SelectValue placeholder="よく使うパターン" />
+              <SelectValue placeholder={dict.presetSelectPlaceholder} />
             </SelectTrigger>
             <SelectContent>
               {PRESETS.map((preset) => (
@@ -157,11 +159,11 @@ export function RegexTesterTool() {
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">対象テキスト</label>
+          <label className="text-sm font-medium">{dict.targetTextLabel}</label>
           <Textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder={SAMPLE_TEXT}
+            placeholder={dict.sampleText}
             spellCheck={false}
             className="min-h-64 font-mono text-sm"
           />
@@ -169,7 +171,7 @@ export function RegexTesterTool() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">ハイライト表示</label>
+          <label className="text-sm font-medium">{dict.highlightLabel}</label>
           <div className="min-h-64 overflow-auto rounded-md border bg-background px-3 py-2 font-mono text-sm whitespace-pre-wrap">
             {text ? (
               segments.map((segment, index) =>
@@ -185,9 +187,7 @@ export function RegexTesterTool() {
                 )
               )
             ) : (
-              <span className="text-muted-foreground">
-                対象テキストを入力するとマッチ箇所がハイライトされます
-              </span>
+              <span className="text-muted-foreground">{dict.highlightEmpty}</span>
             )}
           </div>
         </div>
@@ -196,7 +196,7 @@ export function RegexTesterTool() {
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium">
-            マッチ一覧（{matches.length}件）
+            {formatTemplate(dict.matchListLabel, { count: matches.length })}
           </label>
           <ToolActions
             getCopyText={() => matches.map((m) => m.match).join("\n")}
@@ -209,13 +209,17 @@ export function RegexTesterTool() {
             <table className="w-full border-collapse text-sm">
               <thead className="sticky top-0 bg-muted">
                 <tr>
-                  <th className="border-b px-3 py-2 text-left font-medium">#</th>
-                  <th className="border-b px-3 py-2 text-left font-medium">位置</th>
                   <th className="border-b px-3 py-2 text-left font-medium">
-                    マッチ文字列
+                    {dict.tableHeaderIndex}
                   </th>
                   <th className="border-b px-3 py-2 text-left font-medium">
-                    キャプチャグループ
+                    {dict.tableHeaderPosition}
+                  </th>
+                  <th className="border-b px-3 py-2 text-left font-medium">
+                    {dict.tableHeaderMatch}
+                  </th>
+                  <th className="border-b px-3 py-2 text-left font-medium">
+                    {dict.tableHeaderGroups}
                   </th>
                 </tr>
               </thead>
@@ -223,8 +227,8 @@ export function RegexTesterTool() {
                 {matches.slice(0, 500).map((m, index) => {
                   const namedEntries = Object.entries(m.namedGroups);
                   const groupLabels = [
-                    ...m.groups.map((g, i) => `$${i + 1}: ${g || "(空)"}`),
-                    ...namedEntries.map(([key, value]) => `${key}: ${value || "(空)"}`),
+                    ...m.groups.map((g, i) => `$${i + 1}: ${g || dict.emptyGroup}`),
+                    ...namedEntries.map(([key, value]) => `${key}: ${value || dict.emptyGroup}`),
                   ];
                   return (
                     <tr key={index} className="odd:bg-muted/30">
@@ -233,7 +237,7 @@ export function RegexTesterTool() {
                         {m.index}
                       </td>
                       <td className="border-b px-3 py-1.5 align-top font-mono break-all">
-                        {m.match || "(空文字列)"}
+                        {m.match || dict.emptyMatch}
                       </td>
                       <td className="border-b px-3 py-1.5 align-top text-muted-foreground">
                         {groupLabels.length > 0 ? groupLabels.join(" / ") : "-"}
@@ -246,7 +250,7 @@ export function RegexTesterTool() {
           </div>
         ) : (
           <p className="rounded-md border border-dashed p-4 text-center text-sm text-muted-foreground">
-            マッチする箇所はありません
+            {dict.noMatches}
           </p>
         )}
       </div>

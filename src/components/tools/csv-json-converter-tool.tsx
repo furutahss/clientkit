@@ -21,7 +21,9 @@ import {
   parseCsv,
 } from "@/lib/csv";
 import { locateJsonError, type JsonErrorLocation } from "@/lib/json-error";
-import { cn } from "@/lib/utils";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
+import { cn, formatTemplate } from "@/lib/utils";
 
 type Mode = "csvToJson" | "jsonToCsv";
 type DelimiterKey = "comma" | "tab" | "semicolon";
@@ -33,20 +35,20 @@ const DELIMITERS: Record<DelimiterKey, string> = {
   semicolon: ";",
 };
 
-const DELIMITER_OPTIONS: { value: DelimiterKey; label: string }[] = [
-  { value: "comma", label: "カンマ (,)" },
-  { value: "tab", label: "タブ" },
-  { value: "semicolon", label: "セミコロン (;)" },
-];
-
-const SAMPLE_CSV = "name,age,city\n田中太郎,28,東京\n鈴木花子,34,大阪";
-
 export function CsvJsonConverterTool() {
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.csvJsonConverter;
   const [mode, setMode] = React.useState<Mode>("csvToJson");
   const [input, setInput] = React.useState("");
   const [delimiterKey, setDelimiterKey] = React.useState<DelimiterKey>("comma");
   const [hasHeader, setHasHeader] = React.useState(true);
   const [jsonFormat, setJsonFormat] = React.useState<JsonFormat>("pretty");
+
+  const DELIMITER_OPTIONS: { value: DelimiterKey; label: string }[] = [
+    { value: "comma", label: dict.delimiterComma },
+    { value: "tab", label: dict.delimiterTab },
+    { value: "semicolon", label: dict.delimiterSemicolon },
+  ];
 
   const delimiter = DELIMITERS[delimiterKey];
 
@@ -67,10 +69,10 @@ export function CsvJsonConverterTool() {
       return {
         output: "",
         table: null,
-        error: "CSVの解析に失敗しました。",
+        error: dict.csvParseError,
       };
     }
-  }, [mode, input, delimiter, hasHeader, jsonFormat]);
+  }, [mode, input, delimiter, hasHeader, jsonFormat, dict.csvParseError]);
 
   const jsonToCsvResult = React.useMemo(() => {
     if (mode !== "jsonToCsv" || !input.trim()) {
@@ -117,8 +119,8 @@ export function CsvJsonConverterTool() {
         <div className="inline-flex w-fit rounded-md border p-1">
           {(
             [
-              { value: "csvToJson", label: "CSV → JSON" },
-              { value: "jsonToCsv", label: "JSON → CSV" },
+              { value: "csvToJson", label: dict.modeCsvToJson },
+              { value: "jsonToCsv", label: dict.modeJsonToCsv },
             ] as { value: Mode; label: string }[]
           ).map((item) => (
             <button
@@ -138,7 +140,9 @@ export function CsvJsonConverterTool() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">区切り文字</span>
+          <span className="text-sm text-muted-foreground">
+            {dict.delimiterLabel}
+          </span>
           <Select
             value={delimiterKey}
             onValueChange={(value) => setDelimiterKey(value as DelimiterKey)}
@@ -164,7 +168,7 @@ export function CsvJsonConverterTool() {
               onCheckedChange={(checked) => setHasHeader(checked === true)}
             />
             <label htmlFor="has-header" className="text-sm text-muted-foreground">
-              1行目をヘッダーとして扱う
+              {dict.hasHeaderLabel}
             </label>
           </div>
         )}
@@ -173,8 +177,8 @@ export function CsvJsonConverterTool() {
           <div className="inline-flex w-fit rounded-md border p-1">
             {(
               [
-                { value: "pretty", label: "整形" },
-                { value: "minify", label: "1行化" },
+                { value: "pretty", label: dict.formatPretty },
+                { value: "minify", label: dict.formatMinify },
               ] as { value: JsonFormat; label: string }[]
             ).map((item) => (
               <button
@@ -198,19 +202,22 @@ export function CsvJsonConverterTool() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium">
-            {mode === "csvToJson" ? "CSV入力" : "JSON入力"}
+            {mode === "csvToJson" ? dict.inputLabelCsv : dict.inputLabelJson}
           </label>
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={mode === "csvToJson" ? SAMPLE_CSV : '[{"name":"田中太郎","age":28}]'}
+            placeholder={mode === "csvToJson" ? dict.sampleCsv : dict.samplePlaceholderJson}
             spellCheck={false}
             className="min-h-64 font-mono text-sm"
           />
           {mode === "jsonToCsv" && jsonToCsvResult.error && (
             <p className="text-sm text-destructive">
-              {jsonToCsvResult.error.line}行目 {jsonToCsvResult.error.column}
-              列目: {jsonToCsvResult.error.message}
+              {formatTemplate(dict.jsonErrorLocation, {
+                line: jsonToCsvResult.error.line,
+                column: jsonToCsvResult.error.column,
+                message: jsonToCsvResult.error.message,
+              })}
             </p>
           )}
           {mode === "csvToJson" && csvToJsonResult.error && (
@@ -220,12 +227,12 @@ export function CsvJsonConverterTool() {
 
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium">
-            {mode === "csvToJson" ? "JSON出力" : "CSV出力"}
+            {mode === "csvToJson" ? dict.outputLabelJson : dict.outputLabelCsv}
           </label>
           <Textarea
             value={output}
             readOnly
-            placeholder="結果がここに表示されます"
+            placeholder={dict.outputPlaceholder}
             spellCheck={false}
             className="min-h-64 font-mono text-sm"
           />
@@ -245,7 +252,7 @@ export function CsvJsonConverterTool() {
                 disabled={!output}
               >
                 <Download className="size-4" />
-                CSVをダウンロード
+                {dict.downloadCsv}
               </Button>
             )}
           </div>
@@ -254,7 +261,7 @@ export function CsvJsonConverterTool() {
 
       {table && table.headers.length > 0 && (
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">テーブルプレビュー</label>
+          <label className="text-sm font-medium">{dict.tablePreview}</label>
           <div className="max-h-80 overflow-auto rounded-md border">
             <table className="w-full border-collapse text-sm">
               <thead className="sticky top-0 bg-muted">
@@ -287,7 +294,7 @@ export function CsvJsonConverterTool() {
           </div>
           {table.rows.length > 200 && (
             <p className="text-xs text-muted-foreground">
-              最初の200行のみプレビュー表示しています（全{table.rows.length}行）。
+              {formatTemplate(dict.previewNotice, { count: table.rows.length })}
             </p>
           )}
         </div>
