@@ -16,7 +16,9 @@ import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
 import { UrlEncoderTool } from "@/components/tools/url-encoder-tool";
+import { siteConfig } from "@/config/site";
 import { getToolById, tools } from "@/config/tools";
+import { ogImage } from "@/config/og-image";
 import { locales, type Locale } from "@/i18n/config";
 
 const toolComponents: Record<string, ComponentType> = {
@@ -58,6 +60,7 @@ export async function generateMetadata(
     openGraph: {
       title: tool.name[lang],
       description,
+      images: [{ ...ogImage, alt: siteConfig.name }],
     },
   };
 }

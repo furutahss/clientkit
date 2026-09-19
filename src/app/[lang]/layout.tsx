@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
 import { SyncHtmlLang } from "@/components/sync-html-lang";
 import { siteConfig, getSiteText } from "@/config/site";
+import { ogImage, twitterImage } from "@/config/og-image";
 import { locales, type Locale } from "@/i18n/config";
 
 export function generateStaticParams() {
@@ -30,11 +31,13 @@ export async function generateMetadata(
       siteName: siteConfig.name,
       title,
       description: siteText.description,
+      images: [{ ...ogImage, alt: siteConfig.name }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: siteText.description,
+      images: [{ ...twitterImage, alt: siteConfig.name }],
     },
     alternates: {
       languages: {
