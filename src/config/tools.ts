@@ -4,6 +4,7 @@ import {
   FileJson,
   FileSpreadsheet,
   ImageDown,
+  Regex,
   TextCursorInput,
 } from "lucide-react";
 
@@ -42,6 +43,11 @@ export const categories: ToolCategory[] = [
     id: "converter",
     label: "変換",
     description: "エンコード・デコードやフォーマット変換ツール",
+  },
+  {
+    id: "developer",
+    label: "開発者向け",
+    description: "エンジニア向けの開発支援ツール",
   },
 ];
 
@@ -129,6 +135,24 @@ export const tools: Tool[] = [
       "json to csv",
     ],
     path: "/tools/csv-json-converter",
+  },
+  {
+    id: "regex-tester",
+    name: "正規表現テスト・テキスト抽出",
+    description: "正規表現をリアルタイムでテストし、マッチ箇所を抽出します。",
+    longDescription:
+      "正規表現パターンとフラグ（g, i, m, s, u）を指定し、対象テキストに対するマッチ箇所をリアルタイムでハイライト表示・一覧化できるツールです。メールアドレスやURLなどのよく使うパターンプリセットも用意しています。",
+    category: "developer",
+    icon: Regex,
+    keywords: [
+      "正規表現",
+      "regex",
+      "regexp",
+      "テキスト抽出",
+      "パターンマッチ",
+      "regular expression",
+    ],
+    path: "/tools/regex-tester",
   },
 ];
 
