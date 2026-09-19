@@ -1,11 +1,15 @@
 import { ChevronDown } from "lucide-react";
 
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+
 export type FaqItem = {
   question: string;
   answer: string;
 };
 
 export type ToolContentSectionsProps = {
+  lang: Locale;
   /** 「使い方」セクションの手順（番号付きリストで表示） */
   howToUse: string[];
   /** ツールの解説文章（段落ごとに配列で渡す） */
@@ -23,10 +27,13 @@ export type ToolContentSectionsProps = {
  * FAQには構造化データ（FAQPage）も付与する。
  */
 export function ToolContentSections({
+  lang,
   howToUse,
   about,
   faqs,
 }: ToolContentSectionsProps) {
+  const dict = getDictionary(lang);
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -43,7 +50,7 @@ export function ToolContentSections({
   return (
     <div className="flex flex-col gap-10 border-t pt-8">
       <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold">使い方</h2>
+        <h2 className="text-lg font-semibold">{dict.toolPage.usageHeading}</h2>
         <ol className="flex flex-col gap-1.5 pl-5 text-sm text-muted-foreground marker:text-foreground/60 list-decimal">
           {howToUse.map((step, index) => (
             <li key={index} className="leading-relaxed">
@@ -55,7 +62,7 @@ export function ToolContentSections({
 
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">
-          {about.heading ?? "このツールについて"}
+          {about.heading ?? dict.toolPage.aboutHeadingDefault}
         </h2>
         {about.paragraphs.map((paragraph, index) => (
           <p key={index} className="text-sm leading-relaxed text-muted-foreground">
@@ -65,7 +72,7 @@ export function ToolContentSections({
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold">よくある質問</h2>
+        <h2 className="text-lg font-semibold">{dict.toolPage.faqHeading}</h2>
         <div className="flex flex-col divide-y rounded-lg border">
           {faqs.map((faq, index) => (
             <details key={index} className="group p-4">

@@ -28,7 +28,9 @@ import {
   withExtension,
   type OutputFormat,
 } from "@/lib/image-convert";
-import { cn } from "@/lib/utils";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
+import { cn, formatTemplate } from "@/lib/utils";
 
 const ACCEPTED_TYPES = [
   "image/png",
@@ -39,16 +41,6 @@ const ACCEPTED_TYPES = [
   "image/avif",
 ];
 
-const FORMAT_OPTIONS: { value: OutputFormat; label: string }[] = [
-  { value: "image/jpeg", label: "JPEG (.jpg)" },
-  { value: "image/png", label: "PNG (.png)" },
-  { value: "image/webp", label: "WebP (.webp)" },
-];
-
-function labelForMimeType(mimeType: string): string {
-  return FORMAT_OPTIONS.find((option) => option.value === mimeType)?.label ?? mimeType;
-}
-
 type SourceImage = {
   file: File;
   image: HTMLImageElement;
@@ -56,6 +48,22 @@ type SourceImage = {
 };
 
 export function ImageConverterTool() {
+  const locale = useLocale();
+  const dict = React.useMemo(
+    () => getDictionary(locale).tools.imageConverter,
+    [locale]
+  );
+
+  const FORMAT_OPTIONS: { value: OutputFormat; label: string }[] = [
+    { value: "image/jpeg", label: dict.formatJpeg },
+    { value: "image/png", label: dict.formatPng },
+    { value: "image/webp", label: dict.formatWebp },
+  ];
+
+  function labelForMimeType(mimeType: string): string {
+    return FORMAT_OPTIONS.find((option) => option.value === mimeType)?.label ?? mimeType;
+  }
+
   const [source, setSource] = React.useState<SourceImage | null>(null);
   const [loadError, setLoadError] = React.useState<string | null>(null);
   const [isDragActive, setIsDragActive] = React.useState(false);
@@ -90,7 +98,7 @@ export function ImageConverterTool() {
   const handleFile = React.useCallback(
     async (file: File) => {
       if (!file.type.startsWith("image/")) {
-        setLoadError("画像ファイルを選択してください。");
+        setLoadError(dict.invalidFileType);
         return;
       }
 
@@ -107,13 +115,11 @@ export function ImageConverterTool() {
         setResizeHeight(image.naturalHeight);
       } catch (error) {
         setLoadError(
-          error instanceof Error
-            ? error.message
-            : "画像を読み込めませんでした。"
+          error instanceof Error ? error.message : dict.loadErrorGeneric
         );
       }
     },
-    [resetOutput]
+    [resetOutput, dict]
   );
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -227,7 +233,7 @@ export function ImageConverterTool() {
         .catch((error: unknown) => {
           if (requestId !== requestIdRef.current) return;
           setConvertError(
-            error instanceof Error ? error.message : "画像の変換に失敗しました。"
+            error instanceof Error ? error.message : dict.convertErrorGeneric
           );
         })
         .finally(() => {
@@ -236,7 +242,7 @@ export function ImageConverterTool() {
     }, 150);
 
     return () => window.clearTimeout(timer);
-  }, [source, format, quality, resizeWidth, resizeHeight]);
+  }, [source, format, quality, resizeWidth, resizeHeight, dict]);
 
   const latestUrlsRef = React.useRef({
     sourceUrl: null as string | null,
@@ -287,9 +293,7 @@ export function ImageConverterTool() {
           className="mt-0.5 size-4 shrink-0 text-primary"
           aria-hidden="true"
         />
-        <span>
-          サーバーへ画像をアップロードせず、すべてお使いのブラウザ内で処理しているため安全・高速です。
-        </span>
+        <span>{dict.safetyNote}</span>
       </div>
 
       <input
@@ -323,12 +327,8 @@ export function ImageConverterTool() {
         >
           <ImageUp className="size-10 text-muted-foreground" aria-hidden="true" />
           <div className="flex flex-col gap-1">
-            <p className="font-medium">
-              画像をドラッグ＆ドロップ、またはクリックして選択
-            </p>
-            <p className="text-sm text-muted-foreground">
-              PNG / JPEG / WebP / GIF / BMP / AVIF に対応
-            </p>
+            <p className="font-medium">{dict.dropLabel}</p>
+            <p className="text-sm text-muted-foreground">{dict.dropHint}</p>
           </div>
         </div>
       ) : (
@@ -343,14 +343,14 @@ export function ImageConverterTool() {
             </div>
             <Button variant="outline" size="sm" onClick={handleClear}>
               <RefreshCw className="size-4" />
-              別の画像を処理
+              {dict.processAnother}
             </Button>
           </div>
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div className="flex flex-col gap-4 rounded-lg border p-4">
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">出力フォーマット</label>
+                <label className="text-sm font-medium">{dict.outputFormat}</label>
                 <Select
                   value={format}
                   onValueChange={(value) => setFormat(value as OutputFormat)}
@@ -370,10 +370,10 @@ export function ImageConverterTool() {
                   <div className="flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300">
                     <AlertTriangle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
                     <span>
-                      お使いのブラウザは{labelForMimeType(unsupportedFormat.requested)}
-                      への変換に対応していないため、代わりに
-                      {labelForMimeType(unsupportedFormat.actual)}
-                      形式で出力されています。
+                      {formatTemplate(dict.unsupportedFormatWarning, {
+                        requested: labelForMimeType(unsupportedFormat.requested),
+                        actual: labelForMimeType(unsupportedFormat.actual),
+                      })}
                     </span>
                   </div>
                 )}
@@ -381,7 +381,7 @@ export function ImageConverterTool() {
 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium">画質（圧縮率）</label>
+                  <label className="text-sm font-medium">{dict.quality}</label>
                   <span className="text-sm text-muted-foreground tabular-nums">
                     {quality}%
                   </span>
@@ -396,14 +396,14 @@ export function ImageConverterTool() {
                 />
                 {isEffectivelyLossless && (
                   <p className="text-xs text-muted-foreground">
-                    PNGはロスレス圧縮のため画質設定は適用されません。サイズを調整したい場合は下のリサイズ設定をご利用ください。
+                    {dict.qualityLosslessNote}
                   </p>
                 )}
               </div>
 
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium">リサイズ</label>
+                  <label className="text-sm font-medium">{dict.resize}</label>
                   <div className="flex items-center gap-2">
                     <Checkbox
                       id="keep-aspect-ratio"
@@ -416,7 +416,7 @@ export function ImageConverterTool() {
                       htmlFor="keep-aspect-ratio"
                       className="text-xs text-muted-foreground"
                     >
-                      アスペクト比を維持
+                      {dict.keepAspectRatio}
                     </label>
                   </div>
                 </div>
@@ -424,7 +424,7 @@ export function ImageConverterTool() {
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">
-                      幅 (px)
+                      {dict.widthPx}
                     </span>
                     <Input
                       type="number"
@@ -448,7 +448,7 @@ export function ImageConverterTool() {
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">
-                      高さ (px)
+                      {dict.heightPx}
                     </span>
                     <Input
                       type="number"
@@ -474,25 +474,27 @@ export function ImageConverterTool() {
             <div className="flex flex-col gap-4 rounded-lg border p-4">
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div className="flex flex-col gap-0.5 rounded-md bg-muted/40 p-2">
-                  <span className="text-xs text-muted-foreground">元のサイズ</span>
+                  <span className="text-xs text-muted-foreground">
+                    {dict.originalSize}
+                  </span>
                   <span className="font-semibold tabular-nums">
                     {formatBytes(source.file.size)}
                   </span>
                 </div>
                 <div className="flex flex-col gap-0.5 rounded-md bg-muted/40 p-2">
                   <span className="text-xs text-muted-foreground">
-                    圧縮後の想定サイズ
+                    {dict.estimatedSize}
                   </span>
                   <span className="font-semibold tabular-nums">
                     {isConverting
-                      ? "計算中..."
+                      ? dict.calculating
                       : convertedBlob
                         ? formatBytes(convertedBlob.size)
-                        : "-"}
+                        : dict.none}
                   </span>
                 </div>
                 <div className="flex flex-col gap-0.5 rounded-md bg-muted/40 p-2">
-                  <span className="text-xs text-muted-foreground">削減率</span>
+                  <span className="text-xs text-muted-foreground">{dict.reduction}</span>
                   <span
                     className={cn(
                       "font-semibold tabular-nums",
@@ -503,7 +505,7 @@ export function ImageConverterTool() {
                     )}
                   >
                     {reduction === null
-                      ? "-"
+                      ? dict.none
                       : `${reduction >= 0 ? "-" : "+"}${Math.abs(reduction)}%`}
                   </span>
                 </div>
@@ -515,31 +517,33 @@ export function ImageConverterTool() {
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-muted-foreground">元画像</span>
+                  <span className="text-xs text-muted-foreground">
+                    {dict.originalPreview}
+                  </span>
                   <div className="flex h-40 items-center justify-center overflow-hidden rounded-md border bg-[repeating-conic-gradient(#0000000d_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
                     {/* eslint-disable-next-line @next/next/no-img-element -- ローカルのobject URLをそのまま表示するため */}
                     <img
                       src={source.objectUrl}
-                      alt="元画像のプレビュー"
+                      alt={dict.originalAlt}
                       className="max-h-full max-w-full object-contain"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-xs text-muted-foreground">
-                    圧縮後プレビュー
+                    {dict.compressedPreview}
                   </span>
                   <div className="flex h-40 items-center justify-center overflow-hidden rounded-md border bg-[repeating-conic-gradient(#0000000d_0%_25%,transparent_0%_50%)] bg-[length:16px_16px]">
                     {convertedUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element -- ローカルのobject URLをそのまま表示するため
                       <img
                         src={convertedUrl}
-                        alt="圧縮後画像のプレビュー"
+                        alt={dict.compressedAlt}
                         className="max-h-full max-w-full object-contain"
                       />
                     ) : (
                       <span className="text-xs text-muted-foreground">
-                        {isConverting ? "生成中..." : "-"}
+                        {isConverting ? dict.generating : dict.none}
                       </span>
                     )}
                   </div>
@@ -551,7 +555,7 @@ export function ImageConverterTool() {
                 disabled={!convertedBlob || isConverting}
               >
                 <Download className="size-4" />
-                圧縮画像をダウンロード
+                {dict.download}
               </Button>
             </div>
           </div>

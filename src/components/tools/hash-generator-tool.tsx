@@ -12,7 +12,10 @@ import {
   normalizeHashForCompare,
   type HashAlgorithm,
 } from "@/lib/hash";
-import { cn } from "@/lib/utils";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
+import { cn, formatTemplate } from "@/lib/utils";
+import type { Dictionary } from "@/i18n/dictionaries";
 
 type FileInfo = {
   name: string;
@@ -24,11 +27,13 @@ function HashRow({
   value,
   expected,
   isPending,
+  dict,
 }: {
   algorithm: HashAlgorithm;
   value: string | null;
   expected: string;
   isPending: boolean;
+  dict: Dictionary["tools"]["hashGenerator"];
 }) {
   const [copied, setCopied] = React.useState(false);
 
@@ -64,7 +69,7 @@ function HashRow({
                   : "bg-destructive/10 text-destructive"
               )}
             >
-              {isMatch ? "Match" : "Mismatch"}
+              {isMatch ? dict.match : dict.mismatch}
             </span>
           )}
           <Button
@@ -74,7 +79,7 @@ function HashRow({
             className="size-7"
             onClick={handleCopy}
             disabled={!value}
-            aria-label={`${algorithm}の値をコピー`}
+            aria-label={formatTemplate(dict.copyAria, { algorithm })}
           >
             {copied ? (
               <Check className="size-3.5" />
@@ -87,7 +92,7 @@ function HashRow({
       <p className="font-mono text-sm break-all">
         {value ?? (
           <span className="text-muted-foreground">
-            {isPending ? "計算中..." : "-"}
+            {isPending ? dict.computing : dict.none}
           </span>
         )}
       </p>
@@ -96,6 +101,9 @@ function HashRow({
 }
 
 export function HashGeneratorTool() {
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.hashGenerator;
+
   const [text, setText] = React.useState("");
   const [file, setFile] = React.useState<File | null>(null);
   const [fileInfo, setFileInfo] = React.useState<FileInfo | null>(null);
@@ -128,15 +136,13 @@ export function HashGeneratorTool() {
         }
       } catch (e) {
         if (requestId === requestIdRef.current) {
-          setError(
-            e instanceof Error ? e.message : "ハッシュの計算に失敗しました。"
-          );
+          setError(e instanceof Error ? e.message : dict.hashError);
         }
       }
     }
 
     run();
-  }, [file, text]);
+  }, [file, text, dict.hashError]);
 
   function handleFile(newFile: File) {
     setFile(newFile);
@@ -179,7 +185,7 @@ export function HashGeneratorTool() {
           </div>
           <Button variant="outline" size="sm" onClick={handleReset}>
             <RefreshCw className="size-4" />
-            別の入力に戻る
+            {dict.backToInput}
           </Button>
         </div>
       ) : (
@@ -196,7 +202,7 @@ export function HashGeneratorTool() {
           )}
         >
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">テキスト入力</label>
+            <label className="text-sm font-medium">{dict.textInputLabel}</label>
             <Button
               type="button"
               variant="ghost"
@@ -204,7 +210,7 @@ export function HashGeneratorTool() {
               onClick={() => fileInputRef.current?.click()}
             >
               <FileUp className="size-4" />
-              ファイルを選択
+              {dict.chooseFile}
             </Button>
             <input
               ref={fileInputRef}
@@ -216,7 +222,7 @@ export function HashGeneratorTool() {
           <Textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="ハッシュを計算したいテキストを入力、またはファイルをこのエリアにドラッグ＆ドロップ"
+            placeholder={dict.placeholder}
             spellCheck={false}
             className="min-h-32 font-mono text-sm"
           />
@@ -229,7 +235,7 @@ export function HashGeneratorTool() {
               onClick={() => setText("")}
             >
               <X className="size-4" />
-              クリア
+              {dict.clear}
             </Button>
           )}
         </div>
@@ -238,11 +244,11 @@ export function HashGeneratorTool() {
       {error && <p className="text-sm text-destructive">{error}</p>}
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">期待値との照合（任意）</label>
+        <label className="text-sm font-medium">{dict.expectedLabel}</label>
         <Input
           value={expected}
           onChange={(e) => setExpected(e.target.value)}
-          placeholder="比較したいハッシュ値を貼り付け"
+          placeholder={dict.expectedPlaceholder}
           spellCheck={false}
           className="font-mono text-sm"
         />
@@ -257,6 +263,7 @@ export function HashGeneratorTool() {
               value={hashes ? hashes[algorithm] : null}
               expected={expected}
               isPending={(!!file || !!text) && !hashes}
+              dict={dict}
             />
           )
         )}

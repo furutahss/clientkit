@@ -11,28 +11,37 @@ import {
   getExpiryStatus,
   TIME_CLAIMS,
 } from "@/lib/jwt";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
 import { cn } from "@/lib/utils";
+import type { Dictionary } from "@/i18n/dictionaries";
 
 const SAMPLE_JWT =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNsaWVudEtpdCBVc2VyIiwiaWF0IjoxNzAwMDAwMDAwLCJleHAiOjE3MzE1MzYwMDB9.dQw4w9WgXcQ_dummySignature";
 
-function ExpiryBadge({ status }: { status: ReturnType<typeof getExpiryStatus> }) {
+function ExpiryBadge({
+  status,
+  dict,
+}: {
+  status: ReturnType<typeof getExpiryStatus>;
+  dict: Dictionary["tools"]["jwtDecoder"];
+}) {
   if (status === "unknown") return null;
 
   const config = {
     expired: {
-      label: "有効期限切れ",
+      label: dict.expiredLabel,
       icon: AlertTriangle,
       className: "bg-destructive/10 text-destructive",
     },
     "not-yet-valid": {
-      label: "まだ有効ではありません",
+      label: dict.notYetValidLabel,
       icon: Clock,
       className:
         "bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300",
     },
     valid: {
-      label: "有効期限内",
+      label: dict.validLabel,
       icon: CheckCircle2,
       className:
         "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300",
@@ -63,6 +72,8 @@ function JsonBlock({ value }: { value: unknown }) {
 }
 
 export function JwtDecoderTool() {
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.jwtDecoder;
   const [token, setToken] = React.useState("");
 
   const result = React.useMemo(() => {
@@ -83,7 +94,7 @@ export function JwtDecoderTool() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">JWTトークン</label>
+        <label className="text-sm font-medium">{dict.inputLabel}</label>
         <Textarea
           value={token}
           onChange={(e) => setToken(e.target.value)}
@@ -102,7 +113,7 @@ export function JwtDecoderTool() {
         <div className="flex flex-col gap-4">
           {expiryStatus !== "unknown" && (
             <div className="flex flex-wrap items-center gap-2">
-              <ExpiryBadge status={expiryStatus} />
+              <ExpiryBadge status={expiryStatus} dict={dict} />
             </div>
           )}
 
@@ -112,13 +123,13 @@ export function JwtDecoderTool() {
                 <thead className="bg-muted">
                   <tr>
                     <th className="border-b px-3 py-2 text-left font-medium">
-                      クレーム
+                      {dict.claimHeader}
                     </th>
                     <th className="border-b px-3 py-2 text-left font-medium">
-                      Unixタイムスタンプ
+                      {dict.timestampHeader}
                     </th>
                     <th className="border-b px-3 py-2 text-left font-medium">
-                      日時
+                      {dict.dateHeader}
                     </th>
                   </tr>
                 </thead>
@@ -144,23 +155,21 @@ export function JwtDecoderTool() {
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium">Header</label>
+              <label className="text-sm font-medium">{dict.headerLabel}</label>
               <JsonBlock value={result.header} />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium">Payload</label>
+              <label className="text-sm font-medium">{dict.payloadLabel}</label>
               <JsonBlock value={result.payload} />
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium">Signature</label>
+            <label className="text-sm font-medium">{dict.signatureLabel}</label>
             <p className="rounded-md border bg-muted/30 p-3 font-mono text-sm break-all">
-              {result.signature || "(署名なし)"}
+              {result.signature || dict.noSignature}
             </p>
-            <p className="text-xs text-muted-foreground">
-              本ツールは署名の検証は行いません。表示されるのはJWTに含まれる署名部分の値（Base64URL文字列）です。
-            </p>
+            <p className="text-xs text-muted-foreground">{dict.signatureNote}</p>
           </div>
         </div>
       )}

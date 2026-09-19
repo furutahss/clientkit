@@ -6,6 +6,8 @@ import { ArrowDownUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ToolActions } from "@/components/tools/tool-actions";
+import { getDictionary } from "@/i18n/dictionaries";
+import { useLocale } from "@/i18n/use-locale";
 import { cn } from "@/lib/utils";
 
 type Mode = "encode" | "decode";
@@ -26,6 +28,8 @@ function decodeBase64(value: string): string {
 }
 
 export function Base64Tool() {
+  const locale = useLocale();
+  const dict = getDictionary(locale).tools.base64;
   const [mode, setMode] = React.useState<Mode>("encode");
   const [input, setInput] = React.useState("");
 
@@ -39,13 +43,10 @@ export function Base64Tool() {
     } catch {
       return {
         output: "",
-        error:
-          mode === "encode"
-            ? "エンコードに失敗しました。"
-            : "デコードに失敗しました。有効なBase64文字列を入力してください。",
+        error: mode === "encode" ? dict.errorEncode : dict.errorDecode,
       };
     }
-  }, [input, mode]);
+  }, [input, mode, dict]);
 
   function handleSwap() {
     setMode((prev) => (prev === "encode" ? "decode" : "encode"));
@@ -67,22 +68,22 @@ export function Base64Tool() {
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            {m === "encode" ? "エンコード" : "デコード"}
+            {m === "encode" ? dict.modeEncode : dict.modeDecode}
           </button>
         ))}
       </div>
 
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium">
-          {mode === "encode" ? "入力テキスト" : "Base64文字列"}
+          {mode === "encode" ? dict.inputLabelEncode : dict.inputLabelDecode}
         </label>
         <Textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={
             mode === "encode"
-              ? "エンコードするテキストを入力..."
-              : "デコードするBase64文字列を入力..."
+              ? dict.inputPlaceholderEncode
+              : dict.inputPlaceholderDecode
           }
           className="min-h-32 font-mono text-sm"
         />
@@ -97,18 +98,18 @@ export function Base64Tool() {
           disabled={!output}
         >
           <ArrowDownUp className="size-4" />
-          結果を入力欄に反映して切り替え
+          {dict.swapButton}
         </Button>
       </div>
 
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium">
-          {mode === "encode" ? "Base64文字列" : "デコード結果"}
+          {mode === "encode" ? dict.outputLabelEncode : dict.outputLabelDecode}
         </label>
         <Textarea
           value={output}
           readOnly
-          placeholder="結果がここに表示されます"
+          placeholder={dict.outputPlaceholder}
           className="min-h-32 font-mono text-sm"
         />
         {error && <p className="text-sm text-destructive">{error}</p>}
