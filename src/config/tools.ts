@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import {
   Binary,
+  Database,
   FileJson,
   FileSpreadsheet,
   Fingerprint,
@@ -195,6 +196,26 @@ export const tools: Tool[] = [
       "checksum",
     ],
     path: "/tools/hash-generator",
+  },
+  {
+    id: "sql-formatter",
+    name: "SQL整形・クエリフォーマッター",
+    description: "崩れたSQLを自動でインデント整形し、方言や大文字小文字を調整します。",
+    longDescription:
+      "崩れたSQLをsql-formatterライブラリで自動整形するツールです。Standard SQL・MySQL・PostgreSQLなどの方言選択、予約語の大文字/小文字変換、1行化（Minify）に対応しています。",
+    category: "developer",
+    icon: Database,
+    keywords: [
+      "sql",
+      "整形",
+      "フォーマッター",
+      "formatter",
+      "mysql",
+      "postgresql",
+      "クエリ",
+      "query",
+    ],
+    path: "/tools/sql-formatter",
   },
 ];
 
