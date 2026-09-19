@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -61,8 +62,9 @@ export function ImageConverterTool() {
 
   const [format, setFormat] = React.useState<OutputFormat>("image/jpeg");
   const [quality, setQuality] = React.useState(80);
-  const [maxWidth, setMaxWidth] = React.useState("");
-  const [maxHeight, setMaxHeight] = React.useState("");
+  const [resizeWidth, setResizeWidth] = React.useState<number | null>(null);
+  const [resizeHeight, setResizeHeight] = React.useState<number | null>(null);
+  const [keepAspectRatio, setKeepAspectRatio] = React.useState(true);
 
   const [convertedBlob, setConvertedBlob] = React.useState<Blob | null>(null);
   const [convertedUrl, setConvertedUrl] = React.useState<string | null>(null);
@@ -101,6 +103,8 @@ export function ImageConverterTool() {
           if (prev) URL.revokeObjectURL(prev.objectUrl);
           return { file, image, objectUrl };
         });
+        setResizeWidth(image.naturalWidth);
+        setResizeHeight(image.naturalHeight);
       } catch (error) {
         setLoadError(
           error instanceof Error
@@ -132,16 +136,66 @@ export function ImageConverterTool() {
     });
     setLoadError(null);
     setConvertError(null);
-    setMaxWidth("");
-    setMaxHeight("");
+    setResizeWidth(null);
+    setResizeHeight(null);
+    setKeepAspectRatio(true);
     setQuality(80);
     setFormat("image/jpeg");
     resetOutput();
   }
 
+  function handleWidthChange(rawWidth: number) {
+    if (!source) return;
+    const width = Math.min(
+      Math.max(1, Math.round(rawWidth)),
+      source.image.naturalWidth
+    );
+    setResizeWidth(width);
+    if (keepAspectRatio) {
+      const ratio = source.image.naturalHeight / source.image.naturalWidth;
+      setResizeHeight(
+        Math.min(
+          Math.max(1, Math.round(width * ratio)),
+          source.image.naturalHeight
+        )
+      );
+    }
+  }
+
+  function handleHeightChange(rawHeight: number) {
+    if (!source) return;
+    const height = Math.min(
+      Math.max(1, Math.round(rawHeight)),
+      source.image.naturalHeight
+    );
+    setResizeHeight(height);
+    if (keepAspectRatio) {
+      const ratio = source.image.naturalWidth / source.image.naturalHeight;
+      setResizeWidth(
+        Math.min(
+          Math.max(1, Math.round(height * ratio)),
+          source.image.naturalWidth
+        )
+      );
+    }
+  }
+
+  function handleKeepAspectRatioChange(checked: boolean) {
+    setKeepAspectRatio(checked);
+    if (checked && source && resizeWidth) {
+      const ratio = source.image.naturalHeight / source.image.naturalWidth;
+      setResizeHeight(
+        Math.min(
+          Math.max(1, Math.round(resizeWidth * ratio)),
+          source.image.naturalHeight
+        )
+      );
+    }
+  }
+
   // フォーマット・画質・リサイズ設定の変更に応じて非同期で圧縮結果を再生成する
   React.useEffect(() => {
-    if (!source) return;
+    if (!source || !resizeWidth || !resizeHeight) return;
 
     const requestId = ++requestIdRef.current;
 
@@ -152,8 +206,8 @@ export function ImageConverterTool() {
       convertImage(source.image, {
         format,
         quality,
-        maxWidth: maxWidth ? Number(maxWidth) : undefined,
-        maxHeight: maxHeight ? Number(maxHeight) : undefined,
+        width: resizeWidth,
+        height: resizeHeight,
       })
         .then((blob) => {
           if (requestId !== requestIdRef.current) return;
@@ -182,7 +236,7 @@ export function ImageConverterTool() {
     }, 150);
 
     return () => window.clearTimeout(timer);
-  }, [source, format, quality, maxWidth, maxHeight]);
+  }, [source, format, quality, resizeWidth, resizeHeight]);
 
   const latestUrlsRef = React.useRef({
     sourceUrl: null as string | null,
@@ -347,37 +401,72 @@ export function ImageConverterTool() {
                 )}
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">
-                  リサイズ（アスペクト比を維持・任意）
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium">リサイズ</label>
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="keep-aspect-ratio"
+                      checked={keepAspectRatio}
+                      onCheckedChange={(checked) =>
+                        handleKeepAspectRatioChange(checked === true)
+                      }
+                    />
+                    <label
+                      htmlFor="keep-aspect-ratio"
+                      className="text-xs text-muted-foreground"
+                    >
+                      アスペクト比を維持
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">
-                      最大幅 (px)
+                      幅 (px)
                     </span>
                     <Input
                       type="number"
                       inputMode="numeric"
                       min={1}
-                      placeholder={`${source.image.naturalWidth}`}
-                      value={maxWidth}
-                      onChange={(e) => setMaxWidth(e.target.value)}
+                      max={source.image.naturalWidth}
+                      className="h-7 w-24 text-right"
+                      value={resizeWidth ?? ""}
+                      onChange={(e) => handleWidthChange(Number(e.target.value))}
                     />
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <Slider
+                    value={[resizeWidth ?? source.image.naturalWidth]}
+                    onValueChange={([value]) => handleWidthChange(value)}
+                    min={1}
+                    max={source.image.naturalWidth}
+                    step={1}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">
-                      最大高さ (px)
+                      高さ (px)
                     </span>
                     <Input
                       type="number"
                       inputMode="numeric"
                       min={1}
-                      placeholder={`${source.image.naturalHeight}`}
-                      value={maxHeight}
-                      onChange={(e) => setMaxHeight(e.target.value)}
+                      max={source.image.naturalHeight}
+                      className="h-7 w-24 text-right"
+                      value={resizeHeight ?? ""}
+                      onChange={(e) => handleHeightChange(Number(e.target.value))}
                     />
                   </div>
+                  <Slider
+                    value={[resizeHeight ?? source.image.naturalHeight]}
+                    onValueChange={([value]) => handleHeightChange(value)}
+                    min={1}
+                    max={source.image.naturalHeight}
+                    step={1}
+                  />
                 </div>
               </div>
             </div>

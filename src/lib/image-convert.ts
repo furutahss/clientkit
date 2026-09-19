@@ -4,9 +4,9 @@ export type ConvertOptions = {
   format: OutputFormat;
   /** 1〜100。PNG（ロスレス）の場合は無視される */
   quality: number;
-  /** 指定時、アスペクト比を維持したまま縮小する（拡大はしない） */
-  maxWidth?: number;
-  maxHeight?: number;
+  /** 出力する幅・高さ（px）。アスペクト比を維持するかどうかは呼び出し側で決定する */
+  width: number;
+  height: number;
 };
 
 export function loadImageFromFile(file: File): Promise<{
@@ -25,32 +25,12 @@ export function loadImageFromFile(file: File): Promise<{
   });
 }
 
-export function computeTargetSize(
-  width: number,
-  height: number,
-  maxWidth?: number,
-  maxHeight?: number
-): { width: number; height: number } {
-  const widthRatio = maxWidth && maxWidth > 0 ? maxWidth / width : Infinity;
-  const heightRatio = maxHeight && maxHeight > 0 ? maxHeight / height : Infinity;
-  const ratio = Math.min(widthRatio, heightRatio, 1);
-
-  return {
-    width: Math.max(1, Math.round(width * ratio)),
-    height: Math.max(1, Math.round(height * ratio)),
-  };
-}
-
 export function convertImage(
   image: HTMLImageElement,
   options: ConvertOptions
 ): Promise<Blob> {
-  const { width, height } = computeTargetSize(
-    image.naturalWidth,
-    image.naturalHeight,
-    options.maxWidth,
-    options.maxHeight
-  );
+  const width = Math.max(1, Math.round(options.width));
+  const height = Math.max(1, Math.round(options.height));
 
   const canvas = document.createElement("canvas");
   canvas.width = width;
