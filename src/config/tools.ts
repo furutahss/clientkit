@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Binary, FileJson, TextCursorInput } from "lucide-react";
+import { Binary, FileJson, ImageDown, TextCursorInput } from "lucide-react";
 
 export type ToolCategory = {
   id: string;
@@ -82,6 +82,28 @@ export const tools: Tool[] = [
       "json formatter",
     ],
     path: "/tools/json-formatter",
+  },
+  {
+    id: "image-converter",
+    name: "画像圧縮・フォーマット変換",
+    description: "画像をJPEG/PNG/WebPに変換し、画質やサイズを調整して圧縮します。",
+    longDescription:
+      "画像ファイルをJPEG・PNG・WebP形式に変換し、画質（圧縮率）やリサイズを調整しながら圧縮できるツールです。Canvas APIによりブラウザ内で圧縮後のサイズをリアルタイムに試算・プレビューでき、サーバーへ画像がアップロードされることはありません。",
+    category: "converter",
+    icon: ImageDown,
+    keywords: [
+      "画像",
+      "画像圧縮",
+      "画像変換",
+      "フォーマット変換",
+      "jpeg",
+      "png",
+      "webp",
+      "リサイズ",
+      "compress",
+      "image converter",
+    ],
+    path: "/tools/image-converter",
   },
 ];
 
