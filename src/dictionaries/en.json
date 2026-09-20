@@ -393,6 +393,25 @@
         "paramName": "Name",
         "paramValue": "Value"
       }
+    },
+    "prismaRepoGenerator": {
+      "safetyNote": "Your schema is processed entirely in your browser and is never sent to an external server.",
+      "inputLabel": "schema.prisma (model definition)",
+      "placeholder": "model User {\n  id    String @id @default(cuid())\n  email String @unique\n}",
+      "loadSample": "Load sample model",
+      "noModelFound": "No model definition in the form \"model Name { ... }\" was found.",
+      "modelSelectLabel": "Target model",
+      "optionsHeading": "Generation options",
+      "namingStyleLabel": "Class naming style",
+      "namingStylePrefixI": "IUserRepository / UserRepository",
+      "namingStyleSuffixInterface": "UserRepositoryInterface / PrismaUserRepository",
+      "asyncAwaitLabel": "Use async/await",
+      "returnTypesLabel": "Include explicit return types",
+      "tabInterface": "① Repository interface",
+      "tabImplementation": "② PrismaClient implementation",
+      "tabController": "③ Express usage example",
+      "outputPlaceholder": "Enter a model definition on the left to generate code here.",
+      "fileNamePrefix": "File: "
     }
   }
 }

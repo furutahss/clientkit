@@ -8,6 +8,7 @@ import {
   Fingerprint,
   ImageDown,
   KeyRound,
+  Layers,
   Link2,
   NotebookText,
   Palette,
@@ -1223,6 +1224,97 @@ export const tools: Tool[] = [
     keywords: {
       ja: "har har解析 ネットワーク パフォーマンス セキュリティヘッダー devtools",
       en: "har har analyzer network performance security headers devtools",
+    },
+  },
+  {
+    id: "prisma-repo-generator",
+    name: {
+      ja: "Prisma Repositoryコード生成器",
+      en: "Prisma Repository Code Generator",
+    },
+    description: {
+      ja: "schema.prismaのモデル定義からRepositoryインターフェース・実装クラス・利用例を自動生成します。",
+      en: "Generate a repository interface, implementation class, and usage example from a schema.prisma model.",
+    },
+    longDescription: {
+      ja: "schema.prismaのmodel定義を貼り付けるだけで、Repositoryインターフェース定義・PrismaClientを利用した実装クラス・Expressコントローラーでの利用例（依存性注入パターン）の3点セットをブラウザ内で自動生成するツールです。クラス命名ルールやasync/await、戻り値の型付与を切り替えられます。",
+      en: "A tool that generates a repository interface, a PrismaClient-based implementation class, and an Express controller usage example (dependency injection pattern) from a pasted schema.prisma model, right in your browser. You can toggle the class naming style, async/await usage, and explicit return types.",
+    },
+    howToUse: {
+      ja: [
+        "入力欄にschema.prismaのmodel定義を貼り付けます。「サンプルモデルを読み込む」で動作を確認することもできます。",
+        "複数のモデルが含まれる場合は「対象モデル」のドロップダウンから生成対象を選択します。",
+        "「生成オプション」でクラス命名ルール（Iプレフィックス／Interfaceサフィックス）、async/awaitの使用、戻り値の型付与を切り替えます。",
+        "「①Repositoryインターフェース」「②PrismaClient実装クラス」「③Express利用例」のタブを切り替えながら、それぞれのコードを確認・コピーできます。",
+      ],
+      en: [
+        "Paste a schema.prisma model definition into the input field. You can also try it out with \"Load sample model\".",
+        "If multiple models are found, choose the one to generate code for from the \"Target model\" dropdown.",
+        "Use \"Generation options\" to toggle the class naming style (I-prefix or Interface-suffix), whether to use async/await, and whether to include explicit return types.",
+        "Switch between the \"① Repository interface\", \"② PrismaClient implementation\", and \"③ Express usage example\" tabs to review and copy each piece of code.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Prisma Repositoryコード生成器は、schema.prismaに書かれたmodel定義から、データアクセス層でよく使われるRepositoryパターンのコード一式を自動生成するツールです。新しいモデルを追加するたびに手作業でCRUD処理を書く手間を省き、チームでのコーディング規約の統一にも役立ちます。",
+          "生成されるインターフェース・実装クラスは、Prismaが自動生成する`Prisma.XxxCreateInput`や`Prisma.XxxUpdateInput`といった型をそのまま利用するため、スキーマの変更にも追従しやすく、実際のプロジェクトにそのまま組み込みやすい形になっています。PrismaClientはコンストラクタ経由で注入する依存性注入（DI）パターンを採用しており、テスト時にはモック実装に差し替えることができます。",
+          "モデルの主キー（`@id`が付与されたフィールド、なければ`id`という名前のフィールド）を自動的に検出し、`findUnique`や`update`・`delete`の引数の型に反映します。Express用のコントローラー例では、Repositoryをrouter生成関数に引数として渡せるようにしており、単体テスト時にモックRepositoryへ差し替えやすい設計になっています。",
+        ],
+        en: [
+          "The Prisma Repository Code Generator automatically generates a full set of repository-pattern code — commonly used in the data access layer — from a model definition written in schema.prisma. It saves you the manual work of writing CRUD logic every time you add a new model, and helps teams keep their coding conventions consistent.",
+          "The generated interface and implementation use Prisma's own generated types, such as `Prisma.XxxCreateInput` and `Prisma.XxxUpdateInput`, directly. This makes it easy to keep up with schema changes and drop the generated code straight into a real project. PrismaClient is injected through the constructor (a dependency injection pattern), so it can be swapped for a mock implementation in tests.",
+          "The model's primary key (a field marked `@id`, or a field named `id` if none is marked) is detected automatically and used for the argument types of `findUnique`, `update`, and `delete`. In the Express controller example, the repository is passed as an argument to a router factory function, making it easy to swap in a mock repository for unit tests.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "生成されたコードはそのままプロジェクトで使えますか？",
+          en: "Can I use the generated code directly in my project?",
+        },
+        answer: {
+          ja: "`@prisma/client`が生成済みで、`PrismaClient`と対象モデルの型（例: `User`, `Prisma.UserCreateInput`）が利用可能なプロジェクトであれば、そのまま貼り付けて利用できます。ファイル名やディレクトリ構成は必要に応じて調整してください。",
+          en: "Yes, as long as your project has already generated `@prisma/client` and has the model's types available (e.g. `User`, `Prisma.UserCreateInput`), you can paste the code in directly. Adjust file names and directory structure as needed for your project.",
+        },
+      },
+      {
+        question: {
+          ja: "複数のモデルをまとめて生成できますか？",
+          en: "Can I generate code for multiple models at once?",
+        },
+        answer: {
+          ja: "入力欄には複数のmodel定義を貼り付けられますが、コードは一度に1モデル分ずつ生成されます。複数のモデルが検出された場合は「対象モデル」のドロップダウンで生成したいモデルを切り替えてください。",
+          en: "You can paste multiple model definitions into the input field, but code is generated for one model at a time. If multiple models are detected, switch between them using the \"Target model\" dropdown.",
+        },
+      },
+      {
+        question: {
+          ja: "リレーション（他モデルへの参照）フィールドはどう扱われますか？",
+          en: "How are relation fields (references to other models) handled?",
+        },
+        answer: {
+          ja: "生成される`create`・`update`メソッドの引数にはPrismaが自動生成する`Prisma.XxxCreateInput`・`Prisma.XxxUpdateInput`型をそのまま使用しているため、ネストしたリレーションの作成・更新も型定義上サポートされます。個別のフィールドを手動で組み立てる必要はありません。",
+          en: "Since the generated `create` and `update` method arguments use Prisma's own generated `Prisma.XxxCreateInput` and `Prisma.XxxUpdateInput` types directly, creating and updating nested relations is supported at the type level too — there's no need to manually assemble individual fields.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したスキーマはサーバーに送信されますか？",
+          en: "Is my input schema sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。スキーマの解析とコード生成は、すべてブラウザ内のJavaScriptで完結します。",
+          en: "No. Parsing the schema and generating code both happen entirely with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Layers,
+    keywords: {
+      ja: "prisma repository コード生成 デザインパターン typescript express di",
+      en: "prisma repository code generator design pattern typescript express dependency injection",
     },
   },
 ];

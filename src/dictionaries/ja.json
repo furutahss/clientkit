@@ -393,6 +393,25 @@
         "paramName": "名前",
         "paramValue": "値"
       }
+    },
+    "prismaRepoGenerator": {
+      "safetyNote": "入力したスキーマはブラウザ内のみで処理され、外部サーバーへ送信されることはありません。",
+      "inputLabel": "schema.prisma（モデル定義）",
+      "placeholder": "model User {\n  id    String @id @default(cuid())\n  email String @unique\n}",
+      "loadSample": "サンプルモデルを読み込む",
+      "noModelFound": "「model 名前 { ... }」形式のモデル定義が見つかりませんでした。",
+      "modelSelectLabel": "対象モデル",
+      "optionsHeading": "生成オプション",
+      "namingStyleLabel": "クラス命名ルール",
+      "namingStylePrefixI": "IUserRepository / UserRepository",
+      "namingStyleSuffixInterface": "UserRepositoryInterface / PrismaUserRepository",
+      "asyncAwaitLabel": "async/await を使用する",
+      "returnTypesLabel": "戻り値の型を明示する",
+      "tabInterface": "① Repositoryインターフェース",
+      "tabImplementation": "② PrismaClient実装クラス",
+      "tabController": "③ Express利用例",
+      "outputPlaceholder": "左側にモデル定義を入力すると、ここにコードが生成されます。",
+      "fileNamePrefix": "ファイル: "
     }
   }
 }
