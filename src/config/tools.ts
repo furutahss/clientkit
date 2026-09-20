@@ -6,13 +6,16 @@ import {
   FileJson,
   FileSpreadsheet,
   Fingerprint,
+  FlaskConical,
   ImageDown,
   KeyRound,
+  Layers,
   Link2,
   NotebookText,
   Palette,
   Regex,
   TextCursorInput,
+  Waypoints,
 } from "lucide-react";
 
 import type { Locale } from "@/i18n/config";
@@ -1223,6 +1226,279 @@ export const tools: Tool[] = [
     keywords: {
       ja: "har har解析 ネットワーク パフォーマンス セキュリティヘッダー devtools",
       en: "har har analyzer network performance security headers devtools",
+    },
+  },
+  {
+    id: "prisma-repo-generator",
+    name: {
+      ja: "Prisma Repositoryコード生成器",
+      en: "Prisma Repository Code Generator",
+    },
+    description: {
+      ja: "schema.prismaのモデル定義からRepositoryインターフェース・実装クラス・利用例を自動生成します。",
+      en: "Generate a repository interface, implementation class, and usage example from a schema.prisma model.",
+    },
+    longDescription: {
+      ja: "schema.prismaのmodel定義を貼り付けるだけで、Repositoryインターフェース定義・PrismaClientを利用した実装クラス・Expressコントローラーでの利用例（依存性注入パターン）の3点セットをブラウザ内で自動生成するツールです。クラス命名ルールやasync/await、戻り値の型付与を切り替えられます。",
+      en: "A tool that generates a repository interface, a PrismaClient-based implementation class, and an Express controller usage example (dependency injection pattern) from a pasted schema.prisma model, right in your browser. You can toggle the class naming style, async/await usage, and explicit return types.",
+    },
+    howToUse: {
+      ja: [
+        "入力欄にschema.prismaのmodel定義を貼り付けます。「サンプルモデルを読み込む」で動作を確認することもできます。",
+        "複数のモデルが含まれる場合は「対象モデル」のドロップダウンから生成対象を選択します。",
+        "「生成オプション」でクラス命名ルール（Iプレフィックス／Interfaceサフィックス）、async/awaitの使用、戻り値の型付与を切り替えます。",
+        "「①Repositoryインターフェース」「②PrismaClient実装クラス」「③Express利用例」のタブを切り替えながら、それぞれのコードを確認・コピーできます。",
+      ],
+      en: [
+        "Paste a schema.prisma model definition into the input field. You can also try it out with \"Load sample model\".",
+        "If multiple models are found, choose the one to generate code for from the \"Target model\" dropdown.",
+        "Use \"Generation options\" to toggle the class naming style (I-prefix or Interface-suffix), whether to use async/await, and whether to include explicit return types.",
+        "Switch between the \"① Repository interface\", \"② PrismaClient implementation\", and \"③ Express usage example\" tabs to review and copy each piece of code.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Prisma Repositoryコード生成器は、schema.prismaに書かれたmodel定義から、データアクセス層でよく使われるRepositoryパターンのコード一式を自動生成するツールです。新しいモデルを追加するたびに手作業でCRUD処理を書く手間を省き、チームでのコーディング規約の統一にも役立ちます。",
+          "生成されるインターフェース・実装クラスは、Prismaが自動生成する`Prisma.XxxCreateInput`や`Prisma.XxxUpdateInput`といった型をそのまま利用するため、スキーマの変更にも追従しやすく、実際のプロジェクトにそのまま組み込みやすい形になっています。PrismaClientはコンストラクタ経由で注入する依存性注入（DI）パターンを採用しており、テスト時にはモック実装に差し替えることができます。",
+          "モデルの主キー（`@id`が付与されたフィールド、なければ`id`という名前のフィールド）を自動的に検出し、`findUnique`や`update`・`delete`の引数の型に反映します。Express用のコントローラー例では、Repositoryをrouter生成関数に引数として渡せるようにしており、単体テスト時にモックRepositoryへ差し替えやすい設計になっています。",
+        ],
+        en: [
+          "The Prisma Repository Code Generator automatically generates a full set of repository-pattern code — commonly used in the data access layer — from a model definition written in schema.prisma. It saves you the manual work of writing CRUD logic every time you add a new model, and helps teams keep their coding conventions consistent.",
+          "The generated interface and implementation use Prisma's own generated types, such as `Prisma.XxxCreateInput` and `Prisma.XxxUpdateInput`, directly. This makes it easy to keep up with schema changes and drop the generated code straight into a real project. PrismaClient is injected through the constructor (a dependency injection pattern), so it can be swapped for a mock implementation in tests.",
+          "The model's primary key (a field marked `@id`, or a field named `id` if none is marked) is detected automatically and used for the argument types of `findUnique`, `update`, and `delete`. In the Express controller example, the repository is passed as an argument to a router factory function, making it easy to swap in a mock repository for unit tests.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "生成されたコードはそのままプロジェクトで使えますか？",
+          en: "Can I use the generated code directly in my project?",
+        },
+        answer: {
+          ja: "`@prisma/client`が生成済みで、`PrismaClient`と対象モデルの型（例: `User`, `Prisma.UserCreateInput`）が利用可能なプロジェクトであれば、そのまま貼り付けて利用できます。ファイル名やディレクトリ構成は必要に応じて調整してください。",
+          en: "Yes, as long as your project has already generated `@prisma/client` and has the model's types available (e.g. `User`, `Prisma.UserCreateInput`), you can paste the code in directly. Adjust file names and directory structure as needed for your project.",
+        },
+      },
+      {
+        question: {
+          ja: "複数のモデルをまとめて生成できますか？",
+          en: "Can I generate code for multiple models at once?",
+        },
+        answer: {
+          ja: "入力欄には複数のmodel定義を貼り付けられますが、コードは一度に1モデル分ずつ生成されます。複数のモデルが検出された場合は「対象モデル」のドロップダウンで生成したいモデルを切り替えてください。",
+          en: "You can paste multiple model definitions into the input field, but code is generated for one model at a time. If multiple models are detected, switch between them using the \"Target model\" dropdown.",
+        },
+      },
+      {
+        question: {
+          ja: "リレーション（他モデルへの参照）フィールドはどう扱われますか？",
+          en: "How are relation fields (references to other models) handled?",
+        },
+        answer: {
+          ja: "生成される`create`・`update`メソッドの引数にはPrismaが自動生成する`Prisma.XxxCreateInput`・`Prisma.XxxUpdateInput`型をそのまま使用しているため、ネストしたリレーションの作成・更新も型定義上サポートされます。個別のフィールドを手動で組み立てる必要はありません。",
+          en: "Since the generated `create` and `update` method arguments use Prisma's own generated `Prisma.XxxCreateInput` and `Prisma.XxxUpdateInput` types directly, creating and updating nested relations is supported at the type level too — there's no need to manually assemble individual fields.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したスキーマはサーバーに送信されますか？",
+          en: "Is my input schema sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。スキーマの解析とコード生成は、すべてブラウザ内のJavaScriptで完結します。",
+          en: "No. Parsing the schema and generating code both happen entirely with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Layers,
+    keywords: {
+      ja: "prisma repository コード生成 デザインパターン typescript express di",
+      en: "prisma repository code generator design pattern typescript express dependency injection",
+    },
+  },
+  {
+    id: "prisma-schema-visualizer",
+    name: {
+      ja: "Prisma Schema ビジュアルER図ツール",
+      en: "Prisma Schema Visualizer",
+    },
+    description: {
+      ja: "schema.prismaのモデルをカード型UIで可視化し、リレーションをひと目で確認できます。",
+      en: "Visualize schema.prisma models as cards and see relations between them at a glance.",
+    },
+    longDescription: {
+      ja: "schema.prismaのコードを入力すると、各modelをカード型UIで一覧表示し、フィールド名・型・制約（@id, @unique, オプショナル）と@relationによる参照関係を視覚的に確認できるツールです。モデル名による絞り込みにも対応しています。",
+      en: "A tool that takes schema.prisma code and displays each model as a card, letting you visually check field names, types, constraints (@id, @unique, optional), and @relation references between models. It also supports filtering by model name.",
+    },
+    howToUse: {
+      ja: [
+        "入力欄にschema.prismaのコードを貼り付けます。「サンプルスキーマを読み込む」で動作を確認することもできます。",
+        "各モデルがカードとして一覧表示され、フィールド名・型・「?」（オプショナル）・ユニーク制約・リレーション先が確認できます。",
+        "モデル数が多い場合は「モデル名で絞り込み」の検索欄で対象を絞り込めます。",
+        "画面下部の「リレーション一覧」では、どのモデルのどのフィールドがどのモデルを参照しているか（1対1・多対1・1対多）を一覧で確認できます。",
+      ],
+      en: [
+        "Paste your schema.prisma code into the input field. You can also try it out with \"Load sample schema\".",
+        "Each model is displayed as a card, showing field names, types, the \"?\" optional marker, unique constraints, and relation targets.",
+        "If you have many models, narrow them down with the \"Filter by model name\" search field.",
+        "The \"Relations\" list at the bottom shows which field of which model references which other model, along with its cardinality (one-to-one / many-to-one / one-to-many).",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Prisma Schema ビジュアルER図ツールは、テキストベースのschema.prismaを読みやすいカード型UIに変換し、モデル同士の関係性を素早く把握できるようにするツールです。大規模なスキーマの全体像を把握したいときや、レビュー時にモデル構成を説明したいときに活用できます。",
+          "各フィールドには、主キーを表す鍵アイコン、ユニーク制約バッジ、オプショナルを表す「?」バッジが表示され、`@relation`が付与されたフィールドやリレーション先モデル名として推測されるフィールドは、矢印付きで参照先のモデル名が示されます。",
+          "画面下部の「リレーション一覧」では、スキーマ全体から検出したリレーションを`モデル.フィールド → 参照先モデル`という形式で一覧化し、配列型かどうかに応じて「1対多」「1対1 / 多対1」の目安を表示します。",
+        ],
+        en: [
+          "The Prisma Schema Visualizer converts text-based schema.prisma code into a readable card-based UI, making it easy to quickly grasp the relationships between models. It's useful for understanding the overall shape of a large schema, or for explaining model structure during a review.",
+          "Each field shows a key icon for the primary key, a badge for unique constraints, and a \"?\" badge for optional fields. Fields marked with `@relation`, or inferred to reference another model, show an arrow followed by the target model's name.",
+          "The \"Relations\" list at the bottom collects every relation detected across the whole schema in the form `Model.field → target model`, and shows an approximate cardinality — \"one-to-many\" or \"one-to-one / many-to-one\" — based on whether the field is a list type.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "リレーションの多重度（1対1・1対多など）はどのように判定されていますか？",
+          en: "How is the relation cardinality (one-to-one, one-to-many, etc.) determined?",
+        },
+        answer: {
+          ja: "フィールドが配列型（`Post[]`のように`[]`が付いている）であれば「1対多」、そうでなければ「1対1 / 多対1」として簡易的に表示しています。正確な多対多の判定には双方向のリレーション定義全体を解析する必要があるため、あくまで目安としてご利用ください。",
+          en: "If a field is an array type (has \"[]\", like `Post[]`), it's shown as \"one-to-many\"; otherwise it's shown as \"one-to-one / many-to-one\". Accurately detecting many-to-many relations requires analyzing both sides of the relation definition, so treat this as an approximation.",
+        },
+      },
+      {
+        question: {
+          ja: "Enum（列挙型）は表示されますか？",
+          en: "Are enums displayed?",
+        },
+        answer: {
+          ja: "表示されます。スキーマ内に`enum`定義が含まれる場合、モデル一覧の下に「Enum一覧」としてカード表示され、定義されている値の一覧を確認できます。",
+          en: "Yes. If the schema contains `enum` definitions, they're shown below the model list under \"Enums\", as cards listing each defined value.",
+        },
+      },
+      {
+        question: {
+          ja: "複数ファイルに分割されたschema.prismaにも対応していますか？",
+          en: "Does it support a schema.prisma split across multiple files?",
+        },
+        answer: {
+          ja: "入力欄に貼り付けたテキストのみを解析対象としています。複数ファイルに分割している場合は、それぞれの内容を1つのテキストにまとめてから貼り付けてください。",
+          en: "Only the text pasted into the input field is analyzed. If your schema is split across multiple files, combine their contents into a single block of text before pasting it in.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したスキーマはサーバーに送信されますか？",
+          en: "Is my input schema sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。スキーマの解析とカードの表示は、すべてブラウザ内のJavaScriptで完結します。",
+          en: "No. Parsing the schema and rendering the cards both happen entirely with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Waypoints,
+    keywords: {
+      ja: "prisma schema er図 可視化 リレーション データモデル",
+      en: "prisma schema er diagram visualizer relation data model",
+    },
+  },
+  {
+    id: "mock-repo-generator",
+    name: {
+      ja: "モックデータ・テストコード生成器",
+      en: "Mock Data & Test Code Generator",
+    },
+    description: {
+      ja: "TypeScript型やPrismaモデルからダミーデータ・MockRepository・テストコードを生成します。",
+      en: "Generate dummy data, a MockRepository class, and test code from a TypeScript type or Prisma model.",
+    },
+    longDescription: {
+      ja: "TypeScriptのinterfaceまたはPrismaのmodel定義を貼り付けると、ダミーデータ（JSON配列）・DBに接続せず動作するMockRepositoryクラス・Vitest/Jest用のテストコードの3点セットをブラウザ内で自動生成するツールです。",
+      en: "A tool that generates dummy data (a JSON array), a MockRepository class that works without a database connection, and Vitest/Jest test code, all from a pasted TypeScript interface or Prisma model — right in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "入力欄にTypeScriptの`interface`またはPrismaの`model`定義を貼り付けます。「サンプルを読み込む」で動作を確認することもできます。",
+        "入力内容から自動的にPrismaモデル／TypeScriptインターフェースのどちらかが判定されます。複数の型が含まれる場合は「対象の型」から選択してください。",
+        "「生成オプション」で生成件数（1〜20件）とテストフレームワーク（Vitest / Jest）を選びます。",
+        "「①ダミーデータ」「②MockRepositoryクラス」「③テストコード」のタブを切り替えながら、それぞれの内容を確認・コピーできます。",
+      ],
+      en: [
+        "Paste a TypeScript `interface` or a Prisma `model` definition into the input field. You can also try it out with \"Load sample\".",
+        "Whether it's a Prisma model or a TypeScript interface is detected automatically. If multiple types are found, choose one from \"Target type\".",
+        "Use \"Generation options\" to choose the number of records to generate (1–20) and the test framework (Vitest or Jest).",
+        "Switch between the \"① Dummy data\", \"② MockRepository class\", and \"③ Test code\" tabs to review and copy each piece of code.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "モックデータ・テストコード生成器は、TypeScriptの型定義やPrismaのモデル定義から、開発・テストで役立つダミーデータとモック実装、テストコードをまとめて生成できるツールです。バックエンドAPIの実装前にフロントエンドの開発を進めたい場合や、DBに依存しない単体テストを素早く書きたい場合に活用できます。",
+          "フィールド名や型からそれらしいダミー値を推測して生成しており、例えば`email`を含むフィールド名文字列型には`user1@example.com`のような値を、`Date`型のフィールドには日付が1日ずつ進むISO形式の文字列を割り当てます。Prismaのモデルを入力した場合、他モデルへの参照（リレーション）フィールドは自動的に除外されます。",
+          "生成される`MockRepository`クラスは`findUnique`・`findMany`・`create`・`update`・`delete`をメモリ内の配列操作で模倣する非同期メソッドとして実装されており、テストコードはRepositoryを引数として受け取るExpressコントローラーのファクトリ関数（依存性注入パターン）を呼び出す形で構成されています。",
+        ],
+        en: [
+          "The Mock Data & Test Code Generator produces dummy data, a mock implementation, and test code — all useful for development and testing — from a TypeScript type definition or a Prisma model definition. It's handy when you want to build out the frontend before the backend API is ready, or quickly write database-independent unit tests.",
+          "Dummy values are inferred from field names and types — for example, a string field whose name contains \"email\" gets a value like `user1@example.com`, and a `Date` field gets an ISO-formatted string with the date advancing by one day per record. When a Prisma model is used as input, fields that reference other models (relations) are automatically excluded.",
+          "The generated `MockRepository` class implements `findUnique`, `findMany`, `create`, `update`, and `delete` as async methods that operate on an in-memory array, and the generated test code is structured around calling an Express controller factory function that takes the repository as an argument (a dependency injection pattern).",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "TypeScriptとPrismaのどちらの入力にも対応していますか？",
+          en: "Does it support both TypeScript and Prisma input?",
+        },
+        answer: {
+          ja: "対応しています。入力に「interface 名前 { ... }」が含まれていればTypeScriptインターフェースとして、「model 名前 { ... }」が含まれていればPrismaモデルとして自動的に判定して処理します。",
+          en: "Yes. If the input contains \"interface Name { ... }\", it's treated as a TypeScript interface; if it contains \"model Name { ... }\", it's treated as a Prisma model — the detection is automatic.",
+        },
+      },
+      {
+        question: {
+          ja: "生成されたダミー値の内容を細かく調整できますか？",
+          en: "Can I fine-tune the generated dummy values?",
+        },
+        answer: {
+          ja: "本ツールはフィールド名・型からそれらしい値を自動生成するのみで、値そのものを個別に編集するUIはありません。生成されたJSON・コードをコピーした後、お手元のエディタで調整してください。",
+          en: "This tool only auto-generates plausible values based on field names and types — there's no UI for editing individual values. Copy the generated JSON or code and adjust it in your own editor afterward.",
+        },
+      },
+      {
+        question: {
+          ja: "生成されたテストコードはそのまま実行できますか？",
+          en: "Can I run the generated test code as-is?",
+        },
+        answer: {
+          ja: "テストコードは、Repositoryを引数として受け取るExpressルーターのファクトリ関数（`create○○Router(repository)`）が存在することを前提としています。お手元のプロジェクトのコントローラー実装に合わせて、インポートパスや関数名を調整してから実行してください。",
+          en: "The test code assumes the existence of an Express router factory function that takes a repository as an argument (`create<Name>Router(repository)`). Adjust the import paths and function names to match your project's actual controller implementation before running it.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したコードはサーバーに送信されますか？",
+          en: "Is my input code sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。型の解析、ダミーデータの生成、コードの組み立てはすべてブラウザ内のJavaScriptで完結します。",
+          en: "No. Parsing the type, generating dummy data, and assembling the code all happen entirely with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: FlaskConical,
+    keywords: {
+      ja: "モックデータ mock repository テストコード vitest jest ダミーデータ typescript prisma",
+      en: "mock data mock repository test code vitest jest dummy data typescript prisma",
     },
   },
 ];
