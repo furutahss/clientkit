@@ -412,6 +412,28 @@
       "tabController": "③ Express利用例",
       "outputPlaceholder": "左側にモデル定義を入力すると、ここにコードが生成されます。",
       "fileNamePrefix": "ファイル: "
+    },
+    "prismaSchemaVisualizer": {
+      "safetyNote": "入力したスキーマはブラウザ内のみで処理され、外部サーバーへ送信されることはありません。",
+      "inputLabel": "schema.prisma",
+      "placeholder": "model User {\n  id    String @id @default(cuid())\n  posts Post[]\n}\n\nmodel Post {\n  id       Int    @id @default(autoincrement())\n  authorId String\n  author   User   @relation(fields: [authorId], references: [id])\n}",
+      "loadSample": "サンプルスキーマを読み込む",
+      "searchLabel": "モデル名で絞り込み",
+      "searchPlaceholder": "モデル名を検索...",
+      "noModelFound": "「model 名前 { ... }」形式のモデル定義が見つかりませんでした。",
+      "noSearchResults": "条件に一致するモデルが見つかりませんでした。",
+      "modelsHeading": "モデル一覧",
+      "enumsHeading": "Enum一覧",
+      "relationsHeading": "リレーション一覧",
+      "relationsEmpty": "リレーションは検出されませんでした。",
+      "fieldCount": "{count} フィールド",
+      "idLabel": "主キー (@id)",
+      "uniqueLabel": "ユニーク (@unique)",
+      "optionalBadge": "?",
+      "listBadge": "[]",
+      "relationTo": "→ {target}",
+      "relationOne": "1対1 / 多対1",
+      "relationMany": "1対多"
     }
   }
 }

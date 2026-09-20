@@ -14,6 +14,7 @@ import {
   Palette,
   Regex,
   TextCursorInput,
+  Waypoints,
 } from "lucide-react";
 
 import type { Locale } from "@/i18n/config";
@@ -1315,6 +1316,97 @@ export const tools: Tool[] = [
     keywords: {
       ja: "prisma repository コード生成 デザインパターン typescript express di",
       en: "prisma repository code generator design pattern typescript express dependency injection",
+    },
+  },
+  {
+    id: "prisma-schema-visualizer",
+    name: {
+      ja: "Prisma Schema ビジュアルER図ツール",
+      en: "Prisma Schema Visualizer",
+    },
+    description: {
+      ja: "schema.prismaのモデルをカード型UIで可視化し、リレーションをひと目で確認できます。",
+      en: "Visualize schema.prisma models as cards and see relations between them at a glance.",
+    },
+    longDescription: {
+      ja: "schema.prismaのコードを入力すると、各modelをカード型UIで一覧表示し、フィールド名・型・制約（@id, @unique, オプショナル）と@relationによる参照関係を視覚的に確認できるツールです。モデル名による絞り込みにも対応しています。",
+      en: "A tool that takes schema.prisma code and displays each model as a card, letting you visually check field names, types, constraints (@id, @unique, optional), and @relation references between models. It also supports filtering by model name.",
+    },
+    howToUse: {
+      ja: [
+        "入力欄にschema.prismaのコードを貼り付けます。「サンプルスキーマを読み込む」で動作を確認することもできます。",
+        "各モデルがカードとして一覧表示され、フィールド名・型・「?」（オプショナル）・ユニーク制約・リレーション先が確認できます。",
+        "モデル数が多い場合は「モデル名で絞り込み」の検索欄で対象を絞り込めます。",
+        "画面下部の「リレーション一覧」では、どのモデルのどのフィールドがどのモデルを参照しているか（1対1・多対1・1対多）を一覧で確認できます。",
+      ],
+      en: [
+        "Paste your schema.prisma code into the input field. You can also try it out with \"Load sample schema\".",
+        "Each model is displayed as a card, showing field names, types, the \"?\" optional marker, unique constraints, and relation targets.",
+        "If you have many models, narrow them down with the \"Filter by model name\" search field.",
+        "The \"Relations\" list at the bottom shows which field of which model references which other model, along with its cardinality (one-to-one / many-to-one / one-to-many).",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Prisma Schema ビジュアルER図ツールは、テキストベースのschema.prismaを読みやすいカード型UIに変換し、モデル同士の関係性を素早く把握できるようにするツールです。大規模なスキーマの全体像を把握したいときや、レビュー時にモデル構成を説明したいときに活用できます。",
+          "各フィールドには、主キーを表す鍵アイコン、ユニーク制約バッジ、オプショナルを表す「?」バッジが表示され、`@relation`が付与されたフィールドやリレーション先モデル名として推測されるフィールドは、矢印付きで参照先のモデル名が示されます。",
+          "画面下部の「リレーション一覧」では、スキーマ全体から検出したリレーションを`モデル.フィールド → 参照先モデル`という形式で一覧化し、配列型かどうかに応じて「1対多」「1対1 / 多対1」の目安を表示します。",
+        ],
+        en: [
+          "The Prisma Schema Visualizer converts text-based schema.prisma code into a readable card-based UI, making it easy to quickly grasp the relationships between models. It's useful for understanding the overall shape of a large schema, or for explaining model structure during a review.",
+          "Each field shows a key icon for the primary key, a badge for unique constraints, and a \"?\" badge for optional fields. Fields marked with `@relation`, or inferred to reference another model, show an arrow followed by the target model's name.",
+          "The \"Relations\" list at the bottom collects every relation detected across the whole schema in the form `Model.field → target model`, and shows an approximate cardinality — \"one-to-many\" or \"one-to-one / many-to-one\" — based on whether the field is a list type.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "リレーションの多重度（1対1・1対多など）はどのように判定されていますか？",
+          en: "How is the relation cardinality (one-to-one, one-to-many, etc.) determined?",
+        },
+        answer: {
+          ja: "フィールドが配列型（`Post[]`のように`[]`が付いている）であれば「1対多」、そうでなければ「1対1 / 多対1」として簡易的に表示しています。正確な多対多の判定には双方向のリレーション定義全体を解析する必要があるため、あくまで目安としてご利用ください。",
+          en: "If a field is an array type (has \"[]\", like `Post[]`), it's shown as \"one-to-many\"; otherwise it's shown as \"one-to-one / many-to-one\". Accurately detecting many-to-many relations requires analyzing both sides of the relation definition, so treat this as an approximation.",
+        },
+      },
+      {
+        question: {
+          ja: "Enum（列挙型）は表示されますか？",
+          en: "Are enums displayed?",
+        },
+        answer: {
+          ja: "表示されます。スキーマ内に`enum`定義が含まれる場合、モデル一覧の下に「Enum一覧」としてカード表示され、定義されている値の一覧を確認できます。",
+          en: "Yes. If the schema contains `enum` definitions, they're shown below the model list under \"Enums\", as cards listing each defined value.",
+        },
+      },
+      {
+        question: {
+          ja: "複数ファイルに分割されたschema.prismaにも対応していますか？",
+          en: "Does it support a schema.prisma split across multiple files?",
+        },
+        answer: {
+          ja: "入力欄に貼り付けたテキストのみを解析対象としています。複数ファイルに分割している場合は、それぞれの内容を1つのテキストにまとめてから貼り付けてください。",
+          en: "Only the text pasted into the input field is analyzed. If your schema is split across multiple files, combine their contents into a single block of text before pasting it in.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したスキーマはサーバーに送信されますか？",
+          en: "Is my input schema sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。スキーマの解析とカードの表示は、すべてブラウザ内のJavaScriptで完結します。",
+          en: "No. Parsing the schema and rendering the cards both happen entirely with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Waypoints,
+    keywords: {
+      ja: "prisma schema er図 可視化 リレーション データモデル",
+      en: "prisma schema er diagram visualizer relation data model",
     },
   },
 ];

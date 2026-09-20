@@ -13,6 +13,7 @@ import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
 import { PrismaRepoGeneratorTool } from "@/components/tools/prisma-repo-generator-tool";
+import { PrismaSchemaVisualizerTool } from "@/components/tools/prisma-schema-visualizer-tool";
 import { RegexTesterTool } from "@/components/tools/regex-tester-tool";
 import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
@@ -38,6 +39,7 @@ const toolComponents: Record<string, ComponentType> = {
   "markdown-editor": MarkdownEditorTool,
   "har-analyzer": HarAnalyzerTool,
   "prisma-repo-generator": PrismaRepoGeneratorTool,
+  "prisma-schema-visualizer": PrismaSchemaVisualizerTool,
 };
 
 export function generateStaticParams() {
