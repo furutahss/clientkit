@@ -4,6 +4,7 @@ import * as React from "react";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sheet,
   SheetContent,
@@ -32,11 +33,13 @@ export function MobileSidebar() {
           <Menu className="size-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-72 p-0">
+      <SheetContent side="left" className="w-72 gap-0 p-0">
         <SheetHeader className="border-b">
           <SheetTitle>{dict.sidebar.mobileTitle}</SheetTitle>
         </SheetHeader>
-        <SidebarNav onNavigate={() => setOpen(false)} />
+        <ScrollArea className="min-h-0 flex-1">
+          <SidebarNav onNavigate={() => setOpen(false)} />
+        </ScrollArea>
       </SheetContent>
     </Sheet>
   );
