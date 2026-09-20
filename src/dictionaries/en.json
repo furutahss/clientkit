@@ -258,6 +258,141 @@
       "tabHtml": "HTML code",
       "downloadHtml": "Download HTML (.html)",
       "sampleMarkdown": "# ClientKit Markdown Editor\n\n**ClientKit** is a collection of safe tools that run entirely in your browser.\n\n## Features\n\n- Real-time preview\n- GitHub Flavored Markdown support\n- One-click conversion to `HTML`\n\n## Sample\n\n1. Table\n\n| Feature | Description |\n| --- | --- |\n| Secure | No data is ever sent to a server |\n| Fast | Everything runs in your browser |\n\n2. Task list\n\n- [x] Write some Markdown\n- [ ] Check the preview\n\n> Blockquotes are supported too.\n\nTake a look at [ClientKit](https://clientkit.dev).\n"
+    },
+    "harAnalyzer": {
+      "safetyNote": "HAR files are analyzed entirely in your browser. Your data is never sent to an external server.",
+      "dropzone": {
+        "title": "Drag and drop a HAR file",
+        "description": "or click to choose a file (.har / .json)",
+        "chooseFile": "Choose file",
+        "formats": "Supported formats: .har, .json"
+      },
+      "loadAnother": "Load another file",
+      "errors": {
+        "invalidJson": "Couldn't read this as JSON. The file may be corrupted or not a HAR file.",
+        "invalidStructure": "This doesn't look like a HAR file. Please choose a file that contains \"log.entries\".",
+        "empty": "This HAR file doesn't contain any requests.",
+        "readFailed": "Failed to read the file."
+      },
+      "summary": {
+        "fileName": "File name",
+        "requests": "Requests",
+        "totalSize": "Total transfer size",
+        "totalTime": "Total duration"
+      },
+      "score": {
+        "title": "Overall health score",
+        "outOf": "/ 100",
+        "ratingGood": "Good",
+        "ratingWarning": "Needs attention",
+        "ratingBad": "Serious issues",
+        "summary": "Found {errors} error(s), {slow} slow request(s), and {security} security issue(s).",
+        "summaryClean": "No significant issues were found."
+      },
+      "tabs": {
+        "errors": "Error Detection",
+        "performance": "Speed Bottlenecks",
+        "security": "Security / Privacy",
+        "resources": "Resource Breakdown"
+      },
+      "errorsTab": {
+        "description": "Requests that returned a 4xx or 5xx status code.",
+        "count": "Found {count} error(s)",
+        "empty": "No error responses were found.",
+        "advice4xx": "4xx errors often mean a problem with the request path, parameters, or credentials. Check the URL and whether any tokens have expired.",
+        "advice5xx": "5xx errors indicate a server-side problem. Check the server logs, or retry after some time."
+      },
+      "performanceTab": {
+        "description": "Detects slow-responding requests as well as uncompressed or oversized resources.",
+        "slowestTitle": "Slowest requests (top 5)",
+        "slowEmpty": "No requests took longer than 1 second.",
+        "adviceSlow": "A long TTFB (time to first byte) points to server-side processing; a long download time points to resource size. Investigate accordingly.",
+        "issuesTitle": "Uncompressed / oversized resources",
+        "issuesEmpty": "No compression or size issues were found.",
+        "issueUncompressed": "Uncompressed",
+        "issueLarge": "Oversized (>500KB)",
+        "adviceUncompressed": "Enabling compression such as gzip or Brotli can significantly reduce the transfer size of text-based resources.",
+        "adviceLarge": "Resources larger than 500KB were found. Consider compressing images or using code splitting / lazy loading.",
+        "ttfb": "TTFB",
+        "download": "Download time",
+        "total": "Total time"
+      },
+      "securityTab": {
+        "description": "Checks whether key security headers are applied and detects non-HTTPS traffic.",
+        "headersTitle": "Security headers",
+        "headerPresent": "Applied",
+        "headerMissing": "Missing",
+        "targetNote": "Checked against the response headers of the main document.",
+        "insecureTitle": "Non-HTTPS traffic",
+        "insecureEmpty": "All traffic was sent over HTTPS.",
+        "insecureCount": "Found {count} non-HTTPS request(s)",
+        "adviceInsecure": "HTTP traffic can be intercepted or tampered with. Switch all traffic to HTTPS.",
+        "adviceMissing": {
+          "Content-Security-Policy": "Setting a CSP (Content-Security-Policy) reduces the risk of XSS and other unauthorized script execution.",
+          "Strict-Transport-Security": "Setting HSTS (Strict-Transport-Security) prevents HTTP connections and always enforces HTTPS.",
+          "X-Frame-Options": "Setting X-Frame-Options helps prevent clickjacking attacks.",
+          "X-Content-Type-Options": "Setting X-Content-Type-Options helps prevent MIME-type sniffing attacks.",
+          "Referrer-Policy": "Setting a Referrer-Policy helps prevent information leaks via the referrer."
+        }
+      },
+      "resourcesTab": {
+        "description": "See the file size and request count ratio broken down by resource type.",
+        "tableCategory": "Type",
+        "tableCount": "Requests",
+        "tableSize": "Size",
+        "tablePercentage": "Share"
+      },
+      "categories": {
+        "document": "Document",
+        "js": "JavaScript",
+        "css": "CSS",
+        "image": "Image",
+        "font": "Font",
+        "api": "API / XHR",
+        "media": "Media",
+        "other": "Other"
+      },
+      "requestList": {
+        "title": "Request list",
+        "searchPlaceholder": "Filter by URL...",
+        "statusAll": "All statuses",
+        "status2xx": "Success (2xx)",
+        "status3xx": "Redirect (3xx)",
+        "status4xx": "Client error (4xx)",
+        "status5xx": "Server error (5xx)",
+        "categoryAll": "All types",
+        "clearFilters": "Clear filters",
+        "empty": "No requests match the current filters.",
+        "resultCount": "Showing {filtered} of {total}"
+      },
+      "table": {
+        "method": "Method",
+        "url": "URL",
+        "status": "Status",
+        "type": "Type",
+        "size": "Size",
+        "time": "Time"
+      },
+      "detail": {
+        "title": "Request details",
+        "close": "Close",
+        "generalTitle": "Overview",
+        "status": "Status",
+        "time": "Duration",
+        "size": "Response size",
+        "mimeType": "MIME type",
+        "httpVersion": "HTTP version",
+        "timingBreakdown": "Timing breakdown",
+        "requestHeaders": "Request headers",
+        "responseHeaders": "Response headers",
+        "requestCookies": "Request cookies",
+        "responseCookies": "Response cookies",
+        "queryParams": "Query parameters",
+        "postData": "Request body",
+        "none": "None",
+        "paramName": "Name",
+        "paramValue": "Value"
+      }
     }
   }
 }
