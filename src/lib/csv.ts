@@ -108,7 +108,7 @@ export function csvRowsToJson(
   return rows;
 }
 
-function toCsvField(value: unknown, delimiter: string): string {
+export function toCsvField(value: unknown, delimiter: string): string {
   const str = value === null || value === undefined ? "" : String(value);
   if (
     str.includes(delimiter) ||
@@ -156,4 +156,17 @@ export function jsonValueToCsv(value: unknown, delimiter: string): string {
 
   // プリミティブ値の配列は1列のCSVとして扱う
   return data.map((v) => toCsvField(v, delimiter)).join("\r\n");
+}
+
+/** ヘッダー行とデータ行からCSV文字列を組み立てる */
+export function tableToCsvText(
+  headers: string[],
+  rows: string[][],
+  delimiter: string
+): string {
+  const lines = [headers.map((h) => toCsvField(h, delimiter)).join(delimiter)];
+  for (const row of rows) {
+    lines.push(row.map((v) => toCsvField(v, delimiter)).join(delimiter));
+  }
+  return lines.join("\r\n");
 }

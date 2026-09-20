@@ -14,6 +14,7 @@ import {
   NotebookText,
   Palette,
   Regex,
+  Table,
   TextCursorInput,
   Waypoints,
 } from "lucide-react";
@@ -524,6 +525,94 @@ export const tools: Tool[] = [
     keywords: {
       ja: "csv json 変換 テーブル スプレッドシート",
       en: "csv json convert table spreadsheet csv to json json to csv",
+    },
+  },
+  {
+    id: "csv-editor",
+    name: { ja: "CSV加工ツール", en: "CSV Editor" },
+    description: {
+      ja: "CSVを表形式で表示し、行・列の追加や削除、セルの編集、保存が行えます。",
+      en: "View a CSV as a table and add, remove, and edit rows, columns, and cells, then save.",
+    },
+    longDescription: {
+      ja: "CSVファイルやテキストを読み込んで見やすい表形式で表示し、行・列の追加や削除、セルや列名の編集をその場で行えるツールです。編集した結果はCSVファイルとしてダウンロードしたり、クリップボードにコピーしたりできます。",
+      en: "A tool that loads a CSV file or pasted text into an easy-to-read table, letting you add or remove rows and columns and edit cells and column names in place. Once edited, you can download the result as a CSV file or copy it to the clipboard.",
+    },
+    howToUse: {
+      ja: [
+        "区切り文字（カンマ・タブ・セミコロン）と「1行目をヘッダーとして扱う」の要否を選び、CSVファイルをドラッグ＆ドロップするか、テキストエリアに貼り付けます。",
+        "「テーブルに読み込む」を押すと、内容が編集可能な表として表示されます。",
+        "セルや列名をクリックして直接書き換えたり、「行を追加」「列を追加」で新しい行・列を増やしたり、各行・各列のゴミ箱アイコンで削除したりできます。",
+        "編集が終わったら「クリップボードへコピー」または「CSVをダウンロード」で結果を保存します。「新しいデータを読み込む」から別のCSVを読み込み直すこともできます。",
+      ],
+      en: [
+        "Choose a delimiter (comma, tab, or semicolon) and whether to treat the first row as a header, then drag and drop a CSV file or paste text into the text area.",
+        "Click \"Load into table\" to display the content as an editable table.",
+        "Click a cell or column name to edit it directly, use \"Add row\" / \"Add column\" to insert new rows or columns, and use the trash icon on each row or column to remove it.",
+        "When you're done editing, use \"Copy to clipboard\" or \"Download CSV\" to save the result. Use \"Load new data\" to start over with a different CSV.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "CSV加工ツールは、CSVファイルやテキストを見やすい表形式で表示し、ブラウザ上で行・列の追加や削除、セルの編集をその場で行えるツールです。表計算ソフトを開かずに、ちょっとしたデータの修正や整形をしたい場合に活用できます。",
+          "引用符で囲まれたフィールドやフィールド内の改行にも対応した簡易CSVパーサーを使用しており、実務で扱う複雑なCSVでも崩れずに読み込めます。列名やセルの値はテーブル上のテキストボックスに直接入力するだけで反映され、変更内容はリアルタイムに保持されます。",
+          "編集結果はCSV形式のテキストとしていつでも組み立て直され、クリップボードへのコピーやCSVファイルとしてのダウンロードが行えます。入力したデータがサーバーに送信されることはなく、すべての処理はブラウザ内で完結します。",
+        ],
+        en: [
+          "The CSV Editor loads a CSV file or pasted text into an easy-to-read table and lets you add or remove rows and columns and edit cells right in your browser. It's useful for making small fixes or adjustments to data without opening spreadsheet software.",
+          "It uses a lightweight CSV parser that handles quoted fields and line breaks within fields, so it can load complex real-world CSV files without breaking them. Column names and cell values update as soon as you type into the table's text boxes, and your changes are kept in real time.",
+          "The edited result is rebuilt as CSV text at any time, ready to copy to the clipboard or download as a CSV file. Your data is never sent to a server — everything happens entirely in your browser.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "大きなCSVファイルでも編集できますか？",
+          en: "Can I edit large CSV files?",
+        },
+        answer: {
+          ja: "ブラウザのメモリが許す範囲であれば編集可能です。ただし表の全行が編集可能な状態で描画されるため、非常に大きなCSV（数万行など）では表示や入力が重くなる場合があります。",
+          en: "Yes, as long as your browser's memory allows it. However, since every row is rendered as editable, very large CSVs (tens of thousands of rows, for example) may feel sluggish to display and edit.",
+        },
+      },
+      {
+        question: {
+          ja: "ヘッダーがないCSVはどう扱われますか？",
+          en: "How is a CSV without a header handled?",
+        },
+        answer: {
+          ja: "「1行目をヘッダーとして扱う」のチェックを外して読み込むと、すべての行がデータ行として扱われ、列見出しは「列1」「列2」のように自動で採番されます。列名はあとから自由に書き換えられます。",
+          en: "If you uncheck \"Treat first row as header\" before loading, every row is treated as data and column headers are automatically numbered like \"Column 1\", \"Column 2\", and so on. You can rename them freely afterward.",
+        },
+      },
+      {
+        question: {
+          ja: "列をすべて削除してしまった場合はどうすればいいですか？",
+          en: "What if I delete all the columns?",
+        },
+        answer: {
+          ja: "「列を追加」ボタンから新しい列を作り直せます。編集内容を破棄してやり直したい場合は「新しいデータを読み込む」で最初の読み込み画面に戻れます。",
+          en: "You can recreate columns with the \"Add column\" button. If you want to discard your edits and start over, use \"Load new data\" to return to the initial import screen.",
+        },
+      },
+      {
+        question: {
+          ja: "編集したデータはサーバーに保存されますか？",
+          en: "Is my edited data saved on a server?",
+        },
+        answer: {
+          ja: "いいえ。読み込み・編集・保存のすべての処理はブラウザ内で完結し、外部サーバーへデータが送信されることはありません。",
+          en: "No. Loading, editing, and saving all happen entirely in your browser, and no data is ever sent to an external server.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Table,
+    keywords: {
+      ja: "csv 加工 編集 表 テーブル 行 列 追加 削除",
+      en: "csv editor edit table row column add remove",
     },
   },
   {

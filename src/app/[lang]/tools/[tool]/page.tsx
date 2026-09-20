@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Base64Tool } from "@/components/tools/base64-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
+import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
@@ -31,6 +32,7 @@ const toolComponents: Record<string, ComponentType> = {
   "json-formatter": JsonFormatterTool,
   "image-converter": ImageConverterTool,
   "csv-json-converter": CsvJsonConverterTool,
+  "csv-editor": CsvEditorTool,
   "regex-tester": RegexTesterTool,
   "url-encoder": UrlEncoderTool,
   "hash-generator": HashGeneratorTool,
