@@ -434,6 +434,25 @@
       "relationTo": "→ {target}",
       "relationOne": "one-to-one / many-to-one",
       "relationMany": "one-to-many"
+    },
+    "mockRepoGenerator": {
+      "safetyNote": "Your input is processed entirely in your browser and is never sent to an external server.",
+      "inputLabel": "TypeScript interface or Prisma model",
+      "placeholder": "interface User {\n  id: string;\n  name: string;\n  email: string;\n}",
+      "loadSample": "Load sample",
+      "detectedPrisma": "Detected as a Prisma model",
+      "detectedTypescript": "Detected as a TypeScript interface",
+      "noEntityFound": "No \"interface Name { ... }\" or \"model Name { ... }\" definition was found.",
+      "entitySelectLabel": "Target type",
+      "optionsHeading": "Generation options",
+      "countLabel": "Number of records",
+      "testFrameworkLabel": "Test framework",
+      "tabData": "① Dummy data (JSON)",
+      "tabRepository": "② MockRepository class",
+      "tabTest": "③ Test code",
+      "outputPlaceholder": "Enter code on the left to see the generated result here.",
+      "fileNamePrefix": "File: ",
+      "relationFieldsNote": "Relation fields (references to other models) are excluded from the mock data."
     }
   }
 }

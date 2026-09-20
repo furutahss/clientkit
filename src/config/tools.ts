@@ -6,6 +6,7 @@ import {
   FileJson,
   FileSpreadsheet,
   Fingerprint,
+  FlaskConical,
   ImageDown,
   KeyRound,
   Layers,
@@ -1407,6 +1408,97 @@ export const tools: Tool[] = [
     keywords: {
       ja: "prisma schema er図 可視化 リレーション データモデル",
       en: "prisma schema er diagram visualizer relation data model",
+    },
+  },
+  {
+    id: "mock-repo-generator",
+    name: {
+      ja: "モックデータ・テストコード生成器",
+      en: "Mock Data & Test Code Generator",
+    },
+    description: {
+      ja: "TypeScript型やPrismaモデルからダミーデータ・MockRepository・テストコードを生成します。",
+      en: "Generate dummy data, a MockRepository class, and test code from a TypeScript type or Prisma model.",
+    },
+    longDescription: {
+      ja: "TypeScriptのinterfaceまたはPrismaのmodel定義を貼り付けると、ダミーデータ（JSON配列）・DBに接続せず動作するMockRepositoryクラス・Vitest/Jest用のテストコードの3点セットをブラウザ内で自動生成するツールです。",
+      en: "A tool that generates dummy data (a JSON array), a MockRepository class that works without a database connection, and Vitest/Jest test code, all from a pasted TypeScript interface or Prisma model — right in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "入力欄にTypeScriptの`interface`またはPrismaの`model`定義を貼り付けます。「サンプルを読み込む」で動作を確認することもできます。",
+        "入力内容から自動的にPrismaモデル／TypeScriptインターフェースのどちらかが判定されます。複数の型が含まれる場合は「対象の型」から選択してください。",
+        "「生成オプション」で生成件数（1〜20件）とテストフレームワーク（Vitest / Jest）を選びます。",
+        "「①ダミーデータ」「②MockRepositoryクラス」「③テストコード」のタブを切り替えながら、それぞれの内容を確認・コピーできます。",
+      ],
+      en: [
+        "Paste a TypeScript `interface` or a Prisma `model` definition into the input field. You can also try it out with \"Load sample\".",
+        "Whether it's a Prisma model or a TypeScript interface is detected automatically. If multiple types are found, choose one from \"Target type\".",
+        "Use \"Generation options\" to choose the number of records to generate (1–20) and the test framework (Vitest or Jest).",
+        "Switch between the \"① Dummy data\", \"② MockRepository class\", and \"③ Test code\" tabs to review and copy each piece of code.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "モックデータ・テストコード生成器は、TypeScriptの型定義やPrismaのモデル定義から、開発・テストで役立つダミーデータとモック実装、テストコードをまとめて生成できるツールです。バックエンドAPIの実装前にフロントエンドの開発を進めたい場合や、DBに依存しない単体テストを素早く書きたい場合に活用できます。",
+          "フィールド名や型からそれらしいダミー値を推測して生成しており、例えば`email`を含むフィールド名文字列型には`user1@example.com`のような値を、`Date`型のフィールドには日付が1日ずつ進むISO形式の文字列を割り当てます。Prismaのモデルを入力した場合、他モデルへの参照（リレーション）フィールドは自動的に除外されます。",
+          "生成される`MockRepository`クラスは`findUnique`・`findMany`・`create`・`update`・`delete`をメモリ内の配列操作で模倣する非同期メソッドとして実装されており、テストコードはRepositoryを引数として受け取るExpressコントローラーのファクトリ関数（依存性注入パターン）を呼び出す形で構成されています。",
+        ],
+        en: [
+          "The Mock Data & Test Code Generator produces dummy data, a mock implementation, and test code — all useful for development and testing — from a TypeScript type definition or a Prisma model definition. It's handy when you want to build out the frontend before the backend API is ready, or quickly write database-independent unit tests.",
+          "Dummy values are inferred from field names and types — for example, a string field whose name contains \"email\" gets a value like `user1@example.com`, and a `Date` field gets an ISO-formatted string with the date advancing by one day per record. When a Prisma model is used as input, fields that reference other models (relations) are automatically excluded.",
+          "The generated `MockRepository` class implements `findUnique`, `findMany`, `create`, `update`, and `delete` as async methods that operate on an in-memory array, and the generated test code is structured around calling an Express controller factory function that takes the repository as an argument (a dependency injection pattern).",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "TypeScriptとPrismaのどちらの入力にも対応していますか？",
+          en: "Does it support both TypeScript and Prisma input?",
+        },
+        answer: {
+          ja: "対応しています。入力に「interface 名前 { ... }」が含まれていればTypeScriptインターフェースとして、「model 名前 { ... }」が含まれていればPrismaモデルとして自動的に判定して処理します。",
+          en: "Yes. If the input contains \"interface Name { ... }\", it's treated as a TypeScript interface; if it contains \"model Name { ... }\", it's treated as a Prisma model — the detection is automatic.",
+        },
+      },
+      {
+        question: {
+          ja: "生成されたダミー値の内容を細かく調整できますか？",
+          en: "Can I fine-tune the generated dummy values?",
+        },
+        answer: {
+          ja: "本ツールはフィールド名・型からそれらしい値を自動生成するのみで、値そのものを個別に編集するUIはありません。生成されたJSON・コードをコピーした後、お手元のエディタで調整してください。",
+          en: "This tool only auto-generates plausible values based on field names and types — there's no UI for editing individual values. Copy the generated JSON or code and adjust it in your own editor afterward.",
+        },
+      },
+      {
+        question: {
+          ja: "生成されたテストコードはそのまま実行できますか？",
+          en: "Can I run the generated test code as-is?",
+        },
+        answer: {
+          ja: "テストコードは、Repositoryを引数として受け取るExpressルーターのファクトリ関数（`create○○Router(repository)`）が存在することを前提としています。お手元のプロジェクトのコントローラー実装に合わせて、インポートパスや関数名を調整してから実行してください。",
+          en: "The test code assumes the existence of an Express router factory function that takes a repository as an argument (`create<Name>Router(repository)`). Adjust the import paths and function names to match your project's actual controller implementation before running it.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したコードはサーバーに送信されますか？",
+          en: "Is my input code sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。型の解析、ダミーデータの生成、コードの組み立てはすべてブラウザ内のJavaScriptで完結します。",
+          en: "No. Parsing the type, generating dummy data, and assembling the code all happen entirely with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: FlaskConical,
+    keywords: {
+      ja: "モックデータ mock repository テストコード vitest jest ダミーデータ typescript prisma",
+      en: "mock data mock repository test code vitest jest dummy data typescript prisma",
     },
   },
 ];

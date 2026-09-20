@@ -434,6 +434,25 @@
       "relationTo": "→ {target}",
       "relationOne": "1対1 / 多対1",
       "relationMany": "1対多"
+    },
+    "mockRepoGenerator": {
+      "safetyNote": "入力したコードはブラウザ内のみで処理され、外部サーバーへ送信されることはありません。",
+      "inputLabel": "TypeScriptインターフェース または Prismaモデル",
+      "placeholder": "interface User {\n  id: string;\n  name: string;\n  email: string;\n}",
+      "loadSample": "サンプルを読み込む",
+      "detectedPrisma": "Prismaモデルとして検出しました",
+      "detectedTypescript": "TypeScriptインターフェースとして検出しました",
+      "noEntityFound": "「interface 名前 { ... }」または「model 名前 { ... }」の定義が見つかりませんでした。",
+      "entitySelectLabel": "対象の型",
+      "optionsHeading": "生成オプション",
+      "countLabel": "生成件数",
+      "testFrameworkLabel": "テストフレームワーク",
+      "tabData": "① ダミーデータ (JSON)",
+      "tabRepository": "② MockRepositoryクラス",
+      "tabTest": "③ テストコード",
+      "outputPlaceholder": "左側にコードを入力すると、ここに生成結果が表示されます。",
+      "fileNamePrefix": "ファイル: ",
+      "relationFieldsNote": "リレーション（他モデルへの参照）フィールドはモックデータの対象から除外されています。"
     }
   }
 }

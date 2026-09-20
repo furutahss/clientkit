@@ -12,6 +12,7 @@ import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
+import { MockRepoGeneratorTool } from "@/components/tools/mock-repo-generator-tool";
 import { PrismaRepoGeneratorTool } from "@/components/tools/prisma-repo-generator-tool";
 import { PrismaSchemaVisualizerTool } from "@/components/tools/prisma-schema-visualizer-tool";
 import { RegexTesterTool } from "@/components/tools/regex-tester-tool";
@@ -40,6 +41,7 @@ const toolComponents: Record<string, ComponentType> = {
   "har-analyzer": HarAnalyzerTool,
   "prisma-repo-generator": PrismaRepoGeneratorTool,
   "prisma-schema-visualizer": PrismaSchemaVisualizerTool,
+  "mock-repo-generator": MockRepoGeneratorTool,
 };
 
 export function generateStaticParams() {
