@@ -6,6 +6,7 @@ import { Base64Tool } from "@/components/tools/base64-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
+import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
@@ -34,6 +35,7 @@ const toolComponents: Record<string, ComponentType> = {
   "color-converter": ColorConverterTool,
   "jwt-decoder": JwtDecoderTool,
   "markdown-editor": MarkdownEditorTool,
+  "har-analyzer": HarAnalyzerTool,
 };
 
 export function generateStaticParams() {

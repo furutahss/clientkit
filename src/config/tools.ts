@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  Activity,
   Binary,
   Database,
   FileJson,
@@ -1134,6 +1135,94 @@ export const tools: Tool[] = [
     keywords: {
       ja: "markdown マークダウン html 変換 プレビュー gfm エディタ",
       en: "markdown html convert preview gfm editor",
+    },
+  },
+  {
+    id: "har-analyzer",
+    name: { ja: "HARアナライザー", en: "HAR Analyzer" },
+    description: {
+      ja: "HARファイルを解析し、エラー・速度・セキュリティ・リソースを自動診断します。",
+      en: "Analyze a HAR file and automatically diagnose errors, speed, security, and resources.",
+    },
+    longDescription: {
+      ja: "ブラウザの開発者ツールからエクスポートしたHARファイルを読み込み、総合ヘルススコアの算出と、エラー検出・速度ボトルネック・セキュリティ/プライバシー・リソース内訳の4つの観点から自動診断できるツールです。すべての解析はブラウザ内で完結し、ファイルが外部サーバーへ送信されることはありません。",
+      en: "A tool that loads a HAR file exported from your browser's developer tools, computes an overall health score, and automatically diagnoses it across four angles: errors, speed bottlenecks, security/privacy, and resource breakdown. All analysis happens in your browser, and the file is never sent to an external server.",
+    },
+    howToUse: {
+      ja: [
+        "HARファイルをドラッグ＆ドロップするか、「ファイルを選択」から読み込みます（Chrome DevToolsのNetworkタブなどで「Save all as HAR」を選ぶとエクスポートできます）。",
+        "読み込むと、総合ヘルススコアとともに「エラー検出」「速度ボトルネック」「セキュリティ/プライバシー」「リソース内訳」の4つのタブで自動診断結果が表示されます。",
+        "下部の「リクエスト一覧」で、キーワード・ステータスコード・リソース種別による絞り込みができます。行をクリックすると、リクエスト/レスポンスヘッダーやCookie、クエリパラメータなどの詳細がドロワーに表示されます。",
+        "別のHARファイルを解析したい場合は、「別のファイルを読み込む」から読み込み直せます。",
+      ],
+      en: [
+        "Drag and drop a HAR file, or load one via \"Choose file\" (you can export one from Chrome DevTools' Network tab by choosing \"Save all as HAR\").",
+        "Once loaded, the overall health score appears along with automatic diagnostics across four tabs: \"Error Detection\", \"Speed Bottlenecks\", \"Security / Privacy\", and \"Resource Breakdown\".",
+        "In the \"Request list\" below, filter by keyword, status code, or resource type. Click a row to open a drawer with the request/response headers, cookies, and query parameters.",
+        "To analyze a different file, click \"Load another file\" to load a new one.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "HARアナライザーは、HTTP Archive（HAR）形式のファイルをブラウザ内で解析し、Webページのパフォーマンスやセキュリティ上の問題点を自動で洗い出せるツールです。障害調査やパフォーマンスチューニング、外部から共有されたHARファイルのレビューなど、生のJSONを1件ずつ目視で追うのが大変な場面で活用できます。",
+          "総合ヘルススコア（100点満点）は、4xx/5xxエラーの件数、応答時間が1秒を超えるリクエストの件数、主要なセキュリティヘッダー（CSP・HSTS・X-Frame-Optionsなど）の欠如、非HTTPS通信の有無、未圧縮・巨大なリソースの件数から減点方式で算出しており、各タブにはスコアの根拠となった問題点と具体的な改善アドバイスが表示されます。",
+          "リソースはURLの拡張子やMIMEタイプ、Chrome系DevToolsが付与する`_resourceType`などの情報をもとに、ドキュメント・JavaScript・CSS・画像・フォント・API/XHR・メディア・その他の8種類に自動分類され、種類ごとのファイルサイズとリクエスト数の比率を確認できます。",
+        ],
+        en: [
+          "The HAR Analyzer parses HTTP Archive (HAR) files entirely in your browser and automatically surfaces performance and security issues on a web page. It's useful for incident investigations, performance tuning, or reviewing a HAR file someone shared with you — cases where manually scanning raw JSON entry by entry would be tedious.",
+          "The overall health score (out of 100) is computed by deducting points for the number of 4xx/5xx errors, requests that take over 1 second to respond, missing key security headers (CSP, HSTS, X-Frame-Options, and more), the presence of non-HTTPS traffic, and uncompressed or oversized resources. Each tab shows the specific issues behind the score along with concrete improvement advice.",
+          "Resources are automatically categorized into eight types — document, JavaScript, CSS, image, font, API/XHR, media, and other — based on the URL extension, MIME type, and metadata such as the `_resourceType` field added by Chromium-based DevTools, so you can see the file size and request count ratio for each type.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "HARファイルはどこで作成・エクスポートできますか？",
+          en: "Where can I create or export a HAR file?",
+        },
+        answer: {
+          ja: "Chrome・Edge・Firefoxなどのブラウザの開発者ツールを開き、「Network（ネットワーク）」タブでページを再読み込みした後、一覧を右クリックして「Save all as HAR」（または類似のメニュー）を選ぶとHARファイルとして保存できます。",
+          en: "Open your browser's developer tools (Chrome, Edge, Firefox, etc.), go to the \"Network\" tab, reload the page, then right-click the request list and choose \"Save all as HAR\" (or a similarly named option) to save it as a HAR file.",
+        },
+      },
+      {
+        question: {
+          ja: "総合ヘルススコアはどのように算出されていますか？",
+          en: "How is the overall health score calculated?",
+        },
+        answer: {
+          ja: "100点を満点として、5xxエラー・4xxエラーの件数、1秒を超える低速リクエストの件数、未適用のセキュリティヘッダー数、非HTTPS通信の有無、未圧縮・巨大なリソースの件数に応じて減点する方式で算出しています。スコアの内訳は各タブの診断結果として確認できます。",
+          en: "Starting from a perfect score of 100, points are deducted based on the number of 5xx and 4xx errors, requests slower than 1 second, missing security headers, the presence of non-HTTPS traffic, and uncompressed or oversized resources. The breakdown behind the score is shown in each diagnostic tab.",
+        },
+      },
+      {
+        question: {
+          ja: "大きなHARファイルでも解析できますか？",
+          en: "Can it analyze large HAR files?",
+        },
+        answer: {
+          ja: "ブラウザのメモリが許す範囲であれば解析可能です。ただし数千件を超えるような非常に大きなHARファイルの場合、読み込みや一覧表示に時間がかかることがあります。",
+          en: "Yes, as long as your browser's memory allows it. For very large HAR files with several thousand entries or more, loading and rendering the list may take some time.",
+        },
+      },
+      {
+        question: {
+          ja: "読み込んだHARファイルはサーバーに送信されますか？",
+          en: "Is the HAR file I load sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。ファイルの読み込み・解析・診断のすべての処理はブラウザ内のJavaScriptで完結します。",
+          en: "No. Loading, parsing, and diagnosing the file all happen entirely with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Activity,
+    keywords: {
+      ja: "har har解析 ネットワーク パフォーマンス セキュリティヘッダー devtools",
+      en: "har har analyzer network performance security headers devtools",
     },
   },
 ];
