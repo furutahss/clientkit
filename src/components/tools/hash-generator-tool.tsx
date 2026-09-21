@@ -14,6 +14,7 @@ import {
 } from "@/lib/hash";
 import { getDictionary } from "@/i18n/dictionaries";
 import { useLocale } from "@/i18n/use-locale";
+import { takePendingToolFile } from "@/lib/pending-tool-file";
 import { cn, formatTemplate } from "@/lib/utils";
 import type { Dictionary } from "@/i18n/dictionaries";
 
@@ -149,6 +150,11 @@ export function HashGeneratorTool() {
     setFileInfo({ name: newFile.name, size: newFile.size });
     setText("");
   }
+
+  React.useEffect(() => {
+    const pending = takePendingToolFile("hash-generator");
+    if (pending) Promise.resolve().then(() => handleFile(pending));
+  }, []);
 
   function handleDrop(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();

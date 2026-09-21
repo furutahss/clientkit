@@ -30,6 +30,7 @@ import {
 } from "@/lib/image-convert";
 import { getDictionary } from "@/i18n/dictionaries";
 import { useLocale } from "@/i18n/use-locale";
+import { takePendingToolFile } from "@/lib/pending-tool-file";
 import { cn, formatTemplate } from "@/lib/utils";
 
 const ACCEPTED_TYPES = [
@@ -121,6 +122,11 @@ export function ImageConverterTool() {
     },
     [resetOutput, dict]
   );
+
+  React.useEffect(() => {
+    const pending = takePendingToolFile("image-converter");
+    if (pending) Promise.resolve().then(() => handleFile(pending));
+  }, [handleFile]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];

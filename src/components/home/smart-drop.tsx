@@ -9,6 +9,7 @@ import { getToolsForFile } from "@/config/tools";
 import { formatBytes } from "@/lib/format-bytes";
 import { getDictionary } from "@/i18n/dictionaries";
 import { useLocale } from "@/i18n/use-locale";
+import { setPendingToolFile } from "@/lib/pending-tool-file";
 import { cn, formatTemplate } from "@/lib/utils";
 
 export function SmartDrop() {
@@ -116,13 +117,23 @@ export function SmartDrop() {
 
       {file &&
         (matches.length > 0 ? (
-          <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              {formatTemplate(dict.resultsHeading, { fileName: file.name })}
-            </h3>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-sm font-medium text-muted-foreground">
+                {formatTemplate(dict.resultsHeading, { fileName: file.name })}
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                {dict.resultsHint}
+              </p>
+            </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {matches.map((tool) => (
-                <ToolCard key={tool.id} tool={tool} lang={locale} />
+                <ToolCard
+                  key={tool.id}
+                  tool={tool}
+                  lang={locale}
+                  onSelect={() => setPendingToolFile(tool.id, file)}
+                />
               ))}
             </div>
           </div>
