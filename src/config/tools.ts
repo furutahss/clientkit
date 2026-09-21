@@ -8,6 +8,7 @@ import {
   Fingerprint,
   FlaskConical,
   ImageDown,
+  ImagePlus,
   KeyRound,
   Layers,
   Link2,
@@ -1617,6 +1618,98 @@ export const tools: Tool[] = [
     keywords: {
       ja: "モックデータ mock repository テストコード vitest jest ダミーデータ typescript prisma",
       en: "mock data mock repository test code vitest jest dummy data typescript prisma",
+    },
+  },
+  {
+    id: "screenshot-editor",
+    name: { ja: "スクリーンショット加工", en: "Screenshot Editor" },
+    description: {
+      ja: "スクリーンショットにモザイク・矢印・テキストなどを加えて、トリミングや結合まで行えます。",
+      en: "Annotate screenshots with mosaic, arrows, and text, then crop, add padding, or merge them.",
+    },
+    longDescription: {
+      ja: "スクリーンショットや画像にモザイク・ぼかし・四角形・矢印・テキストを加えたり、トリミング・余白追加・角丸・複数画像の結合を行えるツールです。すべてブラウザ内で処理され、画像がサーバーへ送信されることはありません。",
+      en: "A tool for annotating screenshots and images with mosaic, blur, rectangles, arrows, and text, plus cropping, adding padding, rounding corners, and merging multiple images. Everything runs in your browser, and images are never uploaded to a server.",
+    },
+    howToUse: {
+      ja: [
+        "画像をドラッグ＆ドロップ、ファイル選択、またはクリップボードからの貼り付け（Ctrl/Cmd + V）で読み込みます。複数の画像を読み込むと、あとで1枚に結合できます。",
+        "左側のツールから「モザイク」「ぼかし」「四角形」「矢印」「テキスト」などを選び、画像上をドラッグ（テキストはクリック）して配置します。配置した要素は「選択」ツールでクリックして選び直し、移動・リサイズ・削除ができます。",
+        "「トリミング」「余白」「角丸」では、範囲や数値を指定して画像全体に変換を適用できます。操作はいつでもUndo（元に戻す）・Redo（やり直す）できます。",
+        "仕上がったら出力フォーマット（PNG/JPEG/WebP）と画質を選び、「画像をダウンロード」で元の解像度のまま保存します。",
+      ],
+      en: [
+        "Load an image by dragging and dropping it, choosing a file, or pasting from the clipboard (Ctrl/Cmd + V). Load multiple images and you can merge them into one later.",
+        "Pick a tool on the left — Mosaic, Blur, Rectangle, Arrow, Text, and more — then drag on the image (or click, for text) to place it. Use the Select tool to click an existing element and move, resize, or delete it.",
+        "Crop, Padding, and Rounded corners apply a whole-image transform based on a selected area or a numeric value. Every action can be undone (Undo) and redone (Redo) at any time.",
+        "When you're done, choose an output format (PNG/JPEG/WebP) and quality, then click \"Download image\" to save it at the original resolution.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "スクリーンショット加工ツールは、SNSへ投稿する前に個人情報を隠したり、説明用のスクリーンショットに矢印や枠を付けたり、複数のスクリーンショットを1枚にまとめて共有したりする用途に特化したツールです。画像編集ソフトのような複雑さを避け、「少し加工してすぐ共有する」操作に絞っています。",
+          "モザイク・ぼかし・四角形・矢印・テキストはあとから選び直して移動・リサイズ・削除できるベクター要素として保持され、Delete/Backspaceキーでも削除できます。トリミング・余白追加・角丸・画像結合は画像全体に対する変換として適用され、それぞれの操作はUndo（Cmd/Ctrl + Z）・Redo（Cmd/Ctrl + Shift + Z）の対象になります。",
+          "画像はキャンバス上では表示用に縮小されるだけで、元の解像度のデータはそのまま保持されます。書き出し時には常に元の解像度を基準にPNG・JPEG・WebPへ変換されるため、画質が劣化することはありません。読み込みから書き出しまで、画像データがサーバーへ送信されることは一切ありません。",
+        ],
+        en: [
+          "The screenshot editor is built specifically for hiding personal information before posting to social media, adding arrows and boxes to explanatory screenshots, and combining multiple screenshots into one image to share. It avoids the complexity of full image editors and focuses on quick touch-ups you can share right away.",
+          "Mosaic, blur, rectangle, arrow, and text are kept as vector-like elements you can reselect later to move, resize, or delete — including with the Delete/Backspace key. Crop, padding, rounded corners, and merging images are applied as whole-image transforms, and every action can be undone (Cmd/Ctrl+Z) or redone (Cmd/Ctrl+Shift+Z).",
+          "The image is only ever scaled down for on-screen display — the original resolution data is preserved throughout. Exporting always renders at the original resolution when converting to PNG, JPEG, or WebP, so there's no loss of quality. From loading to exporting, your image data is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "配置したモザイクや矢印はあとから調整できますか？",
+          en: "Can I adjust a mosaic or arrow after placing it?",
+        },
+        answer: {
+          ja: "できます。「選択」ツールで要素をクリックすると、ハンドルをドラッグしての移動・リサイズや、右下パネルからの色・太さ・強さの変更、Delete/Backspaceキーでの削除が行えます。",
+          en: "Yes. With the Select tool, click an element to drag its handles for moving and resizing, adjust its color, width, or strength from the panel below, or delete it with the Delete/Backspace key.",
+        },
+      },
+      {
+        question: {
+          ja: "サイズが異なる複数のスクリーンショットを結合できますか？",
+          en: "Can I merge screenshots of different sizes?",
+        },
+        answer: {
+          ja: "できます。結合方向（縦・横）を選ぶと、幅または高さが異なる画像は中央揃えで配置され、画像間の余白と背景色も指定できます。結合順はサムネイルをドラッグ＆ドロップして入れ替えられます。",
+          en: "Yes. Choose a merge direction (vertical or horizontal) and images with different widths or heights are centered along the cross axis. You can also set the gap and background color between images, and reorder them by dragging the thumbnails.",
+        },
+      },
+      {
+        question: {
+          ja: "角丸にすると画像の四隅が透明になりません。",
+          en: "The corners aren't transparent after rounding them.",
+        },
+        answer: {
+          ja: "出力フォーマットにJPEGを選んでいると、透過に対応していないため角丸部分が白などで塗りつぶされます。角丸部分を透明にしたい場合はPNGまたはWebPを選んで書き出してください。",
+          en: "If you export as JPEG, which doesn't support transparency, the rounded-off corners will be filled with a solid color instead. Export as PNG or WebP to keep the corners transparent.",
+        },
+      },
+      {
+        question: {
+          ja: "画像はサーバーにアップロードされますか？",
+          en: "Are images uploaded to a server?",
+        },
+        answer: {
+          ja: "アップロードされません。画像の読み込み・加工・書き出しはすべてブラウザ内のCanvas APIで処理され、外部サーバーへ送信されることはありません。",
+          en: "No. Loading, editing, and exporting all happen in your browser via the Canvas API, and nothing is ever sent to an external server.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: ImagePlus,
+    keywords: {
+      ja: "スクリーンショット 画像編集 モザイク ぼかし トリミング 矢印 テキスト 余白 角丸 結合",
+      en: "screenshot editor image annotation mosaic blur crop arrow text padding rounded corners merge",
+    },
+    fileMatch: {
+      mimePrefixes: ["image/"],
+      extensions: ["png", "jpg", "jpeg", "webp", "gif", "bmp", "avif"],
     },
   },
 ];

@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "スクリーンショット加工ツールを追加",
+          en: "Added a screenshot editor tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "トップページにファイルのスマートドロップ機能を追加",
           en: "Added smart file drop to the home page",
         },
