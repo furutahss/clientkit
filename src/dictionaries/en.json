@@ -19,6 +19,16 @@
   "home": {
     "toolsHeading": "Tools"
   },
+  "smartDrop": {
+    "heading": "Find a tool by file",
+    "description": "Drag and drop a file, or click to select one, and tools that can work with it will be listed.",
+    "dropLabel": "Drag & drop a file here",
+    "dropActive": "Drop it here",
+    "chooseFile": "Choose file",
+    "clear": "Clear file",
+    "resultsHeading": "Tools for \"{fileName}\"",
+    "noResults": "No tool matched this file. Browse the full list of tools below."
+  },
   "toolExplorer": {
     "searchPlaceholder": "Search tools...",
     "searchAriaLabel": "Search tools",

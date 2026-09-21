@@ -1,3 +1,4 @@
+import { SmartDrop } from "@/components/home/smart-drop";
 import { ToolExplorer } from "@/components/home/tool-explorer";
 import { siteConfig, getSiteText } from "@/config/site";
 import { locales, type Locale } from "@/i18n/config";
@@ -25,6 +26,8 @@ export default async function Home(props: PageProps<"/[lang]">) {
           {siteText.description}
         </p>
       </section>
+
+      <SmartDrop />
 
       <section className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">{dict.home.toolsHeading}</h2>

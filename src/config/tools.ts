@@ -42,6 +42,18 @@ export type ToolCategory = {
   description: LocalizedText;
 };
 
+/** ファイルドロップ時にツールを対象として提示するための判定条件 */
+export type FileMatch = {
+  /** trueの場合、ファイルの種類を問わずマッチする（例: ハッシュ生成） */
+  any?: boolean;
+  /** MIMEタイプの前方一致（例: "image/" は "image/png" にマッチ） */
+  mimePrefixes?: string[];
+  /** MIMEタイプの完全一致 */
+  mimeTypes?: string[];
+  /** ファイル拡張子（先頭のドットなし、小文字） */
+  extensions?: string[];
+};
+
 export type Tool = {
   /** 一意のID（パスのスラッグとしても利用） */
   id: string;
@@ -63,6 +75,8 @@ export type Tool = {
   icon: LucideIcon;
   /** 検索対象キーワード（ロケールごとのスペース区切り文字列） */
   keywords: LocalizedText;
+  /** スマートドロップ機能でこのツールを対象として表示するための条件 */
+  fileMatch?: FileMatch;
 };
 
 export const categories: ToolCategory[] = [
@@ -438,6 +452,10 @@ export const tools: Tool[] = [
       ja: "画像 画像圧縮 画像変換 フォーマット変換 jpeg png webp リサイズ",
       en: "image compress image converter format conversion jpeg png webp resize",
     },
+    fileMatch: {
+      mimePrefixes: ["image/"],
+      extensions: ["png", "jpg", "jpeg", "webp", "gif", "bmp", "avif"],
+    },
   },
   {
     id: "csv-json-converter",
@@ -613,6 +631,10 @@ export const tools: Tool[] = [
     keywords: {
       ja: "csv 加工 編集 表 テーブル 行 列 追加 削除",
       en: "csv editor edit table row column add remove",
+    },
+    fileMatch: {
+      mimeTypes: ["text/csv"],
+      extensions: ["csv"],
     },
   },
   {
@@ -877,6 +899,9 @@ export const tools: Tool[] = [
     keywords: {
       ja: "ハッシュ hash md5 sha1 sha256 sha384 sha512 チェックサム",
       en: "hash md5 sha1 sha256 sha384 sha512 checksum",
+    },
+    fileMatch: {
+      any: true,
     },
   },
   {
@@ -1316,6 +1341,10 @@ export const tools: Tool[] = [
       ja: "har har解析 ネットワーク パフォーマンス セキュリティヘッダー devtools",
       en: "har har analyzer network performance security headers devtools",
     },
+    fileMatch: {
+      mimeTypes: ["application/json"],
+      extensions: ["har", "json"],
+    },
   },
   {
     id: "prisma-repo-generator",
@@ -1617,5 +1646,43 @@ export function searchTools(locale: Locale, query: string): Tool[] {
       .join(" ")
       .toLowerCase();
     return haystack.includes(normalized);
+  });
+}
+
+function getFileExtension(fileName: string): string {
+  const index = fileName.lastIndexOf(".");
+  if (index <= 0 || index === fileName.length - 1) return "";
+  return fileName.slice(index + 1).toLowerCase();
+}
+
+export function toolMatchesFile(
+  tool: Tool,
+  file: { name: string; type: string }
+): boolean {
+  const match = tool.fileMatch;
+  if (!match) return false;
+  if (match.any) return true;
+
+  const mimeType = file.type.toLowerCase();
+  if (mimeType) {
+    if (match.mimeTypes?.includes(mimeType)) return true;
+    if (match.mimePrefixes?.some((prefix) => mimeType.startsWith(prefix))) {
+      return true;
+    }
+  }
+
+  const extension = getFileExtension(file.name);
+  if (extension && match.extensions?.includes(extension)) return true;
+
+  return false;
+}
+
+/** ドロップされたファイルを対象とするツールを一覧で返す（具体的な一致が優先） */
+export function getToolsForFile(file: { name: string; type: string }): Tool[] {
+  const matched = tools.filter((tool) => toolMatchesFile(tool, file));
+  return matched.sort((a, b) => {
+    const aIsGeneric = a.fileMatch?.any ? 1 : 0;
+    const bIsGeneric = b.fileMatch?.any ? 1 : 0;
+    return aIsGeneric - bIsGeneric;
   });
 }
