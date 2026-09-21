@@ -58,7 +58,13 @@ import {
   drawMarquee,
   drawSelectionOverlay,
   generateId,
+  getBlurRange,
+  getCornerRadiusRange,
+  getFontSizeRange,
   getHandles,
+  getMosaicRange,
+  getPaddingRange,
+  getStrokeRange,
   hitTestHandle,
   isPointInElement,
   loadImageAsCanvas,
@@ -310,6 +316,52 @@ export function ScreenshotEditorTool() {
   }
 
   const selectedElement = doc?.elements.find((el) => el.id === selectedId) ?? null;
+
+  // 画像サイズ（短辺）を基準にした各スライダーの推奨値・最大値。
+  // 大きな画像ほど、モザイクの粗さやぼかしの強さなどが最大値まで
+  // 十分効果が出るよう、固定pxではなく割合ベースで算出する。
+  const baseWidth = doc?.canvas.width ?? 0;
+  const baseHeight = doc?.canvas.height ?? 0;
+  const mosaicRange = getMosaicRange(baseWidth, baseHeight);
+  const blurRange = getBlurRange(baseWidth, baseHeight);
+  const strokeRange = getStrokeRange(baseWidth, baseHeight);
+  const fontSizeRange = getFontSizeRange(baseWidth, baseHeight);
+  const paddingRange = getPaddingRange(baseWidth, baseHeight);
+  const cornerRadiusRange = getCornerRadiusRange(baseWidth, baseHeight);
+
+  const hasSeededDefaultsRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!doc) {
+      hasSeededDefaultsRef.current = false;
+      return;
+    }
+    if (hasSeededDefaultsRef.current) return;
+    hasSeededDefaultsRef.current = true;
+    const width = doc.canvas.width;
+    const height = doc.canvas.height;
+    const timer = window.setTimeout(() => {
+      setMosaicBlockSize(getMosaicRange(width, height).default);
+      setBlurAmount(getBlurRange(width, height).default);
+      setStrokeWidth(getStrokeRange(width, height).default);
+      setFontSize(getFontSizeRange(width, height).default);
+      setPaddingAmount(getPaddingRange(width, height).default);
+      setCornerRadius(getCornerRadiusRange(width, height).default);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [doc]);
+
+  React.useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setMosaicBlockSize((v) => Math.min(v, getMosaicRange(baseWidth, baseHeight).max));
+      setBlurAmount((v) => Math.min(v, getBlurRange(baseWidth, baseHeight).max));
+      setStrokeWidth((v) => Math.min(v, getStrokeRange(baseWidth, baseHeight).max));
+      setFontSize((v) => Math.min(v, getFontSizeRange(baseWidth, baseHeight).max));
+      setPaddingAmount((v) => Math.min(v, getPaddingRange(baseWidth, baseHeight).max));
+      setCornerRadius((v) => Math.min(v, getCornerRadiusRange(baseWidth, baseHeight).max));
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [baseWidth, baseHeight]);
 
   const commit = React.useCallback((next: EditorDocument) => {
     dispatchHistory({ type: "push", doc: next });
@@ -1196,7 +1248,14 @@ export function ScreenshotEditorTool() {
                 </div>
               ) : activeTool === "padding" ? (
                 <div className="flex flex-col gap-3">
-                  <SliderField label={dict.paddingAmount} value={paddingAmount} min={0} max={200} suffix="px" onChange={setPaddingAmount} />
+                  <SliderField
+                    label={dict.paddingAmount}
+                    value={paddingAmount}
+                    min={paddingRange.min}
+                    max={paddingRange.max}
+                    suffix="px"
+                    onChange={setPaddingAmount}
+                  />
                   <ColorField label={dict.paddingColor} value={paddingColor} onChange={setPaddingColor} />
                   <Button type="button" size="sm" className="w-fit" onClick={applyPaddingAction}>
                     {dict.paddingApply}
@@ -1204,7 +1263,14 @@ export function ScreenshotEditorTool() {
                 </div>
               ) : activeTool === "corner" ? (
                 <div className="flex flex-col gap-3">
-                  <SliderField label={dict.cornerRadius} value={cornerRadius} min={0} max={200} suffix="px" onChange={setCornerRadius} />
+                  <SliderField
+                    label={dict.cornerRadius}
+                    value={cornerRadius}
+                    min={cornerRadiusRange.min}
+                    max={cornerRadiusRange.max}
+                    suffix="px"
+                    onChange={setCornerRadius}
+                  />
                   <p className="text-xs text-muted-foreground">{dict.cornerHint}</p>
                   <Button type="button" size="sm" className="w-fit" onClick={applyRoundedCornersAction}>
                     {dict.cornerApply}
@@ -1223,8 +1289,8 @@ export function ScreenshotEditorTool() {
                     <SliderField
                       label={dict.mosaicSize}
                       value={selectedElement.blockSize}
-                      min={4}
-                      max={64}
+                      min={mosaicRange.min}
+                      max={mosaicRange.max}
                       suffix="px"
                       onChange={(v) => patchSelected({ blockSize: v })}
                     />
@@ -1233,8 +1299,8 @@ export function ScreenshotEditorTool() {
                     <SliderField
                       label={dict.blurAmount}
                       value={selectedElement.blurAmount}
-                      min={2}
-                      max={40}
+                      min={blurRange.min}
+                      max={blurRange.max}
                       suffix="px"
                       onChange={(v) => patchSelected({ blurAmount: v })}
                     />
@@ -1245,8 +1311,8 @@ export function ScreenshotEditorTool() {
                       <SliderField
                         label={dict.strokeWidth}
                         value={selectedElement.strokeWidth}
-                        min={1}
-                        max={30}
+                        min={strokeRange.min}
+                        max={strokeRange.max}
                         suffix="px"
                         onChange={(v) => patchSelected({ strokeWidth: v })}
                       />
@@ -1258,8 +1324,8 @@ export function ScreenshotEditorTool() {
                       <SliderField
                         label={dict.fontSize}
                         value={selectedElement.fontSize}
-                        min={10}
-                        max={120}
+                        min={fontSizeRange.min}
+                        max={fontSizeRange.max}
                         suffix="px"
                         onChange={(v) => patchSelected({ fontSize: v })}
                       />
@@ -1268,18 +1334,46 @@ export function ScreenshotEditorTool() {
                   )}
                 </div>
               ) : activeTool === "mosaic" ? (
-                <SliderField label={dict.mosaicSize} value={mosaicBlockSize} min={4} max={64} suffix="px" onChange={setMosaicBlockSize} />
+                <SliderField
+                  label={dict.mosaicSize}
+                  value={mosaicBlockSize}
+                  min={mosaicRange.min}
+                  max={mosaicRange.max}
+                  suffix="px"
+                  onChange={setMosaicBlockSize}
+                />
               ) : activeTool === "blur" ? (
-                <SliderField label={dict.blurAmount} value={blurAmount} min={2} max={40} suffix="px" onChange={setBlurAmount} />
+                <SliderField
+                  label={dict.blurAmount}
+                  value={blurAmount}
+                  min={blurRange.min}
+                  max={blurRange.max}
+                  suffix="px"
+                  onChange={setBlurAmount}
+                />
               ) : activeTool === "rect" || activeTool === "arrow" ? (
                 <div className="flex flex-col gap-3">
                   <ColorField label={dict.color} value={shapeColor} onChange={setShapeColor} />
-                  <SliderField label={dict.strokeWidth} value={strokeWidth} min={1} max={30} suffix="px" onChange={setStrokeWidth} />
+                  <SliderField
+                    label={dict.strokeWidth}
+                    value={strokeWidth}
+                    min={strokeRange.min}
+                    max={strokeRange.max}
+                    suffix="px"
+                    onChange={setStrokeWidth}
+                  />
                 </div>
               ) : activeTool === "text" ? (
                 <div className="flex flex-col gap-3">
                   <ColorField label={dict.color} value={textColor} onChange={setTextColor} />
-                  <SliderField label={dict.fontSize} value={fontSize} min={10} max={120} suffix="px" onChange={setFontSize} />
+                  <SliderField
+                    label={dict.fontSize}
+                    value={fontSize}
+                    min={fontSizeRange.min}
+                    max={fontSizeRange.max}
+                    suffix="px"
+                    onChange={setFontSize}
+                  />
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">{dict.selectHint}</p>
