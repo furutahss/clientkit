@@ -16,6 +16,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 1.0,
     },
+    {
+      url: `${siteConfig.url}/${lang}/release-notes`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    },
     ...tools.map((tool) => ({
       url: `${siteConfig.url}${getToolPath(lang, tool.id)}`,
       lastModified,

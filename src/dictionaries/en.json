@@ -19,6 +19,18 @@
   "home": {
     "toolsHeading": "Tools"
   },
+  "footer": {
+    "releaseNotesLink": "Release Notes"
+  },
+  "releaseNotes": {
+    "pageTitle": "Release Notes",
+    "pageDescription": "A history of ClientKit updates, including new features, improvements, and bug fixes.",
+    "breadcrumbLabel": "Release Notes",
+    "typeFeature": "New",
+    "typeImprovement": "Improved",
+    "typeFix": "Fixed",
+    "typeChore": "Other"
+  },
   "smartDrop": {
     "heading": "Find a tool by file",
     "description": "Drag and drop a file, or click to select one, and tools that can work with it will be listed.",
