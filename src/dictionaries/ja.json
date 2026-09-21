@@ -19,6 +19,18 @@
   "home": {
     "toolsHeading": "ツール一覧"
   },
+  "footer": {
+    "releaseNotesLink": "リリースノート"
+  },
+  "releaseNotes": {
+    "pageTitle": "リリースノート",
+    "pageDescription": "ClientKitの更新履歴です。新機能の追加や改善、不具合修正などをまとめています。",
+    "breadcrumbLabel": "リリースノート",
+    "typeFeature": "新機能",
+    "typeImprovement": "改善",
+    "typeFix": "修正",
+    "typeChore": "その他"
+  },
   "smartDrop": {
     "heading": "ファイルから探す",
     "description": "ファイルをドラッグ&ドロップ、またはクリックして選択すると、そのファイルを扱えるツールが一覧表示されます。",

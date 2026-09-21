@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
 import { SyncHtmlLang } from "@/components/sync-html-lang";
@@ -57,10 +58,11 @@ export default async function LocaleLayout(props: LayoutProps<"/[lang]">) {
       <Header lang={lang} />
       <div className="flex flex-1">
         <Sidebar />
-        <main className="min-w-0 flex-1">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 p-4 sm:p-6">
+        <main className="flex min-w-0 flex-1 flex-col">
+          <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 p-4 sm:p-6">
             {props.children}
           </div>
+          <Footer lang={lang} />
         </main>
       </div>
     </>
