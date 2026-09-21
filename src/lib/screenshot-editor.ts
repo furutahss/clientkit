@@ -74,6 +74,98 @@ export type EditorDocument = {
 /** ドラッグで新規作成する要素の最小サイズ（画像座標系のpx） */
 export const MIN_ELEMENT_SIZE = 4;
 
+// ---------------------------------------------------------------------------
+// 画像サイズに応じたスライダーの推奨値・最大値
+//
+// モザイクの粗さやぼかしの強さなどを固定pxで上限を決めてしまうと、
+// 解像度の大きい画像では最大値まで上げても効果が弱く見えてしまう。
+// 画像の短辺を基準にした割合でデフォルト値・最大値を算出することで、
+// 画像サイズによらず「最大値まで上げれば十分強い効果になる」ようにする。
+// ---------------------------------------------------------------------------
+
+export type ToolRange = { min: number; default: number; max: number };
+
+function clampNum(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
+/** 短辺を基準に、割合(ratio)から算出した値をbounds範囲に収めたToolRangeを作る */
+function scaledRange(
+  shortSide: number,
+  opts: {
+    min: number;
+    defaultRatio: number;
+    defaultBounds: [number, number];
+    maxRatio: number;
+    maxBounds: [number, number];
+  }
+): ToolRange {
+  const base = shortSide > 0 ? shortSide : 800;
+  const def = Math.round(clampNum(base * opts.defaultRatio, opts.defaultBounds[0], opts.defaultBounds[1]));
+  const max = Math.round(clampNum(base * opts.maxRatio, opts.maxBounds[0], opts.maxBounds[1]));
+  return { min: opts.min, default: Math.min(def, max), max: Math.max(max, opts.min + 1) };
+}
+
+export function getMosaicRange(width: number, height: number): ToolRange {
+  return scaledRange(Math.min(width, height), {
+    min: 4,
+    defaultRatio: 0.02,
+    defaultBounds: [8, 120],
+    maxRatio: 0.12,
+    maxBounds: [64, 600],
+  });
+}
+
+export function getBlurRange(width: number, height: number): ToolRange {
+  return scaledRange(Math.min(width, height), {
+    min: 2,
+    defaultRatio: 0.02,
+    defaultBounds: [6, 100],
+    maxRatio: 0.08,
+    maxBounds: [40, 400],
+  });
+}
+
+export function getStrokeRange(width: number, height: number): ToolRange {
+  return scaledRange(Math.min(width, height), {
+    min: 1,
+    defaultRatio: 0.006,
+    defaultBounds: [2, 40],
+    maxRatio: 0.03,
+    maxBounds: [30, 150],
+  });
+}
+
+export function getFontSizeRange(width: number, height: number): ToolRange {
+  return scaledRange(Math.min(width, height), {
+    min: 10,
+    defaultRatio: 0.035,
+    defaultBounds: [16, 200],
+    maxRatio: 0.15,
+    maxBounds: [120, 500],
+  });
+}
+
+export function getPaddingRange(width: number, height: number): ToolRange {
+  return scaledRange(Math.min(width, height), {
+    min: 0,
+    defaultRatio: 0.04,
+    defaultBounds: [16, 200],
+    maxRatio: 0.25,
+    maxBounds: [200, 1000],
+  });
+}
+
+export function getCornerRadiusRange(width: number, height: number): ToolRange {
+  return scaledRange(Math.min(width, height), {
+    min: 0,
+    defaultRatio: 0.03,
+    defaultBounds: [12, 150],
+    maxRatio: 0.5,
+    maxBounds: [200, 4000],
+  });
+}
+
 let idCounter = 0;
 
 export function generateId(): string {
