@@ -19,6 +19,16 @@
   "home": {
     "toolsHeading": "ツール一覧"
   },
+  "smartDrop": {
+    "heading": "ファイルから探す",
+    "description": "ファイルをドラッグ&ドロップ、またはクリックして選択すると、そのファイルを扱えるツールが一覧表示されます。",
+    "dropLabel": "ここにファイルをドラッグ&ドロップ",
+    "dropActive": "ドロップしてください",
+    "chooseFile": "ファイルを選択",
+    "clear": "ファイルをクリア",
+    "resultsHeading": "「{fileName}」向けのツール",
+    "noResults": "このファイルに対応するツールが見つかりませんでした。下のツール一覧からお探しください。"
+  },
   "toolExplorer": {
     "searchPlaceholder": "ツールを検索...",
     "searchAriaLabel": "ツールを検索",
