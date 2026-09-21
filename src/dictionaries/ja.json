@@ -39,6 +39,7 @@
     "chooseFile": "ファイルを選択",
     "clear": "ファイルをクリア",
     "resultsHeading": "「{fileName}」向けのツール",
+    "resultsHint": "選択すると、このファイルが読み込まれた状態でツールが開きます。",
     "noResults": "このファイルに対応するツールが見つかりませんでした。下のツール一覧からお探しください。"
   },
   "toolExplorer": {

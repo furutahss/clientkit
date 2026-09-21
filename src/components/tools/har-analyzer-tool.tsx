@@ -46,6 +46,7 @@ import {
 } from "@/lib/har";
 import { getDictionary } from "@/i18n/dictionaries";
 import { useLocale } from "@/i18n/use-locale";
+import { takePendingToolFile } from "@/lib/pending-tool-file";
 import { cn, formatTemplate } from "@/lib/utils";
 import type { Dictionary } from "@/i18n/dictionaries";
 
@@ -679,6 +680,11 @@ export function HarAnalyzerTool() {
         setParseError("readFailed" as HarParseErrorCode);
       });
   }
+
+  React.useEffect(() => {
+    const pending = takePendingToolFile("har-analyzer");
+    if (pending) Promise.resolve().then(() => loadFile(pending));
+  }, []);
 
   function handleDrop(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();

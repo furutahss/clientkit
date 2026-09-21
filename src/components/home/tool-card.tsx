@@ -4,12 +4,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCategoryById, getToolPath, type Tool } from "@/config/tools";
 import type { Locale } from "@/i18n/config";
 
-export function ToolCard({ tool, lang }: { tool: Tool; lang: Locale }) {
+export function ToolCard({
+  tool,
+  lang,
+  onSelect,
+}: {
+  tool: Tool;
+  lang: Locale;
+  /** クリック時、遷移前に呼び出される（スマートドロップでのファイル引き継ぎなどに利用） */
+  onSelect?: () => void;
+}) {
   const Icon = tool.icon;
   const category = getCategoryById(tool.category);
 
   return (
-    <Link href={getToolPath(lang, tool.id)} className="group block h-full">
+    <Link
+      href={getToolPath(lang, tool.id)}
+      onClick={onSelect}
+      className="group block h-full"
+    >
       <Card className="h-full transition-colors group-hover:border-primary/50 group-hover:bg-accent/40">
         <CardHeader>
           <div className="flex items-center gap-3">

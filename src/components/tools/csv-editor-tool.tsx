@@ -17,6 +17,7 @@ import { ToolActions } from "@/components/tools/tool-actions";
 import { csvRowsToTable, parseCsv, tableToCsvText } from "@/lib/csv";
 import { getDictionary } from "@/i18n/dictionaries";
 import { useLocale } from "@/i18n/use-locale";
+import { takePendingToolFile } from "@/lib/pending-tool-file";
 import { cn, formatTemplate } from "@/lib/utils";
 
 type DelimiterKey = "comma" | "tab" | "semicolon";
@@ -84,6 +85,12 @@ export function CsvEditorTool() {
       loadTable(text);
     });
   }
+
+  React.useEffect(() => {
+    const pending = takePendingToolFile("csv-editor");
+    if (pending) handleFile(pending);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- マウント時に一度だけ引き継ぎファイルを確認する
+  }, []);
 
   function handleDrop(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();

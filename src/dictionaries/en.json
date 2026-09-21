@@ -39,6 +39,7 @@
     "chooseFile": "Choose file",
     "clear": "Clear file",
     "resultsHeading": "Tools for \"{fileName}\"",
+    "resultsHint": "Selecting a tool opens it with this file already loaded.",
     "noResults": "No tool matched this file. Browse the full list of tools below."
   },
   "toolExplorer": {
