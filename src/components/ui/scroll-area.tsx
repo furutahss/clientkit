@@ -16,9 +16,15 @@ function ScrollArea({
       className={cn("relative", className)}
       {...props}
     >
+      {/*
+        Radix は Viewport 直下のラッパーに display: table（min-width: 100%）を
+        インラインで付与するため、内容の幅に合わせてラッパーが横に広がり、
+        truncate が効かずに長いテキストが領域外へはみ出してしまう。
+        縦スクロール専用で使っているので block に上書きして親の幅に収める。
+      */}
       <ScrollAreaPrimitive.Viewport
         data-slot="scroll-area-viewport"
-        className="focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1"
+        className="[&>div]:block! focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1"
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
