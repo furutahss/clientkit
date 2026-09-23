@@ -805,6 +805,39 @@
       "reverseHeading": "日時からUnix時刻に変換",
       "reverseDateTime": "日時",
       "reverseZone": "タイムゾーン"
+    },
+    "cronExplainer": {
+      "safetyNote": "cron式の解析と実行日時の計算はすべてお使いのブラウザ内で行われ、入力内容がサーバーへ送信されることはありません。",
+      "inputLabel": "cron式",
+      "inputPlaceholder": "例: 0 9 * * 1-5",
+      "inputHint": "5フィールド（分 時 日 月 曜日）または先頭に秒を加えた6フィールドに対応しています。* , - / と、JAN〜DEC・SUN〜SATの名前、@daily などのマクロが使えます。",
+      "fields": {
+        "second": "秒",
+        "minute": "分",
+        "hour": "時",
+        "dayOfMonth": "日",
+        "month": "月",
+        "dayOfWeek": "曜日"
+      },
+      "emptyState": "cron式を入力すると、ここに説明と次回以降の実行日時が表示されます。",
+      "errorFieldCount": "フィールドの数が正しくありません。5つ（分 時 日 月 曜日）または6つ（秒を含む）をスペースで区切って入力してください。",
+      "errorInvalid": "{field}のフィールド「{token}」の書式が正しくありません。",
+      "errorOutOfRange": "{field}のフィールド「{token}」は範囲外の値です。",
+      "errorUnsupported": "「{token}」は拡張構文（L・W・# など）のため対応していません。",
+      "descriptionHeading": "この式の意味",
+      "descriptionUnavailable": "説明文を生成できませんでした。",
+      "every": "すべて",
+      "orNote": "「日」と「曜日」の両方を指定した場合は、標準的なcronと同様に、どちらかに一致した日に実行されます。",
+      "nextRunsHeading": "次回以降の実行日時",
+      "timeZoneLabel": "タイムゾーン",
+      "runCountLabel": "表示件数",
+      "runCountOption": "{count}件",
+      "invalidZone": "「{zone}」は有効なタイムゾーン名ではありません（例: Asia/Tokyo）。",
+      "calculating": "計算中...",
+      "noRuns": "今後約28年以内に実行される日時が見つかりませんでした（例: 2月30日など存在しない日付）。",
+      "colDateTime": "日時",
+      "colIso": "ISO 8601",
+      "colRelative": "現在から"
     }
   }
 }

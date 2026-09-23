@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Base64Tool } from "@/components/tools/base64-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
+import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
@@ -58,6 +59,7 @@ const toolComponents: Record<string, ComponentType> = {
   "log-masker": LogMaskerTool,
   "id-generator": IdGeneratorTool,
   "timestamp-converter": TimestampConverterTool,
+  "cron-explainer": CronExplainerTool,
 };
 
 export function generateStaticParams() {

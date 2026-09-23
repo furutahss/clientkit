@@ -805,6 +805,39 @@
       "reverseHeading": "Convert a date to Unix time",
       "reverseDateTime": "Date and time",
       "reverseZone": "Time zone"
+    },
+    "cronExplainer": {
+      "safetyNote": "Parsing cron expressions and calculating run times happens entirely in your browser, and nothing you enter is sent to a server.",
+      "inputLabel": "Cron expression",
+      "inputPlaceholder": "e.g. 0 9 * * 1-5",
+      "inputHint": "Supports 5 fields (minute hour day month weekday) or 6 fields with seconds first. You can use * , - /, the names JAN–DEC and SUN–SAT, and macros such as @daily.",
+      "fields": {
+        "second": "Second",
+        "minute": "Minute",
+        "hour": "Hour",
+        "dayOfMonth": "Day",
+        "month": "Month",
+        "dayOfWeek": "Weekday"
+      },
+      "emptyState": "Enter a cron expression to see its description and upcoming run times here.",
+      "errorFieldCount": "Wrong number of fields. Enter 5 space-separated fields (minute hour day month weekday), or 6 including seconds.",
+      "errorInvalid": "The {field} field \"{token}\" is not formatted correctly.",
+      "errorOutOfRange": "The {field} field \"{token}\" is out of range.",
+      "errorUnsupported": "\"{token}\" uses extended syntax (L, W, #, etc.), which isn't supported.",
+      "descriptionHeading": "What this means",
+      "descriptionUnavailable": "Couldn't generate a description.",
+      "every": "every",
+      "orNote": "When both day and weekday are specified, the job runs on days matching either one, as in standard cron.",
+      "nextRunsHeading": "Upcoming run times",
+      "timeZoneLabel": "Time zone",
+      "runCountLabel": "Number of runs",
+      "runCountOption": "{count} runs",
+      "invalidZone": "\"{zone}\" is not a valid time zone name (e.g. Asia/Tokyo).",
+      "calculating": "Calculating...",
+      "noRuns": "No run times were found within the next ~28 years (for example, a nonexistent date like February 30).",
+      "colDateTime": "Date & time",
+      "colIso": "ISO 8601",
+      "colRelative": "From now"
     }
   }
 }

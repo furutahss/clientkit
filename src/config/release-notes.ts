@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "cron式の解説・次回実行日時ツールを追加",
+          en: "Added a cron expression explainer with next run times",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "Unixタイムスタンプ・タイムゾーン変換ツールを追加",
           en: "Added a Unix timestamp & time zone converter",
         },

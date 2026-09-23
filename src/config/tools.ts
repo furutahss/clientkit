@@ -3,6 +3,7 @@ import {
   Activity,
   Binary,
   CalendarClock,
+  Clock,
   Database,
   Dices,
   EyeOff,
@@ -2260,6 +2261,94 @@ export const tools: Tool[] = [
     keywords: {
       ja: "Unix タイムスタンプ エポック 秒 ミリ秒 日時 変換 タイムゾーン ISO 8601 UTC JST 時差",
       en: "unix timestamp epoch seconds milliseconds date converter time zone iso 8601 utc",
+    },
+  },
+  {
+    id: "cron-explainer",
+    name: { ja: "cron式の解説・次回実行日時", en: "Cron Expression Explainer" },
+    description: {
+      ja: "cron式の意味を自然な文章で説明し、次回以降の実行日時を一覧表示します。",
+      en: "Explain cron expressions in plain language and list upcoming run times.",
+    },
+    longDescription: {
+      ja: "cron式（crontabのスケジュール設定）を入力すると、その意味を自然な文章で説明し、指定したタイムゾーンでの次回以降の実行日時を一覧表示するツールです。秒付きの6フィールド形式や@dailyなどのマクロにも対応し、すべてブラウザ内で処理されます。",
+      en: "Enter a cron expression (a crontab schedule) to get a plain-language explanation and a list of upcoming run times in the time zone you choose. It also supports 6-field expressions with seconds and macros like @daily, all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「cron式」に、スペース区切りで「分 時 日 月 曜日」を入力します（例: 0 9 * * 1-5）。よく使う式はボタンから入力することもできます。",
+        "「この式の意味」に自然な文章での説明と、各フィールドが表す値の一覧が表示されます。書式に誤りがある場合は、どのフィールドが原因かが表示されます。",
+        "「次回以降の実行日時」で、タイムゾーンと表示件数を選ぶと、現在時刻以降に実行される日時が一覧で表示されます。",
+        "「クリップボードへコピー」で、実行日時の一覧をISO 8601形式でコピーできます。",
+      ],
+      en: [
+        "Enter \"minute hour day month weekday\" separated by spaces under \"Cron expression\" (e.g. 0 9 * * 1-5). You can also insert common expressions with the buttons.",
+        "\"What this means\" shows a plain-language description and the values each field represents. If the syntax is wrong, you'll see which field caused the problem.",
+        "Under \"Upcoming run times\", choose a time zone and how many runs to show to list the run times after the current time.",
+        "Use \"Copy to clipboard\" to copy the list of run times in ISO 8601 format.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "cron式は、Linuxのcrontabをはじめ、GitHub ActionsやKubernetesのCronJob、各種クラウドのスケジューラーなどで定期実行のタイミングを指定するために使われる書式です。「*/15 9-18 * * 1-5」のような式は一目で意味を読み取りにくく、設定ミスによって想定外の時刻にジョブが動いてしまうこともあります。",
+          "このツールは、cron式を自然な文章に変換して意味を確認できるほか、実際に次にいつ実行されるのかを日時の一覧で示します。「日」と「曜日」の両方を指定した場合は、標準的なcronと同じく、どちらかに一致すれば実行されるものとして計算します。夏時間の切り替えで存在しない時刻は、実行日時の一覧から除外されます。",
+          "説明文の生成にはオープンソースライブラリのcronstrue（MITライセンス）を、実行日時の計算にはブラウザ標準のIntl APIを使用しています。GitHub ActionsなどUTCで動くスケジューラーの設定を確認するときは、タイムゾーンに「UTC」を指定してください。",
+        ],
+        en: [
+          "Cron expressions specify when recurring jobs run in Linux crontab, GitHub Actions, Kubernetes CronJobs, and many cloud schedulers. An expression like \"*/15 9-18 * * 1-5\" is hard to read at a glance, and a mistake can make a job run at unexpected times.",
+          "This tool translates cron expressions into plain language and shows exactly when they will run next as a list of dates. When both day and weekday are specified, it follows standard cron behavior and runs on days that match either one. Times skipped by daylight saving transitions are excluded from the list.",
+          "Descriptions are generated with the open-source cronstrue library (MIT license), and run times are calculated with the browser's built-in Intl API. When checking schedules for services that run in UTC, such as GitHub Actions, set the time zone to \"UTC\".",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "秒を含む6フィールドのcron式にも対応していますか？",
+          en: "Are 6-field cron expressions with seconds supported?",
+        },
+        answer: {
+          ja: "対応しています。6つのフィールドを入力すると、先頭を秒として扱います（Spring・Quartzなどの形式）。",
+          en: "Yes. When you enter six fields, the first one is treated as seconds (as in Spring or Quartz).",
+        },
+      },
+      {
+        question: {
+          ja: "「L」「W」「#」は使えますか？",
+          en: "Can I use \"L\", \"W\", or \"#\"?",
+        },
+        answer: {
+          ja: "月末（L）や直近の平日（W）、第n曜日（#）などの拡張構文は、実装によって解釈が異なるため現在は対応していません。",
+          en: "Extended syntax such as last day (L), nearest weekday (W), and nth weekday (#) isn't currently supported because implementations interpret it differently.",
+        },
+      },
+      {
+        question: {
+          ja: "GitHub Actionsのscheduleの確認に使えますか？",
+          en: "Can I use this to check GitHub Actions schedules?",
+        },
+        answer: {
+          ja: "使えます。GitHub ActionsのcronはUTCで評価されるため、タイムゾーンに「UTC」を指定して確認してください。日本時間で確認したい場合は「Asia/Tokyo」を指定すると、UTCの式が日本時間で何時に実行されるかがわかります。",
+          en: "Yes. GitHub Actions evaluates cron in UTC, so set the time zone to \"UTC\". To see when a UTC schedule runs in your local time, switch the time zone to your own region.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したcron式はサーバーに送信されますか？",
+          en: "Is my cron expression sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。解析と計算はすべてブラウザ内のJavaScriptで行われます。",
+          en: "No. All parsing and calculation is done with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Clock,
+    keywords: {
+      ja: "cron crontab cron式 スケジュール 定期実行 次回実行 解説 GitHub Actions",
+      en: "cron crontab expression schedule next run explain parser github actions",
     },
   },
 ];

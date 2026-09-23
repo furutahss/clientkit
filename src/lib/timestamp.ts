@@ -57,18 +57,30 @@ export function parseTimestampInput(
   return { ok: true, ms: parsed, unit: "date" };
 }
 
+/** タイムゾーンごとのフォーマッター（生成コストが高いため使い回す） */
+const offsetFormatters = new Map<string, Intl.DateTimeFormat>();
+
+function getOffsetFormatter(timeZone: string): Intl.DateTimeFormat {
+  let formatter = offsetFormatters.get(timeZone);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      hourCycle: "h23",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    offsetFormatters.set(timeZone, formatter);
+  }
+  return formatter;
+}
+
 /** 指定したタイムゾーンでのUTCからのオフセット（分） */
 export function getTimeZoneOffset(ms: number, timeZone: string): number {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone,
-    hourCycle: "h23",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  }).formatToParts(new Date(ms));
+  const parts = getOffsetFormatter(timeZone).formatToParts(new Date(ms));
   const get = (type: string) => Number(parts.find((part) => part.type === type)?.value ?? 0);
   const asUtc = Date.UTC(
     get("year"),
