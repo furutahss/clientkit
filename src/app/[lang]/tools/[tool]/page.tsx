@@ -3,22 +3,37 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Base64Tool } from "@/components/tools/base64-tool";
+import { CertificateDecoderTool } from "@/components/tools/certificate-decoder-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
+import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
+import { DataFormatConverterTool } from "@/components/tools/data-format-converter-tool";
+import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
+import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
+import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
+import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
+import { LogMaskerTool } from "@/components/tools/log-masker-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
 import { MockRepoGeneratorTool } from "@/components/tools/mock-repo-generator-tool";
+import { PdfToolkitTool } from "@/components/tools/pdf-toolkit-tool";
 import { PrismaRepoGeneratorTool } from "@/components/tools/prisma-repo-generator-tool";
 import { PrismaSchemaVisualizerTool } from "@/components/tools/prisma-schema-visualizer-tool";
+import { PrismaZodGeneratorTool } from "@/components/tools/prisma-zod-generator-tool";
+import { QrCodeTool } from "@/components/tools/qr-code-tool";
 import { RegexTesterTool } from "@/components/tools/regex-tester-tool";
 import { ScreenshotEditorTool } from "@/components/tools/screenshot-editor-tool";
 import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
+import { SqlToPrismaTool } from "@/components/tools/sql-to-prisma-tool";
+import { SvgOptimizerTool } from "@/components/tools/svg-optimizer-tool";
+import { TextDiffTool } from "@/components/tools/text-diff-tool";
+import { TimestampConverterTool } from "@/components/tools/timestamp-converter-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
 import { UrlEncoderTool } from "@/components/tools/url-encoder-tool";
@@ -46,6 +61,21 @@ const toolComponents: Record<string, ComponentType> = {
   "prisma-schema-visualizer": PrismaSchemaVisualizerTool,
   "mock-repo-generator": MockRepoGeneratorTool,
   "screenshot-editor": ScreenshotEditorTool,
+  "pdf-toolkit": PdfToolkitTool,
+  "exif-remover": ExifRemoverTool,
+  "text-diff": TextDiffTool,
+  "log-masker": LogMaskerTool,
+  "id-generator": IdGeneratorTool,
+  "timestamp-converter": TimestampConverterTool,
+  "cron-explainer": CronExplainerTool,
+  "data-format-converter": DataFormatConverterTool,
+  "jsonpath-tester": JsonPathTesterTool,
+  "certificate-decoder": CertificateDecoderTool,
+  "prisma-zod-generator": PrismaZodGeneratorTool,
+  "sql-to-prisma": SqlToPrismaTool,
+  "favicon-generator": FaviconGeneratorTool,
+  "svg-optimizer": SvgOptimizerTool,
+  "qr-code": QrCodeTool,
 };
 
 export function generateStaticParams() {

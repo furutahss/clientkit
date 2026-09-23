@@ -19,6 +19,123 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-09-23",
+    entries: [
+      {
+        type: "improvement",
+        title: {
+          ja: "メニューとトップページのツールの並び順を、関連するツールが隣り合うように整理",
+          en: "Reordered tools in the menu and on the home page so related tools appear together",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "QRコード生成・読み取りツールを追加",
+          en: "Added a QR code generator & reader",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "SVG最適化・PNG変換ツールを追加",
+          en: "Added an SVG optimizer & PNG converter",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "ファビコン一括生成ツールを追加",
+          en: "Added a favicon generator",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "SQL DDL→Prisma変換ツールを追加",
+          en: "Added a SQL DDL to Prisma schema converter",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "Prisma→Zodスキーマ生成ツールを追加",
+          en: "Added a Prisma to Zod schema generator",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "X.509証明書（PEM）デコーダーを追加",
+          en: "Added an X.509 certificate (PEM) decoder",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "JSONPathクエリ抽出ツールを追加",
+          en: "Added a JSONPath query tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "YAML/TOML/JSON相互変換ツールを追加",
+          en: "Added a YAML/TOML/JSON converter",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "cron式の解説・次回実行日時ツールを追加",
+          en: "Added a cron expression explainer with next run times",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "Unixタイムスタンプ・タイムゾーン変換ツールを追加",
+          en: "Added a Unix timestamp & time zone converter",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "UUID/ULID・パスワード生成ツールを追加",
+          en: "Added a UUID/ULID & password generator",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "ログ・HARの機密情報マスキングツールを追加",
+          en: "Added a log & HAR sensitive data masking tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "テキスト差分比較（Diff）ツールを追加",
+          en: "Added a text diff comparison tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "画像のEXIF・位置情報削除ツールを追加",
+          en: "Added an image EXIF & location data remover",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "PDF結合・分割・ページ抽出ツールを追加",
+          en: "Added a PDF merge, split & page extraction tool",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-09-21",
     entries: [
       {
