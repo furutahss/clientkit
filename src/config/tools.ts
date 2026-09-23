@@ -25,6 +25,7 @@ import {
   Link2,
   NotebookText,
   Palette,
+  QrCode,
   Regex,
   Shapes,
   ShieldCheck,
@@ -2999,6 +3000,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["image/svg+xml"],
       extensions: ["svg"],
+    },
+  },
+  {
+    id: "qr-code",
+    name: { ja: "QRコード生成・読み取り", en: "QR Code Generator & Reader" },
+    description: {
+      ja: "テキストやURLからQRコードを生成し、画像ファイルからQRコードを読み取ります。",
+      en: "Create QR codes from text or URLs, and read QR codes from image files.",
+    },
+    longDescription: {
+      ja: "テキストやURLからQRコードを生成し、PNG・SVGでダウンロードできるツールです。サイズ・誤り訂正レベル・色・余白を指定でき、画像ファイルに写ったQRコードの読み取りにも対応します。すべてブラウザ内で処理されます。",
+      en: "A tool that creates QR codes from text or URLs and lets you download them as PNG or SVG. You can set the size, error correction level, colors, and quiet zone, and it can also read QR codes from image files. Everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「生成」タブで、QRコードにしたいテキストやURLを入力します。入力と同時にプレビューが更新されます。",
+        "誤り訂正レベル、画像サイズ、余白、前景色・背景色を調整します。色の組み合わせが読み取りにくい場合は警告が表示されます。",
+        "「PNGをダウンロード」または「SVGをダウンロード」で保存します。印刷物にはサイズを変えても劣化しないSVGがおすすめです。",
+        "QRコードを読み取るときは「読み取り」タブで画像をドラッグ＆ドロップするか、クリップボードから貼り付けます。",
+      ],
+      en: [
+        "On the \"Generate\" tab, enter the text or URL to encode. The preview updates as you type.",
+        "Adjust the error correction level, image size, quiet zone, and foreground/background colors. A warning appears if the color combination may be hard to scan.",
+        "Save with \"Download PNG\" or \"Download SVG\". For print, SVG is recommended because it scales without losing quality.",
+        "To read a QR code, drag and drop an image on the \"Read\" tab, or paste it from the clipboard.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "QRコードは、URLやテキストを白黒の模様として表現する2次元コードで、スマートフォンのカメラで簡単に読み取れます。このツールでは、Webサイトやイベントの案内、Wi-Fiの接続情報の共有などに使うQRコードを、ブラウザだけで作成できます。",
+          "誤り訂正レベルは、QRコードの一部が汚れたり隠れたりしても読み取れるようにするための冗長なデータの量です。レベルを上げるほど読み取りに強くなりますが、同じ内容でもQRコードの模様が細かくなります。中央にロゴを重ねたい場合はHを、できるだけ単純な模様にしたい場合はLやMを選んでください。",
+          "QRコードの生成と読み取りにはオープンソースのZXing（@zxing/library、Apache-2.0ライセンス）を使用し、必要になったときだけ読み込みます。オンラインのQRコード生成サービスとは異なり、入力したURLや読み取った画像がサーバーへ送信・記録されることはありません。",
+        ],
+        en: [
+          "A QR code is a 2D code that represents URLs or text as a black-and-white pattern, and it can be scanned easily with a smartphone camera. With this tool, you can create QR codes for websites, event information, or sharing Wi-Fi details — all in your browser.",
+          "The error correction level controls how much redundant data is added so the code can still be read if part of it is dirty or covered. Higher levels are more robust, but the pattern becomes denser for the same content. Choose H if you want to place a logo in the center, or L or M for the simplest pattern.",
+          "Generation and reading use the open-source ZXing library (@zxing/library, Apache-2.0 license), which is loaded only when needed. Unlike online QR code services, the URLs you enter and the images you read are never sent to or stored on a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "日本語のテキストもQRコードにできますか？",
+          en: "Can I encode Japanese or other non-ASCII text?",
+        },
+        answer: {
+          ja: "できます。テキストはUTF-8で格納するため、日本語や絵文字を含むテキストも一般的なスマートフォンのカメラで読み取れます。",
+          en: "Yes. Text is stored as UTF-8, so text containing Japanese characters or emoji can be read by typical smartphone cameras.",
+        },
+      },
+      {
+        question: {
+          ja: "どのくらいの文字数まで入れられますか？",
+          en: "How much text can a QR code hold?",
+        },
+        answer: {
+          ja: "誤り訂正レベルLで英数字なら最大約4,000文字、UTF-8のバイト数では最大約2,900バイトです。レベルを上げると格納できる量は少なくなります。長すぎる場合はエラーが表示されます。",
+          en: "At level L, up to about 4,000 alphanumeric characters or about 2,900 bytes of UTF-8. Higher levels hold less. An error is shown if the text is too long.",
+        },
+      },
+      {
+        question: {
+          ja: "スクリーンショットや写真からも読み取れますか？",
+          en: "Can it read QR codes from screenshots or photos?",
+        },
+        answer: {
+          ja: "読み取れます。ただし、QRコードが小さすぎる、ぼやけている、大きく傾いている場合は検出できないことがあります。その場合はQRコードの部分を切り抜いた画像でお試しください。",
+          en: "Yes. However, detection may fail if the QR code is too small, blurry, or heavily skewed. In that case, try an image cropped to the QR code.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したURLや画像はサーバーに送信されますか？",
+          en: "Are my URLs or images sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。QRコードの生成・読み取りはすべてブラウザ内で行われます。",
+          en: "No. QR codes are generated and read entirely in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: QrCode,
+    keywords: {
+      ja: "QRコード 生成 作成 読み取り スキャン URL 誤り訂正 SVG PNG",
+      en: "qr code generator reader scanner decode url error correction svg png",
+    },
+    fileMatch: {
+      mimeTypes: ["image/png", "image/jpeg", "image/webp", "image/gif", "image/bmp"],
+      extensions: ["png", "jpg", "jpeg", "webp", "gif", "bmp"],
     },
   },
 ];

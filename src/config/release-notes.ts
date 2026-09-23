@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "QRコード生成・読み取りツールを追加",
+          en: "Added a QR code generator & reader",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "SVG最適化・PNG変換ツールを追加",
           en: "Added an SVG optimizer & PNG converter",
         },

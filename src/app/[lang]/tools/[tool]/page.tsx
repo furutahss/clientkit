@@ -26,6 +26,7 @@ import { PdfToolkitTool } from "@/components/tools/pdf-toolkit-tool";
 import { PrismaRepoGeneratorTool } from "@/components/tools/prisma-repo-generator-tool";
 import { PrismaSchemaVisualizerTool } from "@/components/tools/prisma-schema-visualizer-tool";
 import { PrismaZodGeneratorTool } from "@/components/tools/prisma-zod-generator-tool";
+import { QrCodeTool } from "@/components/tools/qr-code-tool";
 import { RegexTesterTool } from "@/components/tools/regex-tester-tool";
 import { ScreenshotEditorTool } from "@/components/tools/screenshot-editor-tool";
 import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
@@ -74,6 +75,7 @@ const toolComponents: Record<string, ComponentType> = {
   "sql-to-prisma": SqlToPrismaTool,
   "favicon-generator": FaviconGeneratorTool,
   "svg-optimizer": SvgOptimizerTool,
+  "qr-code": QrCodeTool,
 };
 
 export function generateStaticParams() {
