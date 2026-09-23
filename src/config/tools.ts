@@ -25,6 +25,7 @@ import {
   NotebookText,
   Palette,
   Regex,
+  ShieldCheck,
   Table,
   TextCursorInput,
   Waypoints,
@@ -2628,6 +2629,97 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/x-x509-ca-cert", "application/pkix-cert", "application/x-pem-file"],
       extensions: ["pem", "crt", "cer", "der", "cert"],
+    },
+  },
+  {
+    id: "prisma-zod-generator",
+    name: { ja: "Prisma→Zodスキーマ生成", en: "Prisma to Zod Schema Generator" },
+    description: {
+      ja: "schema.prismaのmodel・enumから、Zodのバリデーションスキーマと型定義を生成します。",
+      en: "Generate Zod validation schemas and types from the models and enums in schema.prisma.",
+    },
+    longDescription: {
+      ja: "schema.prismaのmodel・enum定義を解析し、Zodのバリデーションスキーマ（z.object・z.enum）とz.inferによる型定義を生成するツールです。作成用スキーマの出力や、DateTimeのz.coerce.date()への変換にも対応し、すべてブラウザ内で処理されます。",
+      en: "A tool that parses the model and enum definitions in schema.prisma and generates Zod validation schemas (z.object, z.enum) along with z.infer types. It can also output create schemas and use z.coerce.date() for DateTime, all within your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左側にschema.prismaの内容を貼り付けるか、「ファイルを開く」やドラッグ＆ドロップでschema.prismaを読み込みます。「サンプルを読み込む」で動作を試すこともできます。",
+        "すべてのmodel・enumについて、Zodスキーマが右側に自動で生成されます。",
+        "「生成オプション」で、作成用スキーマの有無、DateTimeの扱い、型定義のエクスポートを切り替えます。",
+        "「クリップボードへコピー」または「schemas.ts をダウンロード」で生成結果を保存し、プロジェクトに追加します（zodパッケージが必要です）。",
+      ],
+      en: [
+        "Paste your schema.prisma on the left, or load it with \"Open file\" or by drag and drop. You can also try it out with \"Load sample\".",
+        "Zod schemas for every model and enum are generated automatically on the right.",
+        "Under \"Options\", toggle create schemas, how DateTime is handled, and type exports.",
+        "Save the result with \"Copy to clipboard\" or \"Download schemas.ts\" and add it to your project (requires the zod package).",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Zodは、TypeScriptでよく使われるスキーマ宣言・バリデーションライブラリです。APIのリクエストやフォームの入力を検証する際、Prismaで定義したデータベースのモデルと同じ構造のZodスキーマを手で書くのは手間がかかり、モデルの変更に追従し忘れる原因にもなります。このツールはschema.prismaからZodスキーマを自動で生成します。",
+          "Prismaの型は、String→z.string()、Int→z.number().int()、DateTime→z.date()、enum→z.enum() のように対応付けます。@db.VarChar(255) のような長さの指定は .max(255) に、null許容のフィールド（String?）は .nullable() になります。「作成用スキーマ」では、@default や @updatedAt でデータベースが値を補うフィールドを省略可能にしたスキーマも生成します。",
+          "リレーションフィールド（他のモデルへの参照）は循環参照を避けるために出力から除外し、外部キーのフィールドのみを含めます。schema.prismaの解析には、Prisma Repositoryコード生成器などと共通のパーサーを使用しています。入力内容がサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "Zod is a popular schema declaration and validation library for TypeScript. When validating API requests or form input, hand-writing Zod schemas that mirror your Prisma database models is tedious and easy to forget to update when the models change. This tool generates Zod schemas from schema.prisma automatically.",
+          "Prisma types are mapped as String → z.string(), Int → z.number().int(), DateTime → z.date(), and enum → z.enum(). Length constraints like @db.VarChar(255) become .max(255), and nullable fields (String?) become .nullable(). The create schema option also outputs schemas where fields filled in by the database via @default or @updatedAt are optional.",
+          "Relation fields (references to other models) are left out to avoid circular references; only foreign key fields are included. schema.prisma is parsed with the same parser used by the Prisma Repository Code Generator and other Prisma tools. Nothing you enter is sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "生成したコードを使うには何が必要ですか？",
+          en: "What do I need to use the generated code?",
+        },
+        answer: {
+          ja: "プロジェクトにzodパッケージをインストールしてください（npm install zod）。生成されるコードはZod 3・Zod 4のどちらでも利用できる書き方にしています。",
+          en: "Install the zod package in your project (npm install zod). The generated code is written to work with both Zod 3 and Zod 4.",
+        },
+      },
+      {
+        question: {
+          ja: "リレーションフィールドを含めることはできますか？",
+          en: "Can relation fields be included?",
+        },
+        answer: {
+          ja: "モデル同士が互いを参照する循環参照になりやすく、型推論が破綻するため出力していません。必要な場合は、生成したスキーマを .extend() で拡張してください。",
+          en: "They're left out because models often reference each other, creating circular references that break type inference. If you need them, extend the generated schema with .extend().",
+        },
+      },
+      {
+        question: {
+          ja: "Decimal型やJson型はどのように変換されますか？",
+          en: "How are Decimal and Json converted?",
+        },
+        answer: {
+          ja: "DecimalはAPIでの扱いやすさを優先して z.number() に、Jsonは任意の値を受け付ける z.unknown() に変換します。用途に合わせて調整してください。",
+          en: "Decimal becomes z.number() for ease of use in APIs, and Json becomes z.unknown(), which accepts any value. Adjust them to suit your needs.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したスキーマはサーバーに送信されますか？",
+          en: "Is my schema sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。解析とコード生成はすべてブラウザ内で行われます。",
+          en: "No. Parsing and code generation both happen in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: ShieldCheck,
+    keywords: {
+      ja: "Prisma Zod スキーマ 生成 バリデーション schema.prisma TypeScript 型 変換",
+      en: "prisma zod schema generator validation schema.prisma typescript types convert",
+    },
+    fileMatch: {
+      extensions: ["prisma"],
     },
   },
 ];
