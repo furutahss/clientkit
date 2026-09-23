@@ -11,6 +11,7 @@ import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
 import { DataFormatConverterTool } from "@/components/tools/data-format-converter-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
+import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
@@ -70,6 +71,7 @@ const toolComponents: Record<string, ComponentType> = {
   "certificate-decoder": CertificateDecoderTool,
   "prisma-zod-generator": PrismaZodGeneratorTool,
   "sql-to-prisma": SqlToPrismaTool,
+  "favicon-generator": FaviconGeneratorTool,
 };
 
 export function generateStaticParams() {

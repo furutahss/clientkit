@@ -27,6 +27,7 @@ import {
   Palette,
   Regex,
   ShieldCheck,
+  Sparkles,
   Table,
   TextCursorInput,
   Waypoints,
@@ -2813,6 +2814,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/sql"],
       extensions: ["sql"],
+    },
+  },
+  {
+    id: "favicon-generator",
+    name: { ja: "ファビコン一括生成", en: "Favicon Generator" },
+    description: {
+      ja: "1枚の画像から、ICO・各サイズのPNG・apple-touch-icon・manifest.json用アイコンをまとめて生成します。",
+      en: "Generate an ICO, PNGs in every size, an apple-touch-icon, and manifest.json icons from a single image.",
+    },
+    longDescription: {
+      ja: "1枚の画像から、favicon.ico（16・32・48px）、各サイズのPNG、apple-touch-icon（180px）、manifest.json用のアイコン（192・512px）とmanifest.jsonをまとめて生成し、ZIPでダウンロードできるツールです。余白や背景色、角丸も調整でき、すべてブラウザ内で処理されます。",
+      en: "A tool that generates favicon.ico (16, 32, 48px), PNGs in each size, an apple-touch-icon (180px), manifest.json icons (192 and 512px), and the manifest.json itself from a single image, and lets you download them all as a ZIP. You can adjust padding, background color, and corner radius, and everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "アイコンの元になる画像をドラッグ＆ドロップするか、クリックして選択します。512×512px以上の正方形の画像がおすすめです。",
+        "「アイコンの見た目」で余白、背景色、角丸を調整します。変更はすぐにプレビューに反映されます。",
+        "「manifest.json の設定」でアプリ名やテーマカラーを入力します。",
+        "「すべてZIPでダウンロード」で一式を保存し、Webサイトの公開ディレクトリに配置して、表示されたタグをHTMLの<head>に追加します。",
+      ],
+      en: [
+        "Drag and drop the image to use for your icon, or click to choose it. A square image of at least 512×512px works best.",
+        "Adjust padding, background color, and corner radius under \"Icon appearance\". Changes are reflected in the preview right away.",
+        "Enter your app name and theme color under \"manifest.json settings\".",
+        "Click \"Download all as ZIP\", place the files in your site's public directory, and add the displayed tags to your HTML <head>.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "ファビコンは、ブラウザのタブやブックマーク、スマートフォンのホーム画面などに表示されるWebサイトのアイコンです。表示される場所によって必要なサイズや形式が異なり、従来のfavicon.ico、高解像度ディスプレイ向けのPNG、iPhoneのホーム画面用のapple-touch-icon、Androidやインストール可能なWebアプリ（PWA）向けのmanifest.jsonのアイコンなどを用意する必要があります。",
+          "このツールは、1枚の画像からこれらをまとめて生成します。favicon.icoには16・32・48pxのPNG画像を格納しており、現在の主要なブラウザで表示できます。大きな画像から小さなアイコンを作るときは段階的に縮小して、細部がつぶれにくいようにしています。",
+          "ZIPには、アイコン画像に加えてmanifest.jsonと、HTMLに追加するタグの例（favicon-snippet.html）が含まれます。画像の読み込みから生成、ZIPの作成まで、すべてブラウザ内で完結し、画像がサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "A favicon is the icon for your website shown in browser tabs, bookmarks, and smartphone home screens. Different places need different sizes and formats: the classic favicon.ico, PNGs for high-resolution displays, an apple-touch-icon for iPhone home screens, and icons referenced from manifest.json for Android and installable web apps (PWAs).",
+          "This tool generates all of them from a single image. favicon.ico contains 16, 32, and 48px PNG images, which today's major browsers can display. When making small icons from a large image, it scales down in steps so that fine details are less likely to get lost.",
+          "Besides the icon images, the ZIP includes manifest.json and example tags to add to your HTML (favicon-snippet.html). Everything from loading the image to generating the icons and building the ZIP happens in your browser, and your image is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "SVG画像からも生成できますか？",
+          en: "Can I generate icons from an SVG?",
+        },
+        answer: {
+          ja: "できます。SVGはベクター画像のため、どのサイズでもくっきりしたアイコンを生成できます。幅・高さの指定がないSVGは512×512pxとして扱います。",
+          en: "Yes. Because SVG is a vector format, it produces crisp icons at every size. SVGs without a specified width and height are treated as 512×512px.",
+        },
+      },
+      {
+        question: {
+          ja: "生成したファイルはどこに置けばよいですか？",
+          en: "Where should I put the generated files?",
+        },
+        answer: {
+          ja: "Webサイトのルート（ドメイン直下）に置くのが一般的です。Next.jsなどのフレームワークでは public ディレクトリに配置してください。別の場所に置く場合は、HTMLのタグとmanifest.json内のパスを書き換えてください。",
+          en: "They're usually placed at the root of your site. In frameworks like Next.js, put them in the public directory. If you place them elsewhere, update the paths in the HTML tags and manifest.json.",
+        },
+      },
+      {
+        question: {
+          ja: "透過PNGの背景はどうなりますか？",
+          en: "What happens to transparent backgrounds?",
+        },
+        answer: {
+          ja: "「背景色を付ける」をオフにすると透過のまま出力します。ただしiPhoneのホーム画面では透過部分が黒く表示されることがあるため、apple-touch-icon用には背景色の指定をおすすめします。",
+          en: "With \"Add a background color\" off, transparency is preserved. However, iPhone home screens may display transparent areas as black, so a background color is recommended for the apple-touch-icon.",
+        },
+      },
+      {
+        question: {
+          ja: "画像はサーバーにアップロードされますか？",
+          en: "Are images uploaded to a server?",
+        },
+        answer: {
+          ja: "アップロードされません。アイコンの生成とZIPの作成はすべてブラウザ内で行われます。",
+          en: "No. Icon generation and ZIP creation both happen in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Sparkles,
+    keywords: {
+      ja: "ファビコン favicon ICO アイコン 生成 apple-touch-icon manifest.json PWA",
+      en: "favicon ico icon generator apple-touch-icon manifest.json pwa png",
+    },
+    fileMatch: {
+      mimeTypes: ["image/png", "image/jpeg", "image/webp", "image/svg+xml"],
+      extensions: ["png", "jpg", "jpeg", "webp", "svg"],
     },
   },
 ];
