@@ -3,6 +3,7 @@ import {
   Activity,
   ArrowLeftRight,
   Binary,
+  Braces,
   CalendarClock,
   Clock,
   Database,
@@ -2442,6 +2443,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/yaml", "application/x-yaml", "text/yaml", "application/toml"],
       extensions: ["yaml", "yml", "toml", "json"],
+    },
+  },
+  {
+    id: "jsonpath-tester",
+    name: { ja: "JSONPathクエリ抽出", en: "JSONPath Query Tester" },
+    description: {
+      ja: "JSONに対してJSONPathを実行し、一致した値やパスをリアルタイムで表示します。",
+      en: "Run JSONPath queries against JSON and see matching values and paths in real time.",
+    },
+    longDescription: {
+      ja: "JSONデータに対してJSONPath式を実行し、一致した値とそのパスをリアルタイムで表示するツールです。フィルター式（?()）やワイルドカード、再帰検索（..）に対応し、APIレスポンスから必要なデータを取り出す式の作成・確認に使えます。すべてブラウザ内で処理されます。",
+      en: "A tool that runs JSONPath expressions against JSON data and shows matching values and their paths in real time. It supports filter expressions (?()), wildcards, and recursive descent (..), making it easy to build and verify expressions that pull data from API responses. Everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「JSON」にデータを入力または貼り付けるか、ファイルを読み込みます。「サンプルを入力」で動作を試すこともできます。",
+        "「JSONPath」に式を入力します（例: $.store.book[*].author）。よく使う式の例はボタンから入力できます。",
+        "入力と同時に「抽出結果」に一致した値が表示されます。「パス」に切り替えると、一致した要素のパスを一覧で確認できます。",
+        "「クリップボードへコピー」で、抽出した値（JSON配列）またはパスの一覧をコピーできます。",
+      ],
+      en: [
+        "Type or paste data into \"JSON\", or load a file. You can also try it out with \"Load sample\".",
+        "Enter an expression under \"JSONPath\" (e.g. $.store.book[*].author). Common examples can be inserted with the buttons.",
+        "Matching values appear under \"Results\" as you type. Switch to \"Paths\" to list the paths of the matching elements.",
+        "Use \"Copy to clipboard\" to copy the extracted values (as a JSON array) or the list of paths.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "JSONPathは、JSONの中から特定の値を取り出すためのクエリ言語で、XMLにおけるXPathのような役割を持ちます。「$」がルート要素を表し、「.」や「[]」で子要素を、「*」ですべての要素を、「..」で階層を問わない再帰検索を、「[?()]」で条件に一致する要素の絞り込みを指定します。",
+          "APIテストツールやKubernetes（kubectl -o jsonpath）、各種ログ基盤など、JSONPathはさまざまな場面で使われています。このツールでは、式を入力するたびに結果が更新されるため、期待どおりの値が取り出せるかを試しながら式を組み立てられます。一致した要素のパスも確認できるので、特定の値がJSONのどこにあるかを調べる用途にも便利です。",
+          "クエリの実行にはオープンソースライブラリのjsonpath-plus（MITライセンス）を使用し、フィルター式は任意のJavaScriptを実行できない安全な評価モードで処理しています。入力したJSONがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "JSONPath is a query language for extracting specific values from JSON, much like XPath for XML. \"$\" is the root, \".\" and \"[]\" select children, \"*\" selects all elements, \"..\" searches recursively at any depth, and \"[?()]\" filters elements that match a condition.",
+          "JSONPath is used in many places, including API testing tools, Kubernetes (kubectl -o jsonpath), and log platforms. Because this tool updates the results every time you type, you can build an expression while checking that it extracts exactly what you expect. It also shows the paths of matching elements, which is handy for finding where a value lives inside a JSON document.",
+          "Queries run on the open-source jsonpath-plus library (MIT license), and filter expressions are evaluated in a safe mode that can't execute arbitrary JavaScript. Your JSON is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "フィルター式ではどのような条件が使えますか？",
+          en: "What conditions can I use in filter expressions?",
+        },
+        answer: {
+          ja: "@ で現在の要素を参照し、比較演算子（== != < <= > >=）や論理演算子（&& ||）を組み合わせられます。例えば「$..book[?(@.price < 10 && @.category == 'fiction')]」のように指定します。",
+          en: "Use @ to refer to the current element, combined with comparison operators (== != < <= > >=) and logical operators (&& ||). For example: \"$..book[?(@.price < 10 && @.category == 'fiction')]\".",
+        },
+      },
+      {
+        question: {
+          ja: "配列の最後の要素を取り出すには？",
+          en: "How do I get the last element of an array?",
+        },
+        answer: {
+          ja: "「$.store.book[-1:]」のようにスライス記法で負のインデックスを指定します。「[0:2]」のように範囲を指定すると先頭から2件を取り出せます。",
+          en: "Use slice notation with a negative index, like \"$.store.book[-1:]\". A range such as \"[0:2]\" returns the first two elements.",
+        },
+      },
+      {
+        question: {
+          ja: "フィルター式でJavaScriptが実行されることはありませんか？",
+          en: "Can filter expressions execute JavaScript?",
+        },
+        answer: {
+          ja: "実行されません。フィルター式は安全な評価モードで処理しており、関数の呼び出しなど任意のコードの実行はできないようになっています。",
+          en: "No. Filter expressions are processed in a safe evaluation mode that doesn't allow arbitrary code execution such as function calls.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したJSONはサーバーに送信されますか？",
+          en: "Is my JSON sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。JSONの解析とクエリの実行はすべてブラウザ内で行われます。",
+          en: "No. Parsing the JSON and running the query both happen in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Braces,
+    keywords: {
+      ja: "JSONPath JSON クエリ 抽出 フィルター 検索 パス XPath API レスポンス",
+      en: "jsonpath json query extract filter search path evaluator tester api response",
+    },
+    fileMatch: {
+      mimeTypes: ["application/json"],
+      extensions: ["json"],
     },
   },
 ];

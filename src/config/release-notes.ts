@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "JSONPathクエリ抽出ツールを追加",
+          en: "Added a JSONPath query tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "YAML/TOML/JSON相互変換ツールを追加",
           en: "Added a YAML/TOML/JSON converter",
         },

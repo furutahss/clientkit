@@ -15,6 +15,7 @@ import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
+import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { LogMaskerTool } from "@/components/tools/log-masker-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
@@ -62,6 +63,7 @@ const toolComponents: Record<string, ComponentType> = {
   "timestamp-converter": TimestampConverterTool,
   "cron-explainer": CronExplainerTool,
   "data-format-converter": DataFormatConverterTool,
+  "jsonpath-tester": JsonPathTesterTool,
 };
 
 export function generateStaticParams() {

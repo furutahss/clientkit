@@ -884,7 +884,8 @@
       "outputPlaceholder": "JSONとJSONPathを入力すると、ここに抽出結果がリアルタイムで表示されます。",
       "outputPlaceholderJsonError": "JSONにエラーがあるため、クエリを実行できません。",
       "noMatches": "JSONPathに一致する値はありませんでした。",
-      "previewTruncated": "結果が大きいため、先頭部分のみを表示しています。コピーには全体が含まれます。"
+      "previewTruncated": "結果が大きいため、先頭部分のみを表示しています。コピーには全体が含まれます。",
+      "libraryLoadError": "クエリ処理を読み込めませんでした。ページを再読み込みしてください。"
     },
     "certificateDecoder": {
       "safetyNote": "証明書はサーバーへ送信せず、すべてお使いのブラウザ内で解析しています。フィンガープリントもブラウザのWeb Crypto APIで計算しています。",

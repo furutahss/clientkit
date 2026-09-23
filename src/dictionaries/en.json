@@ -884,7 +884,8 @@
       "outputPlaceholder": "Enter JSON and a JSONPath to see the results here in real time.",
       "outputPlaceholderJsonError": "The JSON has an error, so the query can't run.",
       "noMatches": "No values match the JSONPath.",
-      "previewTruncated": "The result is large, so only the beginning is shown. Copies include everything."
+      "previewTruncated": "The result is large, so only the beginning is shown. Copies include everything.",
+      "libraryLoadError": "Couldn't load the query engine. Please reload the page."
     },
     "certificateDecoder": {
       "safetyNote": "Certificates are never sent to a server — they're parsed entirely in your browser, and fingerprints are calculated with your browser's Web Crypto API.",
