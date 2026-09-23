@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "SQL DDL→Prisma変換ツールを追加",
+          en: "Added a SQL DDL to Prisma schema converter",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "Prisma→Zodスキーマ生成ツールを追加",
           en: "Added a Prisma to Zod schema generator",
         },

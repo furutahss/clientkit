@@ -28,6 +28,7 @@ import { PrismaZodGeneratorTool } from "@/components/tools/prisma-zod-generator-
 import { RegexTesterTool } from "@/components/tools/regex-tester-tool";
 import { ScreenshotEditorTool } from "@/components/tools/screenshot-editor-tool";
 import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
+import { SqlToPrismaTool } from "@/components/tools/sql-to-prisma-tool";
 import { TextDiffTool } from "@/components/tools/text-diff-tool";
 import { TimestampConverterTool } from "@/components/tools/timestamp-converter-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
@@ -68,6 +69,7 @@ const toolComponents: Record<string, ComponentType> = {
   "jsonpath-tester": JsonPathTesterTool,
   "certificate-decoder": CertificateDecoderTool,
   "prisma-zod-generator": PrismaZodGeneratorTool,
+  "sql-to-prisma": SqlToPrismaTool,
 };
 
 export function generateStaticParams() {

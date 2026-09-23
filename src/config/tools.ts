@@ -7,6 +7,7 @@ import {
   CalendarClock,
   Clock,
   Database,
+  DatabaseZap,
   Dices,
   EyeOff,
   FileBadge,
@@ -2720,6 +2721,98 @@ export const tools: Tool[] = [
     },
     fileMatch: {
       extensions: ["prisma"],
+    },
+  },
+  {
+    id: "sql-to-prisma",
+    name: { ja: "SQL DDL→Prisma変換", en: "SQL DDL to Prisma Converter" },
+    description: {
+      ja: "CREATE TABLE文を解析し、schema.prismaのモデル・enum・リレーション定義に変換します。",
+      en: "Convert CREATE TABLE statements into schema.prisma models, enums, and relations.",
+    },
+    longDescription: {
+      ja: "SQLのCREATE TABLE文（DDL）を解析し、schema.prismaのモデル定義に変換するツールです。PostgreSQL・MySQL・SQLiteの主な型、主キー・一意制約・インデックス、外部キーからのリレーション、ENUM型に対応し、すべてブラウザ内で処理されます。",
+      en: "A tool that parses SQL CREATE TABLE statements (DDL) and converts them into schema.prisma model definitions. It supports common PostgreSQL, MySQL, and SQLite types, primary keys, unique constraints, indexes, relations from foreign keys, and ENUM types — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左側にCREATE TABLE文を貼り付けるか、「ファイルを開く」やドラッグ＆ドロップで .sql ファイル（pg_dumpやmysqldumpの出力など）を読み込みます。",
+        "「変換オプション」で、データベースの種類、Prismaの命名規則への変換、ネイティブ型属性の出力、generator・datasourceブロックの出力を選びます。",
+        "右側にschema.prismaのモデル定義が表示されます。外部キーからはリレーションフィールドと逆方向のリレーションが自動で生成されます。",
+        "警告が表示された場合は内容を確認し、「クリップボードへコピー」または「schema.prisma をダウンロード」で保存します。",
+      ],
+      en: [
+        "Paste CREATE TABLE statements on the left, or load a .sql file (such as pg_dump or mysqldump output) with \"Open file\" or by drag and drop.",
+        "Under \"Conversion options\", choose the database type, whether to apply Prisma naming conventions, whether to output native type attributes, and whether to include generator and datasource blocks.",
+        "The schema.prisma model definitions appear on the right. Relation fields and their back-relations are generated automatically from foreign keys.",
+        "If warnings appear, review them, then save with \"Copy to clipboard\" or \"Download schema.prisma\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "既存のデータベースにPrismaを導入する場合、通常は prisma db pull でデータベースに接続してスキーマを取り込みます。しかし、手元にDDLのファイルしかない場合や、本番データベースに接続できない場合、設計段階のテーブル定義からモデルを作りたい場合などもあります。このツールは、CREATE TABLE文だけからschema.prismaのモデル定義を作成します。",
+          "カラムの型はPrismaの型（String・Int・BigInt・Decimal・DateTime・Json など）に対応付け、VARCHAR(255) のような長さの指定は @db.VarChar(255) として保持します。PRIMARY KEY は @id / @@id、UNIQUE は @unique / @@unique、CREATE INDEX は @@index、SERIAL や AUTO_INCREMENT は @default(autoincrement())、DEFAULT now() は @default(now()) に変換します。外部キーからは関連するモデル同士のリレーションを生成し、ON DELETE の指定も引き継ぎます。",
+          "SQLの解析はブラウザ内の独自パーサーで行っており、入力したテーブル定義がサーバーへ送信されることはありません。ビューやトリガー、関数などのCREATE TABLE以外の文は読み飛ばします。変換結果は prisma validate や prisma format で確認してから利用することをおすすめします。",
+        ],
+        en: [
+          "When adopting Prisma for an existing database, you'd normally connect to it with prisma db pull to import the schema. But sometimes you only have a DDL file, can't connect to the production database, or want to create models from table definitions still in design. This tool builds schema.prisma model definitions from CREATE TABLE statements alone.",
+          "Column types are mapped to Prisma types (String, Int, BigInt, Decimal, DateTime, Json, and so on), and length constraints like VARCHAR(255) are kept as @db.VarChar(255). PRIMARY KEY becomes @id / @@id, UNIQUE becomes @unique / @@unique, CREATE INDEX becomes @@index, SERIAL and AUTO_INCREMENT become @default(autoincrement()), and DEFAULT now() becomes @default(now()). Foreign keys produce relations between the related models, including ON DELETE behavior.",
+          "SQL is parsed by a custom parser in your browser, and your table definitions are never sent to a server. Statements other than CREATE TABLE — such as views, triggers, and functions — are skipped. We recommend checking the result with prisma validate or prisma format before using it.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "どのデータベースのDDLに対応していますか？",
+          en: "Which databases' DDL is supported?",
+        },
+        answer: {
+          ja: "PostgreSQL・MySQL（MariaDB）・SQLiteでよく使われるCREATE TABLEの構文に対応しています。pg_dumpのようにALTER TABLEで後から追加された主キーや外部キーも反映します。",
+          en: "Common CREATE TABLE syntax for PostgreSQL, MySQL (MariaDB), and SQLite is supported. Primary keys and foreign keys added later via ALTER TABLE, as in pg_dump output, are also applied.",
+        },
+      },
+      {
+        question: {
+          ja: "変換できない型はどうなりますか？",
+          en: "What happens to types that can't be converted?",
+        },
+        answer: {
+          ja: "PostGISのgeometryのようにPrismaに対応する型がないものは Unsupported(\"型名\") として出力し、警告を表示します。Prismaでは Unsupported 型のカラムはPrisma Clientから読み書きできない点にご注意ください。",
+          en: "Types with no Prisma equivalent, such as PostGIS geometry, are output as Unsupported(\"type\") with a warning. Note that Prisma Client can't read or write Unsupported columns.",
+        },
+      },
+      {
+        question: {
+          ja: "リレーションフィールドの名前はどのように決まりますか？",
+          en: "How are relation field names chosen?",
+        },
+        answer: {
+          ja: "外部キーのカラム名から「_id」を除いた名前（author_id → author）を使います。同じテーブル同士に複数のリレーションがある場合や自己参照の場合は、@relation に名前を付けて区別します。",
+          en: "The foreign key column name without \"_id\" is used (author_id → author). When two tables have multiple relations between them, or a table references itself, the relations are given names via @relation to tell them apart.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したSQLはサーバーに送信されますか？",
+          en: "Is my SQL sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。SQLの解析とschema.prismaの生成はすべてブラウザ内で行われます。",
+          en: "No. Parsing the SQL and generating schema.prisma both happen in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: DatabaseZap,
+    keywords: {
+      ja: "SQL DDL CREATE TABLE Prisma schema.prisma 変換 モデル マイグレーション PostgreSQL MySQL",
+      en: "sql ddl create table prisma schema.prisma converter model introspection postgresql mysql sqlite",
+    },
+    fileMatch: {
+      mimeTypes: ["application/sql"],
+      extensions: ["sql"],
     },
   },
 ];
