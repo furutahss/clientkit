@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "SVG最適化・PNG変換ツールを追加",
+          en: "Added an SVG optimizer & PNG converter",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "ファビコン一括生成ツールを追加",
           en: "Added a favicon generator",
         },

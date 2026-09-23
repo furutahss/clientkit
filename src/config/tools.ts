@@ -26,6 +26,7 @@ import {
   NotebookText,
   Palette,
   Regex,
+  Shapes,
   ShieldCheck,
   Sparkles,
   Table,
@@ -2906,6 +2907,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["image/png", "image/jpeg", "image/webp", "image/svg+xml"],
       extensions: ["png", "jpg", "jpeg", "webp", "svg"],
+    },
+  },
+  {
+    id: "svg-optimizer",
+    name: { ja: "SVG最適化・PNG変換", en: "SVG Optimizer & PNG Converter" },
+    description: {
+      ja: "SVGを最適化してサイズの削減率を表示し、指定したサイズのPNGに変換します。",
+      en: "Optimize SVGs, see how much smaller they get, and convert them to PNG at any size.",
+    },
+    longDescription: {
+      ja: "SVGファイルから不要なメタデータやコメント、冗長な記述を取り除いて最適化し、サイズの削減率を表示するツールです。最適化したSVGを指定した幅・高さのPNG画像に変換することもでき、すべてブラウザ内で処理されます。",
+      en: "A tool that optimizes SVG files by removing unneeded metadata, comments, and redundant markup, and shows how much smaller the file gets. You can also convert the optimized SVG to a PNG at the width and height you choose. Everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "SVGのコードを貼り付けるか、「ファイルを開く」やドラッグ＆ドロップで .svg ファイルを読み込みます。",
+        "自動で最適化が行われ、元のサイズ・最適化後のサイズ・削減率と、見た目のプレビューが表示されます。",
+        "「最適化オプション」で数値の精度やwidth・height属性の削除、インデントの有無を調整し、「SVGをダウンロード」で保存します。",
+        "PNGが必要な場合は「PNGに変換」で幅・高さ（または1x・2x・4x）を指定し、「PNGをダウンロード」を押します。",
+      ],
+      en: [
+        "Paste SVG code, or load an .svg file with \"Open file\" or by drag and drop.",
+        "The SVG is optimized automatically, and the original size, optimized size, reduction, and a visual preview are shown.",
+        "Adjust numeric precision, removal of width/height attributes, and indentation under \"Optimization options\", then save with \"Download SVG\".",
+        "If you need a PNG, set the width and height (or 1x, 2x, 4x) under \"Convert to PNG\" and click \"Download PNG\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "デザインツールから書き出したSVGには、編集用のメタデータやコメント、使われていない定義、必要以上に細かい小数など、表示には不要な情報が多く含まれていることがあります。これらを取り除くことで、見た目を変えずにファイルサイズを大きく削減でき、Webページの読み込みを速くできます。",
+          "最適化にはオープンソースのsvgo（MITライセンス）を使用しています。パスデータの短縮、色の表記の短縮、不要な属性やグループの削除などを複数回繰り返して行い、できるだけ小さなSVGにします。「数値の精度」を小さくするとさらにサイズを減らせますが、細かい図形では形がずれる場合があるため、プレビューで確認しながら調整してください。",
+          "PNGへの変換はブラウザのCanvasで行うため、アイコンやロゴを任意の解像度のPNGとして書き出せます。SVGの読み込みから最適化、PNGの書き出しまで、データがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "SVGs exported from design tools often contain information that isn't needed for display — editor metadata, comments, unused definitions, and overly precise decimals. Removing them can shrink files significantly without changing how they look, making web pages load faster.",
+          "Optimization uses the open-source svgo (MIT license). It shortens path data and color notation and removes unneeded attributes and groups, repeating the process several times to make the SVG as small as possible. Lowering \"Numeric precision\" reduces size further but can shift fine shapes, so adjust it while checking the preview.",
+          "PNG conversion uses your browser's Canvas, so you can export icons and logos as PNGs at any resolution. From loading to optimizing and exporting, your data is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "最適化で見た目が変わることはありますか？",
+          en: "Can optimization change how the SVG looks?",
+        },
+        answer: {
+          ja: "通常は変わりません。ただし「数値の精度」を小さくしすぎると、細かい図形がわずかにずれることがあります。プレビューで元のSVGと比べて確認してください。",
+          en: "Usually not. However, setting \"Numeric precision\" too low can slightly shift fine shapes. Compare against the original in the preview.",
+        },
+      },
+      {
+        question: {
+          ja: "width・height属性を削除するとどうなりますか？",
+          en: "What happens if I remove the width and height attributes?",
+        },
+        answer: {
+          ja: "SVGが親要素の大きさに合わせて拡大縮小されるようになり、CSSでサイズを指定しやすくなります。viewBoxは残るため縦横比は保たれます。",
+          en: "The SVG scales to fit its parent element, making it easier to size with CSS. The viewBox is kept, so the aspect ratio is preserved.",
+        },
+      },
+      {
+        question: {
+          ja: "PNGに変換すると文字や画像が表示されません。",
+          en: "Text or images are missing after converting to PNG.",
+        },
+        answer: {
+          ja: "SVGが外部のフォントや画像ファイルを参照している場合、ブラウザの制限によりPNGには描画されません。文字はアウトライン化し、画像はSVG内に埋め込んでから変換してください。",
+          en: "If the SVG references external fonts or image files, browser restrictions prevent them from being drawn in the PNG. Convert text to outlines and embed images in the SVG before converting.",
+        },
+      },
+      {
+        question: {
+          ja: "SVGはサーバーにアップロードされますか？",
+          en: "Are SVGs uploaded to a server?",
+        },
+        answer: {
+          ja: "アップロードされません。最適化とPNGへの変換はすべてブラウザ内で行われます。",
+          en: "No. Optimization and PNG conversion both happen in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Shapes,
+    keywords: {
+      ja: "SVG 最適化 圧縮 軽量化 svgo PNG 変換 ベクター アイコン ロゴ",
+      en: "svg optimize minify compress svgo png convert vector icon logo",
+    },
+    fileMatch: {
+      mimeTypes: ["image/svg+xml"],
+      extensions: ["svg"],
     },
   },
 ];
