@@ -676,6 +676,59 @@
       "rightFileName": "変更後",
       "loading": "比較処理を読み込み中...",
       "libraryLoadError": "比較処理を読み込めませんでした。ページを再読み込みしてください。"
+    },
+    "logMasker": {
+      "safetyNote": "ログやHARファイルはサーバーへ送信せず、すべてお使いのブラウザ内でマスキングしているため、マスキング前の機密情報が外部に漏れることはありません。",
+      "inputLabel": "ログ・HAR・JSON",
+      "inputPlaceholder": "ログやHAR（JSON）を貼り付け、またはファイルをドロップしてください。\n例: Authorization: Bearer eyJhbGciOi...",
+      "openFile": "ファイルを開く",
+      "closeFile": "ファイルを閉じる",
+      "fileReadError": "ファイルを読み込めませんでした。テキスト形式のファイルを選択してください。",
+      "targetsHeading": "マスキング対象",
+      "detectedCount": "{count}件",
+      "categories": {
+        "cookie": {
+          "label": "Cookie",
+          "description": "Cookie / Set-Cookie ヘッダーとHARのcookies（Cookie名は残し、値だけを伏せます）"
+        },
+        "authorization": {
+          "label": "認証ヘッダー",
+          "description": "Authorization / Proxy-Authorization ヘッダー、Bearer・Basic認証の資格情報"
+        },
+        "token": {
+          "label": "トークン・APIキー・パスワード",
+          "description": "JWT、主要サービスのAPIキー、token・api_key・password・secret などの項目の値"
+        },
+        "email": {
+          "label": "メールアドレス",
+          "description": "user@example.com 形式の文字列"
+        },
+        "ip": {
+          "label": "IPアドレス",
+          "description": "IPv4・IPv6アドレス"
+        },
+        "custom": {
+          "label": "任意の文字列",
+          "description": "社名・ユーザー名・ホスト名など、指定した文字列"
+        }
+      },
+      "customTermsLabel": "伏せたい文字列（改行またはカンマ区切り）",
+      "customTermsPlaceholder": "例: example-corp\ninternal.example.com",
+      "styleHeading": "伏せ字の形式",
+      "styleLabel": "ラベル付き（[EMAIL_1]）",
+      "styleAsterisk": "伏せ字（****）",
+      "outputLabel": "マスキング結果",
+      "outputPlaceholder": "左側にログやHARを入力すると、ここにマスキング結果が表示されます。",
+      "resultSummary": "{count}箇所をマスキング（{format}として処理）",
+      "formats": {
+        "har": "HAR",
+        "json": "JSON",
+        "text": "テキスト"
+      },
+      "download": "ダウンロード",
+      "previewTruncated": "結果が大きいため、プレビューには先頭部分のみを表示しています。ダウンロードやコピーには全体が含まれます。",
+      "nothingFound": "選択した対象に該当する情報は見つかりませんでした。",
+      "reviewNote": "自動検出にはパターンによる限界があります。共有する前に、マスキング結果に機密情報が残っていないか必ず目視で確認してください。"
     }
   }
 }

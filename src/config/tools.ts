@@ -3,6 +3,7 @@ import {
   Activity,
   Binary,
   Database,
+  EyeOff,
   FileJson,
   FileSpreadsheet,
   FileStack,
@@ -1989,6 +1990,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["text/plain"],
       extensions: ["txt"],
+    },
+  },
+  {
+    id: "log-masker",
+    name: { ja: "ログ・HARの機密情報マスキング", en: "Log & HAR Data Masker" },
+    description: {
+      ja: "ログやHARに含まれるCookie・認証ヘッダー・トークン・メールアドレス・IPアドレスを伏せ字にします。",
+      en: "Mask cookies, auth headers, tokens, email addresses, and IP addresses in logs and HAR files.",
+    },
+    longDescription: {
+      ja: "ログファイルやHAR（ブラウザの通信記録）に含まれるCookie、Authorizationヘッダー、トークン、APIキー、メールアドレス、IPアドレスなどの機密情報を検出して伏せ字にし、ダウンロードできるツールです。マスキング対象は自由に選択でき、すべてブラウザ内で処理されます。",
+      en: "A tool that detects sensitive data in log files and HAR (browser network recordings) — cookies, Authorization headers, tokens, API keys, email addresses, IP addresses, and more — masks it, and lets you download the result. Choose exactly what to mask; everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "ログやHAR（JSON）を貼り付けるか、「ファイルを開く」またはドラッグ＆ドロップでファイルを読み込みます。",
+        "「マスキング対象」で、伏せたい情報の種類（Cookie・認証ヘッダー・トークン・メールアドレス・IPアドレス・任意の文字列）を選びます。各項目には検出件数が表示されます。",
+        "「伏せ字の形式」で、同じ値に同じ番号を振るラベル形式（[EMAIL_1] など）か、単純な伏せ字（****）かを選びます。",
+        "結果を確認し、「ダウンロード」または「クリップボードへコピー」で保存します。共有する前に、機密情報が残っていないか目視でも確認してください。",
+      ],
+      en: [
+        "Paste a log or HAR (JSON), or load a file with \"Open file\" or by drag and drop.",
+        "Under \"What to mask\", choose the kinds of data to hide — cookies, authorization headers, tokens, email addresses, IP addresses, and custom terms. Each item shows how many matches were found.",
+        "Under \"Mask format\", choose labeled masks that give the same value the same number (e.g. [EMAIL_1]) or plain asterisks (****).",
+        "Review the result and save it with \"Download\" or \"Copy to clipboard\". Before sharing, double-check by eye that no sensitive data remains.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "不具合の調査やサポートへの問い合わせでは、ログファイルやHARファイルを共有する場面がよくあります。しかし、これらのファイルにはセッションCookieや認証トークン、APIキーといった、第三者に渡るとアカウントを乗っ取られるおそれのある情報や、メールアドレス・IPアドレスなどの個人情報が含まれていることがあります。このツールは、共有前にそれらを自動で検出して伏せ字にします。",
+          "HARやJSONを入力した場合は構造を解析し、headers・cookies・queryStringなどの項目名に基づいて値を正確に伏せたうえで、URLやレスポンス本文などの文字列にもパターン検出を適用します。テキストのログでは「Cookie:」「Authorization:」のようなヘッダー行、JWT、主要サービスのAPIキー、token=… や \"password\": … のような項目を検出します。ラベル形式では同じ値に同じ番号を振るため、伏せたあとでも「同じユーザー」「同じトークン」の関係を追跡できます。",
+          "マスキング前のデータがブラウザの外へ送信されることはありません。ただし、パターンによる自動検出には限界があるため、独自形式のIDや本文中の個人名などは「任意の文字列」で指定し、共有前には必ず結果を目視で確認してください。",
+        ],
+        en: [
+          "When investigating bugs or contacting support, you often need to share log files or HAR files. These files can contain session cookies, auth tokens, and API keys that could let someone take over an account, as well as personal data such as email and IP addresses. This tool automatically detects and masks them before you share.",
+          "When you provide a HAR or JSON, the tool parses its structure and masks values precisely based on fields such as headers, cookies, and queryString, then also applies pattern detection to strings like URLs and response bodies. For text logs, it detects header lines such as \"Cookie:\" and \"Authorization:\", JWTs, common API key formats, and fields like token=… or \"password\": …. Labeled masks give identical values the same number, so you can still follow which user or token is which after masking.",
+          "Your unmasked data never leaves your browser. Pattern-based detection has its limits, though — specify custom IDs or names that appear in text via \"Custom terms\", and always review the result before sharing.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "マスキング後のHARは、HARビューアーで開けますか？",
+          en: "Can I open the masked HAR in a HAR viewer?",
+        },
+        answer: {
+          ja: "開けます。HARやJSONは構造を保ったまま値だけを置き換え、インデント付きのJSONとして出力するため、ブラウザの開発者ツールやHARアナライザーでそのまま読み込めます。",
+          en: "Yes. HAR and JSON input keeps its structure — only values are replaced — and is output as indented JSON, so it loads directly in browser dev tools or a HAR analyzer.",
+        },
+      },
+      {
+        question: {
+          ja: "「ラベル付き」と「伏せ字」の違いは何ですか？",
+          en: "What's the difference between \"Labeled\" and \"Asterisks\"?",
+        },
+        answer: {
+          ja: "「ラベル付き」は [EMAIL_1] や [TOKEN_2] のように種類と番号で置き換え、同じ値には同じ番号を振ります。どのリクエストが同じトークンを使っているかなどを伏せたまま追跡したい場合に便利です。「伏せ字」はすべて **** に置き換えます。",
+          en: "\"Labeled\" replaces values with a type and number such as [EMAIL_1] or [TOKEN_2], giving identical values the same number — handy for tracking which requests share a token without revealing it. \"Asterisks\" replaces everything with ****.",
+        },
+      },
+      {
+        question: {
+          ja: "バージョン番号がIPアドレスとして伏せられてしまいます。",
+          en: "A version number was masked as an IP address.",
+        },
+        answer: {
+          ja: "「1.2.3.4」のように4つの数字をドットで区切った文字列はIPv4アドレスと区別できないため、伏せられることがあります。不要な場合は「IPアドレス」のチェックを外してください。",
+          en: "Strings of four dot-separated numbers like \"1.2.3.4\" can't be distinguished from IPv4 addresses, so they may be masked. Uncheck \"IP addresses\" if you don't need it.",
+        },
+      },
+      {
+        question: {
+          ja: "ファイルはサーバーにアップロードされますか？",
+          en: "Are files uploaded to a server?",
+        },
+        answer: {
+          ja: "アップロードされません。ファイルの読み込みからマスキング、ダウンロードまで、すべてブラウザ内で処理されます。",
+          en: "No. Everything from loading the file to masking and downloading happens in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: EyeOff,
+    keywords: {
+      ja: "マスキング 伏せ字 ログ HAR 機密情報 Cookie トークン 個人情報 匿名化 墨消し",
+      en: "mask redact log har sensitive data cookie token api key email ip anonymize sanitize",
+    },
+    fileMatch: {
+      mimeTypes: ["application/json", "text/plain"],
+      extensions: ["har", "log", "txt", "json"],
     },
   },
 ];

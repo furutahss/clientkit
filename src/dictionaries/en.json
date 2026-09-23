@@ -676,6 +676,59 @@
       "rightFileName": "changed",
       "loading": "Loading the comparison engine...",
       "libraryLoadError": "Couldn't load the comparison engine. Please reload the page."
+    },
+    "logMasker": {
+      "safetyNote": "Logs and HAR files are never sent to a server — masking happens entirely in your browser, so the original sensitive data never leaves your device.",
+      "inputLabel": "Log, HAR, or JSON",
+      "inputPlaceholder": "Paste a log or HAR (JSON), or drop a file.\ne.g. Authorization: Bearer eyJhbGciOi...",
+      "openFile": "Open file",
+      "closeFile": "Close file",
+      "fileReadError": "Couldn't read the file. Please choose a text-based file.",
+      "targetsHeading": "What to mask",
+      "detectedCount": "{count} found",
+      "categories": {
+        "cookie": {
+          "label": "Cookies",
+          "description": "Cookie / Set-Cookie headers and HAR cookies (names are kept; only values are masked)"
+        },
+        "authorization": {
+          "label": "Authorization headers",
+          "description": "Authorization / Proxy-Authorization headers and Bearer/Basic credentials"
+        },
+        "token": {
+          "label": "Tokens, API keys & passwords",
+          "description": "JWTs, common API key formats, and values of fields such as token, api_key, password, and secret"
+        },
+        "email": {
+          "label": "Email addresses",
+          "description": "Strings like user@example.com"
+        },
+        "ip": {
+          "label": "IP addresses",
+          "description": "IPv4 and IPv6 addresses"
+        },
+        "custom": {
+          "label": "Custom terms",
+          "description": "Any strings you specify, such as company names, usernames, or hostnames"
+        }
+      },
+      "customTermsLabel": "Terms to mask (one per line or comma-separated)",
+      "customTermsPlaceholder": "e.g. example-corp\ninternal.example.com",
+      "styleHeading": "Mask format",
+      "styleLabel": "Labeled ([EMAIL_1])",
+      "styleAsterisk": "Asterisks (****)",
+      "outputLabel": "Masked output",
+      "outputPlaceholder": "Enter a log or HAR on the left to see the masked result here.",
+      "resultSummary": "Masked {count} item(s) (processed as {format})",
+      "formats": {
+        "har": "HAR",
+        "json": "JSON",
+        "text": "text"
+      },
+      "download": "Download",
+      "previewTruncated": "The result is large, so only the beginning is shown in the preview. Downloads and copies include everything.",
+      "nothingFound": "Nothing matching the selected targets was found.",
+      "reviewNote": "Automatic detection has pattern-based limits. Always review the masked output for any remaining sensitive data before sharing it."
     }
   }
 }

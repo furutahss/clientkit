@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "ログ・HARの機密情報マスキングツールを追加",
+          en: "Added a log & HAR sensitive data masking tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "テキスト差分比較（Diff）ツールを追加",
           en: "Added a text diff comparison tool",
         },
