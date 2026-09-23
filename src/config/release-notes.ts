@@ -22,6 +22,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
     date: "2026-09-23",
     entries: [
       {
+        type: "improvement",
+        title: {
+          ja: "メニューとトップページのツールの並び順を、関連するツールが隣り合うように整理",
+          en: "Reordered tools in the menu and on the home page so related tools appear together",
+        },
+      },
+      {
         type: "feature",
         title: {
           ja: "QRコード生成・読み取りツールを追加",
