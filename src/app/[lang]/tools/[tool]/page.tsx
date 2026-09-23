@@ -8,6 +8,7 @@ import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
+import { DataFormatConverterTool } from "@/components/tools/data-format-converter-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
@@ -60,6 +61,7 @@ const toolComponents: Record<string, ComponentType> = {
   "id-generator": IdGeneratorTool,
   "timestamp-converter": TimestampConverterTool,
   "cron-explainer": CronExplainerTool,
+  "data-format-converter": DataFormatConverterTool,
 };
 
 export function generateStaticParams() {

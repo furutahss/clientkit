@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "YAML/TOML/JSON相互変換ツールを追加",
+          en: "Added a YAML/TOML/JSON converter",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "cron式の解説・次回実行日時ツールを追加",
           en: "Added a cron expression explainer with next run times",
         },

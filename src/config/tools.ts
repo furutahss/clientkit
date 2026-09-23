@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,
+  ArrowLeftRight,
   Binary,
   CalendarClock,
   Clock,
@@ -2349,6 +2350,98 @@ export const tools: Tool[] = [
     keywords: {
       ja: "cron crontab cron式 スケジュール 定期実行 次回実行 解説 GitHub Actions",
       en: "cron crontab expression schedule next run explain parser github actions",
+    },
+  },
+  {
+    id: "data-format-converter",
+    name: { ja: "YAML/TOML/JSON相互変換", en: "YAML / TOML / JSON Converter" },
+    description: {
+      ja: "YAML・TOML・JSONを相互に変換し、構文エラーがあれば行と列を表示します。",
+      en: "Convert between YAML, TOML, and JSON, with line and column shown for syntax errors.",
+    },
+    longDescription: {
+      ja: "YAML・TOML・JSONの3形式を相互に変換できるツールです。入力に構文エラーがある場合は、エラーの行・列と該当箇所を表示します。設定ファイルの形式変換やCI設定の確認などに使え、すべてブラウザ内で処理されます。",
+      en: "A tool for converting between YAML, TOML, and JSON. When the input has a syntax error, it shows the line, column, and surrounding lines. Use it to convert config files or check CI settings — everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "上部のボタンで、変換元と変換先の形式（JSON・YAML・TOML）を選びます。中央の矢印ボタンで入れ替えることもできます。",
+        "左側にデータを入力または貼り付けるか、「ファイルを開く」やドラッグ＆ドロップでファイルを読み込みます。ファイルの拡張子から変換元の形式を自動で選択します。",
+        "入力と同時に右側へ変換結果が表示されます。構文エラーがある場合は、エラーの行・列と前後の行が表示されます。",
+        "「クリップボードへコピー」または「ダウンロード」で変換結果を保存します。JSON・YAMLではインデント幅も選べます。",
+      ],
+      en: [
+        "Use the buttons at the top to choose the source and target formats (JSON, YAML, TOML). The arrow button in the middle swaps them.",
+        "Type or paste data on the left, or load a file with \"Open file\" or by drag and drop. The source format is selected automatically from the file extension.",
+        "The converted result appears on the right as you type. If there's a syntax error, the line, column, and surrounding lines are shown.",
+        "Save the result with \"Copy to clipboard\" or \"Download\". For JSON and YAML you can also choose the indentation width.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "YAML・TOML・JSONは、いずれも設定ファイルやデータ交換に広く使われるテキスト形式です。KubernetesやGitHub ActionsではYAML、RustのCargoやPythonのpyproject.tomlではTOML、APIやpackage.jsonではJSONが使われるなど、用途によって形式が異なるため、形式間の変換が必要になる場面がよくあります。",
+          "このツールでは、YAMLの解析・生成にyaml（ISCライセンス）、TOMLの解析・生成にsmol-toml（BSD-3-Clauseライセンス）を使用しています。構文エラーがあると変換結果の代わりにエラー箇所を表示するため、インデントのずれや括弧の閉じ忘れなどをすぐに見つけられます。",
+          "形式ごとに表現できるデータには違いがあります。TOMLにはnullがなく最上位は必ずキーと値の組になるため、そのような値は変換時に除外されるか、エラーとして表示されます。また、TOMLの日時型はISO 8601形式の文字列として出力されます。変換はすべてブラウザ内で完結し、データがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "YAML, TOML, and JSON are all text formats widely used for configuration files and data exchange. Kubernetes and GitHub Actions use YAML, Rust's Cargo and Python's pyproject.toml use TOML, and APIs and package.json use JSON — so you often need to convert between them.",
+          "This tool uses yaml (ISC license) to parse and generate YAML, and smol-toml (BSD-3-Clause license) for TOML. When there's a syntax error, it shows where the problem is instead of a result, so you can quickly spot misaligned indentation or missing brackets.",
+          "Each format can represent slightly different data. TOML has no null and its top level must be key/value pairs, so such values are either left out or reported as errors. TOML date-time values are output as ISO 8601 strings. All conversion happens in your browser, and your data is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "YAMLのコメントは変換後も残りますか？",
+          en: "Are YAML comments preserved after conversion?",
+        },
+        answer: {
+          ja: "残りません。JSONにはコメントの仕組みがないため、データとして解析した値だけを変換します。TOMLやYAMLへ変換した場合も、元のコメントは出力されません。",
+          en: "No. JSON has no concept of comments, so only the parsed data values are converted. Original comments are not included when converting to TOML or YAML either.",
+        },
+      },
+      {
+        question: {
+          ja: "null を含むデータをTOMLに変換するとどうなりますか？",
+          en: "What happens when data with null is converted to TOML?",
+        },
+        answer: {
+          ja: "TOMLにはnullに相当する値がないため、値がnullの項目は出力から除外され、その旨の警告が表示されます。",
+          en: "TOML has no equivalent of null, so entries with null values are left out and a warning is shown.",
+        },
+      },
+      {
+        question: {
+          ja: "複数ドキュメント（---区切り）のYAMLは変換できますか？",
+          en: "Can I convert multi-document YAML (separated by ---)?",
+        },
+        answer: {
+          ja: "1つのドキュメントのみに対応しています。複数のドキュメントを含む場合はエラーになるため、ドキュメントごとに分けて変換してください。",
+          en: "Only a single document is supported. Input with multiple documents results in an error, so convert each document separately.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したデータはサーバーに送信されますか？",
+          en: "Is my data sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。解析と変換はすべてブラウザ内のJavaScriptで行われます。",
+          en: "No. All parsing and conversion is done with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: ArrowLeftRight,
+    keywords: {
+      ja: "YAML TOML JSON 変換 相互変換 設定ファイル 構文チェック バリデーション",
+      en: "yaml toml json converter convert config file syntax validate",
+    },
+    fileMatch: {
+      mimeTypes: ["application/yaml", "application/x-yaml", "text/yaml", "application/toml"],
+      extensions: ["yaml", "yml", "toml", "json"],
     },
   },
 ];
