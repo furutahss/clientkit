@@ -3,6 +3,7 @@ import {
   Activity,
   Binary,
   Database,
+  Dices,
   EyeOff,
   FileJson,
   FileSpreadsheet,
@@ -2082,6 +2083,94 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/json", "text/plain"],
       extensions: ["har", "log", "txt", "json"],
+    },
+  },
+  {
+    id: "id-generator",
+    name: { ja: "UUID/ULID・パスワード生成", en: "UUID/ULID & Password Generator" },
+    description: {
+      ja: "UUID v4/v7・ULIDの一括生成と、長さや文字種を指定したパスワード生成ができます。",
+      en: "Bulk-generate UUID v4/v7 and ULIDs, and create passwords with custom length and character sets.",
+    },
+    longDescription: {
+      ja: "UUID（v4・v7）とULIDを最大1,000個まで一括生成し、長さ・文字種を指定して安全なパスワードを作成できるツールです。乱数には暗号論的に安全なcrypto.getRandomValuesを使用し、すべてブラウザ内で生成されます。",
+      en: "A tool for bulk-generating up to 1,000 UUIDs (v4 and v7) or ULIDs, and for creating secure passwords with a custom length and character set. It uses the cryptographically secure crypto.getRandomValues, and everything is generated in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「UUID」「ULID」「パスワード」のタブから、生成したいものを選びます。",
+        "UUIDではバージョン（v4/v7）を、パスワードでは文字数と使用する文字の種類を指定します。生成する個数や大文字・ハイフンの有無も変更できます。",
+        "設定を変えると自動的に生成し直されます。同じ設定のまま別の値がほしいときは「再生成」を押します。",
+        "「クリップボードへコピー」または「テキストで保存」で、生成結果をまとめて利用できます。",
+      ],
+      en: [
+        "Choose what to generate from the \"UUID\", \"ULID\", and \"Password\" tabs.",
+        "For UUIDs, pick the version (v4/v7); for passwords, set the length and character types. You can also change how many to generate and toggle uppercase or hyphens.",
+        "Values are regenerated automatically whenever you change a setting. Click \"Regenerate\" to get new values with the same settings.",
+        "Use \"Copy to clipboard\" or \"Save as text\" to take all the results at once.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "UUID（Universally Unique Identifier）は、データベースのレコードやAPIのリソースなどを一意に識別するための128ビットのIDです。v4はほぼすべてがランダム値で構成され、v7は先頭に生成時刻を含むため時刻順に並びます。ULIDも同様に時刻を先頭に持つ26文字のIDで、URLに使いやすい大文字英数字（Crockford Base32）で表現されます。",
+          "v7とULIDは、インデックスの局所性が高くデータベースの主キーとして性能面で有利です。このツールでは、同じミリ秒内で大量に生成した場合でもカウンターを使って生成順を保証しています。v7ではRFC 9562の方式に従い、時刻の直後の12ビットをカウンターとして使用しています。",
+          "パスワードは、選択した文字種からそれぞれ最低1文字を含むように生成し、文字の選択には剰余による偏りが生じない方法（棄却法）を使っています。表示される強度は文字数と文字の種類から求めた理論上のエントロピー（ビット数）の目安です。UUID・ULID・パスワードのいずれも、Math.randomではなくcrypto.getRandomValuesで生成しています。",
+        ],
+        en: [
+          "A UUID (Universally Unique Identifier) is a 128-bit ID used to uniquely identify things like database records and API resources. v4 is made almost entirely of random bits, while v7 starts with the creation time so values sort chronologically. A ULID likewise begins with a timestamp and is a 26-character ID written in URL-friendly uppercase Crockford Base32.",
+          "v7 and ULIDs have good index locality, which makes them efficient as database primary keys. This tool uses a counter to guarantee creation order even when many values are generated within the same millisecond; for v7 it follows RFC 9562 and uses the 12 bits after the timestamp as the counter.",
+          "Passwords include at least one character from each selected type, and characters are chosen with rejection sampling to avoid modulo bias. The displayed strength is a guide based on theoretical entropy (bits) derived from the length and character types. UUIDs, ULIDs, and passwords are all generated with crypto.getRandomValues, not Math.random.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "UUID v4とv7はどちらを使えばよいですか？",
+          en: "Should I use UUID v4 or v7?",
+        },
+        answer: {
+          ja: "推測されにくいランダムなIDが必要な場合はv4、データベースの主キーなど生成順に並んでほしい場合はv7が適しています。v7は生成時刻がIDから読み取れる点に注意してください。",
+          en: "Use v4 when you need an unpredictable random ID, and v7 when you want IDs that sort in creation order, such as database primary keys. Note that the creation time can be read from a v7 ID.",
+        },
+      },
+      {
+        question: {
+          ja: "生成したUUIDが重複することはありませんか？",
+          en: "Can generated UUIDs collide?",
+        },
+        answer: {
+          ja: "v4は122ビットのランダム値を持つため、現実的に重複する可能性は無視できるほど小さくなります。v7とULIDも時刻に加えて十分な長さのランダム値を含み、同じミリ秒内ではカウンターで区別しています。",
+          en: "v4 has 122 random bits, so the chance of a collision is negligible in practice. v7 and ULIDs also include plenty of randomness in addition to the timestamp, and values within the same millisecond are distinguished by a counter.",
+        },
+      },
+      {
+        question: {
+          ja: "どのくらいの強度のパスワードにすればよいですか？",
+          en: "How strong should my password be?",
+        },
+        answer: {
+          ja: "一般的なWebサービスでは、英大小文字・数字・記号を含む16文字以上（約100ビット）が目安です。パスワードマネージャーを使い、サービスごとに異なるパスワードを設定することをおすすめします。",
+          en: "For typical web services, aim for at least 16 characters with upper- and lowercase letters, digits, and symbols (about 100 bits). We recommend using a password manager and a different password for each service.",
+        },
+      },
+      {
+        question: {
+          ja: "生成したパスワードはどこかに保存・送信されますか？",
+          en: "Are generated passwords stored or sent anywhere?",
+        },
+        answer: {
+          ja: "保存も送信もされません。生成はブラウザ内でのみ行われ、ページを閉じると消えます。",
+          en: "No. Generation happens only in your browser, and the values disappear when you close the page.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Dices,
+    keywords: {
+      ja: "UUID ULID GUID パスワード 生成 ランダム 乱数 ID 一括 v4 v7",
+      en: "uuid ulid guid password generator random id bulk v4 v7 secure",
     },
   },
 ];

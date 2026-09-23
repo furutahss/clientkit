@@ -729,6 +729,42 @@
       "previewTruncated": "The result is large, so only the beginning is shown in the preview. Downloads and copies include everything.",
       "nothingFound": "Nothing matching the selected targets was found.",
       "reviewNote": "Automatic detection has pattern-based limits. Always review the masked output for any remaining sensitive data before sharing it."
+    },
+    "idGenerator": {
+      "safetyNote": "UUIDs, ULIDs, and passwords are generated entirely in your browser using a cryptographically secure random source (crypto.getRandomValues). Generated values are never sent to a server.",
+      "tabUuid": "UUID",
+      "tabUlid": "ULID",
+      "tabPassword": "Password",
+      "versionLabel": "Version",
+      "versionV4": "v4 (random)",
+      "versionV7": "v7 (time-ordered)",
+      "versionV4Hint": "The most common UUID, made of 122 random bits.",
+      "versionV7Hint": "Contains the creation time (milliseconds) in the first 48 bits, so values sort in creation order. Well suited to database primary keys.",
+      "ulidHint": "A ULID is a 26-character ID with the creation time in the first 10 characters and randomness in the remaining 16. ULIDs sort in creation order, even within the same millisecond.",
+      "countLabel": "How many",
+      "countHint": "Generate between 1 and {max} at once.",
+      "uppercase": "Uppercase",
+      "hyphens": "Include hyphens",
+      "lengthLabel": "Length",
+      "charsetLabel": "Characters to use",
+      "charUppercase": "Uppercase (A-Z)",
+      "charLowercase": "Lowercase (a-z)",
+      "charDigits": "Digits (0-9)",
+      "charSymbols": "Symbols (!@#$ etc.)",
+      "excludeAmbiguous": "Exclude look-alike characters (0 O 1 l I, etc.)",
+      "noCharsetError": "Select at least one character type.",
+      "strengthLabel": "Strength",
+      "strengthValue": "{label} (about {bits} bits)",
+      "strength": {
+        "weak": "Weak",
+        "fair": "Fair",
+        "strong": "Strong",
+        "veryStrong": "Very strong"
+      },
+      "outputLabel": "Generated values",
+      "outputPlaceholder": "Generated values appear here.",
+      "regenerate": "Regenerate",
+      "download": "Save as text"
     }
   }
 }

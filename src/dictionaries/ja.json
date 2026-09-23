@@ -729,6 +729,42 @@
       "previewTruncated": "結果が大きいため、プレビューには先頭部分のみを表示しています。ダウンロードやコピーには全体が含まれます。",
       "nothingFound": "選択した対象に該当する情報は見つかりませんでした。",
       "reviewNote": "自動検出にはパターンによる限界があります。共有する前に、マスキング結果に機密情報が残っていないか必ず目視で確認してください。"
+    },
+    "idGenerator": {
+      "safetyNote": "UUID・ULID・パスワードはすべてお使いのブラウザ内で、暗号論的に安全な乱数（crypto.getRandomValues）を使って生成しています。生成した値がサーバーへ送信されることはありません。",
+      "tabUuid": "UUID",
+      "tabUlid": "ULID",
+      "tabPassword": "パスワード",
+      "versionLabel": "バージョン",
+      "versionV4": "v4（ランダム）",
+      "versionV7": "v7（時刻順）",
+      "versionV4Hint": "122ビットのランダム値からなる、最も一般的なUUIDです。",
+      "versionV7Hint": "先頭48ビットに生成時刻（ミリ秒）を含み、生成順に並ぶUUIDです。データベースの主キーに適しています。",
+      "ulidHint": "ULIDは先頭10文字に生成時刻、残り16文字にランダム値を持つ26文字のIDです。生成順にソートでき、同じミリ秒内でも順序が保たれます。",
+      "countLabel": "生成する個数",
+      "countHint": "1〜{max}個まで一括生成できます。",
+      "uppercase": "大文字で出力",
+      "hyphens": "ハイフンを含める",
+      "lengthLabel": "文字数",
+      "charsetLabel": "使用する文字",
+      "charUppercase": "英大文字（A-Z）",
+      "charLowercase": "英小文字（a-z）",
+      "charDigits": "数字（0-9）",
+      "charSymbols": "記号（!@#$ など）",
+      "excludeAmbiguous": "見間違えやすい文字を除く（0 O 1 l I など）",
+      "noCharsetError": "使用する文字を1種類以上選択してください。",
+      "strengthLabel": "強度",
+      "strengthValue": "{label}（約{bits}ビット）",
+      "strength": {
+        "weak": "弱い",
+        "fair": "普通",
+        "strong": "強い",
+        "veryStrong": "とても強い"
+      },
+      "outputLabel": "生成結果",
+      "outputPlaceholder": "ここに生成結果が表示されます。",
+      "regenerate": "再生成",
+      "download": "テキストで保存"
     }
   }
 }

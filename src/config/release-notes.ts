@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "UUID/ULID・パスワード生成ツールを追加",
+          en: "Added a UUID/ULID & password generator",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "ログ・HARの機密情報マスキングツールを追加",
           en: "Added a log & HAR sensitive data masking tool",
         },

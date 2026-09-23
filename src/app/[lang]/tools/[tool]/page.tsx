@@ -10,6 +10,7 @@ import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
+import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
@@ -54,6 +55,7 @@ const toolComponents: Record<string, ComponentType> = {
   "exif-remover": ExifRemoverTool,
   "text-diff": TextDiffTool,
   "log-masker": LogMaskerTool,
+  "id-generator": IdGeneratorTool,
 };
 
 export function generateStaticParams() {
