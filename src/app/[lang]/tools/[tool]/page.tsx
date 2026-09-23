@@ -7,6 +7,7 @@ import { CharacterCountTool } from "@/components/tools/character-count-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
+import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
@@ -48,6 +49,7 @@ const toolComponents: Record<string, ComponentType> = {
   "mock-repo-generator": MockRepoGeneratorTool,
   "screenshot-editor": ScreenshotEditorTool,
   "pdf-toolkit": PdfToolkitTool,
+  "exif-remover": ExifRemoverTool,
 };
 
 export function generateStaticParams() {

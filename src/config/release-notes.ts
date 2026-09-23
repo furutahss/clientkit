@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "画像のEXIF・位置情報削除ツールを追加",
+          en: "Added an image EXIF & location data remover",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "PDF結合・分割・ページ抽出ツールを追加",
           en: "Added a PDF merge, split & page extraction tool",
         },

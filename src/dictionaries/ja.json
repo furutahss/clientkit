@@ -610,6 +610,43 @@
       "moveBefore": "前に移動",
       "moveAfter": "後ろに移動",
       "removePage": "このページを削除"
+    },
+    "exifRemover": {
+      "safetyNote": "画像はサーバーへアップロードせず、すべてお使いのブラウザ内で解析・削除しているため、位置情報などのプライベートな情報が外部へ漏れることはありません。",
+      "dropLabel": "画像をドラッグ＆ドロップ、またはクリックして選択",
+      "dropHint": "JPEG / PNG / WebP に対応（複数選択可）",
+      "loading": "画像を読み込み中...",
+      "unsupportedFormat": "対応していない形式、または壊れた画像です（JPEG・PNG・WebPに対応）。",
+      "summary": "{count}枚の画像 ・ メタデータあり {withMetadata}枚 ・ 位置情報あり {withGps}枚",
+      "addFiles": "画像を追加",
+      "startOver": "最初からやり直す",
+      "removeFile": "{name} を取り除く",
+      "keepOrientation": "画像の向き（Orientation）は残す",
+      "keepOrientationHint": "スマートフォンで撮影した写真が横倒しで表示されるのを防ぐため、向きの情報だけを残します。それ以外のEXIF情報はすべて削除されます。",
+      "downloadOne": "削除済み画像をダウンロード",
+      "downloadAllZip": "{count}枚をまとめてダウンロード（ZIP）",
+      "stripError": "「{name}」のメタデータを削除できませんでした。",
+      "zipError": "ZIPファイルの作成に失敗しました。",
+      "badgeGps": "位置情報あり",
+      "badgeExif": "EXIF",
+      "badgeXmp": "XMP",
+      "badgeIptc": "IPTC",
+      "badgeComment": "コメント",
+      "badgeText": "テキスト情報",
+      "badgeNone": "メタデータなし",
+      "gpsWarning": "この画像には撮影場所の位置情報（GPS）が含まれています",
+      "gpsCoordinates": "緯度 {lat} / 経度 {lng}",
+      "gpsAltitude": "高度 {alt} m",
+      "showDetails": "詳細を表示（{count}項目）",
+      "hideDetails": "詳細を閉じる（{count}項目）",
+      "orientationValue": "Orientation: {value}",
+      "groups": {
+        "gps": "位置情報（GPS）",
+        "image": "画像・カメラ情報",
+        "exif": "撮影情報（EXIF）",
+        "interop": "互換性情報",
+        "thumbnail": "サムネイル"
+      }
     }
   }
 }

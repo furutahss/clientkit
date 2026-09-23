@@ -610,6 +610,43 @@
       "moveBefore": "Move earlier",
       "moveAfter": "Move later",
       "removePage": "Delete this page"
+    },
+    "exifRemover": {
+      "safetyNote": "Images are never uploaded to a server — they're analyzed and cleaned entirely in your browser, so private details such as location data never leave your device.",
+      "dropLabel": "Drag and drop images, or click to choose",
+      "dropHint": "Supports JPEG / PNG / WebP (multiple files allowed)",
+      "loading": "Loading images...",
+      "unsupportedFormat": "Unsupported format or corrupted image (JPEG, PNG, and WebP are supported).",
+      "summary": "{count} image(s) · {withMetadata} with metadata · {withGps} with location data",
+      "addFiles": "Add images",
+      "startOver": "Start over",
+      "removeFile": "Remove {name}",
+      "keepOrientation": "Keep image orientation",
+      "keepOrientationHint": "Keeps only the orientation tag so photos taken on smartphones aren't displayed sideways. All other EXIF data is removed.",
+      "downloadOne": "Download cleaned image",
+      "downloadAllZip": "Download all {count} images (ZIP)",
+      "stripError": "Couldn't remove metadata from \"{name}\".",
+      "zipError": "Failed to create the ZIP file.",
+      "badgeGps": "Location data",
+      "badgeExif": "EXIF",
+      "badgeXmp": "XMP",
+      "badgeIptc": "IPTC",
+      "badgeComment": "Comment",
+      "badgeText": "Text data",
+      "badgeNone": "No metadata",
+      "gpsWarning": "This image contains GPS data showing where it was taken",
+      "gpsCoordinates": "Latitude {lat} / Longitude {lng}",
+      "gpsAltitude": "Altitude {alt} m",
+      "showDetails": "Show details ({count} items)",
+      "hideDetails": "Hide details ({count} items)",
+      "orientationValue": "Orientation: {value}",
+      "groups": {
+        "gps": "Location (GPS)",
+        "image": "Image & camera",
+        "exif": "Capture settings (EXIF)",
+        "interop": "Interoperability",
+        "thumbnail": "Thumbnail"
+      }
     }
   }
 }

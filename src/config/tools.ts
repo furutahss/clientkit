@@ -9,6 +9,7 @@ import {
   Fingerprint,
   FlaskConical,
   ImageDown,
+  ImageOff,
   ImagePlus,
   KeyRound,
   Layers,
@@ -1803,6 +1804,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/pdf"],
       extensions: ["pdf"],
+    },
+  },
+  {
+    id: "exif-remover",
+    name: { ja: "画像のEXIF・位置情報削除", en: "EXIF & Location Remover" },
+    description: {
+      ja: "写真に含まれるEXIF情報やGPS位置情報を確認し、削除した画像をダウンロードできます。",
+      en: "Inspect EXIF and GPS location data in photos, then download clean copies with it removed.",
+    },
+    longDescription: {
+      ja: "JPEG・PNG・WebP画像に含まれるEXIF情報（撮影日時・カメラ機種・GPS位置情報など）を一覧表示し、メタデータを削除した画像をダウンロードできるツールです。複数ファイルの一括処理にも対応し、すべてブラウザ内で処理されます。",
+      en: "A tool that lists the EXIF data in JPEG, PNG, and WebP images — capture time, camera model, GPS location, and more — and lets you download copies with the metadata removed. It supports batch processing, and everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "画像をドラッグ＆ドロップするか、クリックして選択します。複数の画像をまとめて読み込めます。",
+        "画像ごとに、含まれているメタデータの種類がバッジで表示されます。位置情報（GPS）が含まれている場合は、緯度・経度とともに警告が表示されます。",
+        "「詳細を表示」で、カメラ機種や撮影日時などのEXIF情報を項目ごとに確認できます。",
+        "「削除済み画像をダウンロード」で1枚ずつ、または「まとめてダウンロード（ZIP）」で全画像を、メタデータを取り除いた状態で保存します。",
+      ],
+      en: [
+        "Drag and drop images or click to choose them. You can load several images at once.",
+        "Each image shows badges for the types of metadata it contains. If it includes GPS location data, a warning is shown along with the latitude and longitude.",
+        "Click \"Show details\" to review each EXIF field, such as camera model and capture time.",
+        "Save images with metadata removed one at a time with \"Download cleaned image\", or all at once with \"Download all (ZIP)\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "スマートフォンやデジタルカメラで撮影した写真には、撮影日時やカメラの機種、レンズの情報に加え、撮影した場所のGPS座標が「EXIF」というメタデータとして記録されていることがあります。この情報が残ったまま画像をSNSやブログ、フリマアプリなどで公開すると、自宅や職場の場所が特定されるおそれがあります。",
+          "このツールはJPEGのAPP1（EXIF・XMP）・APP13（IPTC）・コメント、PNGのeXIf・テキストチャンク、WebPのEXIF・XMPチャンクを取り除きます。画像データそのものは再エンコードせずにそのままコピーするため、画質が劣化することはありません。色の再現に必要なICCプロファイルは保持されます。",
+          "「画像の向きは残す」をオンにすると、Orientation（向き）の情報だけを最小限のEXIFとして書き戻します。スマートフォンの写真は向きの情報で縦横を切り替えていることが多く、これを消すと横倒しで表示される場合があるためです。読み込みから保存まで、画像がサーバーへ送信されることは一切ありません。",
+        ],
+        en: [
+          "Photos taken with smartphones and digital cameras can carry \"EXIF\" metadata such as the capture time, camera model, and lens information — and sometimes the GPS coordinates of where the photo was taken. Posting such images on social media, blogs, or marketplace apps can reveal where you live or work.",
+          "This tool removes JPEG APP1 (EXIF, XMP), APP13 (IPTC), and comment segments; PNG eXIf and text chunks; and WebP EXIF and XMP chunks. The image data itself is copied as-is without re-encoding, so there's no loss of quality. ICC color profiles needed for accurate color are kept.",
+          "With \"Keep image orientation\" turned on, only the Orientation tag is written back as a minimal EXIF block. Smartphone photos often rely on this tag to switch between portrait and landscape, and removing it can make them appear sideways. From loading to saving, your images are never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "メタデータを削除すると画質は落ちますか？",
+          en: "Does removing metadata reduce image quality?",
+        },
+        answer: {
+          ja: "落ちません。メタデータ部分だけを取り除き、画像データは再エンコードせずにそのままコピーしているため、画質は元の画像と同じです。",
+          en: "No. Only the metadata sections are removed, and the image data is copied as-is without re-encoding, so the quality is identical to the original.",
+        },
+      },
+      {
+        question: {
+          ja: "削除後の画像が横向きに表示されます。",
+          en: "The cleaned image is displayed sideways.",
+        },
+        answer: {
+          ja: "「画像の向き（Orientation）は残す」をオンにしてから、もう一度ダウンロードしてください。向きの情報だけを残し、位置情報などその他のEXIF情報は削除されます。",
+          en: "Turn on \"Keep image orientation\" and download again. Only the orientation tag is kept, while location data and all other EXIF fields are removed.",
+        },
+      },
+      {
+        question: {
+          ja: "HEICやGIFなどの形式にも対応していますか？",
+          en: "Are formats like HEIC or GIF supported?",
+        },
+        answer: {
+          ja: "現在はJPEG・PNG・WebPに対応しています。HEICの写真は、端末の設定や画像変換ツールでJPEGに変換してから読み込んでください。",
+          en: "JPEG, PNG, and WebP are currently supported. Convert HEIC photos to JPEG using your device settings or an image converter before loading them.",
+        },
+      },
+      {
+        question: {
+          ja: "画像はサーバーにアップロードされますか？",
+          en: "Are images uploaded to a server?",
+        },
+        answer: {
+          ja: "アップロードされません。メタデータの解析と削除はすべてブラウザ内のJavaScriptで行われます。",
+          en: "No. Analyzing and removing metadata is done entirely with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: ImageOff,
+    keywords: {
+      ja: "EXIF 位置情報 GPS 削除 メタデータ 写真 プライバシー 撮影情報 一括",
+      en: "exif remove gps location metadata photo privacy strip batch",
+    },
+    fileMatch: {
+      mimeTypes: ["image/jpeg", "image/png", "image/webp"],
+      extensions: ["jpg", "jpeg", "png", "webp"],
     },
   },
 ];
