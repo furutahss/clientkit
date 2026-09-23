@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "テキスト差分比較（Diff）ツールを追加",
+          en: "Added a text diff comparison tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "画像のEXIF・位置情報削除ツールを追加",
           en: "Added an image EXIF & location data remover",
         },

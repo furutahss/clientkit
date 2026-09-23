@@ -21,6 +21,7 @@ import { PrismaSchemaVisualizerTool } from "@/components/tools/prisma-schema-vis
 import { RegexTesterTool } from "@/components/tools/regex-tester-tool";
 import { ScreenshotEditorTool } from "@/components/tools/screenshot-editor-tool";
 import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
+import { TextDiffTool } from "@/components/tools/text-diff-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
 import { UrlEncoderTool } from "@/components/tools/url-encoder-tool";
@@ -50,6 +51,7 @@ const toolComponents: Record<string, ComponentType> = {
   "screenshot-editor": ScreenshotEditorTool,
   "pdf-toolkit": PdfToolkitTool,
   "exif-remover": ExifRemoverTool,
+  "text-diff": TextDiffTool,
 };
 
 export function generateStaticParams() {

@@ -8,6 +8,7 @@ import {
   FileStack,
   Fingerprint,
   FlaskConical,
+  GitCompare,
   ImageDown,
   ImageOff,
   ImagePlus,
@@ -1896,6 +1897,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["image/jpeg", "image/png", "image/webp"],
       extensions: ["jpg", "jpeg", "png", "webp"],
+    },
+  },
+  {
+    id: "text-diff",
+    name: { ja: "テキスト差分比較（Diff）", en: "Text Diff Checker" },
+    description: {
+      ja: "2つのテキストの違いを、左右比較・統合表示で行単位／文字単位にハイライトします。",
+      en: "Highlight differences between two texts line by line or character by character, side by side or unified.",
+    },
+    longDescription: {
+      ja: "2つのテキストを比較し、追加・削除された行や文字をハイライト表示するDiffツールです。左右比較と統合表示の切り替え、行単位・文字単位の差分表示、空白の違いの無視に対応し、すべてブラウザ内で処理されます。",
+      en: "A diff tool that compares two texts and highlights added and removed lines and characters. Switch between side-by-side and unified views, show differences per line or per character, and ignore whitespace differences — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左側に変更前、右側に変更後のテキストを入力または貼り付けます。「ファイルを開く」やドラッグ＆ドロップでテキストファイルを読み込むこともできます。",
+        "入力と同時に差分が計算され、下の比較結果に追加行は緑、削除行は赤で表示されます。",
+        "「左右比較」「統合表示」で表示形式を、「行単位」「文字単位」でハイライトの細かさを切り替えます。空白の違いを無視したり、変更箇所の前後だけを表示したりすることもできます。",
+        "「クリップボードへコピー」で、差分をunified diff形式（パッチ形式）でコピーできます。",
+      ],
+      en: [
+        "Enter or paste the original text on the left and the changed text on the right. You can also load text files with \"Open file\" or by drag and drop.",
+        "Differences are calculated as you type and shown in the result below, with added lines in green and removed lines in red.",
+        "Switch the layout with \"Side by side\" / \"Unified\" and the highlight granularity with \"Line\" / \"Character\". You can also ignore whitespace differences or show only the lines around changes.",
+        "Use \"Copy to clipboard\" to copy the differences in unified diff (patch) format.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "テキスト差分比較ツールは、文章の修正前後の比較、設定ファイルの変更点の確認、APIレスポンスやログの違いの調査などに使えるDiffツールです。gitなどのツールを使わなくても、2つのテキストを貼り付けるだけで変更点をすばやく確認できます。",
+          "差分は行単位で計算し、変更された行どうしについては文字単位の違いも強調表示します。「文字単位」表示では、1行の中のどの文字が変わったのかが一目でわかるため、数字1文字の修正や全角・半角の違いなど、見落としやすい変更を見つけるのに便利です。",
+          "比較処理はすべてブラウザ内で完結し、入力したテキストがサーバーへ送信されることはありません。非常に大きなテキストや差分が多い場合は、ブラウザが固まらないよう一定時間で比較を打ち切り、表示する行数にも上限を設けています。",
+        ],
+        en: [
+          "The text diff checker is useful for comparing drafts before and after edits, reviewing changes to config files, and investigating differences between API responses or logs. Just paste two texts to see what changed — no git or other tools required.",
+          "Differences are calculated line by line, and character-level differences are highlighted within changed lines. The character view shows exactly which characters changed in a line, making it easy to spot subtle edits such as a single digit or a full-width versus half-width character.",
+          "All comparison happens in your browser, and your text is never sent to a server. For very large texts or heavily changed content, the comparison stops after a set time and the number of displayed lines is capped to keep your browser responsive.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "「行単位」と「文字単位」の違いは何ですか？",
+          en: "What's the difference between \"Line\" and \"Character\"?",
+        },
+        answer: {
+          ja: "「行単位」は変更のあった行全体を色付けします。「文字単位」はそれに加えて、変更された行の中で実際に変わった文字を濃い色で強調表示します。",
+          en: "\"Line\" colors entire changed lines. \"Character\" additionally highlights, in a darker color, the specific characters that changed within those lines.",
+        },
+      },
+      {
+        question: {
+          ja: "改行コード（CRLFとLF）の違いは差分になりますか？",
+          en: "Do line ending differences (CRLF vs LF) show up as changes?",
+        },
+        answer: {
+          ja: "なりません。比較の前に改行コードをLFに統一しているため、WindowsとmacOS/Linuxで作成したファイルどうしでも内容の違いだけを確認できます。",
+          en: "No. Line endings are normalized to LF before comparing, so files created on Windows and macOS/Linux show only real content differences.",
+        },
+      },
+      {
+        question: {
+          ja: "差分をパッチとして保存できますか？",
+          en: "Can I save the differences as a patch?",
+        },
+        answer: {
+          ja: "「クリップボードへコピー」で、unified diff形式（git diffなどと同じ形式）のテキストをコピーできます。テキストエディタに貼り付けて .diff や .patch ファイルとして保存してください。",
+          en: "Yes. \"Copy to clipboard\" copies the differences in unified diff format (the same format as git diff). Paste it into a text editor and save it as a .diff or .patch file.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したテキストはサーバーに送信されますか？",
+          en: "Is my text sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。差分の計算はすべてブラウザ内のJavaScriptで行われます。",
+          en: "No. All differences are calculated with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "text",
+    icon: GitCompare,
+    keywords: {
+      ja: "差分 比較 diff テキスト 文章 変更点 ハイライト 文字単位 行単位",
+      en: "diff compare text difference changes highlight side by side unified patch",
+    },
+    fileMatch: {
+      mimeTypes: ["text/plain"],
+      extensions: ["txt"],
     },
   },
 ];

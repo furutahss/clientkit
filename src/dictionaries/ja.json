@@ -647,6 +647,35 @@
         "interop": "互換性情報",
         "thumbnail": "サムネイル"
       }
+    },
+    "textDiff": {
+      "safetyNote": "入力したテキストはサーバーへ送信せず、すべてお使いのブラウザ内で比較しているため、設定ファイルや社内文書も安全に比較できます。",
+      "leftLabel": "変更前（左）",
+      "rightLabel": "変更後（右）",
+      "leftPlaceholder": "比較元のテキストを入力または貼り付け（ファイルのドロップも可）",
+      "rightPlaceholder": "比較先のテキストを入力または貼り付け（ファイルのドロップも可）",
+      "openFile": "ファイルを開く",
+      "fileReadError": "ファイルを読み込めませんでした。テキストファイルを選択してください。",
+      "swap": "左右を入れ替え",
+      "viewSplit": "左右比較",
+      "viewUnified": "統合表示",
+      "granularityLine": "行単位",
+      "granularityChar": "文字単位",
+      "ignoreWhitespace": "空白の違いを無視",
+      "onlyChanges": "変更箇所のみ表示",
+      "resultHeading": "比較結果",
+      "addedCount": "+{count}行",
+      "removedCount": "−{count}行",
+      "copyHint": "unified diff形式でコピー",
+      "emptyState": "左右にテキストを入力すると、ここに差分が表示されます。",
+      "identical": "2つのテキストに違いはありません。",
+      "tooLarge": "テキストが大きすぎるか差分が多すぎるため、時間内に比較できませんでした。範囲を絞って比較してください。",
+      "skippedLines": "変更のない {count} 行を省略",
+      "truncatedNote": "表示できる行数の上限（{count}行）を超えたため、以降の行は省略しています。",
+      "leftFileName": "変更前",
+      "rightFileName": "変更後",
+      "loading": "比較処理を読み込み中...",
+      "libraryLoadError": "比較処理を読み込めませんでした。ページを再読み込みしてください。"
     }
   }
 }

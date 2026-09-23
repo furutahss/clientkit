@@ -647,6 +647,35 @@
         "interop": "Interoperability",
         "thumbnail": "Thumbnail"
       }
+    },
+    "textDiff": {
+      "safetyNote": "Your text is never sent to a server — the comparison runs entirely in your browser, so you can safely compare config files and internal documents.",
+      "leftLabel": "Original (left)",
+      "rightLabel": "Changed (right)",
+      "leftPlaceholder": "Type or paste the original text (or drop a file)",
+      "rightPlaceholder": "Type or paste the changed text (or drop a file)",
+      "openFile": "Open file",
+      "fileReadError": "Couldn't read the file. Please choose a text file.",
+      "swap": "Swap sides",
+      "viewSplit": "Side by side",
+      "viewUnified": "Unified",
+      "granularityLine": "Line",
+      "granularityChar": "Character",
+      "ignoreWhitespace": "Ignore whitespace",
+      "onlyChanges": "Show changes only",
+      "resultHeading": "Result",
+      "addedCount": "+{count} lines",
+      "removedCount": "−{count} lines",
+      "copyHint": "Copies as a unified diff",
+      "emptyState": "Enter text on both sides to see the differences here.",
+      "identical": "The two texts are identical.",
+      "tooLarge": "The texts are too large or differ too much to compare in time. Try comparing a smaller portion.",
+      "skippedLines": "{count} unchanged lines hidden",
+      "truncatedNote": "Showing only the first {count} lines because the display limit was exceeded.",
+      "leftFileName": "original",
+      "rightFileName": "changed",
+      "loading": "Loading the comparison engine...",
+      "libraryLoadError": "Couldn't load the comparison engine. Please reload the page."
     }
   }
 }
