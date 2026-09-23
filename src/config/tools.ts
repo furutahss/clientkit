@@ -5,6 +5,7 @@ import {
   Database,
   FileJson,
   FileSpreadsheet,
+  FileStack,
   Fingerprint,
   FlaskConical,
   ImageDown,
@@ -1710,6 +1711,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimePrefixes: ["image/"],
       extensions: ["png", "jpg", "jpeg", "webp", "gif", "bmp", "avif"],
+    },
+  },
+  {
+    id: "pdf-toolkit",
+    name: { ja: "PDF結合・分割・ページ抽出", en: "PDF Merge, Split & Extract" },
+    description: {
+      ja: "複数PDFの結合、ページ範囲での分割、ページの抽出・並べ替え・回転をブラウザだけで行えます。",
+      en: "Merge PDFs, split by page ranges, and extract, reorder, or rotate pages — all in your browser.",
+    },
+    longDescription: {
+      ja: "複数のPDFを1つに結合したり、ページ範囲や一定ページごとに分割したり、必要なページだけを抽出・並べ替え・回転したりできるツールです。すべてブラウザ内で処理され、PDFがサーバーへ送信されることはありません。",
+      en: "A tool for merging multiple PDFs into one, splitting by page ranges or every N pages, and extracting, reordering, or rotating pages. Everything runs in your browser, and your PDFs are never uploaded to a server.",
+    },
+    howToUse: {
+      ja: [
+        "PDFファイルをドラッグ＆ドロップするか、クリックして選択します。複数のPDFを選ぶと、読み込んだ順にページ一覧へ追加されます。",
+        "ページ一覧でドラッグ＆ドロップまたは矢印ボタンを使ってページを並べ替え、回転ボタンで向きを直し、不要なページは削除します。",
+        "「結合・並べ替え」ではページ一覧のとおりに1つのPDFとして書き出します。「分割」ではページ範囲（例: 1-3, 4-6）または一定ページごとに分割し、「ページ抽出」では指定したページ（例: 1, 3, 5-7）だけを1つのPDFにまとめます。",
+        "ダウンロードボタンを押すと、処理済みのPDF（分割で複数になる場合はZIP）が保存されます。",
+      ],
+      en: [
+        "Drag and drop PDF files or click to choose them. When you select multiple PDFs, their pages are added to the page list in the order they're loaded.",
+        "In the page list, reorder pages by drag and drop or the arrow buttons, fix orientation with the rotate buttons, and delete pages you don't need.",
+        "\"Merge & reorder\" exports a single PDF that matches the page list. \"Split\" splits by page ranges (e.g. 1-3, 4-6) or every N pages, and \"Extract pages\" combines only the pages you specify (e.g. 1, 3, 5-7) into one PDF.",
+        "Click the download button to save the processed PDF (or a ZIP when a split produces multiple files).",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "PDF結合・分割・ページ抽出ツールは、請求書や契約書、スキャンした書類などのPDFを、専用ソフトをインストールせずに整理するためのツールです。複数のPDFを1つにまとめる、長いPDFを章ごとに分ける、必要なページだけを抜き出して共有する、といった作業をブラウザだけで行えます。",
+          "ページの並べ替え・回転・削除は、書き出し前のページ一覧上で自由に試せます。回転は元のページの向きに90度単位で加算され、ページの内容（テキスト・画像・リンクなど）は再圧縮されずにそのまま新しいPDFへコピーされるため、画質や文字の検索性が損なわれることはありません。",
+          "PDFの読み込みから書き出しまで、処理はすべてブラウザ内で完結します。オンラインのPDF結合サービスのようにファイルをアップロードする必要がないため、社外秘の資料や個人情報を含む書類も安心して扱えます。なお、パスワードで保護（暗号化）されたPDFには対応していません。",
+        ],
+        en: [
+          "The PDF merge, split & extract tool lets you organize PDFs such as invoices, contracts, and scanned documents without installing dedicated software. Combine multiple PDFs into one, break a long PDF into chapters, or pull out just the pages you need to share — all in your browser.",
+          "You can freely try reordering, rotating, and deleting pages in the page list before exporting. Rotation is added to each page's original orientation in 90° steps, and page content (text, images, links, and so on) is copied into the new PDF as-is without recompression, so quality and text searchability are preserved.",
+          "Everything from loading to exporting happens entirely in your browser. Unlike online PDF merging services, there's no need to upload your files, so you can safely work with confidential or personal documents. Note that password-protected (encrypted) PDFs are not supported.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "ページ範囲はどのように指定しますか？",
+          en: "How do I specify page ranges?",
+        },
+        answer: {
+          ja: "「1-3」のようにハイフンで範囲を、「1, 3, 5」のようにカンマで複数の指定を区切ります。「7-」は7ページ目から最後まで、「-3」は先頭から3ページ目までを表します。「分割」ではカンマで区切った範囲ごとに別々のPDFになり、「ページ抽出」ではすべてのページを1つのPDFにまとめます。",
+          en: "Use a hyphen for ranges like \"1-3\" and commas to separate multiple entries like \"1, 3, 5\". \"7-\" means page 7 to the end, and \"-3\" means the first page through page 3. In Split, each comma-separated range becomes a separate PDF; in Extract pages, all specified pages are combined into one PDF.",
+        },
+      },
+      {
+        question: {
+          ja: "画質が落ちたり、テキストが検索できなくなったりしませんか？",
+          en: "Will quality drop or text become unsearchable?",
+        },
+        answer: {
+          ja: "ページの内容は再圧縮や画像化をせずにそのままコピーするため、画質やテキストの選択・検索性はそのまま保たれます。",
+          en: "No. Page content is copied as-is without recompression or rasterization, so image quality and text selection/search are preserved.",
+        },
+      },
+      {
+        question: {
+          ja: "パスワード付きのPDFは扱えますか？",
+          en: "Can I use password-protected PDFs?",
+        },
+        answer: {
+          ja: "暗号化されたPDFには対応していません。PDFビューアなどでパスワードを解除して保存し直してから読み込んでください。",
+          en: "Encrypted PDFs are not supported. Remove the password in a PDF viewer and save the file again before loading it.",
+        },
+      },
+      {
+        question: {
+          ja: "PDFはサーバーにアップロードされますか？",
+          en: "Are PDFs uploaded to a server?",
+        },
+        answer: {
+          ja: "アップロードされません。PDFの読み込み・結合・分割・書き出しはすべてブラウザ内のJavaScriptで処理され、外部へ送信されることはありません。",
+          en: "No. Loading, merging, splitting, and exporting are all handled by JavaScript in your browser, and nothing is sent externally.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: FileStack,
+    keywords: {
+      ja: "PDF 結合 分割 抽出 ページ 並べ替え 回転 マージ 削除",
+      en: "pdf merge split extract pages reorder rotate combine delete",
+    },
+    fileMatch: {
+      mimeTypes: ["application/pdf"],
+      extensions: ["pdf"],
     },
   },
 ];

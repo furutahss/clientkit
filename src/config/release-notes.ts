@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-09-23",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "PDF結合・分割・ページ抽出ツールを追加",
+          en: "Added a PDF merge, split & page extraction tool",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-09-21",
     entries: [
       {
