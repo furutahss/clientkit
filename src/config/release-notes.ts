@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "Unixタイムスタンプ・タイムゾーン変換ツールを追加",
+          en: "Added a Unix timestamp & time zone converter",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "UUID/ULID・パスワード生成ツールを追加",
           en: "Added a UUID/ULID & password generator",
         },

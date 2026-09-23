@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   Activity,
   Binary,
+  CalendarClock,
   Database,
   Dices,
   EyeOff,
@@ -2171,6 +2172,94 @@ export const tools: Tool[] = [
     keywords: {
       ja: "UUID ULID GUID パスワード 生成 ランダム 乱数 ID 一括 v4 v7",
       en: "uuid ulid guid password generator random id bulk v4 v7 secure",
+    },
+  },
+  {
+    id: "timestamp-converter",
+    name: { ja: "Unixタイムスタンプ・タイムゾーン変換", en: "Unix Timestamp & Time Zone Converter" },
+    description: {
+      ja: "Unixタイムスタンプと日時を相互変換し、複数のタイムゾーンでの時刻を同時に表示します。",
+      en: "Convert between Unix timestamps and dates, and see the time in multiple time zones at once.",
+    },
+    longDescription: {
+      ja: "Unixタイムスタンプ（秒・ミリ秒・マイクロ秒・ナノ秒を自動判定）をISO 8601などの日時に変換し、複数のタイムゾーンでの時刻を一覧表示できるツールです。日時からUnix時刻への逆変換にも対応し、すべてブラウザ内で処理されます。",
+      en: "A tool that converts Unix timestamps — auto-detecting seconds, milliseconds, microseconds, or nanoseconds — to ISO 8601 and other formats, and lists the time across multiple time zones. It also converts dates back to Unix time, all within your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「タイムスタンプまたは日時」にUnix時刻（例: 1700000000）や日時文字列（例: 2026-09-23T12:00:00+09:00）を入力します。数値は桁数から単位を自動判定しますが、単位を明示的に選ぶこともできます。",
+        "右側に、Unix時刻（秒・ミリ秒）、ISO 8601（UTC・この端末のタイムゾーン）、HTTP日付形式、現在からの差が表示されます。各値はコピーボタンでコピーできます。",
+        "「タイムゾーン別の日時」で、複数のタイムゾーンでの日時とUTCからのオフセットを同時に確認できます。タイムゾーンは検索して追加・削除できます。",
+        "「日時からUnix時刻に変換」では、日時とタイムゾーンを指定してUnix時刻を求められます。",
+      ],
+      en: [
+        "Enter a Unix time (e.g. 1700000000) or a date string (e.g. 2026-09-23T12:00:00+09:00) under \"Timestamp or date\". Units are auto-detected from the number of digits, but you can also choose one explicitly.",
+        "On the right, you'll see Unix time (seconds and milliseconds), ISO 8601 (UTC and your device's time zone), the HTTP date format, and the time relative to now. Copy any value with its copy button.",
+        "\"Time in each time zone\" shows the date, time, and UTC offset in several time zones at once. Search to add time zones, or remove ones you don't need.",
+        "\"Convert a date to Unix time\" calculates the Unix time for a date and time in the time zone you choose.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Unixタイムスタンプ（Unix時刻）は、1970年1月1日0時0分0秒（UTC）からの経過秒数で日時を表す形式で、ログやデータベース、APIのレスポンスなどで広く使われています。言語やシステムによって秒・ミリ秒・マイクロ秒・ナノ秒と単位が異なるため、このツールでは数値の桁数から単位を自動で判定します。",
+          "タイムゾーンの変換にはブラウザ標準のIntl APIを使用しており、夏時間（サマータイム）の切り替えも考慮して各地域のUTCからのオフセットを求めています。海外拠点とのやり取りや、UTCで記録されたログを現地時刻で確認したい場合などに便利です。",
+          "入力したタイムスタンプや日時はサーバーへ送信されず、すべてブラウザ内で変換されます。現在時刻やローカルのタイムゾーンも、お使いの端末の設定から取得しています。",
+        ],
+        en: [
+          "A Unix timestamp (Unix time) represents a moment as the number of seconds elapsed since 00:00:00 UTC on January 1, 1970, and it's widely used in logs, databases, and API responses. Because languages and systems use different units — seconds, milliseconds, microseconds, or nanoseconds — this tool detects the unit automatically from the number of digits.",
+          "Time zone conversion uses your browser's built-in Intl API, which accounts for daylight saving time when calculating each region's offset from UTC. It's handy when coordinating with overseas teams or reading UTC logs in local time.",
+          "The timestamps and dates you enter are never sent to a server — all conversion happens in your browser. The current time and your local time zone are read from your device settings.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "秒とミリ秒はどのように判定していますか？",
+          en: "How are seconds and milliseconds told apart?",
+        },
+        answer: {
+          ja: "整数部の桁数で判定しています。11桁以下は秒、12〜14桁はミリ秒、15〜17桁はマイクロ秒、18桁以上はナノ秒とみなします。判定が意図と異なる場合は、単位を手動で選択してください。",
+          en: "By the number of integer digits: up to 11 digits is treated as seconds, 12–14 as milliseconds, 15–17 as microseconds, and 18 or more as nanoseconds. If the detection isn't what you intended, choose the unit manually.",
+        },
+      },
+      {
+        question: {
+          ja: "夏時間（サマータイム）は考慮されますか？",
+          en: "Is daylight saving time taken into account?",
+        },
+        answer: {
+          ja: "考慮されます。ブラウザに組み込まれたタイムゾーンデータベースを使って、指定した日時における各タイムゾーンのオフセットを求めています。",
+          en: "Yes. The offset for each time zone at the given moment is calculated using the time zone database built into your browser.",
+        },
+      },
+      {
+        question: {
+          ja: "マイナスのタイムスタンプ（1970年より前）も変換できますか？",
+          en: "Can I convert negative timestamps (before 1970)?",
+        },
+        answer: {
+          ja: "変換できます。「-86400」のようにマイナス記号を付けて入力してください。",
+          en: "Yes. Enter it with a minus sign, like \"-86400\".",
+        },
+      },
+      {
+        question: {
+          ja: "入力した値はサーバーに送信されますか？",
+          en: "Are the values I enter sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。変換処理はすべてブラウザ内のJavaScriptで行われます。",
+          en: "No. All conversion is done with JavaScript in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: CalendarClock,
+    keywords: {
+      ja: "Unix タイムスタンプ エポック 秒 ミリ秒 日時 変換 タイムゾーン ISO 8601 UTC JST 時差",
+      en: "unix timestamp epoch seconds milliseconds date converter time zone iso 8601 utc",
     },
   },
 ];
