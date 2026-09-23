@@ -9,6 +9,7 @@ import {
   Database,
   Dices,
   EyeOff,
+  FileBadge,
   FileJson,
   FileSpreadsheet,
   FileStack,
@@ -2535,6 +2536,98 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/json"],
       extensions: ["json"],
+    },
+  },
+  {
+    id: "certificate-decoder",
+    name: { ja: "X.509証明書（PEM）デコーダー", en: "X.509 Certificate Decoder" },
+    description: {
+      ja: "PEM形式の証明書から発行者・サブジェクト・有効期限・SAN・フィンガープリントを表示し、期限切れを判定します。",
+      en: "Decode PEM certificates to see issuer, subject, expiry, SANs, and fingerprints, and check whether they've expired.",
+    },
+    longDescription: {
+      ja: "PEM・DER形式のX.509証明書を解析し、発行者、サブジェクト、有効期限、サブジェクト代替名（SAN）、SHA-256/SHA-1フィンガープリント、公開鍵の種類などを表示するツールです。期限切れやまもなく期限切れの証明書を判定し、証明書チェーンにも対応します。すべてブラウザ内で処理されます。",
+      en: "A tool that parses X.509 certificates in PEM or DER format and shows the issuer, subject, expiry date, Subject Alternative Names (SANs), SHA-256/SHA-1 fingerprints, public key type, and more. It flags expired or soon-to-expire certificates and supports certificate chains. Everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「-----BEGIN CERTIFICATE-----」から始まるPEM形式の証明書を貼り付けるか、.pem / .crt / .cer / .der ファイルを読み込みます。",
+        "証明書の内容が一覧で表示されます。上部のバッジで、有効・まもなく期限切れ（30日以内）・期限切れ・有効期間前かを確認できます。",
+        "サブジェクト代替名（SAN）で、証明書が有効なドメイン名やIPアドレスを確認します。フィンガープリントはコピーボタンでコピーできます。",
+        "証明書チェーン（サーバー証明書と中間証明書など）をまとめて貼り付けると、各証明書を順番に表示します。",
+      ],
+      en: [
+        "Paste a PEM certificate starting with \"-----BEGIN CERTIFICATE-----\", or load a .pem / .crt / .cer / .der file.",
+        "The certificate details are listed. The badge at the top shows whether it's valid, expiring soon (within 30 days), expired, or not yet valid.",
+        "Check the Subject Alternative Names (SANs) to see which domain names and IP addresses the certificate covers. Copy fingerprints with the copy buttons.",
+        "Paste a whole certificate chain (e.g. a server certificate plus intermediates) to see each certificate in order.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "X.509証明書は、HTTPS通信（TLS）などで相手が本物であることを証明するための電子証明書です。証明書には、誰に対して発行されたか（サブジェクト）、誰が発行したか（発行者）、いつまで有効か（有効期限）、どのドメイン名で使えるか（サブジェクト代替名）といった情報がASN.1という形式で記録されています。",
+          "このツールは証明書のバイナリ（DER）を直接解析し、人が読みやすい形で表示します。サーバーに設定する前の証明書の確認や、期限切れによる障害の調査、証明書チェーンの順番や中間証明書の確認などに役立ちます。フィンガープリント（SHA-256・SHA-1）は証明書全体のハッシュ値で、証明書を一意に識別するために使われます。",
+          "証明書自体は公開情報ですが、社内向けの証明書などはホスト名や組織名が含まれるため外部に出したくない場合もあります。このツールでは解析もハッシュ計算もブラウザ内で完結し、証明書がサーバーへ送信されることはありません。なお、証明書の署名の検証（信頼できる認証局が発行したかどうかの確認）は行いません。",
+        ],
+        en: [
+          "An X.509 certificate is a digital certificate that proves the identity of the other party in HTTPS (TLS) connections and elsewhere. It records, in a format called ASN.1, who it was issued to (subject), who issued it (issuer), how long it's valid (validity period), and which domain names it covers (Subject Alternative Names).",
+          "This tool parses the certificate's binary (DER) directly and shows it in a human-readable form. It's useful for checking a certificate before installing it on a server, investigating outages caused by expiry, and verifying the order of a chain and its intermediate certificates. Fingerprints (SHA-256, SHA-1) are hashes of the entire certificate used to identify it uniquely.",
+          "Certificates are public information, but internal ones can include hostnames or organization names you'd rather not share. Here, both parsing and hashing happen entirely in your browser, and certificates are never sent to a server. Note that the tool does not verify signatures (i.e. whether a trusted certificate authority issued the certificate).",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "証明書の信頼性（正しい認証局が発行したか）も確認できますか？",
+          en: "Can it check whether a certificate is trusted?",
+        },
+        answer: {
+          ja: "できません。このツールは証明書の内容の表示と有効期限の判定のみを行い、署名の検証や失効状態（CRL・OCSP）の確認は行いません。",
+          en: "No. This tool only displays certificate contents and checks the validity period. It does not verify signatures or check revocation status (CRL/OCSP).",
+        },
+      },
+      {
+        question: {
+          ja: "「まもなく期限切れ」は何日前から表示されますか？",
+          en: "When is \"Expiring soon\" shown?",
+        },
+        answer: {
+          ja: "有効期限までの残りが30日以下になると「まもなく期限切れ」と表示します。判定にはお使いの端末の現在時刻を使用しています。",
+          en: "It's shown when 30 days or fewer remain until expiry. The check uses your device's current time.",
+        },
+      },
+      {
+        question: {
+          ja: "秘密鍵やCSRも解析できますか？",
+          en: "Can it parse private keys or CSRs?",
+        },
+        answer: {
+          ja: "対応しているのは証明書（CERTIFICATE）のみです。秘密鍵は第三者に見せる必要のない情報のため、オンラインのツールに貼り付けないことをおすすめします。",
+          en: "Only certificates (CERTIFICATE) are supported. Private keys should never need to be shared, so we recommend not pasting them into online tools.",
+        },
+      },
+      {
+        question: {
+          ja: "証明書はサーバーに送信されますか？",
+          en: "Are certificates sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。解析とフィンガープリントの計算はすべてブラウザ内で行われます。",
+          en: "No. Parsing and fingerprint calculation both happen in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: FileBadge,
+    keywords: {
+      ja: "X.509 証明書 SSL TLS PEM デコード 有効期限 期限切れ SAN フィンガープリント CRT",
+      en: "x509 certificate ssl tls pem decoder expiry expiration san fingerprint crt der",
+    },
+    fileMatch: {
+      mimeTypes: ["application/x-x509-ca-cert", "application/pkix-cert", "application/x-pem-file"],
+      extensions: ["pem", "crt", "cer", "der", "cert"],
     },
   },
 ];

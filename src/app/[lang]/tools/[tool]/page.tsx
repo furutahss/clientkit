@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Base64Tool } from "@/components/tools/base64-tool";
+import { CertificateDecoderTool } from "@/components/tools/certificate-decoder-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
@@ -64,6 +65,7 @@ const toolComponents: Record<string, ComponentType> = {
   "cron-explainer": CronExplainerTool,
   "data-format-converter": DataFormatConverterTool,
   "jsonpath-tester": JsonPathTesterTool,
+  "certificate-decoder": CertificateDecoderTool,
 };
 
 export function generateStaticParams() {

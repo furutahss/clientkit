@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "X.509証明書（PEM）デコーダーを追加",
+          en: "Added an X.509 certificate (PEM) decoder",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "JSONPathクエリ抽出ツールを追加",
           en: "Added a JSONPath query tool",
         },
