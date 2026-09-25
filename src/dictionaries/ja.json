@@ -301,6 +301,10 @@
     },
     "markdownEditor": {
       "inputLabel": "Markdown入力",
+      "chooseFile": "ファイルを開く",
+      "dropHint": "Markdownファイル（.md など）をここにドラッグ&ドロップして読み込めます",
+      "loadedFile": "読み込んだファイル: {name}",
+      "readError": "ファイルを読み込めませんでした。",
       "downloadMd": "Markdown (.md) をダウンロード",
       "tabPreview": "プレビュー",
       "tabHtml": "HTMLコード",

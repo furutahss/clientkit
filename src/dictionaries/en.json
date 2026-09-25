@@ -301,6 +301,10 @@
     },
     "markdownEditor": {
       "inputLabel": "Markdown input",
+      "chooseFile": "Open file",
+      "dropHint": "Drag & drop a Markdown file (.md, etc.) here to load it",
+      "loadedFile": "Loaded file: {name}",
+      "readError": "Could not read the file.",
       "downloadMd": "Download Markdown (.md)",
       "tabPreview": "Preview",
       "tabHtml": "HTML code",
