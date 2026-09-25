@@ -21,6 +21,13 @@ const HTML_DOCUMENT_STYLE = `
   img { max-width: 100%; }
 `;
 
+function escapeHtmlText(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 /** ダウンロード用に、HTMLフラグメントを最小限のスタイル付きHTML文書へラップする */
 export function wrapHtmlDocument(bodyHtml: string, title: string): string {
   return `<!DOCTYPE html>
@@ -28,7 +35,7 @@ export function wrapHtmlDocument(bodyHtml: string, title: string): string {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${title}</title>
+<title>${escapeHtmlText(title)}</title>
 <style>${HTML_DOCUMENT_STYLE}</style>
 </head>
 <body>

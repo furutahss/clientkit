@@ -841,21 +841,23 @@ export const tools: Tool[] = [
       en: "Preview Markdown in real time and convert or export it to HTML.",
     },
     longDescription: {
-      ja: "Markdownをリアルタイムプレビューしながら編集できるエディタです。GitHub Flavored Markdown（テーブル・タスクリスト・取り消し線など）に対応し、変換後のHTMLコードのコピーや、.md/.htmlファイルとしてのダウンロードができます。",
-      en: "An editor for writing Markdown with a real-time preview. It supports GitHub Flavored Markdown (tables, task lists, strikethrough, and more), and lets you copy the converted HTML or download it as .md/.html files.",
+      ja: "Markdownをリアルタイムプレビューしながら編集できるエディタです。GitHub Flavored Markdown（テーブル・タスクリスト・取り消し線など）に対応し、変換後のHTMLコードのコピーや、.md/.htmlファイルとしてのダウンロードができます。手元のMarkdownファイル（.md など）を読み込んで表示・編集することもできます。",
+      en: "An editor for writing Markdown with a real-time preview. It supports GitHub Flavored Markdown (tables, task lists, strikethrough, and more), and lets you copy the converted HTML or download it as .md/.html files. You can also open a Markdown file (.md, etc.) from your device to view and edit it.",
     },
     howToUse: {
       ja: [
         "左側のエディタにMarkdownを入力すると、右側に変換結果がリアルタイムに反映されます。",
+        "既存のMarkdownファイルを編集したい場合は、「ファイルを開く」ボタンから選択するか、エディタにファイルをドラッグ&ドロップすると内容が読み込まれます。",
         "「プレビュー」タブでは、実際にどのように表示されるかを確認できます。テーブル・タスクリスト・取り消し線などのGitHub Flavored Markdown（GFM）記法にも対応しています。",
         "「HTMLコード」タブに切り替えると、変換後のHTMLソースコードが表示され、「クリップボードへコピー」でそのまま他のシステムに貼り付けられます。",
-        "「Markdown (.md) をダウンロード」「HTML (.html) をダウンロード」で、それぞれの形式のファイルとして保存できます。",
+        "「Markdown (.md) をダウンロード」「HTML (.html) をダウンロード」で、それぞれの形式のファイルとして保存できます。ファイルを読み込んだ場合は、元のファイル名で保存されます。",
       ],
       en: [
         "Type Markdown into the editor on the left, and the result updates in real time on the right.",
+        "To edit an existing Markdown file, pick it with the \"Open file\" button or drag & drop it onto the editor to load its contents.",
         "The \"Preview\" tab shows how it will actually be rendered, including GitHub Flavored Markdown (GFM) syntax like tables, task lists, and strikethrough.",
         "Switch to the \"HTML Code\" tab to see the converted HTML source, ready to paste elsewhere with \"Copy to clipboard\".",
-        "Use \"Download Markdown (.md)\" or \"Download HTML (.html)\" to save it as a file in either format.",
+        "Use \"Download Markdown (.md)\" or \"Download HTML (.html)\" to save it as a file in either format. If you loaded a file, it is saved under the original file name.",
       ],
     },
     about: {
@@ -909,16 +911,20 @@ export const tools: Tool[] = [
           en: "Is my input Markdown sent to a server?",
         },
         answer: {
-          ja: "送信されません。プレビューへの変換、HTMLコードの生成、ファイルのダウンロードは、すべてブラウザ内のJavaScriptで完結します。",
-          en: "No. Converting to a preview, generating HTML code, and downloading files all happen entirely with JavaScript in your browser.",
+          ja: "送信されません。ファイルの読み込み、プレビューへの変換、HTMLコードの生成、ファイルのダウンロードは、すべてブラウザ内のJavaScriptで完結します。",
+          en: "No. Loading files, converting to a preview, generating HTML code, and downloading files all happen entirely with JavaScript in your browser.",
         },
       },
     ],
     category: "converter",
     icon: NotebookText,
     keywords: {
-      ja: "markdown マークダウン html 変換 プレビュー gfm エディタ",
-      en: "markdown html convert preview gfm editor",
+      ja: "markdown マークダウン html 変換 プレビュー gfm エディタ ファイル 読み込み md ビューア",
+      en: "markdown html convert preview gfm editor file open md viewer",
+    },
+    fileMatch: {
+      mimeTypes: ["text/markdown", "text/x-markdown"],
+      extensions: ["md", "markdown", "mdown", "mkd", "mdx"],
     },
   },
   {

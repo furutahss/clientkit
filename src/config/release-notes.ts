@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-09-25",
+    entries: [
+      {
+        type: "improvement",
+        title: {
+          ja: "Markdownエディタで、Markdownファイル（.md など）の読み込みに対応",
+          en: "The Markdown editor can now open Markdown files (.md, etc.)",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-09-23",
     entries: [
       {
