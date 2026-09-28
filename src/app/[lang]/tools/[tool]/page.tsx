@@ -12,6 +12,7 @@ import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool
 import { DataFormatConverterTool } from "@/components/tools/data-format-converter-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
 import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool";
+import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
@@ -76,6 +77,7 @@ const toolComponents: Record<string, ComponentType> = {
   "favicon-generator": FaviconGeneratorTool,
   "svg-optimizer": SvgOptimizerTool,
   "qr-code": QrCodeTool,
+  "folder-tree": FolderTreeTool,
 };
 
 export function generateStaticParams() {

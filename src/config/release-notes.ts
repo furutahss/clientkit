@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-09-28",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "フォルダ構成ツリー出力ツールを追加（ZIP・TAR・TAR.GZの中身の表示にも対応）",
+          en: "Added a folder tree generator (also lists the contents of ZIP, TAR, and TAR.GZ archives)",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-09-25",
     entries: [
       {

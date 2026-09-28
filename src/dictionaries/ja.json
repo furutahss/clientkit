@@ -1080,6 +1080,47 @@
       "reading": "読み取り中...",
       "notFound": "QRコードを検出できませんでした。QRコードが画像内で十分な大きさで写っているか、ピントが合っているか確認してください。",
       "urlNote": "URLが含まれています。開く前に、信頼できるサイトかどうかを確認してください。"
+    },
+    "folderTree": {
+      "safetyNote": "フォルダや圧縮ファイルはサーバーへアップロードせず、ブラウザ内でファイル名とサイズだけを読み取ります。ファイルの中身は読み込みません。",
+      "dropLabel": "フォルダまたは圧縮ファイル（ZIP / TAR / TAR.GZ）をドラッグ＆ドロップ",
+      "dropHint": "下のボタンから選択することもできます。圧縮ファイルは展開せずに中身の階層を表示します",
+      "chooseFolder": "フォルダを選択",
+      "chooseArchive": "圧縮ファイルを選択",
+      "loading": "読み込み中...（{count}件）",
+      "loadError": "読み込みに失敗しました。",
+      "unsupportedFile": "対応していないファイルです。フォルダ、またはZIP・TAR・TAR.GZ（.tgz）形式の圧縮ファイルを指定してください。",
+      "sourceFolder": "フォルダ",
+      "sourceArchive": "圧縮ファイル（{format}）",
+      "entryCount": "{count}件",
+      "truncated": "項目数が多いため、最初の{count}件までを読み込みました。",
+      "loadAnother": "別のフォルダ・ファイルを読み込む",
+      "optionsHeading": "表示設定",
+      "depthLabel": "表示する階層の深さ",
+      "depthUnlimited": "すべて表示",
+      "depthLevel": "{depth}階層まで",
+      "styleLabel": "出力形式",
+      "styles": {
+        "unicode": "ツリー（├── └──）",
+        "ascii": "ASCIIツリー（|-- `--）",
+        "indent": "インデントのみ",
+        "markdown": "Markdownリスト"
+      },
+      "showFiles": "ファイルも表示する",
+      "showHidden": "隠しファイル・フォルダ（.で始まる名前）を表示する",
+      "dirsFirst": "フォルダを先に並べる",
+      "showSize": "サイズを表示する",
+      "dirSlash": "フォルダ名の末尾に / を付ける",
+      "showSummary": "末尾にフォルダ数・ファイル数を出力する",
+      "excludeLabel": "除外する名前",
+      "excludePlaceholder": "node_modules, .git, *.log",
+      "excludeHint": "カンマ区切りで指定します。* と ? のワイルドカードが使えます。",
+      "outputLabel": "出力結果",
+      "outputPlaceholder": "フォルダまたは圧縮ファイルを読み込むと、ここに階層がテキストで表示されます。",
+      "stats": "フォルダ {dirs} ・ ファイル {files}",
+      "summary": "{dirs} directories, {files} files",
+      "previewTruncated": "表示は先頭{count}行までです。コピー・ダウンロードではすべての行が出力されます。",
+      "download": "テキストをダウンロード"
     }
   }
 }
