@@ -1080,6 +1080,47 @@
       "reading": "Reading...",
       "notFound": "No QR code was detected. Make sure the QR code is large enough in the image and in focus.",
       "urlNote": "This contains a URL. Check that the site is trustworthy before opening it."
+    },
+    "folderTree": {
+      "safetyNote": "Folders and archives are never uploaded to a server — only file names and sizes are read, in your browser. File contents are never read.",
+      "dropLabel": "Drag and drop a folder or an archive (ZIP / TAR / TAR.GZ)",
+      "dropHint": "You can also choose one with the buttons below. Archives are listed without being extracted",
+      "chooseFolder": "Choose folder",
+      "chooseArchive": "Choose archive",
+      "loading": "Loading... ({count} items)",
+      "loadError": "Failed to load.",
+      "unsupportedFile": "This file isn't supported. Choose a folder, or a ZIP, TAR, or TAR.GZ (.tgz) archive.",
+      "sourceFolder": "Folder",
+      "sourceArchive": "Archive ({format})",
+      "entryCount": "{count} items",
+      "truncated": "There are too many items, so only the first {count} were loaded.",
+      "loadAnother": "Load another folder or file",
+      "optionsHeading": "Display settings",
+      "depthLabel": "Depth to display",
+      "depthUnlimited": "All levels",
+      "depthLevel": "Up to {depth} levels",
+      "styleLabel": "Output style",
+      "styles": {
+        "unicode": "Tree (├── └──)",
+        "ascii": "ASCII tree (|-- `--)",
+        "indent": "Indentation only",
+        "markdown": "Markdown list"
+      },
+      "showFiles": "Show files",
+      "showHidden": "Show hidden files and folders (names starting with .)",
+      "dirsFirst": "List folders first",
+      "showSize": "Show sizes",
+      "dirSlash": "Add / after folder names",
+      "showSummary": "Append folder and file counts",
+      "excludeLabel": "Names to exclude",
+      "excludePlaceholder": "node_modules, .git, *.log",
+      "excludeHint": "Separate with commas. Wildcards * and ? are supported.",
+      "outputLabel": "Output",
+      "outputPlaceholder": "Load a folder or an archive to see its structure as text here.",
+      "stats": "{dirs} folders · {files} files",
+      "summary": "{dirs} directories, {files} files",
+      "previewTruncated": "Only the first {count} lines are shown. Copy and download include every line.",
+      "download": "Download text"
     }
   }
 }

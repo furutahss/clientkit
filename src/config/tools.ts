@@ -16,6 +16,7 @@ import {
   FileStack,
   Fingerprint,
   FlaskConical,
+  FolderTree,
   GitCompare,
   ImageDown,
   ImageOff,
@@ -2466,6 +2467,100 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/json", "text/plain"],
       extensions: ["har", "log", "txt", "json"],
+    },
+  },
+  {
+    id: "folder-tree",
+    name: { ja: "フォルダ構成ツリー出力", en: "Folder Tree Generator" },
+    description: {
+      ja: "フォルダや圧縮ファイル（ZIP・TAR）の階層構造を、tree コマンドのようなテキストで出力します。",
+      en: "Output the structure of a folder or archive (ZIP, TAR) as text, like the tree command.",
+    },
+    longDescription: {
+      ja: "フォルダや圧縮ファイル（ZIP・TAR・TAR.GZ）を読み込み、ディレクトリ構成を tree コマンドのようなテキストで出力するツールです。表示する階層の深さ、ファイルの表示・非表示、除外する名前、出力形式などを設定でき、すべてブラウザ内で処理されます。",
+      en: "A tool that reads a folder or an archive (ZIP, TAR, TAR.GZ) and outputs its directory structure as text, like the tree command. You can set the depth to display, whether to show files, names to exclude, the output style, and more — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "フォルダまたは圧縮ファイル（ZIP・TAR・TAR.GZ）をドラッグ＆ドロップするか、「フォルダを選択」「圧縮ファイルを選択」から読み込みます。",
+        "読み込みが終わると、右側の「出力結果」に階層構造がテキストで表示されます。",
+        "「表示設定」で、表示する階層の深さ、ファイルの表示、隠しファイルの表示、サイズの表示、出力形式（ツリー・ASCII・インデント・Markdown）などを切り替えます。変更はすぐに反映されます。",
+        "「除外する名前」に node_modules や *.log などを指定すると、一致するファイル・フォルダを出力から除外できます。",
+        "「クリップボードへコピー」または「テキストをダウンロード」で結果を保存します。",
+      ],
+      en: [
+        "Drag and drop a folder or an archive (ZIP, TAR, TAR.GZ), or load one with \"Choose folder\" or \"Choose archive\".",
+        "Once loaded, the structure appears as text under \"Output\".",
+        "Use \"Display settings\" to change the depth to display, whether to show files, hidden files, and sizes, and the output style (tree, ASCII, indentation, or Markdown). Changes apply immediately.",
+        "Enter names such as node_modules or *.log in \"Names to exclude\" to leave matching files and folders out of the output.",
+        "Save the result with \"Copy to clipboard\" or \"Download text\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "フォルダ構成ツリー出力ツールは、フォルダの中身を「├──」「└──」などの罫線を使ったツリー形式のテキストに変換するツールです。READMEや設計書にディレクトリ構成を載せたいとき、プロジェクトの構成をチャットやAIに説明したいとき、受け取った圧縮ファイルの中身を展開前に確認したいときなどに役立ちます。",
+          "圧縮ファイルは中身を展開せず、ファイル名とサイズの情報だけを読み取ります。ZIPはファイル末尾にある一覧（中央ディレクトリ）だけを読むため、大きなファイルでもすぐに表示できます。日本語版Windowsで作られた、ファイル名がShift_JISのZIPにも対応しています。",
+          "フォルダはブラウザの機能を使って読み込み、ファイルの中身は一切読みません。読み込んだ情報がサーバーへ送信されることもありません。",
+        ],
+        en: [
+          "The Folder Tree Generator turns the contents of a folder into tree-style text using box-drawing lines such as \"├──\" and \"└──\". It's handy for adding a directory layout to a README or design document, explaining a project's structure in a chat or to an AI, or checking what's inside an archive before extracting it.",
+          "Archives are never extracted — only file names and sizes are read. For ZIP files, only the listing at the end of the file (the central directory) is read, so even large archives show up instantly. ZIP files with Shift_JIS file names, created on Japanese Windows, are supported too.",
+          "Folders are read using your browser's built-in features, and file contents are never read. Nothing you load is sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "対応している圧縮形式は何ですか？",
+          en: "Which archive formats are supported?",
+        },
+        answer: {
+          ja: "ZIP・TAR・TAR.GZ（.tgz）に対応しています。形式はファイルの中身から判定するため、JARやDOCXなどZIP形式のファイルも読み込めます。7zやRARには対応していません。",
+          en: "ZIP, TAR, and TAR.GZ (.tgz). The format is detected from the file contents, so ZIP-based files such as JAR or DOCX can also be loaded. 7z and RAR are not supported.",
+        },
+      },
+      {
+        question: {
+          ja: "空のフォルダが表示されないのはなぜですか？",
+          en: "Why don't empty folders appear?",
+        },
+        answer: {
+          ja: "「フォルダを選択」ボタンから読み込んだ場合、ブラウザの仕様によりファイルの一覧しか取得できないため、空のフォルダは表示されません。空のフォルダも表示したい場合は、フォルダをドラッグ＆ドロップで読み込んでください。",
+          en: "When you load a folder with the \"Choose folder\" button, browsers only provide the list of files, so empty folders can't be shown. To include empty folders, drag and drop the folder instead.",
+        },
+      },
+      {
+        question: {
+          ja: "階層の深さはどのように数えますか？",
+          en: "How is depth counted?",
+        },
+        answer: {
+          ja: "読み込んだフォルダ（または圧縮ファイル）の直下を1階層目として数えます。「2階層まで」を選ぶと、直下の項目と、その1つ下の項目までが表示されます。",
+          en: "Items directly inside the loaded folder (or archive) are level 1. Choosing \"Up to 2 levels\" shows those items plus the items one level below them.",
+        },
+      },
+      {
+        question: {
+          ja: "ファイルの中身がサーバーに送信されることはありますか？",
+          en: "Are my files sent to a server?",
+        },
+        answer: {
+          ja: "ありません。読み取るのはファイル名とサイズだけで、処理はすべてブラウザ内で完結します。",
+          en: "No. Only file names and sizes are read, and all processing happens in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: FolderTree,
+    keywords: {
+      ja: "フォルダ ディレクトリ 構成 階層 ツリー tree コマンド zip tar 圧縮ファイル 一覧 README",
+      en: "folder directory structure tree command hierarchy zip tar archive list readme",
+    },
+    fileMatch: {
+      mimeTypes: ["application/zip", "application/x-zip-compressed", "application/x-tar", "application/gzip", "application/x-gzip"],
+      extensions: ["zip", "tar", "tgz", "gz"],
     },
   },
   {
