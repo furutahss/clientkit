@@ -179,8 +179,8 @@ export const privacyPolicySections: PrivacyPolicySection[] = [
     },
     paragraphs: [
       {
-        ja: "本プライバシーポリシーに関するお問い合わせは、当サイトの GitHub リポジトリからご連絡ください。",
-        en: "If you have any questions about this Privacy Policy, please contact us via our GitHub repository.",
+        ja: "本プライバシーポリシーに関するお問い合わせは、当サイトの GitHub リポジトリの Issues からご連絡ください。",
+        en: "If you have any questions about this Privacy Policy, please contact us by opening an issue on our GitHub repository.",
       },
     ],
   },

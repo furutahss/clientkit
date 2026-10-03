@@ -101,7 +101,7 @@ export default async function PrivacyPolicyPage(
 
         <p className="text-sm">
           <a
-            href={siteConfig.githubUrl}
+            href={`${siteConfig.githubUrl}/issues`}
             target="_blank"
             rel="noreferrer noopener"
             className={linkClassName}
