@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-03",
+    entries: [
+      {
+        type: "chore",
+        title: {
+          ja: "プライバシーポリシーページを追加",
+          en: "Added a Privacy Policy page",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-09-28",
     entries: [
       {

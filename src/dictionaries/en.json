@@ -20,7 +20,16 @@
     "toolsHeading": "Tools"
   },
   "footer": {
-    "releaseNotesLink": "Release Notes"
+    "releaseNotesLink": "Release Notes",
+    "privacyPolicyLink": "Privacy Policy"
+  },
+  "privacyPolicy": {
+    "pageTitle": "Privacy Policy",
+    "pageDescription": "How ClientKit handles your information, including our use of analytics and advertising.",
+    "breadcrumbLabel": "Privacy Policy",
+    "contactLink": "GitHub Issues (contact)",
+    "establishedLabel": "Established",
+    "updatedLabel": "Last updated"
   },
   "releaseNotes": {
     "pageTitle": "Release Notes",

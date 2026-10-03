@@ -4,7 +4,7 @@ export const siteConfig = {
   name: "ClientKit",
   domain: "clientkit.dev",
   url: "https://clientkit.dev",
-  githubUrl: "https://github.com/",
+  githubUrl: "https://github.com/furutahss/clientkit",
 };
 
 const localizedSiteText: Record<Locale, { tagline: string; description: string }> = {

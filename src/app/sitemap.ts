@@ -22,6 +22,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 0.5,
     },
+    {
+      url: `${siteConfig.url}/${lang}/privacy-policy`,
+      lastModified,
+      changeFrequency: "yearly" as const,
+      priority: 0.3,
+    },
     ...tools.map((tool) => ({
       url: `${siteConfig.url}${getToolPath(lang, tool.id)}`,
       lastModified,
