@@ -10,6 +10,7 @@ import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
 import { DataFormatConverterTool } from "@/components/tools/data-format-converter-tool";
+import { ExcelConverterTool } from "@/components/tools/excel-converter-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
 import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool";
 import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
@@ -78,6 +79,7 @@ const toolComponents: Record<string, ComponentType> = {
   "svg-optimizer": SvgOptimizerTool,
   "qr-code": QrCodeTool,
   "folder-tree": FolderTreeTool,
+  "excel-converter": ExcelConverterTool,
 };
 
 export function generateStaticParams() {

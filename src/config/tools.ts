@@ -29,6 +29,7 @@ import {
   QrCode,
   Regex,
   Shapes,
+  Sheet,
   ShieldCheck,
   Sparkles,
   Table,
@@ -832,6 +833,103 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["text/csv"],
       extensions: ["csv"],
+    },
+  },
+  {
+    id: "excel-converter",
+    name: { ja: "Excel（xlsx）→CSV/JSON変換", en: "Excel (xlsx) to CSV/JSON Converter" },
+    description: {
+      ja: "Excel・ODSファイルのシートをCSVやJSONに変換します。Shift_JIS出力や全シートの一括ZIP保存にも対応。",
+      en: "Convert sheets in Excel or ODS files to CSV or JSON, with Shift_JIS output and a ZIP of every sheet.",
+    },
+    longDescription: {
+      ja: "Excel（.xlsx / .xlsm / .xls）やODSファイルをブラウザ上で読み込み、シートごとにCSVまたはJSONへ変換してダウンロードできるツールです。結合セル・日付・数式の扱いや区切り文字、文字コード（BOM付きUTF-8・Shift_JIS）を指定でき、ファイルがサーバーへ送信されることはありません。",
+      en: "A tool that reads Excel (.xlsx / .xlsm / .xls) and ODS files in your browser and converts each sheet to CSV or JSON for download. You can choose how merged cells, dates, and formulas are handled, plus the delimiter and encoding (UTF-8 with BOM or Shift_JIS). Your file is never sent to a server.",
+    },
+    howToUse: {
+      ja: [
+        "Excel・ODSファイルをドラッグ＆ドロップするか、「ファイルを選択」から読み込みます。",
+        "読み込むとシートの一覧が表示されます。変換したいシートを選ぶと、先頭100行のプレビューと変換結果が表示されます。",
+        "「変換設定」で出力形式（CSV・JSON）、開始行、空行・空列の除去、結合セルや日付セルの扱いなどを指定します。CSVの場合は区切り文字・改行コード・文字コードも選べます。",
+        "「このシートをダウンロード」で保存するか、「全シートをZIPでダウンロード」でまとめて保存します。「CSV加工ツールで開く」から、変換結果をそのまま編集することもできます。",
+      ],
+      en: [
+        "Drag and drop an Excel or ODS file, or load one with \"Choose file\".",
+        "Once loaded, the list of sheets appears. Pick a sheet to see a preview of its first 100 rows and the converted output.",
+        "Use \"Conversion settings\" to choose the output format (CSV or JSON), start row, whether to remove empty rows and columns, and how merged cells and dates are handled. For CSV you can also choose the delimiter, line endings, and encoding.",
+        "Save with \"Download this sheet\", or save every sheet at once with \"Download all sheets as ZIP\". You can also continue editing the result with \"Open in CSV Editor\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Excel（xlsx）→CSV/JSON変換ツールは、表計算ソフトのファイルをCSVやJSONに変換するツールです。Excelを持っていない環境でデータを取り出したいとき、システムへの取り込み用にCSVを作りたいとき、プログラムで扱いやすいJSONにしたいときなどに役立ちます。",
+          "日付セルはISO 8601形式（2026-01-31）・Excelの表示形式・シリアル値から選んで出力でき、1904年基準のブックにも対応しています。結合セルは左上のセルだけに値を入れるか、結合範囲のすべてに値を入れるかを選べます。数式セルは計算結果を出力し、必要に応じて数式そのものを出力することもできます。",
+          "CSVはExcelで文字化けせずに開けるBOM付きUTF-8のほか、従来のシステム向けにShift_JIS（CP932）でも保存できます。ファイルの解析にはSheetJS Community Edition（Apache-2.0）を使用し、処理はすべてブラウザ内のWeb Workerで行われるため、大きなファイルでも画面が固まりにくく、データが外部に送信されることもありません。",
+        ],
+        en: [
+          "The Excel (xlsx) to CSV/JSON Converter turns spreadsheet files into CSV or JSON. It's handy when you need data out of a spreadsheet without Excel installed, want a CSV to import into another system, or need JSON that's easy to work with in code.",
+          "Date cells can be output as ISO 8601 (2026-01-31), as displayed in Excel, or as serial numbers, and workbooks using the 1904 date system are supported. Merged cells can either keep the value only in the top-left cell or repeat it across the whole range. Formula cells output their calculated values, or the formulas themselves if you prefer.",
+          "CSV can be saved as UTF-8 with a BOM so it opens cleanly in Excel, or as Shift_JIS (CP932) for legacy systems. Files are parsed with SheetJS Community Edition (Apache-2.0) inside a Web Worker in your browser, so the page stays responsive with large files and no data is ever sent anywhere.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "パスワード付きのファイルは変換できますか？",
+          en: "Can I convert password-protected files?",
+        },
+        answer: {
+          ja: "対応していません。Excelでファイルを開き、パスワードを解除して保存し直してから読み込んでください。",
+          en: "No. Open the file in Excel, remove the password, save it, and then load it here.",
+        },
+      },
+      {
+        question: {
+          ja: "CSVをExcelで開くと文字化けします。",
+          en: "My CSV shows garbled text when opened in Excel.",
+        },
+        answer: {
+          ja: "文字コードに「UTF-8（BOM付き）」を選んで保存してください。古いシステムに取り込む場合など、Shift_JISが必要なときは「Shift_JIS（CP932）」を選べます。Shift_JISで表現できない文字（一部の絵文字や記号）は「?」に置き換わります。",
+          en: "Save with the \"UTF-8 with BOM\" encoding. If a legacy system needs Shift_JIS, choose \"Shift_JIS (CP932)\" instead. Characters that Shift_JIS can't represent (some emoji and symbols) are replaced with \"?\".",
+        },
+      },
+      {
+        question: {
+          ja: "数式やマクロはどうなりますか？",
+          en: "What happens to formulas and macros?",
+        },
+        answer: {
+          ja: "数式セルは、ファイルに保存されている計算結果の値を出力します。「数式セルは数式を出力する」をオンにすると =SUM(A1:A3) のような数式を出力します。マクロ（.xlsm）は実行されず、セルの値だけを読み取ります。",
+          en: "Formula cells output the calculated values saved in the file. Turn on \"Output formulas for formula cells\" to output formulas such as =SUM(A1:A3) instead. Macros in .xlsm files are never run; only cell values are read.",
+        },
+      },
+      {
+        question: {
+          ja: "ファイルがサーバーに送信されることはありますか？",
+          en: "Is my file sent to a server?",
+        },
+        answer: {
+          ja: "ありません。読み込みから変換・ダウンロードまで、すべてブラウザ内で処理されます。",
+          en: "No. Everything from loading to converting and downloading happens in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Sheet,
+    keywords: {
+      ja: "excel エクセル xlsx xls xlsm ods スプレッドシート csv json 変換 シート shift_jis",
+      en: "excel xlsx xls xlsm ods spreadsheet csv json convert sheet export shift_jis",
+    },
+    fileMatch: {
+      mimeTypes: [
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.ms-excel",
+        "application/vnd.ms-excel.sheet.macroEnabled.12",
+        "application/vnd.oasis.opendocument.spreadsheet",
+      ],
+      extensions: ["xlsx", "xls", "xlsm", "ods"],
     },
   },
   {

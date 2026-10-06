@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-06",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "Excel（xlsx）→CSV/JSON変換ツールを追加（xls・ods、Shift_JIS出力、全シートのZIP保存に対応）",
+          en: "Added an Excel (xlsx) to CSV/JSON converter (supports xls and ods, Shift_JIS output, and a ZIP of every sheet)",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-10-03",
     entries: [
       {
