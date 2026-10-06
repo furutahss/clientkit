@@ -28,6 +28,7 @@ import {
   Palette,
   QrCode,
   Regex,
+  ScanText,
   Shapes,
   Sheet,
   ShieldCheck,
@@ -1382,6 +1383,100 @@ export const tools: Tool[] = [
     fileMatch: {
       mimePrefixes: ["image/"],
       extensions: ["png", "jpg", "jpeg", "webp", "gif", "bmp", "avif"],
+    },
+  },
+  {
+    id: "ocr",
+    name: { ja: "OCR（画像から文字認識・日本語対応）", en: "OCR (Image to Text, Japanese Support)" },
+    description: {
+      ja: "画像やスクリーンショットから日本語・英語の文字を読み取ります。縦書きにも対応。",
+      en: "Extract Japanese and English text from images and screenshots, including vertical Japanese.",
+    },
+    longDescription: {
+      ja: "画像やスクリーンショットに写った日本語・英語の文字を、ブラウザ上だけで読み取ってテキストにするOCRツールです。範囲指定、グレースケール・二値化・拡大などの前処理、日本語の不要なスペースの除去に対応し、画像がサーバーへ送信されることはありません。",
+      en: "An OCR tool that reads Japanese and English text in images and screenshots and turns it into text, entirely in your browser. It supports selecting an area, preprocessing such as grayscale, binarization, and upscaling, and removing stray spaces in Japanese text. Your image is never sent to a server.",
+    },
+    howToUse: {
+      ja: [
+        "画像をドラッグ＆ドロップするか、「画像を選択」から読み込みます。スクリーンショットは Ctrl/⌘+V で貼り付けることもできます。",
+        "「認識する言語」を選びます。日本語と英語が混在する場合は「日本語＋英語」、縦書きの文章は「日本語（縦書き）」を選びます。",
+        "必要に応じて前処理（グレースケール・コントラスト・二値化・拡大・回転）を調整します。プレビュー上をドラッグすると、その範囲だけを認識できます。",
+        "「文字を認識」を押すと、結果がテキストエリアに表示されます。初回のみ認識モデルのダウンロードが行われます。",
+        "結果は編集でき、「クリップボードへコピー」または「.txtでダウンロード」で保存できます。",
+      ],
+      en: [
+        "Drag and drop an image, or load one with \"Choose image\". You can also paste a screenshot with Ctrl/⌘+V.",
+        "Choose the language. Use \"Japanese + English\" for mixed text and \"Japanese (vertical)\" for vertical writing.",
+        "Adjust preprocessing (grayscale, contrast, binarization, upscaling, rotation) if needed. Drag on the preview to recognize only that area.",
+        "Click \"Recognize text\" to see the result in the text area. The recognition model is downloaded only the first time.",
+        "The result is editable. Save it with \"Copy to clipboard\" or \"Download .txt\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "OCRツールは、画像に写った文字を読み取ってテキストデータに変換するツールです。紙の資料を撮影した写真やスクリーンショット、PDFを画像にしたものなどから、文字を入力し直さずに取り出したいときに役立ちます。",
+          "認識にはオープンソースのOCRエンジンTesseractをWebAssembly化したtesseract.js（Apache-2.0）を使い、Web Worker上で処理するため認識中も画面が固まりません。日本語の認識結果では文字の間に半角スペースが入りやすいため、それを除去する後処理や、段落内の改行を結合する後処理も用意しています。",
+          "認識エンジンと言語データはこのサイトから配信され、外部のCDNは使用しません。言語データは初回のみダウンロードしてブラウザに保存するため、2回目以降はすぐに使えます。画像はブラウザの外に出ることはありません。",
+        ],
+        en: [
+          "The OCR tool reads text in images and converts it into editable text. It's handy for pulling text out of photos of printed documents, screenshots, or PDFs saved as images without retyping it.",
+          "Recognition uses tesseract.js (Apache-2.0), a WebAssembly build of the open-source Tesseract OCR engine, running in a Web Worker so the page stays responsive. Because Japanese results often contain stray spaces between characters, post-processing options are included to remove them and to join line breaks within paragraphs.",
+          "The recognition engine and language data are served from this site, not from an external CDN. Language data is downloaded only once and saved in your browser, so later runs start right away. Your image never leaves your browser.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "認識精度を上げるにはどうすればいいですか？",
+          en: "How can I improve accuracy?",
+        },
+        answer: {
+          ja: "文字が小さい場合は「拡大」を、背景に色や模様がある場合は「二値化」を試してください。傾いている画像は回転で向きを合わせ、認識したい部分だけを範囲指定すると精度が上がることがあります。手書き文字や装飾の多いフォントは苦手です。",
+          en: "Try \"Upscale\" for small text and \"Binarize\" when the background has colors or patterns. Rotate the image to the correct orientation, and select only the area you need. Handwriting and decorative fonts are difficult to recognize.",
+        },
+      },
+      {
+        question: {
+          ja: "どのくらいのデータをダウンロードしますか？",
+          en: "How much data is downloaded?",
+        },
+        answer: {
+          ja: "初回のみ、認識エンジン（約3.9MB）と言語データ（日本語・縦書きは約2MB、英語は約2.9MB）をダウンロードします。言語データはブラウザに保存され、2回目以降は再ダウンロードしません。",
+          en: "The first time only, the recognition engine (about 3.9 MB) and language data (about 2 MB for Japanese or vertical Japanese, about 2.9 MB for English) are downloaded. Language data is saved in your browser and isn't downloaded again.",
+        },
+      },
+      {
+        question: {
+          ja: "PDFから文字を読み取れますか？",
+          en: "Can I read text from a PDF?",
+        },
+        answer: {
+          ja: "PDFは直接読み込めません。PDFのページをスクリーンショットするなどして画像にしてから読み込んでください。",
+          en: "PDFs can't be loaded directly. Take a screenshot of the page or otherwise convert it to an image first.",
+        },
+      },
+      {
+        question: {
+          ja: "画像がサーバーに送信されることはありますか？",
+          en: "Is my image sent to a server?",
+        },
+        answer: {
+          ja: "ありません。ダウンロードするのは認識モデルだけで、画像の読み込みから文字認識まですべてブラウザ内で処理されます。",
+          en: "No. Only the recognition model is downloaded; everything from loading the image to recognizing text happens in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: ScanText,
+    keywords: {
+      ja: "ocr 文字認識 文字起こし 画像 テキスト 抽出 読み取り スクリーンショット 日本語 縦書き tesseract",
+      en: "ocr text recognition image to text extract screenshot japanese vertical tesseract",
+    },
+    fileMatch: {
+      mimeTypes: ["image/png", "image/jpeg", "image/webp", "image/bmp"],
+      extensions: ["png", "jpg", "jpeg", "webp", "bmp"],
     },
   },
   {

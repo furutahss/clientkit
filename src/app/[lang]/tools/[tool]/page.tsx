@@ -24,6 +24,7 @@ import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { LogMaskerTool } from "@/components/tools/log-masker-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
 import { MockRepoGeneratorTool } from "@/components/tools/mock-repo-generator-tool";
+import { OcrTool } from "@/components/tools/ocr-tool";
 import { PdfToolkitTool } from "@/components/tools/pdf-toolkit-tool";
 import { PrismaRepoGeneratorTool } from "@/components/tools/prisma-repo-generator-tool";
 import { PrismaSchemaVisualizerTool } from "@/components/tools/prisma-schema-visualizer-tool";
@@ -80,6 +81,7 @@ const toolComponents: Record<string, ComponentType> = {
   "qr-code": QrCodeTool,
   "folder-tree": FolderTreeTool,
   "excel-converter": ExcelConverterTool,
+  "ocr": OcrTool,
 };
 
 export function generateStaticParams() {

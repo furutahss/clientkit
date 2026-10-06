@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "OCR（画像から文字認識）ツールを追加（日本語・縦書き・範囲指定・前処理に対応）",
+          en: "Added an OCR tool to extract text from images (supports Japanese, vertical text, area selection, and preprocessing)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "Excel（xlsx）→CSV/JSON変換ツールを追加（xls・ods、Shift_JIS出力、全シートのZIP保存に対応）",
           en: "Added an Excel (xlsx) to CSV/JSON converter (supports xls and ods, Shift_JIS output, and a ZIP of every sheet)",
         },

@@ -569,7 +569,8 @@
       "download": "画像をダウンロード",
       "formatPng": "PNG (.png)",
       "formatJpeg": "JPEG (.jpg)",
-      "formatWebp": "WebP (.webp)"
+      "formatWebp": "WebP (.webp)",
+      "openOcr": "OCRで文字を読み取る"
     },
     "pdfToolkit": {
       "safetyNote": "PDFはサーバーへアップロードせず、すべてお使いのブラウザ内で処理しているため、契約書などの機密文書も安全に扱えます。",
@@ -1183,6 +1184,53 @@
       "downloadZip": "全シートをZIPでダウンロード",
       "openCsvEditor": "CSV加工ツールで開く",
       "openCsvJsonConverter": "CSV/JSON相互変換で開く"
+    },
+    "ocr": {
+      "safetyNote": "画像は送信されません。認識モデルのみダウンロードします（初回のみ約{size}MB。2回目以降はブラウザに保存されたデータを使います）。",
+      "dropLabel": "画像をドラッグ＆ドロップ、または Ctrl/⌘+V で貼り付け",
+      "dropHint": "PNG / JPEG / WebP / BMP に対応しています",
+      "chooseFile": "画像を選択",
+      "loadAnother": "別の画像を読み込む",
+      "unsupportedType": "対応していない形式です。PNG・JPEG・WebP・BMPの画像を指定してください。",
+      "decodeError": "画像を読み込めませんでした。ファイルが壊れていないか確認してください。",
+      "largeFileWarning": "画像のサイズが大きいため（{size}）、処理に時間がかかる場合があります。認識時は長辺4000pxまで自動で縮小します。",
+      "languageLabel": "認識する言語",
+      "languages": {
+        "jpn_eng": "日本語＋英語",
+        "jpn": "日本語",
+        "eng": "英語",
+        "jpn_vert": "日本語（縦書き）"
+      },
+      "preprocessHeading": "前処理",
+      "grayscale": "グレースケール",
+      "contrast": "コントラスト",
+      "binarize": "二値化（白黒にする）",
+      "threshold": "しきい値",
+      "scaleLabel": "拡大（小さい文字の認識向上）",
+      "scaleNone": "拡大しない",
+      "rotate": "90°回転（現在 {deg}°）",
+      "accuracyNote": "手書き文字や装飾の多いフォント、写真の傾きや影がある画像は正しく認識できないことがあります。結果は必ず確認してください。",
+      "previewLabel": "前処理後のプレビュー",
+      "regionHint": "画像上をドラッグすると、その範囲だけを認識します。指定しない場合は画像全体を認識します。",
+      "clearRegion": "範囲を解除",
+      "recognize": "文字を認識",
+      "recognizeRegion": "選択範囲の文字を認識",
+      "cancel": "キャンセル",
+      "stages": {
+        "core": "認識エンジンを読み込み中",
+        "lang": "言語データを読み込み中",
+        "init": "初期化中",
+        "recognize": "文字を認識中"
+      },
+      "recognizeError": "文字認識に失敗しました。もう一度お試しください。",
+      "noTextFound": "文字が見つかりませんでした。前処理（拡大・二値化など）や認識範囲を調整してみてください。",
+      "outputLabel": "認識結果（編集できます）",
+      "removeSpaces": "日本語の文字間の不要なスペースを除去",
+      "joinLines": "段落内の改行を結合",
+      "highlightLow": "信頼度の低い単語をハイライト",
+      "highlightLegend": "信頼度が{value}%未満の単語を黄色で表示しています（認識直後の結果）。",
+      "outputPlaceholder": "ここに認識結果が表示されます",
+      "download": ".txtでダウンロード"
     }
   }
 }

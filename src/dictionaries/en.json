@@ -569,7 +569,8 @@
       "download": "Download image",
       "formatPng": "PNG (.png)",
       "formatJpeg": "JPEG (.jpg)",
-      "formatWebp": "WebP (.webp)"
+      "formatWebp": "WebP (.webp)",
+      "openOcr": "Extract text with OCR"
     },
     "pdfToolkit": {
       "safetyNote": "PDFs are never uploaded to a server — everything is processed in your browser, so even confidential documents such as contracts stay safe.",
@@ -1183,6 +1184,53 @@
       "downloadZip": "Download all sheets as ZIP",
       "openCsvEditor": "Open in CSV Editor",
       "openCsvJsonConverter": "Open in CSV/JSON Converter"
+    },
+    "ocr": {
+      "safetyNote": "Your image is never sent anywhere. Only the recognition model is downloaded (about {size} MB the first time; later runs use the copy saved in your browser).",
+      "dropLabel": "Drag and drop an image, or paste with Ctrl/⌘+V",
+      "dropHint": "Supports PNG / JPEG / WebP / BMP",
+      "chooseFile": "Choose image",
+      "loadAnother": "Load another image",
+      "unsupportedType": "Unsupported format. Choose a PNG, JPEG, WebP, or BMP image.",
+      "decodeError": "The image could not be read. Make sure the file isn't damaged.",
+      "largeFileWarning": "This image is large ({size}) and may take a while to process. It is automatically scaled down to 4000px on the long edge for recognition.",
+      "languageLabel": "Language",
+      "languages": {
+        "jpn_eng": "Japanese + English",
+        "jpn": "Japanese",
+        "eng": "English",
+        "jpn_vert": "Japanese (vertical)"
+      },
+      "preprocessHeading": "Preprocessing",
+      "grayscale": "Grayscale",
+      "contrast": "Contrast",
+      "binarize": "Binarize (black and white)",
+      "threshold": "Threshold",
+      "scaleLabel": "Upscale (helps with small text)",
+      "scaleNone": "No upscaling",
+      "rotate": "Rotate 90° (now {deg}°)",
+      "accuracyNote": "Handwriting, decorative fonts, and photos with skew or shadows may not be recognized correctly. Always check the result.",
+      "previewLabel": "Preprocessed preview",
+      "regionHint": "Drag on the image to recognize only that area. Otherwise the whole image is recognized.",
+      "clearRegion": "Clear selection",
+      "recognize": "Recognize text",
+      "recognizeRegion": "Recognize selected area",
+      "cancel": "Cancel",
+      "stages": {
+        "core": "Loading recognition engine",
+        "lang": "Loading language data",
+        "init": "Initializing",
+        "recognize": "Recognizing text"
+      },
+      "recognizeError": "Text recognition failed. Please try again.",
+      "noTextFound": "No text was found. Try adjusting preprocessing (upscaling, binarization) or the selected area.",
+      "outputLabel": "Result (editable)",
+      "removeSpaces": "Remove unnecessary spaces between Japanese characters",
+      "joinLines": "Join line breaks within paragraphs",
+      "highlightLow": "Highlight low-confidence words",
+      "highlightLegend": "Words below {value}% confidence are shown in yellow (raw recognition result).",
+      "outputPlaceholder": "Recognized text appears here",
+      "download": "Download .txt"
     }
   }
 }
