@@ -18,6 +18,7 @@ import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
+import { InvoiceGeneratorTool } from "@/components/tools/invoice-generator-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
 import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
@@ -82,6 +83,7 @@ const toolComponents: Record<string, ComponentType> = {
   "folder-tree": FolderTreeTool,
   "excel-converter": ExcelConverterTool,
   "ocr": OcrTool,
+  "invoice-generator": InvoiceGeneratorTool,
 };
 
 export function generateStaticParams() {

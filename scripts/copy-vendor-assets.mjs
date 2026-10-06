@@ -22,6 +22,9 @@ const files = [
   ["@tesseract.js-data/jpn/4.0.0_best_int/jpn.traineddata.gz", "tesseract/lang/jpn.traineddata.gz"],
   ["@tesseract.js-data/jpn_vert/4.0.0_best_int/jpn_vert.traineddata.gz", "tesseract/lang/jpn_vert.traineddata.gz"],
   ["@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz", "tesseract/lang/eng.traineddata.gz"],
+  // 請求書・見積書作成: PDFに埋め込む日本語フォント（SIL Open Font License 1.1。ライセンス文も同梱する）
+  ["@expo-google-fonts/noto-sans-jp/400Regular/NotoSansJP_400Regular.ttf", "fonts/NotoSansJP-Regular.ttf"],
+  ["@expo-google-fonts/noto-sans-jp/LICENSE_FONT", "fonts/OFL.txt"],
 ];
 
 rmSync(vendor, { recursive: true, force: true });

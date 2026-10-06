@@ -27,6 +27,7 @@ import {
   NotebookText,
   Palette,
   QrCode,
+  ReceiptJapaneseYen,
   Regex,
   ScanText,
   Shapes,
@@ -1937,6 +1938,84 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/pdf"],
       extensions: ["pdf"],
+    },
+  },
+  {
+    id: "invoice-generator",
+    name: { ja: "請求書・見積書作成（インボイス対応・PDF出力）", en: "Invoice & Estimate Generator (Japanese Qualified Invoice, PDF)" },
+    description: {
+      ja: "インボイス制度の記載事項に対応した請求書・見積書・納品書・領収書を作成し、PDFで保存できます。",
+      en: "Create invoices, estimates, delivery notes, and receipts that meet Japan's qualified invoice requirements, and save them as PDF.",
+    },
+    longDescription: {
+      ja: "個人事業主・フリーランス向けに、適格請求書（インボイス）の記載事項を満たした請求書・見積書・納品書・領収書をブラウザ上で作成し、PDFで保存できるツールです。税率ごとの集計と消費税額の計算、源泉徴収税、テンプレート保存に対応し、入力内容はサーバーに送信されず端末内にのみ保存されます。",
+      en: "A tool for sole proprietors and freelancers to create invoices, estimates, delivery notes, and receipts that meet Japan's qualified invoice (インボイス) requirements, right in the browser, and save them as PDF. It totals amounts and consumption tax by rate, supports withholding tax and templates, and keeps your data only on your device — nothing is sent to a server. Documents are generated in Japanese.",
+    },
+    howToUse: {
+      ja: [
+        "上部のボタンで帳票の種類（請求書・見積書・納品書・領収書）を選びます。",
+        "書類情報・宛先・発行者を入力します。適格請求書として発行する場合は登録番号（T＋13桁）を入力してください。「自動採番」で INV-2026-001 のような書類番号を付けられます。",
+        "明細に品名・数量・単位・単価・税率を入力します。税抜・税込の入力方法と端数処理を選べ、軽減税率（8%）の品目には自動で「※」が付きます。値引きはマイナスの単価で入力します。",
+        "右側のA4プレビューで仕上がりを確認し、「記載事項の確認」に警告が出ていないか確かめてから「PDFをダウンロード」を押します。",
+        "よく使う発行者情報や取引先、明細は「テンプレートに保存」で端末に保存できます。JSONでのエクスポート・インポートも可能です。",
+      ],
+      en: [
+        "Choose the document type (invoice, estimate, delivery note, or receipt) with the buttons at the top.",
+        "Enter the document details, recipient, and issuer. For a qualified invoice, enter the registration number (T + 13 digits). \"Auto number\" assigns numbers like INV-2026-001.",
+        "Enter each line item's name, quantity, unit, unit price, and tax rate. Choose tax-excluded or tax-included entry and the rounding method; reduced-rate (8%) items are marked with \"※\" automatically. Enter discounts as negative unit prices.",
+        "Check the result in the A4 preview, make sure there are no warnings under \"Required details\", and click \"Download PDF\".",
+        "Save frequently used issuer details, recipients, and items with \"Save as template\". You can also export and import JSON.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "請求書・見積書作成ツールは、2023年10月に始まったインボイス制度（適格請求書等保存方式）の記載事項に対応した帳票を作成するツールです。発行者の氏名または名称と登録番号、取引年月日、取引内容（軽減税率の対象品目である旨）、税率ごとに区分して合計した対価の額と適用税率、税率ごとの消費税額、宛先を記載できます。",
+          "消費税の端数処理は、インボイス制度のルールに合わせて「1枚の書類につき、税率ごとに1回」だけ行い、切り捨て・四捨五入・切り上げから選べます。金額は浮動小数点の誤差が出ないよう整数で計算しています。報酬に対する源泉徴収税（100万円以下は10.21%、超える部分は20.42%）の差し引きにも対応しています。",
+          "PDFには日本語フォント（Noto Sans JP、SIL Open Font License）を使った文字だけをサブセット化して埋め込むため、どの環境でも文字化けしません。プレビューとPDFは同じレイアウト計算から描画しているので、見た目がずれません。入力内容・テンプレートはこの端末のブラウザにのみ保存されます。本ツールは書類作成の補助であり、税務・法律上の判断は税理士等にご確認ください。",
+        ],
+        en: [
+          "The Invoice & Estimate Generator creates documents that meet the requirements of Japan's qualified invoice system (インボイス制度), introduced in October 2023. It can include the issuer's name and registration number, the transaction date, the transaction details (including which items are reduced-rate), the amounts totaled by tax rate with the applicable rates, the consumption tax for each rate, and the recipient.",
+          "Following the system's rules, consumption tax is rounded only once per tax rate per document, using round down, round half up, or round up. Amounts are calculated with integers to avoid floating-point errors. Withholding tax on fees (10.21% up to ¥1,000,000 and 20.42% above) can also be deducted.",
+          "PDFs embed only the characters used from a Japanese font (Noto Sans JP, SIL Open Font License), so text displays correctly everywhere. The preview and the PDF are drawn from the same layout, so they always match. Your entries and templates are stored only in this browser. This tool only assists with document creation; consult a tax accountant for tax and legal decisions.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "消費税の端数はどのように計算されますか？", en: "How is consumption tax rounded?" },
+        answer: {
+          ja: "インボイス制度のルールに合わせて、明細ごとではなく、書類全体で税率（10%・8%）ごとに合計した金額に対して1回だけ端数処理を行います。端数処理の方法は切り捨て・四捨五入・切り上げから選べます。",
+          en: "Following the qualified invoice rules, tax is rounded once on the total for each tax rate (10% and 8%) across the whole document, not per line item. You can choose round down, round half up, or round up.",
+        },
+      },
+      {
+        question: { ja: "源泉徴収税はどう計算されますか？", en: "How is withholding tax calculated?" },
+        answer: {
+          ja: "税抜の合計金額に対して、100万円以下の部分は10.21%、100万円を超える部分は20.42%で計算し、1円未満を切り捨てます。消費税額が明確に区分されている場合は税抜金額を対象にできるという扱いに基づいています。",
+          en: "It's calculated on the pre-tax total: 10.21% on the portion up to ¥1,000,000 and 20.42% on the portion above, with fractions of a yen dropped. This follows the rule that the pre-tax amount may be used when consumption tax is clearly stated separately.",
+        },
+      },
+      {
+        question: { ja: "入力したデータはどこに保存されますか？", en: "Where is my data stored?" },
+        answer: {
+          ja: "この端末のブラウザ（localStorage）にのみ保存され、サーバーには送信されません。別の端末で使いたい場合はJSONでエクスポートし、移行先でインポートしてください。ブラウザのデータを消去すると保存内容も消えます。",
+          en: "Only in this browser (localStorage); nothing is sent to a server. To use it on another device, export JSON and import it there. Clearing your browser data also removes what you saved.",
+        },
+      },
+      {
+        question: { ja: "作成した書類はそのまま使えますか？", en: "Can I use the documents as is?" },
+        answer: {
+          ja: "記載事項の確認機能はありますが、本ツールは書類作成の補助です。取引の内容や税務上の扱いについては、税理士等の専門家にご確認ください。",
+          en: "The tool checks the required details, but it only assists with creating documents. Consult a tax accountant or other professional about your transactions and their tax treatment.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: ReceiptJapaneseYen,
+    keywords: {
+      ja: "請求書 見積書 納品書 領収書 インボイス 適格請求書 登録番号 消費税 軽減税率 源泉徴収 pdf フリーランス 個人事業主",
+      en: "invoice estimate quote delivery note receipt qualified invoice japan consumption tax withholding pdf freelance",
     },
   },
   {

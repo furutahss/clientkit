@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "請求書・見積書作成ツールを追加（インボイス制度の記載事項・税率ごとの端数処理・源泉徴収・PDF出力に対応）",
+          en: "Added an invoice and estimate generator (Japanese qualified invoice details, per-rate tax rounding, withholding tax, and PDF output)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "OCR（画像から文字認識）ツールを追加（日本語・縦書き・範囲指定・前処理に対応）",
           en: "Added an OCR tool to extract text from images (supports Japanese, vertical text, area selection, and preprocessing)",
         },
