@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "cURL→コード変換ツールを追加（fetch・axios・Python・C#・Goに対応、機密情報のマスキング付き）",
+          en: "Added a cURL to code converter (fetch, axios, Python, C#, and Go, with secret masking)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "請求書・見積書作成ツールを追加（インボイス制度の記載事項・税率ごとの端数処理・源泉徴収・PDF出力に対応）",
           en: "Added an invoice and estimate generator (Japanese qualified invoice details, per-rate tax rounding, withholding tax, and PDF output)",
         },

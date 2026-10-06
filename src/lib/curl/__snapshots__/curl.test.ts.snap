@@ -1,0 +1,827 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`コード生成（スナップショット） > basicAuthInsecure → axios 1`] = `
+"import axios from "axios";
+import https from "node:https";
+
+const response = await axios({
+  method: "delete",
+  url: "https://e.com/items/1",
+  auth: {
+    username: "admin",
+    password: "secret",
+  },
+  httpsAgent: new https.Agent({ rejectUnauthorized: false }), // curl -k (Node.js only)
+});
+console.log(response.status, response.data);"
+`;
+
+exports[`コード生成（スナップショット） > basicAuthInsecure → csharp 1`] = `
+"using System.Net;
+using System.Net.Http.Headers;
+using System.Text;
+
+using var handler = new HttpClientHandler
+{
+    AutomaticDecompression = DecompressionMethods.All,
+    // curl -k: certificate validation is disabled. Do not use in production.
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+};
+using var client = new HttpClient(handler);
+
+using var request = new HttpRequestMessage(HttpMethod.Delete, "https://e.com/items/1");
+request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes("admin:secret")));
+
+using var response = await client.SendAsync(request);
+var responseBody = await response.Content.ReadAsStringAsync();
+Console.WriteLine((int)response.StatusCode);
+Console.WriteLine(responseBody);"
+`;
+
+exports[`コード生成（スナップショット） > basicAuthInsecure → curl 1`] = `
+"curl -X DELETE \\
+  https://e.com/items/1 \\
+  -u admin:secret \\
+  -k"
+`;
+
+exports[`コード生成（スナップショット） > basicAuthInsecure → fetch 1`] = `
+"// Note: fetch cannot disable TLS certificate verification (curl -k).
+const response = await fetch("https://e.com/items/1", {
+  method: "DELETE",
+  headers: {
+    Authorization: "Basic " + btoa("admin:secret"),
+  },
+});
+const data = await response.text();
+console.log(response.status, data);"
+`;
+
+exports[`コード生成（スナップショット） > basicAuthInsecure → go 1`] = `
+"package main
+
+import (
+	"crypto/tls"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+)
+
+func main() {
+	// curl -k: certificate verification is disabled. Do not use in production.
+	client := &http.Client{
+		Transport: &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}},
+	}
+	req, err := http.NewRequest("DELETE", "https://e.com/items/1", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.SetBasicAuth("admin", "secret")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(resp.StatusCode)
+	fmt.Println(string(respBody))
+}"
+`;
+
+exports[`コード生成（スナップショット） > basicAuthInsecure → python 1`] = `
+"import requests
+
+url = "https://e.com/items/1"
+
+response = requests.delete(url, auth=("admin", "secret"), verify=False)
+print(response.status_code)
+print(response.text)"
+`;
+
+exports[`コード生成（スナップショット） > chromeBash → axios 1`] = `
+"import axios from "axios";
+
+// Note: browsers ignore user-agent, Cookie (they are sent when run in Node.js).
+const response = await axios({
+  method: "post",
+  url: "https://api.example.com/v1/items?page=2&api_key=abc123",
+  headers: {
+    "accept": "application/json",
+    "authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig",
+    "content-type": "application/json",
+    "user-agent": "Mozilla/5.0",
+    "Cookie": "session=s3cr3t; theme=dark",
+  },
+  data: {
+    "name": "テスト",
+    "note": "it's ok",
+    "tags": [
+      "a",
+      "b"
+    ],
+    "active": true,
+    "count": null
+  },
+});
+console.log(response.status, response.data);"
+`;
+
+exports[`コード生成（スナップショット） > chromeBash → csharp 1`] = `
+"using System.Net;
+using System.Net.Http.Headers;
+
+using var handler = new HttpClientHandler
+{
+    AutomaticDecompression = DecompressionMethods.All,
+};
+using var client = new HttpClient(handler);
+
+using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.example.com/v1/items?page=2&api_key=abc123");
+request.Headers.TryAddWithoutValidation("accept", "application/json");
+request.Headers.TryAddWithoutValidation("authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig");
+request.Headers.TryAddWithoutValidation("user-agent", "Mozilla/5.0");
+request.Headers.TryAddWithoutValidation("Cookie", "session=s3cr3t; theme=dark");
+
+request.Content = new StringContent(
+    """
+    {
+      "name": "テスト",
+      "note": "it's ok",
+      "tags": [
+        "a",
+        "b"
+      ],
+      "active": true,
+      "count": null
+    }
+    """);
+request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+using var response = await client.SendAsync(request);
+var responseBody = await response.Content.ReadAsStringAsync();
+Console.WriteLine((int)response.StatusCode);
+Console.WriteLine(responseBody);"
+`;
+
+exports[`コード生成（スナップショット） > chromeBash → curl 1`] = `
+"curl 'https://api.example.com/v1/items?page=2&api_key=abc123' \\
+  -H 'accept: application/json' \\
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig' \\
+  -H 'content-type: application/json' \\
+  -H 'user-agent: Mozilla/5.0' \\
+  -H 'Cookie: session=s3cr3t; theme=dark' \\
+  --data-raw '{"name":"テスト","note":"it'\\''s ok","tags":["a","b"],"active":true,"count":null}' \\
+  --compressed"
+`;
+
+exports[`コード生成（スナップショット） > chromeBash → fetch 1`] = `
+"// Note: browsers ignore user-agent, Cookie (they are sent when run in Node.js).
+const response = await fetch("https://api.example.com/v1/items?page=2&api_key=abc123", {
+  method: "POST",
+  headers: {
+    "accept": "application/json",
+    "authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig",
+    "content-type": "application/json",
+    "user-agent": "Mozilla/5.0",
+    "Cookie": "session=s3cr3t; theme=dark",
+  },
+  body: JSON.stringify({
+    "name": "テスト",
+    "note": "it's ok",
+    "tags": [
+      "a",
+      "b"
+    ],
+    "active": true,
+    "count": null
+  }),
+});
+const data = await response.text();
+console.log(response.status, data);"
+`;
+
+exports[`コード生成（スナップショット） > chromeBash → go 1`] = `
+"package main
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"strings"
+)
+
+func main() {
+	client := &http.Client{}
+	body := strings.NewReader(\`{
+	  "name": "テスト",
+	  "note": "it's ok",
+	  "tags": [
+	    "a",
+	    "b"
+	  ],
+	  "active": true,
+	  "count": null
+	}\`)
+	req, err := http.NewRequest("POST", "https://api.example.com/v1/items?page=2&api_key=abc123", body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("accept", "application/json")
+	req.Header.Set("authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig")
+	req.Header.Set("content-type", "application/json")
+	req.Header.Set("user-agent", "Mozilla/5.0")
+	req.Header.Set("Cookie", "session=s3cr3t; theme=dark")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(resp.StatusCode)
+	fmt.Println(string(respBody))
+}"
+`;
+
+exports[`コード生成（スナップショット） > chromeBash → python 1`] = `
+"import requests
+
+url = "https://api.example.com/v1/items"
+params = {
+    "page": "2",
+    "api_key": "abc123",
+}
+headers = {
+    "accept": "application/json",
+    "authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.payload.sig",
+    "content-type": "application/json",
+    "user-agent": "Mozilla/5.0",
+    "Cookie": "session=s3cr3t; theme=dark",
+}
+json_data = {
+    "name": "テスト",
+    "note": "it's ok",
+    "tags": [
+        "a",
+        "b",
+    ],
+    "active": True,
+    "count": None,
+}
+
+response = requests.post(url, params=params, headers=headers, json=json_data)
+print(response.status_code)
+print(response.text)"
+`;
+
+exports[`コード生成（スナップショット） > chromeCmd → axios 1`] = `
+"import axios from "axios";
+
+const response = await axios({
+  method: "post",
+  url: "https://api.example.com/v1/search?q=a%20b&lang=ja",
+  headers: {
+    "accept": "application/json",
+    "content-type": "application/json",
+  },
+  data: {
+    "query": "東京",
+    "limit": 10
+  },
+});
+console.log(response.status, response.data);"
+`;
+
+exports[`コード生成（スナップショット） > chromeCmd → csharp 1`] = `
+"using System.Net;
+using System.Net.Http.Headers;
+
+using var handler = new HttpClientHandler
+{
+    AutomaticDecompression = DecompressionMethods.All,
+};
+using var client = new HttpClient(handler);
+
+using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.example.com/v1/search?q=a%20b&lang=ja");
+request.Headers.TryAddWithoutValidation("accept", "application/json");
+
+request.Content = new StringContent(
+    """
+    {
+      "query": "東京",
+      "limit": 10
+    }
+    """);
+request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+using var response = await client.SendAsync(request);
+var responseBody = await response.Content.ReadAsStringAsync();
+Console.WriteLine((int)response.StatusCode);
+Console.WriteLine(responseBody);"
+`;
+
+exports[`コード生成（スナップショット） > chromeCmd → curl 1`] = `
+"curl 'https://api.example.com/v1/search?q=a%20b&lang=ja' \\
+  -H 'accept: application/json' \\
+  -H 'content-type: application/json' \\
+  --data-raw '{"query":"東京","limit":10}' \\
+  --compressed"
+`;
+
+exports[`コード生成（スナップショット） > chromeCmd → fetch 1`] = `
+"const response = await fetch("https://api.example.com/v1/search?q=a%20b&lang=ja", {
+  method: "POST",
+  headers: {
+    "accept": "application/json",
+    "content-type": "application/json",
+  },
+  body: JSON.stringify({
+    "query": "東京",
+    "limit": 10
+  }),
+});
+const data = await response.text();
+console.log(response.status, data);"
+`;
+
+exports[`コード生成（スナップショット） > chromeCmd → go 1`] = `
+"package main
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"strings"
+)
+
+func main() {
+	client := &http.Client{}
+	body := strings.NewReader(\`{
+	  "query": "東京",
+	  "limit": 10
+	}\`)
+	req, err := http.NewRequest("POST", "https://api.example.com/v1/search?q=a%20b&lang=ja", body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("accept", "application/json")
+	req.Header.Set("content-type", "application/json")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(resp.StatusCode)
+	fmt.Println(string(respBody))
+}"
+`;
+
+exports[`コード生成（スナップショット） > chromeCmd → python 1`] = `
+"import requests
+
+url = "https://api.example.com/v1/search"
+params = {
+    "q": "a b",
+    "lang": "ja",
+}
+headers = {
+    "accept": "application/json",
+    "content-type": "application/json",
+}
+json_data = {
+    "query": "東京",
+    "limit": 10,
+}
+
+response = requests.post(url, params=params, headers=headers, json=json_data)
+print(response.status_code)
+print(response.text)"
+`;
+
+exports[`コード生成（スナップショット） > firefoxForm → axios 1`] = `
+"import axios from "axios";
+
+// Note: browsers ignore User-Agent (they are sent when run in Node.js).
+const response = await axios({
+  method: "post",
+  url: "https://example.com/login",
+  headers: {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0",
+    "Accept": "*/*",
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  data: new URLSearchParams([
+    ["user", "taro"],
+    ["password", "p@ss"],
+    ["remember", "1"],
+  ]),
+});
+console.log(response.status, response.data);"
+`;
+
+exports[`コード生成（スナップショット） > firefoxForm → csharp 1`] = `
+"using System.Net;
+using System.Net.Http.Headers;
+
+using var handler = new HttpClientHandler
+{
+    AutomaticDecompression = DecompressionMethods.All,
+};
+using var client = new HttpClient(handler);
+
+using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.com/login");
+request.Headers.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0");
+request.Headers.TryAddWithoutValidation("Accept", "*/*");
+
+request.Content = new FormUrlEncodedContent(new[]
+{
+    new KeyValuePair<string, string>("user", "taro"),
+    new KeyValuePair<string, string>("password", "p@ss"),
+    new KeyValuePair<string, string>("remember", "1"),
+});
+request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+
+using var response = await client.SendAsync(request);
+var responseBody = await response.Content.ReadAsStringAsync();
+Console.WriteLine((int)response.StatusCode);
+Console.WriteLine(responseBody);"
+`;
+
+exports[`コード生成（スナップショット） > firefoxForm → curl 1`] = `
+"curl https://example.com/login \\
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0' \\
+  -H 'Accept: */*' \\
+  -H 'Content-Type: application/x-www-form-urlencoded' \\
+  --data-raw 'user=taro&password=p%40ss&remember=1'"
+`;
+
+exports[`コード生成（スナップショット） > firefoxForm → fetch 1`] = `
+"// Note: browsers ignore User-Agent (they are sent when run in Node.js).
+const response = await fetch("https://example.com/login", {
+  method: "POST",
+  headers: {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0",
+    "Accept": "*/*",
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  body: new URLSearchParams([
+    ["user", "taro"],
+    ["password", "p@ss"],
+    ["remember", "1"],
+  ]),
+});
+const data = await response.text();
+console.log(response.status, data);"
+`;
+
+exports[`コード生成（スナップショット） > firefoxForm → go 1`] = `
+"package main
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"net/url"
+	"strings"
+)
+
+func main() {
+	client := &http.Client{}
+	form := url.Values{}
+	form.Add("user", "taro")
+	form.Add("password", "p@ss")
+	form.Add("remember", "1")
+	body := strings.NewReader(form.Encode())
+	req, err := http.NewRequest("POST", "https://example.com/login", body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0")
+	req.Header.Set("Accept", "*/*")
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(resp.StatusCode)
+	fmt.Println(string(respBody))
+}"
+`;
+
+exports[`コード生成（スナップショット） > firefoxForm → python 1`] = `
+"import requests
+
+url = "https://example.com/login"
+headers = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0",
+    "Accept": "*/*",
+    "Content-Type": "application/x-www-form-urlencoded",
+}
+data = {
+    "user": "taro",
+    "password": "p@ss",
+    "remember": "1",
+}
+
+response = requests.post(url, headers=headers, data=data)
+print(response.status_code)
+print(response.text)"
+`;
+
+exports[`コード生成（スナップショット） > postmanMultipart → axios 1`] = `
+"import axios from "axios";
+
+const form = new FormData();
+form.append("file", fileInput.files[0], "photo 1.png"); // /path/to/photo 1.png
+form.append("title", "hello world");
+
+const response = await axios({
+  method: "post",
+  url: "https://api.example.com/upload",
+  headers: {
+    "X-API-Key": "k-123",
+  },
+  data: form,
+});
+console.log(response.status, response.data);"
+`;
+
+exports[`コード生成（スナップショット） > postmanMultipart → csharp 1`] = `
+"using System.Net;
+using System.Net.Http.Headers;
+
+using var handler = new HttpClientHandler
+{
+    AutomaticDecompression = DecompressionMethods.All,
+};
+using var client = new HttpClient(handler);
+
+using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.example.com/upload");
+request.Headers.TryAddWithoutValidation("X-API-Key", "k-123");
+
+var form = new MultipartFormDataContent();
+form.Add(new StreamContent(File.OpenRead("/path/to/photo 1.png")), "file", "photo 1.png");
+form.Add(new StringContent("hello world"), "title");
+request.Content = form;
+
+using var response = await client.SendAsync(request);
+var responseBody = await response.Content.ReadAsStringAsync();
+Console.WriteLine((int)response.StatusCode);
+Console.WriteLine(responseBody);"
+`;
+
+exports[`コード生成（スナップショット） > postmanMultipart → curl 1`] = `
+"curl https://api.example.com/upload \\
+  -H 'X-API-Key: k-123' \\
+  -F 'file=@/path/to/photo 1.png' \\
+  --form-string 'title=hello world' \\
+  -L"
+`;
+
+exports[`コード生成（スナップショット） > postmanMultipart → fetch 1`] = `
+"const form = new FormData();
+form.append("file", fileInput.files[0], "photo 1.png"); // /path/to/photo 1.png
+form.append("title", "hello world");
+
+const response = await fetch("https://api.example.com/upload", {
+  method: "POST",
+  headers: {
+    "X-API-Key": "k-123",
+  },
+  body: form,
+});
+const data = await response.text();
+console.log(response.status, data);"
+`;
+
+exports[`コード生成（スナップショット） > postmanMultipart → go 1`] = `
+"package main
+
+import (
+	"bytes"
+	"fmt"
+	"io"
+	"log"
+	"mime/multipart"
+	"net/http"
+	"os"
+)
+
+func main() {
+	client := &http.Client{}
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	{
+		file, err := os.Open("/path/to/photo 1.png")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+		part, err := writer.CreateFormFile("file", "photo 1.png")
+		if err != nil {
+			log.Fatal(err)
+		}
+		if _, err := io.Copy(part, file); err != nil {
+			log.Fatal(err)
+		}
+	}
+	if err := writer.WriteField("title", "hello world"); err != nil {
+		log.Fatal(err)
+	}
+	if err := writer.Close(); err != nil {
+		log.Fatal(err)
+	}
+	req, err := http.NewRequest("POST", "https://api.example.com/upload", body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("X-API-Key", "k-123")
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(resp.StatusCode)
+	fmt.Println(string(respBody))
+}"
+`;
+
+exports[`コード生成（スナップショット） > postmanMultipart → python 1`] = `
+"import requests
+
+url = "https://api.example.com/upload"
+headers = {
+    "X-API-Key": "k-123",
+}
+data = {
+    "title": "hello world",
+}
+files = {
+    "file": open("/path/to/photo 1.png", "rb"),
+}
+
+response = requests.post(url, headers=headers, data=data, files=files)
+print(response.status_code)
+print(response.text)"
+`;
+
+exports[`コード生成（スナップショット） > rawText → axios 1`] = `
+"import axios from "axios";
+
+const response = await axios({
+  method: "post",
+  url: "https://e.com/log",
+  headers: {
+    "Content-Type": "text/plain",
+  },
+  data: "line1\\nline2",
+});
+console.log(response.status, response.data);"
+`;
+
+exports[`コード生成（スナップショット） > rawText → csharp 1`] = `
+"using System.Net;
+using System.Net.Http.Headers;
+
+using var handler = new HttpClientHandler
+{
+    AutomaticDecompression = DecompressionMethods.All,
+};
+using var client = new HttpClient(handler);
+
+using var request = new HttpRequestMessage(HttpMethod.Post, "https://e.com/log");
+
+request.Content = new StringContent("line1\\nline2");
+request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
+
+using var response = await client.SendAsync(request);
+var responseBody = await response.Content.ReadAsStringAsync();
+Console.WriteLine((int)response.StatusCode);
+Console.WriteLine(responseBody);"
+`;
+
+exports[`コード生成（スナップショット） > rawText → curl 1`] = `
+"curl https://e.com/log \\
+  -H 'Content-Type: text/plain' \\
+  --data-raw 'line1
+line2'"
+`;
+
+exports[`コード生成（スナップショット） > rawText → fetch 1`] = `
+"const response = await fetch("https://e.com/log", {
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain",
+  },
+  body: "line1\\nline2",
+});
+const data = await response.text();
+console.log(response.status, data);"
+`;
+
+exports[`コード生成（スナップショット） > rawText → go 1`] = `
+"package main
+
+import (
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"strings"
+)
+
+func main() {
+	client := &http.Client{}
+	body := strings.NewReader("line1\\nline2")
+	req, err := http.NewRequest("POST", "https://e.com/log", body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "text/plain")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(resp.StatusCode)
+	fmt.Println(string(respBody))
+}"
+`;
+
+exports[`コード生成（スナップショット） > rawText → python 1`] = `
+"import requests
+
+url = "https://e.com/log"
+headers = {
+    "Content-Type": "text/plain",
+}
+data = "line1\\nline2"
+
+response = requests.post(url, headers=headers, data=data.encode())
+print(response.status_code)
+print(response.text)"
+`;
+
+exports[`コード生成（スナップショット） > マスキング後のコード 1`] = `
+"import requests
+
+url = "https://api.example.com/v1/items"
+params = {
+    "page": "2",
+    "api_key": "<TOKEN>",
+}
+headers = {
+    "accept": "application/json",
+    "authorization": "Bearer <TOKEN>",
+    "content-type": "application/json",
+    "user-agent": "Mozilla/5.0",
+    "Cookie": "session=<COOKIE>; theme=<COOKIE>",
+}
+json_data = {
+    "name": "テスト",
+    "note": "it's ok",
+    "tags": [
+        "a",
+        "b",
+    ],
+    "active": True,
+    "count": None,
+}
+
+response = requests.post(url, params=params, headers=headers, json=json_data)
+print(response.status_code)
+print(response.text)"
+`;

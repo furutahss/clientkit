@@ -9,6 +9,7 @@ import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
+import { CurlConverterTool } from "@/components/tools/curl-converter-tool";
 import { DataFormatConverterTool } from "@/components/tools/data-format-converter-tool";
 import { ExcelConverterTool } from "@/components/tools/excel-converter-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
@@ -84,6 +85,7 @@ const toolComponents: Record<string, ComponentType> = {
   "excel-converter": ExcelConverterTool,
   "ocr": OcrTool,
   "invoice-generator": InvoiceGeneratorTool,
+  "curl-converter": CurlConverterTool,
 };
 
 export function generateStaticParams() {

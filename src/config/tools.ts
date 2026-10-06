@@ -35,6 +35,7 @@ import {
   ShieldCheck,
   Sparkles,
   Table,
+  Terminal,
   TextCursorInput,
   Waypoints,
 } from "lucide-react";
@@ -2647,6 +2648,82 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/json"],
       extensions: ["har", "json"],
+    },
+  },
+  {
+    id: "curl-converter",
+    name: { ja: "cURL→コード変換（fetch / axios / Python / C# / Go）", en: "cURL to Code (fetch / axios / Python / C# / Go)" },
+    description: {
+      ja: "cURL コマンドを JavaScript（fetch・axios）、Python、C#、Go のHTTPリクエストコードに変換します。",
+      en: "Convert cURL commands into HTTP request code for JavaScript (fetch, axios), Python, C#, and Go.",
+    },
+    longDescription: {
+      ja: "ブラウザの開発者ツールやAPIドキュメントからコピーした cURL コマンドを、JavaScript（fetch・axios）、Python（requests）、C#（HttpClient）、Go（net/http）のコードに変換するツールです。ヘッダー・JSON・フォーム・マルチパート・Basic認証に対応し、認証情報のマスキングも行えます。変換はブラウザ内で完結します。",
+      en: "A tool that converts cURL commands copied from your browser's developer tools or API docs into code for JavaScript (fetch, axios), Python (requests), C# (HttpClient), and Go (net/http). It handles headers, JSON, form and multipart bodies, and Basic auth, and can mask credentials. Everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "ブラウザの開発者ツールのネットワークタブで、リクエストを右クリックして「Copy as cURL」を選び、入力欄に貼り付けます（bash・cmd のどちらの形式でも構いません）。",
+        "出力したい言語のタブ（fetch・axios・Python・C#・Go）を選ぶと、変換したコードが表示されます。「cURL」タブでは整形した cURL を確認できます。",
+        "「機密情報をマスクする」がオンの場合、Authorization・Cookie・APIキーなどは <TOKEN> などに置き換えて出力されます。実際の値が必要な場合はオフにしてください。",
+        "右側の「解析結果」で、メソッド・URL・クエリ・ヘッダー・ボディが正しく読み取れているか確認し、コピーまたはダウンロードします。",
+      ],
+      en: [
+        "In your browser's developer tools, right-click a request in the Network tab, choose \"Copy as cURL\", and paste it into the input (bash or cmd format).",
+        "Choose a language tab (fetch, axios, Python, C#, or Go) to see the converted code. The \"cURL\" tab shows a cleaned-up cURL command.",
+        "With \"Mask secrets\" on, Authorization, Cookie, API keys, and similar values are replaced with placeholders such as <TOKEN>. Turn it off if you need the real values.",
+        "Check under \"Parsed request\" that the method, URL, query, headers, and body were read correctly, then copy or download the code.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "cURL→コード変換ツールは、cURL コマンドをプログラミング言語のHTTPリクエストコードに書き換えるツールです。ブラウザで動いている通信を自分のスクリプトで再現したいとき、APIドキュメントの例を使い慣れた言語で試したいときなどに役立ちます。HARアナライザーで通信を調べたあとに使うのも便利です。",
+          "シングルクォート・ダブルクォート・$'...' のエスケープ、バックスラッシュによる行継続を含む bash 形式と、^ によるエスケープを使う Windows のコマンドプロンプト形式（Chrome の「Copy as cURL (cmd)」）の両方を解析できます。-X、-H、-d、--data-raw、--data-urlencode、-F、-u、-b、-A、-e、-L、-k、--compressed、-G、--url に対応し、それ以外のオプションは無視したことを一覧で表示します。",
+          "JSONのボディは整形して出力し、フォーム（URLエンコード）やマルチパートは各言語の標準的な書き方に変換します。認証ヘッダーやCookieはそのまま共有すると危険なため、既定でプレースホルダに置き換えます。入力した内容はサーバーに送信されず、リクエストが実行されることもありません。",
+        ],
+        en: [
+          "The cURL to Code tool rewrites cURL commands as HTTP request code in programming languages. It's handy for reproducing a request your browser makes in your own script, or for trying API documentation examples in a language you're comfortable with. It also pairs well with the HAR Analyzer.",
+          "It parses both bash syntax (single and double quotes, $'...' escapes, and backslash line continuations) and Windows Command Prompt syntax with ^ escapes (Chrome's \"Copy as cURL (cmd)\"). It supports -X, -H, -d, --data-raw, --data-urlencode, -F, -u, -b, -A, -e, -L, -k, --compressed, -G, and --url, and lists any other options it ignored.",
+          "JSON bodies are pretty-printed, and form (URL-encoded) and multipart bodies are converted to each language's standard style. Since sharing authorization headers and cookies is risky, they're replaced with placeholders by default. Nothing you enter is sent to a server, and the request is never executed.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "Windows の「Copy as cURL (cmd)」にも対応していますか？", en: "Does it support Windows \"Copy as cURL (cmd)\"?" },
+        answer: {
+          ja: "はい。^\" や ^& などの ^ によるエスケープと、行末の ^ による行継続を含むコマンドプロンプト形式を自動で判別して解析します。",
+          en: "Yes. Command Prompt syntax with ^ escapes such as ^\" and ^&, and ^ line continuations, is detected and parsed automatically.",
+        },
+      },
+      {
+        question: { ja: "ファイルを送信する -F 'file=@path' はどうなりますか？", en: "What happens to -F 'file=@path' file uploads?" },
+        answer: {
+          ja: "ファイルの中身は読み込まず、各言語でファイルを開いて送信するコード（Pythonの open()、Goの os.Open など）を生成します。パスは実際の環境に合わせて書き換えてください。-d @file のようなファイルからのデータ読み込みには対応していません。",
+          en: "File contents aren't read; instead, code that opens and sends the file in each language (open() in Python, os.Open in Go, and so on) is generated. Adjust the path for your environment. Reading request data from a file, as in -d @file, isn't supported.",
+        },
+      },
+      {
+        question: { ja: "マスキングはどのような値が対象ですか？", en: "Which values are masked?" },
+        answer: {
+          ja: "Authorization・Cookie・X-API-Key などのヘッダー、名前に token・secret・password などを含むヘッダー、api_key・token・access_token などのクエリパラメータ、-u で指定したBasic認証の値が対象です。ボディ内の値はマスクされないためご注意ください。",
+          en: "Headers such as Authorization, Cookie, and X-API-Key; headers whose names contain token, secret, password, and similar words; query parameters such as api_key, token, and access_token; and Basic auth credentials given with -u. Values inside the body are not masked.",
+        },
+      },
+      {
+        question: { ja: "入力した内容が送信されることはありますか？", en: "Is anything I enter sent anywhere?" },
+        answer: {
+          ja: "ありません。解析と変換はブラウザ内で行われ、リクエストが実行されることもありません。",
+          en: "No. Parsing and conversion happen in your browser, and the request is never executed.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Terminal,
+    keywords: {
+      ja: "curl コード変換 fetch axios python requests c# httpclient go net/http api リクエスト 開発者ツール copy as curl",
+      en: "curl to code converter fetch axios python requests csharp httpclient golang net/http api request copy as curl",
     },
   },
   {

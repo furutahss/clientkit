@@ -1343,6 +1343,49 @@
       "totalLabel": "合計（税込）",
       "withholdingLabel": "源泉徴収税額",
       "amountDueLabel": "差引金額"
+    },
+    "curlConverter": {
+      "safetyNote": "入力した cURL コマンドはサーバーへ送信されず、ブラウザ内で変換します。リクエストが実行されることもありません。",
+      "inputLabel": "cURL コマンド",
+      "inputPlaceholder": "curl 'https://api.example.com/items' -H 'accept: application/json'",
+      "inputHint": "ブラウザの開発者ツール（Copy as cURL：bash / cmd の両方に対応）や API ドキュメントからコピーした cURL を貼り付けてください。",
+      "sample": "サンプルを入力",
+      "errors": {
+        "empty": "cURL コマンドを入力してください。",
+        "notCurl": "「curl」で始まるコマンドを入力してください。",
+        "noUrl": "URL が見つかりませんでした。",
+        "unterminatedQuote": "引用符（' または \"）が閉じられていません。"
+      },
+      "warningsHeading": "無視したオプション",
+      "warnings": {
+        "unsupported": "未対応のオプションのため無視しました",
+        "file": "ファイルの読み込みには対応していないため、値をそのまま扱うか無視しました",
+        "missingValue": "値が指定されていないため無視しました",
+        "extraUrl": "2つ目以降の URL は無視しました"
+      },
+      "languageLabel": "出力する言語",
+      "mask": "機密情報をマスクする",
+      "maskHint": "Authorization・Cookie・APIキーらしきヘッダーやクエリ、Basic認証の値を <TOKEN> などに置き換えて出力します。",
+      "outputPlaceholder": "ここに変換したコードが表示されます",
+      "download": "{file} をダウンロード",
+      "parsedHeading": "解析結果",
+      "parsedPlaceholder": "cURL を入力すると、メソッド・URL・クエリ・ヘッダー・ボディを確認できます。",
+      "requestCaption": "リクエストの概要",
+      "method": "メソッド",
+      "basicAuth": "Basic認証",
+      "options": "オプション",
+      "optionLocation": "リダイレクトに従う（-L）",
+      "optionInsecure": "証明書を検証しない（-k）",
+      "optionCompressed": "圧縮を受け入れる（--compressed）",
+      "query": "クエリパラメータ",
+      "headers": "ヘッダー（{count}件）",
+      "body": "ボディ（{kind}）",
+      "bodyKinds": {
+        "json": "JSON",
+        "form": "フォーム（URLエンコード）",
+        "multipart": "マルチパート",
+        "raw": "テキスト"
+      }
     }
   }
 }

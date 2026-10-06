@@ -1343,6 +1343,49 @@
       "totalLabel": "Total (tax incl.)",
       "withholdingLabel": "Withholding tax",
       "amountDueLabel": "Amount due"
+    },
+    "curlConverter": {
+      "safetyNote": "Your cURL command is converted in your browser and never sent to a server. The request is never executed.",
+      "inputLabel": "cURL command",
+      "inputPlaceholder": "curl 'https://api.example.com/items' -H 'accept: application/json'",
+      "inputHint": "Paste a cURL command copied from your browser's developer tools (Copy as cURL, both bash and cmd) or from API docs.",
+      "sample": "Insert sample",
+      "errors": {
+        "empty": "Enter a cURL command.",
+        "notCurl": "Enter a command that starts with \"curl\".",
+        "noUrl": "No URL was found.",
+        "unterminatedQuote": "A quote (' or \") is not closed."
+      },
+      "warningsHeading": "Ignored options",
+      "warnings": {
+        "unsupported": "unsupported option, ignored",
+        "file": "reading files isn't supported, so the value was used as is or ignored",
+        "missingValue": "no value given, ignored",
+        "extraUrl": "additional URLs are ignored"
+      },
+      "languageLabel": "Output language",
+      "mask": "Mask secrets",
+      "maskHint": "Replaces Authorization, Cookie, API-key-like headers and query parameters, and Basic auth credentials with placeholders such as <TOKEN>.",
+      "outputPlaceholder": "Generated code appears here",
+      "download": "Download {file}",
+      "parsedHeading": "Parsed request",
+      "parsedPlaceholder": "Enter a cURL command to see its method, URL, query, headers, and body.",
+      "requestCaption": "Request summary",
+      "method": "Method",
+      "basicAuth": "Basic auth",
+      "options": "Options",
+      "optionLocation": "Follow redirects (-L)",
+      "optionInsecure": "Skip certificate verification (-k)",
+      "optionCompressed": "Accept compression (--compressed)",
+      "query": "Query parameters",
+      "headers": "Headers ({count})",
+      "body": "Body ({kind})",
+      "bodyKinds": {
+        "json": "JSON",
+        "form": "Form (URL-encoded)",
+        "multipart": "Multipart",
+        "raw": "Text"
+      }
     }
   }
 }
