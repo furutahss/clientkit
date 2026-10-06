@@ -1439,6 +1439,45 @@
       "unknownError": "処理に失敗しました。",
       "stats": "サイズ: {before} → {after}（{rate}%削減） ／ gzip後: {gzipBefore} → {gzipAfter}（{gzipRate}%削減）",
       "download": "ダウンロード"
+    },
+    "mermaidEditor": {
+      "safetyNote": "図はブラウザ内で描画され、入力内容がサーバーへ送信されることはありません。共有リンクも内容をURLのハッシュ（#以降）に入れるだけで、サーバーには送られません。",
+      "templateLabel": "テンプレート",
+      "templatePlaceholder": "テンプレートを選ぶ",
+      "templates": {
+        "flowchart": "フローチャート",
+        "sequence": "シーケンス図",
+        "er": "ER図",
+        "class": "クラス図",
+        "state": "状態遷移図",
+        "gantt": "ガントチャート",
+        "mindmap": "マインドマップ",
+        "gitGraph": "Gitグラフ"
+      },
+      "themeLabel": "テーマ",
+      "backgroundLabel": "背景色",
+      "transparent": "透過",
+      "viewLabel": "表示",
+      "editorLabel": "エディタ",
+      "previewLabel": "プレビュー",
+      "editorHint": "Tab で字下げ、Shift+Tab で字下げ解除。エディタから移動するときは Esc を押してから Tab を押してください。入力内容は自動で保存されます。",
+      "errorAt": "{line}行目: {message}",
+      "loading": "読み込み中",
+      "loadError": "Mermaid を読み込めませんでした。ページを再読み込みしてください。",
+      "zoomIn": "拡大",
+      "zoomOut": "縮小",
+      "fit": "全体を表示",
+      "previewAria": "図のプレビュー",
+      "previewHint": "ドラッグで移動、Ctrl（⌘）＋ホイールで拡大・縮小できます。構文エラーがある間は直前の図を表示します。",
+      "downloadSvg": "SVGをダウンロード",
+      "downloadPng": "PNGをダウンロード",
+      "pngScale": "PNGの解像度",
+      "pngError": "PNGの作成に失敗しました。SVGでの保存をお試しください。",
+      "copySource": "Mermaidのソースをコピー",
+      "copySvg": "SVGをコピー",
+      "copyLink": "共有リンクをコピー",
+      "copied": "コピーしました",
+      "linkNote": "共有リンクには図の内容が圧縮して含まれます（長い図ではURLが長くなります）。"
     }
   }
 }

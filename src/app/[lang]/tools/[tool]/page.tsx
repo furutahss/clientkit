@@ -26,6 +26,7 @@ import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { LogMaskerTool } from "@/components/tools/log-masker-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
+import { MermaidEditorTool } from "@/components/tools/mermaid-editor-tool";
 import { MockRepoGeneratorTool } from "@/components/tools/mock-repo-generator-tool";
 import { OcrTool } from "@/components/tools/ocr-tool";
 import { PdfToolkitTool } from "@/components/tools/pdf-toolkit-tool";
@@ -88,6 +89,7 @@ const toolComponents: Record<string, ComponentType> = {
   "invoice-generator": InvoiceGeneratorTool,
   "curl-converter": CurlConverterTool,
   "code-formatter": CodeFormatterTool,
+  "mermaid-editor": MermaidEditorTool,
 };
 
 export function generateStaticParams() {

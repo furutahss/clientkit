@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "Mermaid図エディタを追加（8種類のテンプレート、SVG・PNG書き出し、URLでの共有に対応）",
+          en: "Added a Mermaid diagram editor (8 templates, SVG and PNG export, and sharing via URL)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "HTML/CSS/JS整形・Minifyツールを追加（SCSS・Less・TypeScriptの整形、gzip後のサイズ比較に対応）",
           en: "Added an HTML/CSS/JS formatter and minifier (formats SCSS, Less, and TypeScript, with gzip size comparison)",
         },

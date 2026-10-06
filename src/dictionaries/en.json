@@ -1439,6 +1439,45 @@
       "unknownError": "Processing failed.",
       "stats": "Size: {before} → {after} ({rate}% smaller) / gzip: {gzipBefore} → {gzipAfter} ({gzipRate}% smaller)",
       "download": "Download"
+    },
+    "mermaidEditor": {
+      "safetyNote": "Diagrams are rendered in your browser and nothing you enter is sent to a server. Share links simply put the content in the URL hash (after #), which is never sent to the server.",
+      "templateLabel": "Template",
+      "templatePlaceholder": "Choose a template",
+      "templates": {
+        "flowchart": "Flowchart",
+        "sequence": "Sequence diagram",
+        "er": "ER diagram",
+        "class": "Class diagram",
+        "state": "State diagram",
+        "gantt": "Gantt chart",
+        "mindmap": "Mind map",
+        "gitGraph": "Git graph"
+      },
+      "themeLabel": "Theme",
+      "backgroundLabel": "Background",
+      "transparent": "Transparent",
+      "viewLabel": "View",
+      "editorLabel": "Editor",
+      "previewLabel": "Preview",
+      "editorHint": "Tab indents and Shift+Tab outdents. To move focus out of the editor, press Esc and then Tab. Your input is saved automatically.",
+      "errorAt": "Line {line}: {message}",
+      "loading": "Loading",
+      "loadError": "Mermaid could not be loaded. Please reload the page.",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "fit": "Fit to view",
+      "previewAria": "Diagram preview",
+      "previewHint": "Drag to pan and use Ctrl (⌘) + wheel to zoom. While there's a syntax error, the last valid diagram stays visible.",
+      "downloadSvg": "Download SVG",
+      "downloadPng": "Download PNG",
+      "pngScale": "PNG resolution",
+      "pngError": "Failed to create the PNG. Try saving as SVG instead.",
+      "copySource": "Copy Mermaid source",
+      "copySvg": "Copy SVG",
+      "copyLink": "Copy share link",
+      "copied": "Copied",
+      "linkNote": "Share links contain the compressed diagram (long diagrams produce long URLs)."
     }
   }
 }

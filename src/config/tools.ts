@@ -39,6 +39,7 @@ import {
   Terminal,
   TextCursorInput,
   Waypoints,
+  Workflow,
 } from "lucide-react";
 
 import type { Locale } from "@/i18n/config";
@@ -3259,6 +3260,87 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/sql"],
       extensions: ["sql"],
+    },
+  },
+  {
+    id: "mermaid-editor",
+    name: { ja: "Mermaid図エディタ（フローチャート・シーケンス図・ER図）", en: "Mermaid Diagram Editor (Flowchart, Sequence, ER)" },
+    description: {
+      ja: "Mermaid記法でフローチャートやシーケンス図、ER図を書き、リアルタイムにプレビューしてSVG・PNGで保存できます。",
+      en: "Write flowcharts, sequence diagrams, and ER diagrams in Mermaid syntax with a live preview, and save them as SVG or PNG.",
+    },
+    longDescription: {
+      ja: "Mermaid記法でフローチャート、シーケンス図、ER図、クラス図、状態遷移図、ガントチャート、マインドマップ、Gitグラフを作成し、リアルタイムにプレビューできるツールです。テーマや背景色の変更、ズーム・パン、SVG・PNG（1x〜3x）での書き出し、URLでの共有に対応し、描画はすべてブラウザ内で行われます。",
+      en: "A tool for creating flowcharts, sequence diagrams, ER diagrams, class diagrams, state diagrams, Gantt charts, mind maps, and Git graphs in Mermaid syntax with a live preview. It supports themes and background colors, zoom and pan, export to SVG and PNG (1x–3x), and sharing via URL — all rendered in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「テンプレート」から作りたい図の種類を選ぶと、日本語のサンプルがエディタに入ります。",
+        "左のエディタでMermaid記法を編集すると、少し遅れて右のプレビューに反映されます。構文エラーがある場合は行番号付きでエラーが表示され、プレビューには直前の正しい図が残ります。",
+        "「テーマ」と「背景色」で見た目を変えます。プレビューはドラッグで移動、Ctrl（⌘）＋ホイールやボタンで拡大・縮小できます。",
+        "「SVGをダウンロード」「PNGをダウンロード」で画像として保存します。PNGは1x・2x・3xの解像度を選べます。",
+        "「共有リンクをコピー」で、同じ図を開けるURLを取得できます。入力内容は自動で保存され、次回開いたときに復元されます。",
+      ],
+      en: [
+        "Choose a diagram type from \"Template\" to load a sample into the editor.",
+        "Edit the Mermaid code in the editor on the left; the preview on the right updates shortly after. Syntax errors are shown with line numbers, and the last valid diagram stays in the preview.",
+        "Change the look with \"Theme\" and \"Background\". Drag to pan the preview, and zoom with Ctrl (⌘) + wheel or the buttons.",
+        "Save as an image with \"Download SVG\" or \"Download PNG\". PNG can be exported at 1x, 2x, or 3x.",
+        "\"Copy share link\" gives you a URL that opens the same diagram. Your input is saved automatically and restored the next time you open the tool.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Mermaid図エディタは、テキストで図を記述できるMermaid記法を使って、設計書やドキュメントに載せる図を作成するツールです。GitHubやGitLab、Notionなどでも使われている記法のため、作成したソースをそのままMarkdownに貼り付けて使うこともできます。",
+          "描画にはMermaid（MIT）を使用し、ユーザーが入力したHTMLやスクリプトが実行されないよう securityLevel を strict に設定しています。日本語のラベルが文字化けしたり見切れたりしないよう日本語フォントを指定し、PNG書き出しで崩れないようラベルはSVGのテキストとして描画しています。",
+          "Mermaidのライブラリはこのツールのページを開いたときにだけ読み込まれます。共有リンクは図の内容を圧縮してURLのハッシュ部分（#以降）に入れる仕組みで、ハッシュはサーバーに送信されないため、図の内容が外部に保存されることはありません。",
+        ],
+        en: [
+          "The Mermaid Diagram Editor lets you create diagrams for design documents and docs using Mermaid, a syntax for describing diagrams as text. Because Mermaid is supported on GitHub, GitLab, Notion, and elsewhere, you can paste the source straight into Markdown.",
+          "Diagrams are rendered with Mermaid (MIT), with securityLevel set to strict so that HTML or scripts in your input are never executed. A Japanese font is specified so labels don't break or get clipped, and labels are drawn as SVG text so PNG exports render correctly.",
+          "The Mermaid library is loaded only when you open this tool. Share links compress the diagram into the URL hash (after #); since the hash is never sent to the server, your diagram is never stored anywhere else.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "作成した図はどこに保存されますか？", en: "Where are my diagrams saved?" },
+        answer: {
+          ja: "入力内容はこのブラウザ（localStorage）に自動で保存されます。共有リンクを使うと、内容がURLに含まれるため、リンクを知っている人が同じ図を開けます。",
+          en: "Your input is saved automatically in this browser (localStorage). With a share link, the content is included in the URL, so anyone with the link can open the same diagram.",
+        },
+      },
+      {
+        question: { ja: "PNGで日本語が正しく表示されないことはありますか？", en: "Can Japanese text look wrong in PNG exports?" },
+        answer: {
+          ja: "PNGは閲覧している端末の日本語フォントを使って描画します。通常は問題ありませんが、日本語フォントがない環境では表示が崩れる場合があります。その場合はSVGで保存してください。",
+          en: "PNGs are drawn using the Japanese fonts on your device. This usually works fine, but on a device without Japanese fonts the text may not render correctly; save as SVG instead.",
+        },
+      },
+      {
+        question: { ja: "ELKレイアウトは使えますか？", en: "Can I use the ELK layout?" },
+        answer: {
+          ja: "使えません。ELKレイアウトに必要なライブラリ（elkjs）はライセンス（EPL-2.0）の都合で含めていないため、既定のレイアウトで描画してください。",
+          en: "No. The library required for the ELK layout (elkjs) isn't included because of its license (EPL-2.0), so please use the default layout.",
+        },
+      },
+      {
+        question: { ja: "入力したスクリプトが実行されることはありますか？", en: "Can scripts in my input be executed?" },
+        answer: {
+          ja: "ありません。Mermaidの securityLevel を strict に設定しているため、図の中のHTMLタグやクリック時のスクリプトは無効化されます。",
+          en: "No. Mermaid's securityLevel is set to strict, so HTML tags and click scripts in diagrams are disabled.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Workflow,
+    keywords: {
+      ja: "mermaid マーメイド 図 フローチャート シーケンス図 er図 クラス図 状態遷移図 ガントチャート マインドマップ svg png 作図",
+      en: "mermaid diagram flowchart sequence diagram er diagram class diagram state diagram gantt mindmap svg png",
+    },
+    fileMatch: {
+      extensions: ["mmd", "mermaid"],
     },
   },
   {
