@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "HTML/CSS/JS整形・Minifyツールを追加（SCSS・Less・TypeScriptの整形、gzip後のサイズ比較に対応）",
+          en: "Added an HTML/CSS/JS formatter and minifier (formats SCSS, Less, and TypeScript, with gzip size comparison)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "cURL→コード変換ツールを追加（fetch・axios・Python・C#・Goに対応、機密情報のマスキング付き）",
           en: "Added a cURL to code converter (fetch, axios, Python, C#, and Go, with secret masking)",
         },

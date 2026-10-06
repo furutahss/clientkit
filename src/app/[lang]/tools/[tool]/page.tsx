@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Base64Tool } from "@/components/tools/base64-tool";
 import { CertificateDecoderTool } from "@/components/tools/certificate-decoder-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
+import { CodeFormatterTool } from "@/components/tools/code-formatter-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
@@ -86,6 +87,7 @@ const toolComponents: Record<string, ComponentType> = {
   "ocr": OcrTool,
   "invoice-generator": InvoiceGeneratorTool,
   "curl-converter": CurlConverterTool,
+  "code-formatter": CodeFormatterTool,
 };
 
 export function generateStaticParams() {

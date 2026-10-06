@@ -6,6 +6,7 @@ import {
   Braces,
   CalendarClock,
   Clock,
+  CodeXml,
   Database,
   DatabaseZap,
   Dices,
@@ -3086,6 +3087,86 @@ export const tools: Tool[] = [
     keywords: {
       ja: "sql 整形 フォーマッター mysql postgresql クエリ",
       en: "sql formatter mysql postgresql query minify",
+    },
+  },
+  {
+    id: "code-formatter",
+    name: { ja: "HTML/CSS/JS整形・Minify", en: "HTML/CSS/JS Formatter & Minifier" },
+    description: {
+      ja: "HTML・CSS（SCSS・Less）・JavaScript・TypeScriptを整形、またはMinify（圧縮）します。",
+      en: "Format or minify HTML, CSS (SCSS, Less), JavaScript, and TypeScript.",
+    },
+    longDescription: {
+      ja: "HTML・CSS（SCSS・Less）・JavaScript（JSX）・TypeScriptのコードを、Prettierで読みやすく整形したり、terser・csso・html-minifier-terserでMinify（圧縮）したりできるツールです。インデントや引用符などの整形オプション、変数名の短縮などの圧縮オプション、gzip後のサイズ比較に対応し、処理はすべてブラウザ内で行われます。",
+      en: "A tool that formats HTML, CSS (SCSS, Less), JavaScript (JSX), and TypeScript with Prettier, or minifies them with terser, csso, and html-minifier-terser. It offers formatting options such as indentation and quotes, minification options such as variable name mangling, and size comparison including gzip — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "コードを入力欄に貼り付けるか、ファイルをドラッグ＆ドロップします。言語がわからない場合は「言語を自動判定」を押します。",
+        "上部のタブで言語（HTML・CSS・JavaScript・TypeScript）を、右側で「整形」または「Minify」を選びます。CSSではSCSS・Lessも選べます。",
+        "インデントや1行の最大幅（整形）、コメントの削除や変数名の短縮（Minify）などのオプションを調整します。変更はすぐに出力に反映されます。",
+        "出力欄の下でサイズと削減率（gzip後の概算を含む）を確認し、「クリップボードへコピー」または「ダウンロード」で保存します。構文エラーがある場合は行番号が表示されます。",
+      ],
+      en: [
+        "Paste code into the input or drag and drop a file. If you're not sure of the language, click \"Detect language\".",
+        "Choose the language (HTML, CSS, JavaScript, or TypeScript) with the tabs and \"Format\" or \"Minify\" next to them. For CSS you can also choose SCSS or Less.",
+        "Adjust options such as indentation and print width (format) or comment removal and mangling (minify). Changes apply to the output right away.",
+        "Check the size and reduction rate (including an estimate after gzip) below the output, then save with \"Copy to clipboard\" or \"Download\". Syntax errors are shown with line numbers.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "HTML/CSS/JS整形・Minifyツールは、Webサイトのコードを読みやすく整えたり、公開用に小さく圧縮したりするツールです。圧縮されて読めないコードを調べたいとき、コードの書き方を揃えたいとき、ビルドツールを使わずに手早くファイルを小さくしたいときに役立ちます。SQL整形ツールのWeb版のような感覚で使えます。",
+          "整形には広く使われているPrettier（MIT）を、MinifyにはJavaScriptにterser（BSD-2-Clause）、CSSにcsso（MIT）、HTMLにhtml-minifier-terser（MIT）を使っています。動作が変わる可能性のある積極的な最適化（console の削除、属性の引用符や閉じタグの省略）は既定でオフにし、注意書きを表示しています。",
+          "ライブラリは選んだ言語とモードに必要なものだけを、処理するときに初めて読み込みます。処理はWeb Workerで行うため大きなファイルでも画面が固まりにくく、入力したコードがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "The HTML/CSS/JS Formatter & Minifier tidies website code for readability or compresses it for production. It's handy for inspecting minified code, keeping code style consistent, or quickly shrinking a file without setting up build tools — much like the SQL Formatter, but for web code.",
+          "Formatting uses the widely adopted Prettier (MIT). Minification uses terser (BSD-2-Clause) for JavaScript, csso (MIT) for CSS, and html-minifier-terser (MIT) for HTML. Aggressive optimizations that may change behavior — removing console calls, omitting attribute quotes, and dropping optional closing tags — are off by default and come with a warning.",
+          "Only the libraries needed for the selected language and mode are loaded, and only when processing starts. Processing runs in a Web Worker so the page stays responsive with large files, and your code is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "TypeScriptやSCSSもMinifyできますか？", en: "Can I minify TypeScript or SCSS?" },
+        answer: {
+          ja: "TypeScript・SCSS・Lessは整形のみに対応しています。Minifyする場合は、コンパイル後のJavaScript・CSSを入力してください。JSXを含むJavaScriptも整形はできますが、Minifyはできません。",
+          en: "TypeScript, SCSS, and Less can only be formatted. To minify, enter the compiled JavaScript or CSS. JavaScript containing JSX can be formatted but not minified.",
+        },
+      },
+      {
+        question: { ja: "gzip後のサイズとは何ですか？", en: "What is the size after gzip?" },
+        answer: {
+          ja: "多くのWebサーバーはファイルをgzipなどで圧縮して配信します。実際に転送されるサイズの目安として、入力と出力をそれぞれgzip（最大圧縮）で圧縮したサイズを表示しています。",
+          en: "Most web servers compress files with gzip or similar when serving them. As an estimate of the actual transfer size, the sizes of the input and output compressed with gzip (maximum level) are shown.",
+        },
+      },
+      {
+        question: { ja: "Minifyでコードが動かなくなることはありますか？", en: "Can minification break my code?" },
+        answer: {
+          ja: "既定の設定は安全な最適化のみですが、eval や関数名に依存するコードでは変数名の短縮が影響する場合があります。問題があれば「変数名を短縮する」をオフにしてください。注意書きのあるオプションは、影響を理解したうえで使用してください。",
+          en: "The defaults only apply safe optimizations, but mangling can affect code that relies on eval or function names. If you run into problems, turn off \"Shorten variable names\". Use the options marked with a warning only if you understand their impact.",
+        },
+      },
+      {
+        question: { ja: "入力したコードは送信されますか？", en: "Is my code sent anywhere?" },
+        answer: {
+          ja: "送信されません。整形・Minifyはすべてブラウザ内で行われます。",
+          en: "No. Formatting and minification happen entirely in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: CodeXml,
+    keywords: {
+      ja: "html css scss less javascript typescript jsx 整形 フォーマット prettier minify 圧縮 terser csso beautify",
+      en: "html css scss less javascript typescript jsx format beautify prettier minify compress terser csso",
+    },
+    fileMatch: {
+      mimeTypes: ["text/html", "text/css", "text/javascript", "application/javascript"],
+      extensions: ["html", "htm", "css", "scss", "less", "js", "mjs", "cjs", "jsx", "ts", "tsx"],
     },
   },
   {
