@@ -2,18 +2,14 @@ import type { ComponentType } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { BackgroundRemoverTool } from "@/components/tools/background-remover-tool";
 import { Base64Tool } from "@/components/tools/base64-tool";
 import { CertificateDecoderTool } from "@/components/tools/certificate-decoder-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
-import { CodeFormatterTool } from "@/components/tools/code-formatter-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
-import { CurlConverterTool } from "@/components/tools/curl-converter-tool";
 import { DataFormatConverterTool } from "@/components/tools/data-format-converter-tool";
-import { ExcelConverterTool } from "@/components/tools/excel-converter-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
 import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool";
 import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
@@ -21,15 +17,23 @@ import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
-import { InvoiceGeneratorTool } from "@/components/tools/invoice-generator-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
 import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
+import {
+  BackgroundRemoverTool,
+  CodeFormatterTool,
+  CurlConverterTool,
+  ExcelConverterTool,
+  InvoiceGeneratorTool,
+  MermaidEditorTool,
+  OcrTool,
+  TextNormalizerTool,
+  VideoConverterTool,
+} from "@/components/tools/lazy-tools";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { LogMaskerTool } from "@/components/tools/log-masker-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
-import { MermaidEditorTool } from "@/components/tools/mermaid-editor-tool";
 import { MockRepoGeneratorTool } from "@/components/tools/mock-repo-generator-tool";
-import { OcrTool } from "@/components/tools/ocr-tool";
 import { PdfToolkitTool } from "@/components/tools/pdf-toolkit-tool";
 import { PrismaRepoGeneratorTool } from "@/components/tools/prisma-repo-generator-tool";
 import { PrismaSchemaVisualizerTool } from "@/components/tools/prisma-schema-visualizer-tool";
@@ -41,12 +45,10 @@ import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
 import { SqlToPrismaTool } from "@/components/tools/sql-to-prisma-tool";
 import { SvgOptimizerTool } from "@/components/tools/svg-optimizer-tool";
 import { TextDiffTool } from "@/components/tools/text-diff-tool";
-import { TextNormalizerTool } from "@/components/tools/text-normalizer-tool";
 import { TimestampConverterTool } from "@/components/tools/timestamp-converter-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
 import { UrlEncoderTool } from "@/components/tools/url-encoder-tool";
-import { VideoConverterTool } from "@/components/tools/video-converter-tool";
 import { siteConfig } from "@/config/site";
 import { getToolById, tools } from "@/config/tools";
 import { ogImage } from "@/config/og-image";
