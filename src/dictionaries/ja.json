@@ -1478,6 +1478,102 @@
       "copyLink": "共有リンクをコピー",
       "copied": "コピーしました",
       "linkNote": "共有リンクには図の内容が圧縮して含まれます（長い図ではURLが長くなります）。"
+    },
+    "textNormalizer": {
+      "safetyNote": "入力したテキストはサーバーへ送信されず、ブラウザ内（Web Worker）で処理されます。選んだ設定はこのブラウザに保存されます。",
+      "presetsLabel": "プリセット",
+      "presets": {
+        "csv": "Excel/CSV取り込み用",
+        "database": "データベース登録用",
+        "proofreading": "文書校正用",
+        "invisible": "コピペ事故の掃除（不可視文字のみ）"
+      },
+      "allOff": "すべてオフ",
+      "groups": {
+        "chars": "文字種",
+        "symbols": "記号・ハイフン・句読点",
+        "spaces": "空白・改行",
+        "invisible": "不可視文字"
+      },
+      "options": {
+        "fullwidthAlnum": "全角英数字 → 半角",
+        "halfwidthKana": "半角カタカナ → 全角",
+        "combineDakuten": "濁点・半濁点の結合文字を1文字に統合",
+        "dependentChars": "機種依存文字を展開",
+        "dependentCharsHint": "㈱→(株)、①→(1)、Ⅳ→IV、㌔→キロ など",
+        "itaiji": "旧字体・異体字を新字体に（代表的なもののみ）",
+        "itaijiHint": "髙→高、﨑→崎、齋→斎 など。人名・地名では注意してください。",
+        "unicode": "Unicode正規化",
+        "symbols": "記号（括弧・感嘆符など）",
+        "dashes": "ハイフン・ダッシュ類",
+        "dashesHint": "カタカナ・ひらがなの直後にあるものは長音符「ー」にします。",
+        "tildes": "波ダッシュ・チルダ",
+        "punctuation": "句読点",
+        "fullwidthSpace": "全角スペース → 半角",
+        "collapseSpaces": "連続するスペースを1つに",
+        "trimLines": "行頭・行末の空白を除去",
+        "blankLines": "空行",
+        "newline": "改行コード",
+        "removeInvisible": "不可視文字を除去",
+        "removeInvisibleHint": "ゼロ幅スペース・BOM・方向制御文字・制御文字などを除去し、ノーブレークスペースは通常のスペースにします。"
+      },
+      "choices": {
+        "none": "変換しない",
+        "nfkc": "NFKC（互換文字も統一）",
+        "half": "半角に統一",
+        "full": "全角に統一",
+        "keep": "そのまま",
+        "collapse": "連続する空行を1行に",
+        "remove": "すべて除去"
+      },
+      "inputLabel": "変換前",
+      "inputPlaceholder": "テキストを貼り付けるか、テキストファイルをドラッグ＆ドロップしてください",
+      "largeText": "テキストが大きいため、処理に時間がかかる場合があります。",
+      "outputLabel": "変換後",
+      "outputPlaceholder": "ここに変換結果が表示されます",
+      "processing": "処理中...",
+      "download": "ダウンロード",
+      "applyToInput": "変換結果を入力欄に反映",
+      "summaryHeading": "変換件数",
+      "noChanges": "変換された箇所はありません。",
+      "steps": {
+        "removeInvisible": "不可視文字",
+        "unicode": "Unicode正規化",
+        "combineDakuten": "濁点・半濁点の統合",
+        "halfwidthKana": "半角カタカナ",
+        "fullwidthAlnum": "全角英数字",
+        "symbols": "記号",
+        "dependentChars": "機種依存文字",
+        "itaiji": "旧字体・異体字",
+        "dashes": "ハイフン・ダッシュ",
+        "tildes": "チルダ",
+        "punctuation": "句読点",
+        "fullwidthSpace": "全角スペース",
+        "collapseSpaces": "連続スペース",
+        "trimLines": "行頭・行末の空白",
+        "blankLines": "空行",
+        "newline": "改行コード"
+      },
+      "detectionHeading": "検出した特殊文字（変換前のテキスト・{count}件）",
+      "removeInvisibleNow": "不可視文字を除去（{count}件）",
+      "noDetections": "不可視文字・機種依存文字・異体字セレクタは見つかりませんでした。",
+      "visualizeTruncated": "先頭{count}文字のみ表示しています。",
+      "listTruncated": "先頭{count}件のみ表示しています。",
+      "columns": {
+        "position": "位置",
+        "code": "文字コード",
+        "kind": "種類",
+        "name": "名前"
+      },
+      "positionValue": "{line}行{column}文字目",
+      "kinds": {
+        "invisible": "不可視文字",
+        "dependent": "機種依存文字",
+        "variationSelector": "異体字セレクタ"
+      },
+      "diffHeading": "変換前後の差分",
+      "skippedLines": "変更のない{count}行を省略",
+      "diffTruncated": "差分が大きいため一部のみ表示しています。"
     }
   }
 }

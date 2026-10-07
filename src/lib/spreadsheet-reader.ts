@@ -98,7 +98,7 @@ function encode(text: string, output: OutputOptions): { bytes: Uint8Array; unenc
   if (output.format === "csv" && output.encoding === "sjis") {
     return encodeWithTable(text, cpexcel.cptable[932].enc);
   }
-  const prefix = output.format === "csv" && output.encoding === "utf8bom" ? "﻿" : "";
+  const prefix = output.format === "csv" && output.encoding === "utf8bom" ? "\uFEFF" : "";
   return { bytes: new TextEncoder().encode(prefix + text), unencodable: 0 };
 }
 

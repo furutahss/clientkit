@@ -1478,6 +1478,102 @@
       "copyLink": "Copy share link",
       "copied": "Copied",
       "linkNote": "Share links contain the compressed diagram (long diagrams produce long URLs)."
+    },
+    "textNormalizer": {
+      "safetyNote": "Your text is never sent to a server. It is processed in your browser (in a Web Worker). Your settings are saved in this browser.",
+      "presetsLabel": "Presets",
+      "presets": {
+        "csv": "For Excel/CSV import",
+        "database": "For database entry",
+        "proofreading": "For proofreading",
+        "invisible": "Copy-paste cleanup (invisible characters only)"
+      },
+      "allOff": "All off",
+      "groups": {
+        "chars": "Character types",
+        "symbols": "Symbols, dashes & punctuation",
+        "spaces": "Spaces & line breaks",
+        "invisible": "Invisible characters"
+      },
+      "options": {
+        "fullwidthAlnum": "Full-width letters & digits → half-width",
+        "halfwidthKana": "Half-width katakana → full-width",
+        "combineDakuten": "Combine separate voiced sound marks (dakuten)",
+        "dependentChars": "Expand platform-dependent characters",
+        "dependentCharsHint": "㈱→(株), ①→(1), Ⅳ→IV, ㌔→キロ, and more",
+        "itaiji": "Old/variant kanji → standard forms (common ones only)",
+        "itaijiHint": "髙→高, 﨑→崎, 齋→斎, and more. Be careful with personal and place names.",
+        "unicode": "Unicode normalization",
+        "symbols": "Symbols (brackets, exclamation marks, etc.)",
+        "dashes": "Hyphens & dashes",
+        "dashesHint": "Those right after katakana or hiragana become the prolonged sound mark \"ー\".",
+        "tildes": "Wave dashes & tildes",
+        "punctuation": "Japanese punctuation",
+        "fullwidthSpace": "Full-width spaces → half-width",
+        "collapseSpaces": "Collapse consecutive spaces",
+        "trimLines": "Trim leading/trailing whitespace on each line",
+        "blankLines": "Blank lines",
+        "newline": "Line endings",
+        "removeInvisible": "Remove invisible characters",
+        "removeInvisibleHint": "Removes zero-width spaces, BOMs, bidi controls, control characters, and more; no-break spaces become regular spaces."
+      },
+      "choices": {
+        "none": "Don't convert",
+        "nfkc": "NFKC (also unifies compatibility characters)",
+        "half": "Half-width",
+        "full": "Full-width",
+        "keep": "Keep",
+        "collapse": "Collapse to one",
+        "remove": "Remove all"
+      },
+      "inputLabel": "Before",
+      "inputPlaceholder": "Paste text or drag and drop a text file",
+      "largeText": "The text is large and may take a while to process.",
+      "outputLabel": "After",
+      "outputPlaceholder": "The result appears here",
+      "processing": "Processing...",
+      "download": "Download",
+      "applyToInput": "Apply result to input",
+      "summaryHeading": "Changes",
+      "noChanges": "Nothing was changed.",
+      "steps": {
+        "removeInvisible": "Invisible characters",
+        "unicode": "Unicode normalization",
+        "combineDakuten": "Combined voiced marks",
+        "halfwidthKana": "Half-width katakana",
+        "fullwidthAlnum": "Full-width letters & digits",
+        "symbols": "Symbols",
+        "dependentChars": "Platform-dependent characters",
+        "itaiji": "Old/variant kanji",
+        "dashes": "Hyphens & dashes",
+        "tildes": "Tildes",
+        "punctuation": "Punctuation",
+        "fullwidthSpace": "Full-width spaces",
+        "collapseSpaces": "Consecutive spaces",
+        "trimLines": "Leading/trailing whitespace",
+        "blankLines": "Blank lines",
+        "newline": "Line endings"
+      },
+      "detectionHeading": "Special characters found (in the original text, {count})",
+      "removeInvisibleNow": "Remove invisible characters ({count})",
+      "noDetections": "No invisible characters, platform-dependent characters, or variation selectors were found.",
+      "visualizeTruncated": "Showing the first {count} characters only.",
+      "listTruncated": "Showing the first {count} items only.",
+      "columns": {
+        "position": "Position",
+        "code": "Code point",
+        "kind": "Type",
+        "name": "Name"
+      },
+      "positionValue": "Line {line}, char {column}",
+      "kinds": {
+        "invisible": "Invisible",
+        "dependent": "Platform-dependent",
+        "variationSelector": "Variation selector"
+      },
+      "diffHeading": "Differences",
+      "skippedLines": "{count} unchanged lines hidden",
+      "diffTruncated": "The diff is large, so only part of it is shown."
     }
   }
 }

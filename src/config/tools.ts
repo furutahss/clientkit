@@ -35,6 +35,7 @@ import {
   Sheet,
   ShieldCheck,
   Sparkles,
+  SpellCheck,
   Table,
   Terminal,
   TextCursorInput,
@@ -158,10 +159,12 @@ export const tools: Tool[] = [
         ja: [
           "文字数カウントツールは、入力したテキストの文字数・単語数・行数・バイト数をブラウザ上でリアルタイムに計測できるツールです。Webサイトの原稿執筆、SNS投稿の文字数制限チェック、レポートや論文の文字数確認など、さまざまな場面で活用できます。",
           "「文字数」はテキスト全体の文字数、「文字数（空白除く）」はスペースや改行を除いた文字数です。「バイト数（UTF-8）」は、日本語などの全角文字が1文字あたり複数バイトになることを考慮した、実際のファイルサイズやデータ量の目安として利用できます。",
+          "コピペで混入したゼロ幅スペースなどの見えない文字も1文字として数えられるため、文字数が合わない場合は「日本語テキスト正規化・不可視文字検出」ツールで確認・除去できます。",
         ],
         en: [
           "The character count tool measures the character, word, line, and byte counts of your text in real time, right in your browser. It's useful for drafting web copy, checking character limits for social media posts, and confirming word counts for reports or papers.",
           "\"Characters\" is the total character count of the text, and \"Characters (no spaces)\" excludes spaces and line breaks. \"Bytes (UTF-8)\" accounts for the fact that full-width characters like Japanese take up multiple bytes per character, giving you a useful estimate of actual file size or data volume.",
+          "Invisible characters picked up when copying and pasting, such as zero-width spaces, are also counted as characters. If a count looks off, check for and remove them with the Japanese Text Normalizer & Invisible Character Detector.",
         ],
       },
     },
@@ -300,6 +303,88 @@ export const tools: Tool[] = [
     keywords: {
       ja: "差分 比較 diff テキスト 文章 変更点 ハイライト 文字単位 行単位",
       en: "diff compare text difference changes highlight side by side unified patch",
+    },
+    fileMatch: {
+      mimeTypes: ["text/plain"],
+      extensions: ["txt"],
+    },
+  },
+  {
+    id: "text-normalizer",
+    name: { ja: "日本語テキスト正規化・不可視文字検出", en: "Japanese Text Normalizer & Invisible Character Detector" },
+    description: {
+      ja: "全角・半角や記号の表記ゆれを整え、コピペで混入した不可視文字や機種依存文字を検出・除去します。",
+      en: "Unify full-width/half-width characters and symbols, and find and remove invisible and platform-dependent characters.",
+    },
+    longDescription: {
+      ja: "日本語テキストの全角・半角、半角カタカナ、記号、ハイフン・チルダ、句読点、空白・改行などの表記ゆれをまとめて整え、ゼロ幅スペースやBOM、方向制御文字などの不可視文字、丸数字や㈱などの機種依存文字を検出・除去できるツールです。変換前後の差分と項目別の変換件数を確認でき、処理はすべてブラウザ内で行われます。",
+      en: "A tool that unifies variations in Japanese text — full-width/half-width characters, half-width katakana, symbols, hyphens and tildes, punctuation, spaces, and line breaks — and finds and removes invisible characters such as zero-width spaces, BOMs, and bidi controls, plus platform-dependent characters such as circled numbers and ㈱. You can review a diff and a per-item count of changes, and everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "変換前の欄にテキストを貼り付けるか、テキストファイルをドラッグ＆ドロップします。",
+        "用途に合わせてプリセット（Excel/CSV取り込み用・データベース登録用・文書校正用・コピペ事故の掃除）を選ぶか、各項目のチェックボックスや選択肢を個別に設定します。",
+        "変換後の欄に結果が表示されます。「変換件数」で項目ごとの件数を、「変換前後の差分」で変更箇所を確認できます。",
+        "「検出した特殊文字」では、不可視文字や機種依存文字の位置と種類が一覧と本文中の印で表示されます。「不可視文字を除去」で入力欄から一度に取り除けます。",
+        "結果は「クリップボードへコピー」または「ダウンロード」で保存します。",
+      ],
+      en: [
+        "Paste text into the \"Before\" box, or drag and drop a text file.",
+        "Choose a preset (Excel/CSV import, database entry, proofreading, or copy-paste cleanup), or set each checkbox and option individually.",
+        "The result appears in the \"After\" box. Check the per-item counts under \"Changes\" and the changed spots under \"Differences\".",
+        "\"Special characters found\" lists the position and type of invisible and platform-dependent characters and marks them in the text. \"Remove invisible characters\" strips them from the input in one click.",
+        "Save the result with \"Copy to clipboard\" or \"Download\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "日本語テキスト正規化ツールは、全角と半角が混在した英数字、半角カタカナ、ハイフンや波ダッシュの種類の違いなど、日本語のテキストで起きやすい表記ゆれを整えるツールです。CSVやデータベースに取り込む前のデータの整形、文書校正の前処理、検索や重複チェックの精度向上に役立ちます。文字数を数える場合は「文字数カウント」ツールと組み合わせて使うと便利です。",
+          "Webページやチャット、PDFからコピーしたテキストには、ゼロ幅スペースやBOM、ノーブレークスペース、文字の表示方向を変える制御文字など、目に見えない文字が混入していることがあります。これらはプログラムやExcelでの照合の失敗、思わぬ表示崩れの原因になります。このツールでは位置と種類を一覧にし、本文中に赤い印で表示します。",
+          "ハイフン・ダッシュ類の統一では、カタカナ・ひらがなの直後にあるものは長音符「ー」とみなすため、「コンピュ－タ」は「コンピュータ」に、「03－1234」は「03-1234」になります。半角の「,」「.」や「~」は、数値・英文・URLを壊さないよう日本語や数字に隣接するものだけを変換します。変換はすべて自前の変換表で行い、テキストがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "The Japanese Text Normalizer cleans up variations common in Japanese text, such as letters and digits mixing full-width and half-width forms, half-width katakana, and different kinds of hyphens and wave dashes. It's useful for preparing data before importing it into CSV files or databases, preprocessing documents for proofreading, and improving search and duplicate detection. Pair it with the Character Count tool when you also need to count characters.",
+          "Text copied from web pages, chats, or PDFs can contain invisible characters such as zero-width spaces, BOMs, no-break spaces, and controls that change text direction. These can make matching fail in programs or Excel and cause unexpected display problems. This tool lists their positions and types and marks them in red in the text.",
+          "When unifying hyphens and dashes, those right after katakana or hiragana are treated as the prolonged sound mark \"ー\", so \"コンピュ－タ\" becomes \"コンピュータ\" while \"03－1234\" becomes \"03-1234\". Half-width \",\", \".\", and \"~\" are converted only when next to Japanese text or digits, so numbers, English, and URLs stay intact. All conversions use built-in tables, and your text is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "NFKCとは何ですか？", en: "What is NFKC?" },
+        answer: {
+          ja: "Unicodeの正規化形式の1つで、全角英数字や半角カタカナ、①や㌔などの互換文字を標準的な文字にまとめて変換します。変換が広範囲に及ぶため、「①」が「1」になるなど意味が変わる場合があります。細かく制御したい場合はNFCを選び、各項目を個別に設定してください。",
+          en: "It's one of Unicode's normalization forms; it converts full-width letters and digits, half-width katakana, and compatibility characters such as ① and ㌔ into standard characters. Because it converts so broadly, meaning can change (for example, ① becomes 1). For finer control, choose NFC and set each item individually.",
+        },
+      },
+      {
+        question: { ja: "不可視文字を除去すると絵文字が変わることはありますか？", en: "Can removing invisible characters change emoji?" },
+        answer: {
+          ja: "家族の絵文字などは、複数の絵文字をゼロ幅接合子（ZWJ）でつないで1つに見せています。ZWJを除去すると個別の絵文字に分かれるため、絵文字を含むテキストでは結果を確認してください。",
+          en: "Some emoji, such as family emoji, join several emoji with zero-width joiners (ZWJ) to display as one. Removing ZWJ splits them into separate emoji, so check the result when your text contains emoji.",
+        },
+      },
+      {
+        question: { ja: "異体字セレクタ（IVS）とは何ですか？", en: "What are variation selectors (IVS)?" },
+        answer: {
+          ja: "「葛」などの漢字の字形を指定するために文字の直後に付ける見えない文字です。人名などで意図的に使われることがあるため、このツールでは検出して表示するだけで、不可視文字の除去の対象にはしていません。",
+          en: "They are invisible characters placed right after a kanji such as 葛 to specify its glyph. Because they're sometimes used intentionally, for example in names, this tool only detects and shows them and does not remove them with the invisible character cleanup.",
+        },
+      },
+      {
+        question: { ja: "入力したテキストは送信されますか？", en: "Is my text sent anywhere?" },
+        answer: {
+          ja: "送信されません。変換・検出はすべてブラウザ内で行われます。",
+          en: "No. All conversion and detection happen in your browser.",
+        },
+      },
+    ],
+    category: "text",
+    icon: SpellCheck,
+    keywords: {
+      ja: "正規化 表記ゆれ 全角 半角 カタカナ 不可視文字 ゼロ幅スペース bom 機種依存文字 丸数字 nfkc ハイフン 波ダッシュ 句読点 改行",
+      en: "japanese text normalize full-width half-width katakana invisible characters zero width space bom nfkc hyphen wave dash",
     },
     fileMatch: {
       mimeTypes: ["text/plain"],

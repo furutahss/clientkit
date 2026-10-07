@@ -40,6 +40,7 @@ import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
 import { SqlToPrismaTool } from "@/components/tools/sql-to-prisma-tool";
 import { SvgOptimizerTool } from "@/components/tools/svg-optimizer-tool";
 import { TextDiffTool } from "@/components/tools/text-diff-tool";
+import { TextNormalizerTool } from "@/components/tools/text-normalizer-tool";
 import { TimestampConverterTool } from "@/components/tools/timestamp-converter-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
@@ -90,6 +91,7 @@ const toolComponents: Record<string, ComponentType> = {
   "curl-converter": CurlConverterTool,
   "code-formatter": CodeFormatterTool,
   "mermaid-editor": MermaidEditorTool,
+  "text-normalizer": TextNormalizerTool,
 };
 
 export function generateStaticParams() {

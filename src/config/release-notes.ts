@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "日本語テキスト正規化・不可視文字検出ツールを追加（表記ゆれの統一・機種依存文字の展開・差分表示に対応）",
+          en: "Added a Japanese text normalizer and invisible character detector (unifies variants, expands platform-dependent characters, and shows a diff)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "Mermaid図エディタを追加（8種類のテンプレート、SVG・PNG書き出し、URLでの共有に対応）",
           en: "Added a Mermaid diagram editor (8 templates, SVG and PNG export, and sharing via URL)",
         },
