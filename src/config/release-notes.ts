@@ -24,6 +24,13 @@ export const releaseNotes: ReleaseNoteGroup[] = [
       {
         type: "feature",
         title: {
+          ja: "画像の背景除去ツールを追加（透過・単色・ぼかし・画像への差し替え、ブラシ修正に対応）",
+          en: "Added a background remover (transparent, solid color, blurred, or image backgrounds, with brush touch-ups)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
           ja: "動画→GIF変換・動画圧縮ツールを追加（トリミング・ディザリング・目標サイズ指定に対応）",
           en: "Added a video to GIF converter and video compressor (trimming, dithering, and target file size)",
         },

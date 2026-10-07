@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { BackgroundRemoverTool } from "@/components/tools/background-remover-tool";
 import { Base64Tool } from "@/components/tools/base64-tool";
 import { CertificateDecoderTool } from "@/components/tools/certificate-decoder-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
@@ -94,6 +95,7 @@ const toolComponents: Record<string, ComponentType> = {
   "mermaid-editor": MermaidEditorTool,
   "text-normalizer": TextNormalizerTool,
   "video-converter": VideoConverterTool,
+  "background-remover": BackgroundRemoverTool,
 };
 
 export function generateStaticParams() {

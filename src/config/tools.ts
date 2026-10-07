@@ -32,6 +32,7 @@ import {
   ReceiptJapaneseYen,
   Regex,
   ScanText,
+  Scissors,
   Shapes,
   Sheet,
   ShieldCheck,
@@ -1649,6 +1650,88 @@ export const tools: Tool[] = [
     fileMatch: {
       mimePrefixes: ["video/"],
       extensions: ["mp4", "mov", "m4v", "webm", "mkv"],
+    },
+  },
+  {
+    id: "background-remover",
+    name: { ja: "画像の背景除去", en: "Background Remover" },
+    description: {
+      ja: "画像から被写体を自動で切り抜き、背景を透過・単色・ぼかし・別の画像に差し替えます。",
+      en: "Automatically cut out the subject of an image and make the background transparent, a solid color, blurred, or another image.",
+    },
+    longDescription: {
+      ja: "画像から被写体を自動で検出して切り抜き、背景を透過にしたり、単色・ぼかし・別の画像に差し替えたりできるツールです。しきい値やエッジのぼかし、ブラシによる修正、余白の自動切り抜きに対応し、透過PNG・WebPで保存できます。認識はブラウザ内で行われ、画像がサーバーへ送信されることはありません。",
+      en: "A tool that automatically detects and cuts out the subject of an image, then makes the background transparent or replaces it with a solid color, a blur, or another image. It supports threshold and edge-blur adjustments, brush touch-ups, and automatic cropping, and saves as transparent PNG or WebP. Recognition runs in your browser, and your image is never sent to a server.",
+    },
+    howToUse: {
+      ja: [
+        "画像をドラッグ＆ドロップするか、「画像を選択」から読み込みます。Ctrl/⌘+V で貼り付けることもできます。",
+        "初回のみ認識モデル（約4.6MB）をダウンロードしたあと、自動で被写体が切り抜かれます。",
+        "比較スライダーで元の画像と見比べながら、「背景」で透過・単色・ぼかし・別の画像を選びます。",
+        "切り抜きが粗い場合は「仕上げ」のしきい値や縁の調整、「ブラシで修正」の消す・戻すで整えます。",
+        "必要に応じて「被写体に合わせて余白を切り抜く」をオンにし、PNGまたはWebPでダウンロードします。",
+      ],
+      en: [
+        "Drag and drop an image, or load one with \"Choose image\". You can also paste with Ctrl/⌘+V.",
+        "The recognition model (about 4.6 MB) is downloaded the first time, and then the subject is cut out automatically.",
+        "Compare with the original using the slider, and choose a background: transparent, solid color, blur, or another image.",
+        "If the cutout is rough, adjust the threshold and edges under \"Refine\", or use Erase and Restore under \"Brush touch-up\".",
+        "Turn on \"Crop margins to the subject\" if needed, and download as PNG or WebP.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "画像の背景除去ツールは、商品写真やプロフィール画像、資料に使うイラストなどから被写体だけを切り抜くツールです。背景を透過にしてほかの画像と重ねたり、白背景の商品画像を作ったり、背景をぼかして被写体を目立たせたりできます。",
+          "被写体の検出には、商用利用できる Apache License 2.0 で公開されている U²-Net の軽量版（u2netp）を、onnxruntime-web（MIT）で動かしています。WebGPU に対応したブラウザではGPUを、それ以外ではCPU（WebAssembly）を使って推論します。モデルとエンジンはこのサイトから配信し、初回のみダウンロードしてブラウザに保存します。",
+          "推論はWeb Workerで行われ、画像がサーバーへ送信されることはありません。画像の向き（EXIF）は自動で補正し、メモリ不足を防ぐため長辺4096pxを超える画像は縮小して処理します。軽量なモデルのため、髪の毛などの細かい部分はブラシでの修正をおすすめします。",
+        ],
+        en: [
+          "The Background Remover cuts out just the subject from product photos, profile pictures, illustrations for documents, and more. You can make the background transparent to layer the subject over other images, create product images on a white background, or blur the background to make the subject stand out.",
+          "Subjects are detected with the lightweight version of U²-Net (u2netp), released under the commercially usable Apache License 2.0, running on onnxruntime-web (MIT). Browsers that support WebGPU use the GPU; others use the CPU via WebAssembly. The model and engine are served from this site, downloaded once, and saved in your browser.",
+          "Inference runs in a Web Worker, and your image is never sent to a server. Image orientation (EXIF) is corrected automatically, and images larger than 4096px on the long edge are scaled down to avoid running out of memory. Because the model is lightweight, touching up fine details such as hair with the brush is recommended.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "高品質なモデルは選べますか？", en: "Can I choose a higher-quality model?" },
+        answer: {
+          ja: "現在は軽量なモデル（u2netp）のみに対応しています。高品質なモデルはファイルサイズが大きく（100MB以上）、このサイトの配信方式ではセルフホストできないため対応していません。",
+          en: "Only the lightweight model (u2netp) is supported for now. Higher-quality models are very large (over 100 MB) and can't be self-hosted with this site's hosting, so they aren't supported.",
+        },
+      },
+      {
+        question: { ja: "商用利用できますか？", en: "Can I use the results commercially?" },
+        answer: {
+          ja: "切り抜きに使っているモデル（U²-Net）は Apache License 2.0 で公開されており、商用利用が可能です。ただし、元の画像の著作権や肖像権には注意してください。",
+          en: "The model used (U²-Net) is released under the Apache License 2.0, which allows commercial use. However, be mindful of the copyright and portrait rights of the original images.",
+        },
+      },
+      {
+        question: { ja: "うまく切り抜けない場合はどうすればいいですか？", en: "What if the cutout isn't clean?" },
+        answer: {
+          ja: "「しきい値」を上下させて被写体の範囲を調整し、「縁の拡張／侵食」で縁を整えてください。それでも残る部分は「ブラシで修正」の「消す」「戻す」で直せます。背景が単純で、被写体がはっきり写っている画像ほどきれいに切り抜けます。",
+          en: "Adjust the \"Threshold\" to change how much is kept, and use \"Expand / shrink edges\" to tidy the edges. Fix any remaining spots with Erase and Restore under \"Brush touch-up\". Images with simple backgrounds and clearly visible subjects give the cleanest results.",
+        },
+      },
+      {
+        question: { ja: "画像がサーバーに送信されることはありますか？", en: "Is my image sent to a server?" },
+        answer: {
+          ja: "ありません。ダウンロードするのは認識モデルだけで、画像の処理はすべてブラウザ内で行われます。",
+          en: "No. Only the recognition model is downloaded; all image processing happens in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Scissors,
+    keywords: {
+      ja: "背景除去 背景透過 切り抜き 透過png 背景削除 被写体 ai 商品画像 白背景 背景ぼかし",
+      en: "background remover remove background transparent png cut out subject ai product photo white background blur",
+    },
+    fileMatch: {
+      mimeTypes: ["image/png", "image/jpeg", "image/webp"],
+      extensions: ["png", "jpg", "jpeg", "webp"],
     },
   },
   {

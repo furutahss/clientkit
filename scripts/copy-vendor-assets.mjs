@@ -25,6 +25,11 @@ const files = [
   // 請求書・見積書作成: PDFに埋め込む日本語フォント（SIL Open Font License 1.1。ライセンス文も同梱する）
   ["@expo-google-fonts/noto-sans-jp/400Regular/NotoSansJP_400Regular.ttf", "fonts/NotoSansJP-Regular.ttf"],
   ["@expo-google-fonts/noto-sans-jp/LICENSE_FONT", "fonts/OFL.txt"],
+  // 画像の背景除去: onnxruntime-web の WASM（CPU 版と、WebGPU を使う JSPI 版。WebGPU の jsep 版は25MiBを超えるため使わない）
+  ["onnxruntime-web/dist/ort-wasm-simd-threaded.mjs", "onnxruntime/ort-wasm-simd-threaded.mjs"],
+  ["onnxruntime-web/dist/ort-wasm-simd-threaded.wasm", "onnxruntime/ort-wasm-simd-threaded.wasm"],
+  ["onnxruntime-web/dist/ort-wasm-simd-threaded.jspi.mjs", "onnxruntime/ort-wasm-simd-threaded.jspi.mjs"],
+  ["onnxruntime-web/dist/ort-wasm-simd-threaded.jspi.wasm", "onnxruntime/ort-wasm-simd-threaded.jspi.wasm"],
 ];
 
 rmSync(vendor, { recursive: true, force: true });
