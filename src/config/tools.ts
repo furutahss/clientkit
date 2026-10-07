@@ -5,7 +5,9 @@ import {
   Binary,
   Braces,
   CalendarClock,
+  Clapperboard,
   Clock,
+  CodeXml,
   Database,
   DatabaseZap,
   Dices,
@@ -27,13 +29,20 @@ import {
   NotebookText,
   Palette,
   QrCode,
+  ReceiptJapaneseYen,
   Regex,
+  ScanText,
+  Scissors,
   Shapes,
+  Sheet,
   ShieldCheck,
   Sparkles,
+  SpellCheck,
   Table,
+  Terminal,
   TextCursorInput,
   Waypoints,
+  Workflow,
 } from "lucide-react";
 
 import type { Locale } from "@/i18n/config";
@@ -152,10 +161,12 @@ export const tools: Tool[] = [
         ja: [
           "文字数カウントツールは、入力したテキストの文字数・単語数・行数・バイト数をブラウザ上でリアルタイムに計測できるツールです。Webサイトの原稿執筆、SNS投稿の文字数制限チェック、レポートや論文の文字数確認など、さまざまな場面で活用できます。",
           "「文字数」はテキスト全体の文字数、「文字数（空白除く）」はスペースや改行を除いた文字数です。「バイト数（UTF-8）」は、日本語などの全角文字が1文字あたり複数バイトになることを考慮した、実際のファイルサイズやデータ量の目安として利用できます。",
+          "コピペで混入したゼロ幅スペースなどの見えない文字も1文字として数えられるため、文字数が合わない場合は「日本語テキスト正規化・不可視文字検出」ツールで確認・除去できます。",
         ],
         en: [
           "The character count tool measures the character, word, line, and byte counts of your text in real time, right in your browser. It's useful for drafting web copy, checking character limits for social media posts, and confirming word counts for reports or papers.",
           "\"Characters\" is the total character count of the text, and \"Characters (no spaces)\" excludes spaces and line breaks. \"Bytes (UTF-8)\" accounts for the fact that full-width characters like Japanese take up multiple bytes per character, giving you a useful estimate of actual file size or data volume.",
+          "Invisible characters picked up when copying and pasting, such as zero-width spaces, are also counted as characters. If a count looks off, check for and remove them with the Japanese Text Normalizer & Invisible Character Detector.",
         ],
       },
     },
@@ -294,6 +305,88 @@ export const tools: Tool[] = [
     keywords: {
       ja: "差分 比較 diff テキスト 文章 変更点 ハイライト 文字単位 行単位",
       en: "diff compare text difference changes highlight side by side unified patch",
+    },
+    fileMatch: {
+      mimeTypes: ["text/plain"],
+      extensions: ["txt"],
+    },
+  },
+  {
+    id: "text-normalizer",
+    name: { ja: "日本語テキスト正規化・不可視文字検出", en: "Japanese Text Normalizer & Invisible Character Detector" },
+    description: {
+      ja: "全角・半角や記号の表記ゆれを整え、コピペで混入した不可視文字や機種依存文字を検出・除去します。",
+      en: "Unify full-width/half-width characters and symbols, and find and remove invisible and platform-dependent characters.",
+    },
+    longDescription: {
+      ja: "日本語テキストの全角・半角、半角カタカナ、記号、ハイフン・チルダ、句読点、空白・改行などの表記ゆれをまとめて整え、ゼロ幅スペースやBOM、方向制御文字などの不可視文字、丸数字や㈱などの機種依存文字を検出・除去できるツールです。変換前後の差分と項目別の変換件数を確認でき、処理はすべてブラウザ内で行われます。",
+      en: "A tool that unifies variations in Japanese text — full-width/half-width characters, half-width katakana, symbols, hyphens and tildes, punctuation, spaces, and line breaks — and finds and removes invisible characters such as zero-width spaces, BOMs, and bidi controls, plus platform-dependent characters such as circled numbers and ㈱. You can review a diff and a per-item count of changes, and everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "変換前の欄にテキストを貼り付けるか、テキストファイルをドラッグ＆ドロップします。",
+        "用途に合わせてプリセット（Excel/CSV取り込み用・データベース登録用・文書校正用・コピペ事故の掃除）を選ぶか、各項目のチェックボックスや選択肢を個別に設定します。",
+        "変換後の欄に結果が表示されます。「変換件数」で項目ごとの件数を、「変換前後の差分」で変更箇所を確認できます。",
+        "「検出した特殊文字」では、不可視文字や機種依存文字の位置と種類が一覧と本文中の印で表示されます。「不可視文字を除去」で入力欄から一度に取り除けます。",
+        "結果は「クリップボードへコピー」または「ダウンロード」で保存します。",
+      ],
+      en: [
+        "Paste text into the \"Before\" box, or drag and drop a text file.",
+        "Choose a preset (Excel/CSV import, database entry, proofreading, or copy-paste cleanup), or set each checkbox and option individually.",
+        "The result appears in the \"After\" box. Check the per-item counts under \"Changes\" and the changed spots under \"Differences\".",
+        "\"Special characters found\" lists the position and type of invisible and platform-dependent characters and marks them in the text. \"Remove invisible characters\" strips them from the input in one click.",
+        "Save the result with \"Copy to clipboard\" or \"Download\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "日本語テキスト正規化ツールは、全角と半角が混在した英数字、半角カタカナ、ハイフンや波ダッシュの種類の違いなど、日本語のテキストで起きやすい表記ゆれを整えるツールです。CSVやデータベースに取り込む前のデータの整形、文書校正の前処理、検索や重複チェックの精度向上に役立ちます。文字数を数える場合は「文字数カウント」ツールと組み合わせて使うと便利です。",
+          "Webページやチャット、PDFからコピーしたテキストには、ゼロ幅スペースやBOM、ノーブレークスペース、文字の表示方向を変える制御文字など、目に見えない文字が混入していることがあります。これらはプログラムやExcelでの照合の失敗、思わぬ表示崩れの原因になります。このツールでは位置と種類を一覧にし、本文中に赤い印で表示します。",
+          "ハイフン・ダッシュ類の統一では、カタカナ・ひらがなの直後にあるものは長音符「ー」とみなすため、「コンピュ－タ」は「コンピュータ」に、「03－1234」は「03-1234」になります。半角の「,」「.」や「~」は、数値・英文・URLを壊さないよう日本語や数字に隣接するものだけを変換します。変換はすべて自前の変換表で行い、テキストがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "The Japanese Text Normalizer cleans up variations common in Japanese text, such as letters and digits mixing full-width and half-width forms, half-width katakana, and different kinds of hyphens and wave dashes. It's useful for preparing data before importing it into CSV files or databases, preprocessing documents for proofreading, and improving search and duplicate detection. Pair it with the Character Count tool when you also need to count characters.",
+          "Text copied from web pages, chats, or PDFs can contain invisible characters such as zero-width spaces, BOMs, no-break spaces, and controls that change text direction. These can make matching fail in programs or Excel and cause unexpected display problems. This tool lists their positions and types and marks them in red in the text.",
+          "When unifying hyphens and dashes, those right after katakana or hiragana are treated as the prolonged sound mark \"ー\", so \"コンピュ－タ\" becomes \"コンピュータ\" while \"03－1234\" becomes \"03-1234\". Half-width \",\", \".\", and \"~\" are converted only when next to Japanese text or digits, so numbers, English, and URLs stay intact. All conversions use built-in tables, and your text is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "NFKCとは何ですか？", en: "What is NFKC?" },
+        answer: {
+          ja: "Unicodeの正規化形式の1つで、全角英数字や半角カタカナ、①や㌔などの互換文字を標準的な文字にまとめて変換します。変換が広範囲に及ぶため、「①」が「1」になるなど意味が変わる場合があります。細かく制御したい場合はNFCを選び、各項目を個別に設定してください。",
+          en: "It's one of Unicode's normalization forms; it converts full-width letters and digits, half-width katakana, and compatibility characters such as ① and ㌔ into standard characters. Because it converts so broadly, meaning can change (for example, ① becomes 1). For finer control, choose NFC and set each item individually.",
+        },
+      },
+      {
+        question: { ja: "不可視文字を除去すると絵文字が変わることはありますか？", en: "Can removing invisible characters change emoji?" },
+        answer: {
+          ja: "家族の絵文字などは、複数の絵文字をゼロ幅接合子（ZWJ）でつないで1つに見せています。ZWJを除去すると個別の絵文字に分かれるため、絵文字を含むテキストでは結果を確認してください。",
+          en: "Some emoji, such as family emoji, join several emoji with zero-width joiners (ZWJ) to display as one. Removing ZWJ splits them into separate emoji, so check the result when your text contains emoji.",
+        },
+      },
+      {
+        question: { ja: "異体字セレクタ（IVS）とは何ですか？", en: "What are variation selectors (IVS)?" },
+        answer: {
+          ja: "「葛」などの漢字の字形を指定するために文字の直後に付ける見えない文字です。人名などで意図的に使われることがあるため、このツールでは検出して表示するだけで、不可視文字の除去の対象にはしていません。",
+          en: "They are invisible characters placed right after a kanji such as 葛 to specify its glyph. Because they're sometimes used intentionally, for example in names, this tool only detects and shows them and does not remove them with the invisible character cleanup.",
+        },
+      },
+      {
+        question: { ja: "入力したテキストは送信されますか？", en: "Is my text sent anywhere?" },
+        answer: {
+          ja: "送信されません。変換・検出はすべてブラウザ内で行われます。",
+          en: "No. All conversion and detection happen in your browser.",
+        },
+      },
+    ],
+    category: "text",
+    icon: SpellCheck,
+    keywords: {
+      ja: "正規化 表記ゆれ 全角 半角 カタカナ 不可視文字 ゼロ幅スペース bom 機種依存文字 丸数字 nfkc ハイフン 波ダッシュ 句読点 改行",
+      en: "japanese text normalize full-width half-width katakana invisible characters zero width space bom nfkc hyphen wave dash",
     },
     fileMatch: {
       mimeTypes: ["text/plain"],
@@ -835,6 +928,103 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "excel-converter",
+    name: { ja: "Excel（xlsx）→CSV/JSON変換", en: "Excel (xlsx) to CSV/JSON Converter" },
+    description: {
+      ja: "Excel・ODSファイルのシートをCSVやJSONに変換します。Shift_JIS出力や全シートの一括ZIP保存にも対応。",
+      en: "Convert sheets in Excel or ODS files to CSV or JSON, with Shift_JIS output and a ZIP of every sheet.",
+    },
+    longDescription: {
+      ja: "Excel（.xlsx / .xlsm / .xls）やODSファイルをブラウザ上で読み込み、シートごとにCSVまたはJSONへ変換してダウンロードできるツールです。結合セル・日付・数式の扱いや区切り文字、文字コード（BOM付きUTF-8・Shift_JIS）を指定でき、ファイルがサーバーへ送信されることはありません。",
+      en: "A tool that reads Excel (.xlsx / .xlsm / .xls) and ODS files in your browser and converts each sheet to CSV or JSON for download. You can choose how merged cells, dates, and formulas are handled, plus the delimiter and encoding (UTF-8 with BOM or Shift_JIS). Your file is never sent to a server.",
+    },
+    howToUse: {
+      ja: [
+        "Excel・ODSファイルをドラッグ＆ドロップするか、「ファイルを選択」から読み込みます。",
+        "読み込むとシートの一覧が表示されます。変換したいシートを選ぶと、先頭100行のプレビューと変換結果が表示されます。",
+        "「変換設定」で出力形式（CSV・JSON）、開始行、空行・空列の除去、結合セルや日付セルの扱いなどを指定します。CSVの場合は区切り文字・改行コード・文字コードも選べます。",
+        "「このシートをダウンロード」で保存するか、「全シートをZIPでダウンロード」でまとめて保存します。「CSV加工ツールで開く」から、変換結果をそのまま編集することもできます。",
+      ],
+      en: [
+        "Drag and drop an Excel or ODS file, or load one with \"Choose file\".",
+        "Once loaded, the list of sheets appears. Pick a sheet to see a preview of its first 100 rows and the converted output.",
+        "Use \"Conversion settings\" to choose the output format (CSV or JSON), start row, whether to remove empty rows and columns, and how merged cells and dates are handled. For CSV you can also choose the delimiter, line endings, and encoding.",
+        "Save with \"Download this sheet\", or save every sheet at once with \"Download all sheets as ZIP\". You can also continue editing the result with \"Open in CSV Editor\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Excel（xlsx）→CSV/JSON変換ツールは、表計算ソフトのファイルをCSVやJSONに変換するツールです。Excelを持っていない環境でデータを取り出したいとき、システムへの取り込み用にCSVを作りたいとき、プログラムで扱いやすいJSONにしたいときなどに役立ちます。",
+          "日付セルはISO 8601形式（2026-01-31）・Excelの表示形式・シリアル値から選んで出力でき、1904年基準のブックにも対応しています。結合セルは左上のセルだけに値を入れるか、結合範囲のすべてに値を入れるかを選べます。数式セルは計算結果を出力し、必要に応じて数式そのものを出力することもできます。",
+          "CSVはExcelで文字化けせずに開けるBOM付きUTF-8のほか、従来のシステム向けにShift_JIS（CP932）でも保存できます。ファイルの解析にはSheetJS Community Edition（Apache-2.0）を使用し、処理はすべてブラウザ内のWeb Workerで行われるため、大きなファイルでも画面が固まりにくく、データが外部に送信されることもありません。",
+        ],
+        en: [
+          "The Excel (xlsx) to CSV/JSON Converter turns spreadsheet files into CSV or JSON. It's handy when you need data out of a spreadsheet without Excel installed, want a CSV to import into another system, or need JSON that's easy to work with in code.",
+          "Date cells can be output as ISO 8601 (2026-01-31), as displayed in Excel, or as serial numbers, and workbooks using the 1904 date system are supported. Merged cells can either keep the value only in the top-left cell or repeat it across the whole range. Formula cells output their calculated values, or the formulas themselves if you prefer.",
+          "CSV can be saved as UTF-8 with a BOM so it opens cleanly in Excel, or as Shift_JIS (CP932) for legacy systems. Files are parsed with SheetJS Community Edition (Apache-2.0) inside a Web Worker in your browser, so the page stays responsive with large files and no data is ever sent anywhere.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "パスワード付きのファイルは変換できますか？",
+          en: "Can I convert password-protected files?",
+        },
+        answer: {
+          ja: "対応していません。Excelでファイルを開き、パスワードを解除して保存し直してから読み込んでください。",
+          en: "No. Open the file in Excel, remove the password, save it, and then load it here.",
+        },
+      },
+      {
+        question: {
+          ja: "CSVをExcelで開くと文字化けします。",
+          en: "My CSV shows garbled text when opened in Excel.",
+        },
+        answer: {
+          ja: "文字コードに「UTF-8（BOM付き）」を選んで保存してください。古いシステムに取り込む場合など、Shift_JISが必要なときは「Shift_JIS（CP932）」を選べます。Shift_JISで表現できない文字（一部の絵文字や記号）は「?」に置き換わります。",
+          en: "Save with the \"UTF-8 with BOM\" encoding. If a legacy system needs Shift_JIS, choose \"Shift_JIS (CP932)\" instead. Characters that Shift_JIS can't represent (some emoji and symbols) are replaced with \"?\".",
+        },
+      },
+      {
+        question: {
+          ja: "数式やマクロはどうなりますか？",
+          en: "What happens to formulas and macros?",
+        },
+        answer: {
+          ja: "数式セルは、ファイルに保存されている計算結果の値を出力します。「数式セルは数式を出力する」をオンにすると =SUM(A1:A3) のような数式を出力します。マクロ（.xlsm）は実行されず、セルの値だけを読み取ります。",
+          en: "Formula cells output the calculated values saved in the file. Turn on \"Output formulas for formula cells\" to output formulas such as =SUM(A1:A3) instead. Macros in .xlsm files are never run; only cell values are read.",
+        },
+      },
+      {
+        question: {
+          ja: "ファイルがサーバーに送信されることはありますか？",
+          en: "Is my file sent to a server?",
+        },
+        answer: {
+          ja: "ありません。読み込みから変換・ダウンロードまで、すべてブラウザ内で処理されます。",
+          en: "No. Everything from loading to converting and downloading happens in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Sheet,
+    keywords: {
+      ja: "excel エクセル xlsx xls xlsm ods スプレッドシート csv json 変換 シート shift_jis",
+      en: "excel xlsx xls xlsm ods spreadsheet csv json convert sheet export shift_jis",
+    },
+    fileMatch: {
+      mimeTypes: [
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.ms-excel",
+        "application/vnd.ms-excel.sheet.macroEnabled.12",
+        "application/vnd.oasis.opendocument.spreadsheet",
+      ],
+      extensions: ["xlsx", "xls", "xlsm", "ods"],
+    },
+  },
+  {
     id: "markdown-editor",
     name: { ja: "Markdownエディタ・HTML変換", en: "Markdown Editor & HTML Converter" },
     description: {
@@ -1284,6 +1474,264 @@ export const tools: Tool[] = [
     fileMatch: {
       mimePrefixes: ["image/"],
       extensions: ["png", "jpg", "jpeg", "webp", "gif", "bmp", "avif"],
+    },
+  },
+  {
+    id: "ocr",
+    name: { ja: "OCR（画像から文字認識・日本語対応）", en: "OCR (Image to Text, Japanese Support)" },
+    description: {
+      ja: "画像やスクリーンショットから日本語・英語の文字を読み取ります。縦書きにも対応。",
+      en: "Extract Japanese and English text from images and screenshots, including vertical Japanese.",
+    },
+    longDescription: {
+      ja: "画像やスクリーンショットに写った日本語・英語の文字を、ブラウザ上だけで読み取ってテキストにするOCRツールです。範囲指定、グレースケール・二値化・拡大などの前処理、日本語の不要なスペースの除去に対応し、画像がサーバーへ送信されることはありません。",
+      en: "An OCR tool that reads Japanese and English text in images and screenshots and turns it into text, entirely in your browser. It supports selecting an area, preprocessing such as grayscale, binarization, and upscaling, and removing stray spaces in Japanese text. Your image is never sent to a server.",
+    },
+    howToUse: {
+      ja: [
+        "画像をドラッグ＆ドロップするか、「画像を選択」から読み込みます。スクリーンショットは Ctrl/⌘+V で貼り付けることもできます。",
+        "「認識する言語」を選びます。日本語と英語が混在する場合は「日本語＋英語」、縦書きの文章は「日本語（縦書き）」を選びます。",
+        "必要に応じて前処理（グレースケール・コントラスト・二値化・拡大・回転）を調整します。プレビュー上をドラッグすると、その範囲だけを認識できます。",
+        "「文字を認識」を押すと、結果がテキストエリアに表示されます。初回のみ認識モデルのダウンロードが行われます。",
+        "結果は編集でき、「クリップボードへコピー」または「.txtでダウンロード」で保存できます。",
+      ],
+      en: [
+        "Drag and drop an image, or load one with \"Choose image\". You can also paste a screenshot with Ctrl/⌘+V.",
+        "Choose the language. Use \"Japanese + English\" for mixed text and \"Japanese (vertical)\" for vertical writing.",
+        "Adjust preprocessing (grayscale, contrast, binarization, upscaling, rotation) if needed. Drag on the preview to recognize only that area.",
+        "Click \"Recognize text\" to see the result in the text area. The recognition model is downloaded only the first time.",
+        "The result is editable. Save it with \"Copy to clipboard\" or \"Download .txt\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "OCRツールは、画像に写った文字を読み取ってテキストデータに変換するツールです。紙の資料を撮影した写真やスクリーンショット、PDFを画像にしたものなどから、文字を入力し直さずに取り出したいときに役立ちます。",
+          "認識にはオープンソースのOCRエンジンTesseractをWebAssembly化したtesseract.js（Apache-2.0）を使い、Web Worker上で処理するため認識中も画面が固まりません。日本語の認識結果では文字の間に半角スペースが入りやすいため、それを除去する後処理や、段落内の改行を結合する後処理も用意しています。",
+          "認識エンジンと言語データはこのサイトから配信され、外部のCDNは使用しません。言語データは初回のみダウンロードしてブラウザに保存するため、2回目以降はすぐに使えます。画像はブラウザの外に出ることはありません。",
+        ],
+        en: [
+          "The OCR tool reads text in images and converts it into editable text. It's handy for pulling text out of photos of printed documents, screenshots, or PDFs saved as images without retyping it.",
+          "Recognition uses tesseract.js (Apache-2.0), a WebAssembly build of the open-source Tesseract OCR engine, running in a Web Worker so the page stays responsive. Because Japanese results often contain stray spaces between characters, post-processing options are included to remove them and to join line breaks within paragraphs.",
+          "The recognition engine and language data are served from this site, not from an external CDN. Language data is downloaded only once and saved in your browser, so later runs start right away. Your image never leaves your browser.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "認識精度を上げるにはどうすればいいですか？",
+          en: "How can I improve accuracy?",
+        },
+        answer: {
+          ja: "文字が小さい場合は「拡大」を、背景に色や模様がある場合は「二値化」を試してください。傾いている画像は回転で向きを合わせ、認識したい部分だけを範囲指定すると精度が上がることがあります。手書き文字や装飾の多いフォントは苦手です。",
+          en: "Try \"Upscale\" for small text and \"Binarize\" when the background has colors or patterns. Rotate the image to the correct orientation, and select only the area you need. Handwriting and decorative fonts are difficult to recognize.",
+        },
+      },
+      {
+        question: {
+          ja: "どのくらいのデータをダウンロードしますか？",
+          en: "How much data is downloaded?",
+        },
+        answer: {
+          ja: "初回のみ、認識エンジン（約3.9MB）と言語データ（日本語・縦書きは約2MB、英語は約2.9MB）をダウンロードします。言語データはブラウザに保存され、2回目以降は再ダウンロードしません。",
+          en: "The first time only, the recognition engine (about 3.9 MB) and language data (about 2 MB for Japanese or vertical Japanese, about 2.9 MB for English) are downloaded. Language data is saved in your browser and isn't downloaded again.",
+        },
+      },
+      {
+        question: {
+          ja: "PDFから文字を読み取れますか？",
+          en: "Can I read text from a PDF?",
+        },
+        answer: {
+          ja: "PDFは直接読み込めません。PDFのページをスクリーンショットするなどして画像にしてから読み込んでください。",
+          en: "PDFs can't be loaded directly. Take a screenshot of the page or otherwise convert it to an image first.",
+        },
+      },
+      {
+        question: {
+          ja: "画像がサーバーに送信されることはありますか？",
+          en: "Is my image sent to a server?",
+        },
+        answer: {
+          ja: "ありません。ダウンロードするのは認識モデルだけで、画像の読み込みから文字認識まですべてブラウザ内で処理されます。",
+          en: "No. Only the recognition model is downloaded; everything from loading the image to recognizing text happens in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: ScanText,
+    keywords: {
+      ja: "ocr 文字認識 文字起こし 画像 テキスト 抽出 読み取り スクリーンショット 日本語 縦書き tesseract",
+      en: "ocr text recognition image to text extract screenshot japanese vertical tesseract",
+    },
+    fileMatch: {
+      mimeTypes: ["image/png", "image/jpeg", "image/webp", "image/bmp"],
+      extensions: ["png", "jpg", "jpeg", "webp", "bmp"],
+    },
+  },
+  {
+    id: "video-converter",
+    name: { ja: "動画→GIF変換・動画圧縮", en: "Video to GIF & Video Compressor" },
+    description: {
+      ja: "動画をGIFアニメに変換したり、MP4・WebMに圧縮してファイルサイズを小さくしたりできます。",
+      en: "Convert videos to animated GIFs, or compress them to MP4 or WebM to reduce file size.",
+    },
+    longDescription: {
+      ja: "MP4・MOV・WebM・MKVの動画を、ブラウザ上だけでGIFアニメに変換したり、MP4（H.264）・WebM（VP9）に圧縮したりできるツールです。トリミング、フレームレート・幅・ループ回数・減色とディザリングの指定、画質や目標ファイルサイズ・解像度・音声の設定に対応し、動画がサーバーへアップロードされることはありません。",
+      en: "A tool that converts MP4, MOV, WebM, and MKV videos to animated GIFs, or compresses them to MP4 (H.264) or WebM (VP9), entirely in your browser. It supports trimming; frame rate, width, loop count, color reduction, and dithering for GIFs; and quality, target file size, resolution, and audio settings for compression. Your video is never uploaded to a server.",
+    },
+    howToUse: {
+      ja: [
+        "動画ファイルをドラッグ＆ドロップするか、「動画を選択」から読み込みます。",
+        "スライダーまたは秒数の入力で、変換する範囲（開始・終了）を指定します。「再生位置」で再生中の位置を開始・終了に設定できます。",
+        "「GIF変換」ではフレームレート・幅・ループ・パレット・ディザリングを、「動画圧縮」では出力形式・画質（または目標サイズ）・解像度・フレームレート・音声を選びます。",
+        "「GIFに変換」または「圧縮する」を押すと、進捗と残り時間の目安が表示されます。途中でキャンセルもできます。",
+        "変換結果をプレビューで確認し、サイズと削減率を見てから「ダウンロード」で保存します。",
+      ],
+      en: [
+        "Drag and drop a video file, or load one with \"Choose video\".",
+        "Set the range (start and end) with the slider or by entering seconds. \"Current time\" sets the start or end to the playback position.",
+        "For \"To GIF\", choose the frame rate, width, loop, palette, and dithering. For \"Compress\", choose the output format, quality (or target size), resolution, frame rate, and audio.",
+        "Click \"Convert to GIF\" or \"Compress\" to see the progress and estimated time remaining. You can cancel at any time.",
+        "Preview the result, check its size and reduction rate, and save it with \"Download\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "動画→GIF変換・動画圧縮ツールは、画面録画や撮影した動画を、チャットやドキュメントに貼りやすいGIFアニメにしたり、メールやアップロードの容量制限に合わせて小さくしたりするツールです。",
+          "動画の読み込みと書き出しには、ブラウザに組み込まれた動画処理機能（WebCodecs）を、mediabunny（MPL-2.0、ソースコードは https://github.com/Vanilagy/mediabunny で公開）を通じて使っています。大きな ffmpeg.wasm を読み込む必要がないため素早く使え、ハードウェアエンコードが使える環境では高速に処理できます。GIFは gifenc（MIT）で書き出し、全フレーム共通またはフレームごとのパレットによる減色と、誤差拡散・Bayer のディザリングを選べます。",
+          "処理はすべてWeb Worker上で行われ、動画がサーバーへアップロードされることはありません。対応している動画のコーデックや出力形式はブラウザによって異なります。AVIなど一部の形式や、ブラウザが対応していないコーデックの動画は変換できません。",
+        ],
+        en: [
+          "The Video to GIF & Video Compressor turns screen recordings and videos you've shot into animated GIFs that are easy to share in chats and documents, or shrinks them to fit email and upload size limits.",
+          "Videos are read and written using your browser's built-in video processing (WebCodecs) through mediabunny (MPL-2.0; source code available at https://github.com/Vanilagy/mediabunny). There's no need to download the large ffmpeg.wasm, so the tool starts quickly and can use hardware encoding where available. GIFs are written with gifenc (MIT), with color reduction using a shared or per-frame palette and error-diffusion or Bayer dithering.",
+          "All processing runs in a Web Worker, and your video is never uploaded to a server. Supported codecs and output formats depend on your browser. Some formats such as AVI, and videos with codecs your browser doesn't support, can't be converted.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "AVIなどの動画は変換できますか？", en: "Can I convert AVI and other formats?" },
+        answer: {
+          ja: "AVIには対応していません。対応しているのはMP4・MOV・WebM・MKVで、さらにブラウザがその動画のコーデック（H.264・HEVC・VP9・AV1など）を読み込める必要があります。読み込めない場合は別のブラウザをお試しください。",
+          en: "AVI isn't supported. MP4, MOV, WebM, and MKV are supported, provided your browser can decode the video's codec (H.264, HEVC, VP9, AV1, etc.). If it can't, try another browser.",
+        },
+      },
+      {
+        question: { ja: "GIFのファイルサイズを小さくするには？", en: "How can I make the GIF smaller?" },
+        answer: {
+          ja: "範囲を短くする、幅を小さくする、フレームレートを下げる（10fps前後）、パレットを「全フレーム共通」にする、ディザリングを「なし」にするなどが効果的です。長い動画や大きな画面の場合は、GIFよりも動画（MP4・WebM）で共有するほうが大幅に小さくなります。",
+          en: "Shorten the range, reduce the width, lower the frame rate (around 10 fps), use a shared palette, or turn dithering off. For long videos or large frames, sharing as a video (MP4 or WebM) is far smaller than a GIF.",
+        },
+      },
+      {
+        question: { ja: "目標サイズを指定するとぴったりのサイズになりますか？", en: "Will the output exactly match the target size?" },
+        answer: {
+          ja: "動画の長さから映像のビットレートを計算して変換するため、実際のサイズは多少前後します。上限を超えたくない場合は、少し小さめの値を指定してください。",
+          en: "The video bitrate is calculated from the video's length, so the actual size may vary slightly. If you must stay under a limit, enter a slightly smaller value.",
+        },
+      },
+      {
+        question: { ja: "動画がアップロードされることはありますか？", en: "Is my video uploaded?" },
+        answer: {
+          ja: "ありません。読み込みから変換・保存まで、すべてブラウザ内で処理されます。",
+          en: "No. Everything from loading to converting and saving happens in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Clapperboard,
+    keywords: {
+      ja: "動画 gif 変換 gifアニメ 圧縮 mp4 webm mov mkv 容量 小さく トリミング 画面録画 webcodecs",
+      en: "video to gif converter animated gif compress mp4 webm mov mkv reduce size trim screen recording webcodecs",
+    },
+    fileMatch: {
+      mimePrefixes: ["video/"],
+      extensions: ["mp4", "mov", "m4v", "webm", "mkv"],
+    },
+  },
+  {
+    id: "background-remover",
+    name: { ja: "画像の背景除去", en: "Background Remover" },
+    description: {
+      ja: "画像から被写体を自動で切り抜き、背景を透過・単色・ぼかし・別の画像に差し替えます。",
+      en: "Automatically cut out the subject of an image and make the background transparent, a solid color, blurred, or another image.",
+    },
+    longDescription: {
+      ja: "画像から被写体を自動で検出して切り抜き、背景を透過にしたり、単色・ぼかし・別の画像に差し替えたりできるツールです。しきい値やエッジのぼかし、ブラシによる修正、余白の自動切り抜きに対応し、透過PNG・WebPで保存できます。認識はブラウザ内で行われ、画像がサーバーへ送信されることはありません。",
+      en: "A tool that automatically detects and cuts out the subject of an image, then makes the background transparent or replaces it with a solid color, a blur, or another image. It supports threshold and edge-blur adjustments, brush touch-ups, and automatic cropping, and saves as transparent PNG or WebP. Recognition runs in your browser, and your image is never sent to a server.",
+    },
+    howToUse: {
+      ja: [
+        "画像をドラッグ＆ドロップするか、「画像を選択」から読み込みます。Ctrl/⌘+V で貼り付けることもできます。",
+        "初回のみ認識モデル（約4.6MB）をダウンロードしたあと、自動で被写体が切り抜かれます。",
+        "比較スライダーで元の画像と見比べながら、「背景」で透過・単色・ぼかし・別の画像を選びます。",
+        "切り抜きが粗い場合は「仕上げ」のしきい値や縁の調整、「ブラシで修正」の消す・戻すで整えます。",
+        "必要に応じて「被写体に合わせて余白を切り抜く」をオンにし、PNGまたはWebPでダウンロードします。",
+      ],
+      en: [
+        "Drag and drop an image, or load one with \"Choose image\". You can also paste with Ctrl/⌘+V.",
+        "The recognition model (about 4.6 MB) is downloaded the first time, and then the subject is cut out automatically.",
+        "Compare with the original using the slider, and choose a background: transparent, solid color, blur, or another image.",
+        "If the cutout is rough, adjust the threshold and edges under \"Refine\", or use Erase and Restore under \"Brush touch-up\".",
+        "Turn on \"Crop margins to the subject\" if needed, and download as PNG or WebP.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "画像の背景除去ツールは、商品写真やプロフィール画像、資料に使うイラストなどから被写体だけを切り抜くツールです。背景を透過にしてほかの画像と重ねたり、白背景の商品画像を作ったり、背景をぼかして被写体を目立たせたりできます。",
+          "被写体の検出には、商用利用できる Apache License 2.0 で公開されている U²-Net の軽量版（u2netp）を、onnxruntime-web（MIT）で動かしています。WebGPU に対応したブラウザではGPUを、それ以外ではCPU（WebAssembly）を使って推論します。モデルとエンジンはこのサイトから配信し、初回のみダウンロードしてブラウザに保存します。",
+          "推論はWeb Workerで行われ、画像がサーバーへ送信されることはありません。画像の向き（EXIF）は自動で補正し、メモリ不足を防ぐため長辺4096pxを超える画像は縮小して処理します。軽量なモデルのため、髪の毛などの細かい部分はブラシでの修正をおすすめします。",
+        ],
+        en: [
+          "The Background Remover cuts out just the subject from product photos, profile pictures, illustrations for documents, and more. You can make the background transparent to layer the subject over other images, create product images on a white background, or blur the background to make the subject stand out.",
+          "Subjects are detected with the lightweight version of U²-Net (u2netp), released under the commercially usable Apache License 2.0, running on onnxruntime-web (MIT). Browsers that support WebGPU use the GPU; others use the CPU via WebAssembly. The model and engine are served from this site, downloaded once, and saved in your browser.",
+          "Inference runs in a Web Worker, and your image is never sent to a server. Image orientation (EXIF) is corrected automatically, and images larger than 4096px on the long edge are scaled down to avoid running out of memory. Because the model is lightweight, touching up fine details such as hair with the brush is recommended.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "高品質なモデルは選べますか？", en: "Can I choose a higher-quality model?" },
+        answer: {
+          ja: "現在は軽量なモデル（u2netp）のみに対応しています。高品質なモデルはファイルサイズが大きく（100MB以上）、このサイトの配信方式ではセルフホストできないため対応していません。",
+          en: "Only the lightweight model (u2netp) is supported for now. Higher-quality models are very large (over 100 MB) and can't be self-hosted with this site's hosting, so they aren't supported.",
+        },
+      },
+      {
+        question: { ja: "商用利用できますか？", en: "Can I use the results commercially?" },
+        answer: {
+          ja: "切り抜きに使っているモデル（U²-Net）は Apache License 2.0 で公開されており、商用利用が可能です。ただし、元の画像の著作権や肖像権には注意してください。",
+          en: "The model used (U²-Net) is released under the Apache License 2.0, which allows commercial use. However, be mindful of the copyright and portrait rights of the original images.",
+        },
+      },
+      {
+        question: { ja: "うまく切り抜けない場合はどうすればいいですか？", en: "What if the cutout isn't clean?" },
+        answer: {
+          ja: "「しきい値」を上下させて被写体の範囲を調整し、「縁の拡張／侵食」で縁を整えてください。それでも残る部分は「ブラシで修正」の「消す」「戻す」で直せます。背景が単純で、被写体がはっきり写っている画像ほどきれいに切り抜けます。",
+          en: "Adjust the \"Threshold\" to change how much is kept, and use \"Expand / shrink edges\" to tidy the edges. Fix any remaining spots with Erase and Restore under \"Brush touch-up\". Images with simple backgrounds and clearly visible subjects give the cleanest results.",
+        },
+      },
+      {
+        question: { ja: "画像がサーバーに送信されることはありますか？", en: "Is my image sent to a server?" },
+        answer: {
+          ja: "ありません。ダウンロードするのは認識モデルだけで、画像の処理はすべてブラウザ内で行われます。",
+          en: "No. Only the recognition model is downloaded; all image processing happens in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Scissors,
+    keywords: {
+      ja: "背景除去 背景透過 切り抜き 透過png 背景削除 被写体 ai 商品画像 白背景 背景ぼかし",
+      en: "background remover remove background transparent png cut out subject ai product photo white background blur",
+    },
+    fileMatch: {
+      mimeTypes: ["image/png", "image/jpeg", "image/webp"],
+      extensions: ["png", "jpg", "jpeg", "webp"],
     },
   },
   {
@@ -1744,6 +2192,84 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/pdf"],
       extensions: ["pdf"],
+    },
+  },
+  {
+    id: "invoice-generator",
+    name: { ja: "請求書・見積書作成（インボイス対応・PDF出力）", en: "Invoice & Estimate Generator (Japanese Qualified Invoice, PDF)" },
+    description: {
+      ja: "インボイス制度の記載事項に対応した請求書・見積書・納品書・領収書を作成し、PDFで保存できます。",
+      en: "Create invoices, estimates, delivery notes, and receipts that meet Japan's qualified invoice requirements, and save them as PDF.",
+    },
+    longDescription: {
+      ja: "個人事業主・フリーランス向けに、適格請求書（インボイス）の記載事項を満たした請求書・見積書・納品書・領収書をブラウザ上で作成し、PDFで保存できるツールです。税率ごとの集計と消費税額の計算、源泉徴収税、テンプレート保存に対応し、入力内容はサーバーに送信されず端末内にのみ保存されます。",
+      en: "A tool for sole proprietors and freelancers to create invoices, estimates, delivery notes, and receipts that meet Japan's qualified invoice (インボイス) requirements, right in the browser, and save them as PDF. It totals amounts and consumption tax by rate, supports withholding tax and templates, and keeps your data only on your device — nothing is sent to a server. Documents are generated in Japanese.",
+    },
+    howToUse: {
+      ja: [
+        "上部のボタンで帳票の種類（請求書・見積書・納品書・領収書）を選びます。",
+        "書類情報・宛先・発行者を入力します。適格請求書として発行する場合は登録番号（T＋13桁）を入力してください。「自動採番」で INV-2026-001 のような書類番号を付けられます。",
+        "明細に品名・数量・単位・単価・税率を入力します。税抜・税込の入力方法と端数処理を選べ、軽減税率（8%）の品目には自動で「※」が付きます。値引きはマイナスの単価で入力します。",
+        "右側のA4プレビューで仕上がりを確認し、「記載事項の確認」に警告が出ていないか確かめてから「PDFをダウンロード」を押します。",
+        "よく使う発行者情報や取引先、明細は「テンプレートに保存」で端末に保存できます。JSONでのエクスポート・インポートも可能です。",
+      ],
+      en: [
+        "Choose the document type (invoice, estimate, delivery note, or receipt) with the buttons at the top.",
+        "Enter the document details, recipient, and issuer. For a qualified invoice, enter the registration number (T + 13 digits). \"Auto number\" assigns numbers like INV-2026-001.",
+        "Enter each line item's name, quantity, unit, unit price, and tax rate. Choose tax-excluded or tax-included entry and the rounding method; reduced-rate (8%) items are marked with \"※\" automatically. Enter discounts as negative unit prices.",
+        "Check the result in the A4 preview, make sure there are no warnings under \"Required details\", and click \"Download PDF\".",
+        "Save frequently used issuer details, recipients, and items with \"Save as template\". You can also export and import JSON.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "請求書・見積書作成ツールは、2023年10月に始まったインボイス制度（適格請求書等保存方式）の記載事項に対応した帳票を作成するツールです。発行者の氏名または名称と登録番号、取引年月日、取引内容（軽減税率の対象品目である旨）、税率ごとに区分して合計した対価の額と適用税率、税率ごとの消費税額、宛先を記載できます。",
+          "消費税の端数処理は、インボイス制度のルールに合わせて「1枚の書類につき、税率ごとに1回」だけ行い、切り捨て・四捨五入・切り上げから選べます。金額は浮動小数点の誤差が出ないよう整数で計算しています。報酬に対する源泉徴収税（100万円以下は10.21%、超える部分は20.42%）の差し引きにも対応しています。",
+          "PDFには日本語フォント（Noto Sans JP、SIL Open Font License）を使った文字だけをサブセット化して埋め込むため、どの環境でも文字化けしません。プレビューとPDFは同じレイアウト計算から描画しているので、見た目がずれません。入力内容・テンプレートはこの端末のブラウザにのみ保存されます。本ツールは書類作成の補助であり、税務・法律上の判断は税理士等にご確認ください。",
+        ],
+        en: [
+          "The Invoice & Estimate Generator creates documents that meet the requirements of Japan's qualified invoice system (インボイス制度), introduced in October 2023. It can include the issuer's name and registration number, the transaction date, the transaction details (including which items are reduced-rate), the amounts totaled by tax rate with the applicable rates, the consumption tax for each rate, and the recipient.",
+          "Following the system's rules, consumption tax is rounded only once per tax rate per document, using round down, round half up, or round up. Amounts are calculated with integers to avoid floating-point errors. Withholding tax on fees (10.21% up to ¥1,000,000 and 20.42% above) can also be deducted.",
+          "PDFs embed only the characters used from a Japanese font (Noto Sans JP, SIL Open Font License), so text displays correctly everywhere. The preview and the PDF are drawn from the same layout, so they always match. Your entries and templates are stored only in this browser. This tool only assists with document creation; consult a tax accountant for tax and legal decisions.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "消費税の端数はどのように計算されますか？", en: "How is consumption tax rounded?" },
+        answer: {
+          ja: "インボイス制度のルールに合わせて、明細ごとではなく、書類全体で税率（10%・8%）ごとに合計した金額に対して1回だけ端数処理を行います。端数処理の方法は切り捨て・四捨五入・切り上げから選べます。",
+          en: "Following the qualified invoice rules, tax is rounded once on the total for each tax rate (10% and 8%) across the whole document, not per line item. You can choose round down, round half up, or round up.",
+        },
+      },
+      {
+        question: { ja: "源泉徴収税はどう計算されますか？", en: "How is withholding tax calculated?" },
+        answer: {
+          ja: "税抜の合計金額に対して、100万円以下の部分は10.21%、100万円を超える部分は20.42%で計算し、1円未満を切り捨てます。消費税額が明確に区分されている場合は税抜金額を対象にできるという扱いに基づいています。",
+          en: "It's calculated on the pre-tax total: 10.21% on the portion up to ¥1,000,000 and 20.42% on the portion above, with fractions of a yen dropped. This follows the rule that the pre-tax amount may be used when consumption tax is clearly stated separately.",
+        },
+      },
+      {
+        question: { ja: "入力したデータはどこに保存されますか？", en: "Where is my data stored?" },
+        answer: {
+          ja: "この端末のブラウザ（localStorage）にのみ保存され、サーバーには送信されません。別の端末で使いたい場合はJSONでエクスポートし、移行先でインポートしてください。ブラウザのデータを消去すると保存内容も消えます。",
+          en: "Only in this browser (localStorage); nothing is sent to a server. To use it on another device, export JSON and import it there. Clearing your browser data also removes what you saved.",
+        },
+      },
+      {
+        question: { ja: "作成した書類はそのまま使えますか？", en: "Can I use the documents as is?" },
+        answer: {
+          ja: "記載事項の確認機能はありますが、本ツールは書類作成の補助です。取引の内容や税務上の扱いについては、税理士等の専門家にご確認ください。",
+          en: "The tool checks the required details, but it only assists with creating documents. Consult a tax accountant or other professional about your transactions and their tax treatment.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: ReceiptJapaneseYen,
+    keywords: {
+      ja: "請求書 見積書 納品書 領収書 インボイス 適格請求書 登録番号 消費税 軽減税率 源泉徴収 pdf フリーランス 個人事業主",
+      en: "invoice estimate quote delivery note receipt qualified invoice japan consumption tax withholding pdf freelance",
     },
   },
   {
@@ -2378,6 +2904,82 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "curl-converter",
+    name: { ja: "cURL→コード変換（fetch / axios / Python / C# / Go）", en: "cURL to Code (fetch / axios / Python / C# / Go)" },
+    description: {
+      ja: "cURL コマンドを JavaScript（fetch・axios）、Python、C#、Go のHTTPリクエストコードに変換します。",
+      en: "Convert cURL commands into HTTP request code for JavaScript (fetch, axios), Python, C#, and Go.",
+    },
+    longDescription: {
+      ja: "ブラウザの開発者ツールやAPIドキュメントからコピーした cURL コマンドを、JavaScript（fetch・axios）、Python（requests）、C#（HttpClient）、Go（net/http）のコードに変換するツールです。ヘッダー・JSON・フォーム・マルチパート・Basic認証に対応し、認証情報のマスキングも行えます。変換はブラウザ内で完結します。",
+      en: "A tool that converts cURL commands copied from your browser's developer tools or API docs into code for JavaScript (fetch, axios), Python (requests), C# (HttpClient), and Go (net/http). It handles headers, JSON, form and multipart bodies, and Basic auth, and can mask credentials. Everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "ブラウザの開発者ツールのネットワークタブで、リクエストを右クリックして「Copy as cURL」を選び、入力欄に貼り付けます（bash・cmd のどちらの形式でも構いません）。",
+        "出力したい言語のタブ（fetch・axios・Python・C#・Go）を選ぶと、変換したコードが表示されます。「cURL」タブでは整形した cURL を確認できます。",
+        "「機密情報をマスクする」がオンの場合、Authorization・Cookie・APIキーなどは <TOKEN> などに置き換えて出力されます。実際の値が必要な場合はオフにしてください。",
+        "右側の「解析結果」で、メソッド・URL・クエリ・ヘッダー・ボディが正しく読み取れているか確認し、コピーまたはダウンロードします。",
+      ],
+      en: [
+        "In your browser's developer tools, right-click a request in the Network tab, choose \"Copy as cURL\", and paste it into the input (bash or cmd format).",
+        "Choose a language tab (fetch, axios, Python, C#, or Go) to see the converted code. The \"cURL\" tab shows a cleaned-up cURL command.",
+        "With \"Mask secrets\" on, Authorization, Cookie, API keys, and similar values are replaced with placeholders such as <TOKEN>. Turn it off if you need the real values.",
+        "Check under \"Parsed request\" that the method, URL, query, headers, and body were read correctly, then copy or download the code.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "cURL→コード変換ツールは、cURL コマンドをプログラミング言語のHTTPリクエストコードに書き換えるツールです。ブラウザで動いている通信を自分のスクリプトで再現したいとき、APIドキュメントの例を使い慣れた言語で試したいときなどに役立ちます。HARアナライザーで通信を調べたあとに使うのも便利です。",
+          "シングルクォート・ダブルクォート・$'...' のエスケープ、バックスラッシュによる行継続を含む bash 形式と、^ によるエスケープを使う Windows のコマンドプロンプト形式（Chrome の「Copy as cURL (cmd)」）の両方を解析できます。-X、-H、-d、--data-raw、--data-urlencode、-F、-u、-b、-A、-e、-L、-k、--compressed、-G、--url に対応し、それ以外のオプションは無視したことを一覧で表示します。",
+          "JSONのボディは整形して出力し、フォーム（URLエンコード）やマルチパートは各言語の標準的な書き方に変換します。認証ヘッダーやCookieはそのまま共有すると危険なため、既定でプレースホルダに置き換えます。入力した内容はサーバーに送信されず、リクエストが実行されることもありません。",
+        ],
+        en: [
+          "The cURL to Code tool rewrites cURL commands as HTTP request code in programming languages. It's handy for reproducing a request your browser makes in your own script, or for trying API documentation examples in a language you're comfortable with. It also pairs well with the HAR Analyzer.",
+          "It parses both bash syntax (single and double quotes, $'...' escapes, and backslash line continuations) and Windows Command Prompt syntax with ^ escapes (Chrome's \"Copy as cURL (cmd)\"). It supports -X, -H, -d, --data-raw, --data-urlencode, -F, -u, -b, -A, -e, -L, -k, --compressed, -G, and --url, and lists any other options it ignored.",
+          "JSON bodies are pretty-printed, and form (URL-encoded) and multipart bodies are converted to each language's standard style. Since sharing authorization headers and cookies is risky, they're replaced with placeholders by default. Nothing you enter is sent to a server, and the request is never executed.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "Windows の「Copy as cURL (cmd)」にも対応していますか？", en: "Does it support Windows \"Copy as cURL (cmd)\"?" },
+        answer: {
+          ja: "はい。^\" や ^& などの ^ によるエスケープと、行末の ^ による行継続を含むコマンドプロンプト形式を自動で判別して解析します。",
+          en: "Yes. Command Prompt syntax with ^ escapes such as ^\" and ^&, and ^ line continuations, is detected and parsed automatically.",
+        },
+      },
+      {
+        question: { ja: "ファイルを送信する -F 'file=@path' はどうなりますか？", en: "What happens to -F 'file=@path' file uploads?" },
+        answer: {
+          ja: "ファイルの中身は読み込まず、各言語でファイルを開いて送信するコード（Pythonの open()、Goの os.Open など）を生成します。パスは実際の環境に合わせて書き換えてください。-d @file のようなファイルからのデータ読み込みには対応していません。",
+          en: "File contents aren't read; instead, code that opens and sends the file in each language (open() in Python, os.Open in Go, and so on) is generated. Adjust the path for your environment. Reading request data from a file, as in -d @file, isn't supported.",
+        },
+      },
+      {
+        question: { ja: "マスキングはどのような値が対象ですか？", en: "Which values are masked?" },
+        answer: {
+          ja: "Authorization・Cookie・X-API-Key などのヘッダー、名前に token・secret・password などを含むヘッダー、api_key・token・access_token などのクエリパラメータ、-u で指定したBasic認証の値が対象です。ボディ内の値はマスクされないためご注意ください。",
+          en: "Headers such as Authorization, Cookie, and X-API-Key; headers whose names contain token, secret, password, and similar words; query parameters such as api_key, token, and access_token; and Basic auth credentials given with -u. Values inside the body are not masked.",
+        },
+      },
+      {
+        question: { ja: "入力した内容が送信されることはありますか？", en: "Is anything I enter sent anywhere?" },
+        answer: {
+          ja: "ありません。解析と変換はブラウザ内で行われ、リクエストが実行されることもありません。",
+          en: "No. Parsing and conversion happen in your browser, and the request is never executed.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Terminal,
+    keywords: {
+      ja: "curl コード変換 fetch axios python requests c# httpclient go net/http api リクエスト 開発者ツール copy as curl",
+      en: "curl to code converter fetch axios python requests csharp httpclient golang net/http api request copy as curl",
+    },
+  },
+  {
     id: "log-masker",
     name: { ja: "ログ・HARの機密情報マスキング", en: "Log & HAR Data Masker" },
     description: {
@@ -2740,6 +3342,86 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "code-formatter",
+    name: { ja: "HTML/CSS/JS整形・Minify", en: "HTML/CSS/JS Formatter & Minifier" },
+    description: {
+      ja: "HTML・CSS（SCSS・Less）・JavaScript・TypeScriptを整形、またはMinify（圧縮）します。",
+      en: "Format or minify HTML, CSS (SCSS, Less), JavaScript, and TypeScript.",
+    },
+    longDescription: {
+      ja: "HTML・CSS（SCSS・Less）・JavaScript（JSX）・TypeScriptのコードを、Prettierで読みやすく整形したり、terser・csso・html-minifier-terserでMinify（圧縮）したりできるツールです。インデントや引用符などの整形オプション、変数名の短縮などの圧縮オプション、gzip後のサイズ比較に対応し、処理はすべてブラウザ内で行われます。",
+      en: "A tool that formats HTML, CSS (SCSS, Less), JavaScript (JSX), and TypeScript with Prettier, or minifies them with terser, csso, and html-minifier-terser. It offers formatting options such as indentation and quotes, minification options such as variable name mangling, and size comparison including gzip — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "コードを入力欄に貼り付けるか、ファイルをドラッグ＆ドロップします。言語がわからない場合は「言語を自動判定」を押します。",
+        "上部のタブで言語（HTML・CSS・JavaScript・TypeScript）を、右側で「整形」または「Minify」を選びます。CSSではSCSS・Lessも選べます。",
+        "インデントや1行の最大幅（整形）、コメントの削除や変数名の短縮（Minify）などのオプションを調整します。変更はすぐに出力に反映されます。",
+        "出力欄の下でサイズと削減率（gzip後の概算を含む）を確認し、「クリップボードへコピー」または「ダウンロード」で保存します。構文エラーがある場合は行番号が表示されます。",
+      ],
+      en: [
+        "Paste code into the input or drag and drop a file. If you're not sure of the language, click \"Detect language\".",
+        "Choose the language (HTML, CSS, JavaScript, or TypeScript) with the tabs and \"Format\" or \"Minify\" next to them. For CSS you can also choose SCSS or Less.",
+        "Adjust options such as indentation and print width (format) or comment removal and mangling (minify). Changes apply to the output right away.",
+        "Check the size and reduction rate (including an estimate after gzip) below the output, then save with \"Copy to clipboard\" or \"Download\". Syntax errors are shown with line numbers.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "HTML/CSS/JS整形・Minifyツールは、Webサイトのコードを読みやすく整えたり、公開用に小さく圧縮したりするツールです。圧縮されて読めないコードを調べたいとき、コードの書き方を揃えたいとき、ビルドツールを使わずに手早くファイルを小さくしたいときに役立ちます。SQL整形ツールのWeb版のような感覚で使えます。",
+          "整形には広く使われているPrettier（MIT）を、MinifyにはJavaScriptにterser（BSD-2-Clause）、CSSにcsso（MIT）、HTMLにhtml-minifier-terser（MIT）を使っています。動作が変わる可能性のある積極的な最適化（console の削除、属性の引用符や閉じタグの省略）は既定でオフにし、注意書きを表示しています。",
+          "ライブラリは選んだ言語とモードに必要なものだけを、処理するときに初めて読み込みます。処理はWeb Workerで行うため大きなファイルでも画面が固まりにくく、入力したコードがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "The HTML/CSS/JS Formatter & Minifier tidies website code for readability or compresses it for production. It's handy for inspecting minified code, keeping code style consistent, or quickly shrinking a file without setting up build tools — much like the SQL Formatter, but for web code.",
+          "Formatting uses the widely adopted Prettier (MIT). Minification uses terser (BSD-2-Clause) for JavaScript, csso (MIT) for CSS, and html-minifier-terser (MIT) for HTML. Aggressive optimizations that may change behavior — removing console calls, omitting attribute quotes, and dropping optional closing tags — are off by default and come with a warning.",
+          "Only the libraries needed for the selected language and mode are loaded, and only when processing starts. Processing runs in a Web Worker so the page stays responsive with large files, and your code is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "TypeScriptやSCSSもMinifyできますか？", en: "Can I minify TypeScript or SCSS?" },
+        answer: {
+          ja: "TypeScript・SCSS・Lessは整形のみに対応しています。Minifyする場合は、コンパイル後のJavaScript・CSSを入力してください。JSXを含むJavaScriptも整形はできますが、Minifyはできません。",
+          en: "TypeScript, SCSS, and Less can only be formatted. To minify, enter the compiled JavaScript or CSS. JavaScript containing JSX can be formatted but not minified.",
+        },
+      },
+      {
+        question: { ja: "gzip後のサイズとは何ですか？", en: "What is the size after gzip?" },
+        answer: {
+          ja: "多くのWebサーバーはファイルをgzipなどで圧縮して配信します。実際に転送されるサイズの目安として、入力と出力をそれぞれgzip（最大圧縮）で圧縮したサイズを表示しています。",
+          en: "Most web servers compress files with gzip or similar when serving them. As an estimate of the actual transfer size, the sizes of the input and output compressed with gzip (maximum level) are shown.",
+        },
+      },
+      {
+        question: { ja: "Minifyでコードが動かなくなることはありますか？", en: "Can minification break my code?" },
+        answer: {
+          ja: "既定の設定は安全な最適化のみですが、eval や関数名に依存するコードでは変数名の短縮が影響する場合があります。問題があれば「変数名を短縮する」をオフにしてください。注意書きのあるオプションは、影響を理解したうえで使用してください。",
+          en: "The defaults only apply safe optimizations, but mangling can affect code that relies on eval or function names. If you run into problems, turn off \"Shorten variable names\". Use the options marked with a warning only if you understand their impact.",
+        },
+      },
+      {
+        question: { ja: "入力したコードは送信されますか？", en: "Is my code sent anywhere?" },
+        answer: {
+          ja: "送信されません。整形・Minifyはすべてブラウザ内で行われます。",
+          en: "No. Formatting and minification happen entirely in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: CodeXml,
+    keywords: {
+      ja: "html css scss less javascript typescript jsx 整形 フォーマット prettier minify 圧縮 terser csso beautify",
+      en: "html css scss less javascript typescript jsx format beautify prettier minify compress terser csso",
+    },
+    fileMatch: {
+      mimeTypes: ["text/html", "text/css", "text/javascript", "application/javascript"],
+      extensions: ["html", "htm", "css", "scss", "less", "js", "mjs", "cjs", "jsx", "ts", "tsx"],
+    },
+  },
+  {
     id: "sql-to-prisma",
     name: { ja: "SQL DDL→Prisma変換", en: "SQL DDL to Prisma Converter" },
     description: {
@@ -2829,6 +3511,87 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/sql"],
       extensions: ["sql"],
+    },
+  },
+  {
+    id: "mermaid-editor",
+    name: { ja: "Mermaid図エディタ（フローチャート・シーケンス図・ER図）", en: "Mermaid Diagram Editor (Flowchart, Sequence, ER)" },
+    description: {
+      ja: "Mermaid記法でフローチャートやシーケンス図、ER図を書き、リアルタイムにプレビューしてSVG・PNGで保存できます。",
+      en: "Write flowcharts, sequence diagrams, and ER diagrams in Mermaid syntax with a live preview, and save them as SVG or PNG.",
+    },
+    longDescription: {
+      ja: "Mermaid記法でフローチャート、シーケンス図、ER図、クラス図、状態遷移図、ガントチャート、マインドマップ、Gitグラフを作成し、リアルタイムにプレビューできるツールです。テーマや背景色の変更、ズーム・パン、SVG・PNG（1x〜3x）での書き出し、URLでの共有に対応し、描画はすべてブラウザ内で行われます。",
+      en: "A tool for creating flowcharts, sequence diagrams, ER diagrams, class diagrams, state diagrams, Gantt charts, mind maps, and Git graphs in Mermaid syntax with a live preview. It supports themes and background colors, zoom and pan, export to SVG and PNG (1x–3x), and sharing via URL — all rendered in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「テンプレート」から作りたい図の種類を選ぶと、日本語のサンプルがエディタに入ります。",
+        "左のエディタでMermaid記法を編集すると、少し遅れて右のプレビューに反映されます。構文エラーがある場合は行番号付きでエラーが表示され、プレビューには直前の正しい図が残ります。",
+        "「テーマ」と「背景色」で見た目を変えます。プレビューはドラッグで移動、Ctrl（⌘）＋ホイールやボタンで拡大・縮小できます。",
+        "「SVGをダウンロード」「PNGをダウンロード」で画像として保存します。PNGは1x・2x・3xの解像度を選べます。",
+        "「共有リンクをコピー」で、同じ図を開けるURLを取得できます。入力内容は自動で保存され、次回開いたときに復元されます。",
+      ],
+      en: [
+        "Choose a diagram type from \"Template\" to load a sample into the editor.",
+        "Edit the Mermaid code in the editor on the left; the preview on the right updates shortly after. Syntax errors are shown with line numbers, and the last valid diagram stays in the preview.",
+        "Change the look with \"Theme\" and \"Background\". Drag to pan the preview, and zoom with Ctrl (⌘) + wheel or the buttons.",
+        "Save as an image with \"Download SVG\" or \"Download PNG\". PNG can be exported at 1x, 2x, or 3x.",
+        "\"Copy share link\" gives you a URL that opens the same diagram. Your input is saved automatically and restored the next time you open the tool.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "Mermaid図エディタは、テキストで図を記述できるMermaid記法を使って、設計書やドキュメントに載せる図を作成するツールです。GitHubやGitLab、Notionなどでも使われている記法のため、作成したソースをそのままMarkdownに貼り付けて使うこともできます。",
+          "描画にはMermaid（MIT）を使用し、ユーザーが入力したHTMLやスクリプトが実行されないよう securityLevel を strict に設定しています。日本語のラベルが文字化けしたり見切れたりしないよう日本語フォントを指定し、PNG書き出しで崩れないようラベルはSVGのテキストとして描画しています。",
+          "Mermaidのライブラリはこのツールのページを開いたときにだけ読み込まれます。共有リンクは図の内容を圧縮してURLのハッシュ部分（#以降）に入れる仕組みで、ハッシュはサーバーに送信されないため、図の内容が外部に保存されることはありません。",
+        ],
+        en: [
+          "The Mermaid Diagram Editor lets you create diagrams for design documents and docs using Mermaid, a syntax for describing diagrams as text. Because Mermaid is supported on GitHub, GitLab, Notion, and elsewhere, you can paste the source straight into Markdown.",
+          "Diagrams are rendered with Mermaid (MIT), with securityLevel set to strict so that HTML or scripts in your input are never executed. A Japanese font is specified so labels don't break or get clipped, and labels are drawn as SVG text so PNG exports render correctly.",
+          "The Mermaid library is loaded only when you open this tool. Share links compress the diagram into the URL hash (after #); since the hash is never sent to the server, your diagram is never stored anywhere else.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "作成した図はどこに保存されますか？", en: "Where are my diagrams saved?" },
+        answer: {
+          ja: "入力内容はこのブラウザ（localStorage）に自動で保存されます。共有リンクを使うと、内容がURLに含まれるため、リンクを知っている人が同じ図を開けます。",
+          en: "Your input is saved automatically in this browser (localStorage). With a share link, the content is included in the URL, so anyone with the link can open the same diagram.",
+        },
+      },
+      {
+        question: { ja: "PNGで日本語が正しく表示されないことはありますか？", en: "Can Japanese text look wrong in PNG exports?" },
+        answer: {
+          ja: "PNGは閲覧している端末の日本語フォントを使って描画します。通常は問題ありませんが、日本語フォントがない環境では表示が崩れる場合があります。その場合はSVGで保存してください。",
+          en: "PNGs are drawn using the Japanese fonts on your device. This usually works fine, but on a device without Japanese fonts the text may not render correctly; save as SVG instead.",
+        },
+      },
+      {
+        question: { ja: "ELKレイアウトは使えますか？", en: "Can I use the ELK layout?" },
+        answer: {
+          ja: "使えません。ELKレイアウトに必要なライブラリ（elkjs）はライセンス（EPL-2.0）の都合で含めていないため、既定のレイアウトで描画してください。",
+          en: "No. The library required for the ELK layout (elkjs) isn't included because of its license (EPL-2.0), so please use the default layout.",
+        },
+      },
+      {
+        question: { ja: "入力したスクリプトが実行されることはありますか？", en: "Can scripts in my input be executed?" },
+        answer: {
+          ja: "ありません。Mermaidの securityLevel を strict に設定しているため、図の中のHTMLタグやクリック時のスクリプトは無効化されます。",
+          en: "No. Mermaid's securityLevel is set to strict, so HTML tags and click scripts in diagrams are disabled.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Workflow,
+    keywords: {
+      ja: "mermaid マーメイド 図 フローチャート シーケンス図 er図 クラス図 状態遷移図 ガントチャート マインドマップ svg png 作図",
+      en: "mermaid diagram flowchart sequence diagram er diagram class diagram state diagram gantt mindmap svg png",
+    },
+    fileMatch: {
+      extensions: ["mmd", "mermaid"],
     },
   },
   {

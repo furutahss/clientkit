@@ -19,6 +19,17 @@ import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
 import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
+import {
+  BackgroundRemoverTool,
+  CodeFormatterTool,
+  CurlConverterTool,
+  ExcelConverterTool,
+  InvoiceGeneratorTool,
+  MermaidEditorTool,
+  OcrTool,
+  TextNormalizerTool,
+  VideoConverterTool,
+} from "@/components/tools/lazy-tools";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { LogMaskerTool } from "@/components/tools/log-masker-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
@@ -78,6 +89,15 @@ const toolComponents: Record<string, ComponentType> = {
   "svg-optimizer": SvgOptimizerTool,
   "qr-code": QrCodeTool,
   "folder-tree": FolderTreeTool,
+  "excel-converter": ExcelConverterTool,
+  "ocr": OcrTool,
+  "invoice-generator": InvoiceGeneratorTool,
+  "curl-converter": CurlConverterTool,
+  "code-formatter": CodeFormatterTool,
+  "mermaid-editor": MermaidEditorTool,
+  "text-normalizer": TextNormalizerTool,
+  "video-converter": VideoConverterTool,
+  "background-remover": BackgroundRemoverTool,
 };
 
 export function generateStaticParams() {

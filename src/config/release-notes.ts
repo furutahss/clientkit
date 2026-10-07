@@ -19,6 +19,79 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-07",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "画像の背景除去ツールを追加（透過・単色・ぼかし・画像への差し替え、ブラシ修正に対応）",
+          en: "Added a background remover (transparent, solid color, blurred, or image backgrounds, with brush touch-ups)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "動画→GIF変換・動画圧縮ツールを追加（トリミング・ディザリング・目標サイズ指定に対応）",
+          en: "Added a video to GIF converter and video compressor (trimming, dithering, and target file size)",
+        },
+      },
+    ],
+  },
+  {
+    date: "2026-10-06",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "日本語テキスト正規化・不可視文字検出ツールを追加（表記ゆれの統一・機種依存文字の展開・差分表示に対応）",
+          en: "Added a Japanese text normalizer and invisible character detector (unifies variants, expands platform-dependent characters, and shows a diff)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "Mermaid図エディタを追加（8種類のテンプレート、SVG・PNG書き出し、URLでの共有に対応）",
+          en: "Added a Mermaid diagram editor (8 templates, SVG and PNG export, and sharing via URL)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "HTML/CSS/JS整形・Minifyツールを追加（SCSS・Less・TypeScriptの整形、gzip後のサイズ比較に対応）",
+          en: "Added an HTML/CSS/JS formatter and minifier (formats SCSS, Less, and TypeScript, with gzip size comparison)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "cURL→コード変換ツールを追加（fetch・axios・Python・C#・Goに対応、機密情報のマスキング付き）",
+          en: "Added a cURL to code converter (fetch, axios, Python, C#, and Go, with secret masking)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "請求書・見積書作成ツールを追加（インボイス制度の記載事項・税率ごとの端数処理・源泉徴収・PDF出力に対応）",
+          en: "Added an invoice and estimate generator (Japanese qualified invoice details, per-rate tax rounding, withholding tax, and PDF output)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "OCR（画像から文字認識）ツールを追加（日本語・縦書き・範囲指定・前処理に対応）",
+          en: "Added an OCR tool to extract text from images (supports Japanese, vertical text, area selection, and preprocessing)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "Excel（xlsx）→CSV/JSON変換ツールを追加（xls・ods、Shift_JIS出力、全シートのZIP保存に対応）",
+          en: "Added an Excel (xlsx) to CSV/JSON converter (supports xls and ods, Shift_JIS output, and a ZIP of every sheet)",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-10-03",
     entries: [
       {
