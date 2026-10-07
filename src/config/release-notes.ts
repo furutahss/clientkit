@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-07",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "動画→GIF変換・動画圧縮ツールを追加（トリミング・ディザリング・目標サイズ指定に対応）",
+          en: "Added a video to GIF converter and video compressor (trimming, dithering, and target file size)",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-10-06",
     entries: [
       {

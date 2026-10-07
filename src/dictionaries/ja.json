@@ -1574,6 +1574,78 @@
       "diffHeading": "変換前後の差分",
       "skippedLines": "変更のない{count}行を省略",
       "diffTruncated": "差分が大きいため一部のみ表示しています。"
+    },
+    "videoConverter": {
+      "safetyNote": "動画はサーバーへアップロードせず、ブラウザの動画処理機能（WebCodecs）を使って端末内で変換します。",
+      "dropLabel": "動画ファイルをドラッグ＆ドロップ",
+      "dropHint": "MP4 / MOV / WebM / MKV に対応しています（AVI など一部の形式は非対応）",
+      "chooseFile": "動画を選択",
+      "loadAnother": "別の動画を読み込む",
+      "probing": "解析中...",
+      "warnings": {
+        "large": "ファイルサイズが大きいため、処理に時間がかかり、端末のメモリを多く使用します（目安: パソコンで500MB、スマホで100MBまで）。",
+        "long": "動画が長いため、処理に時間がかかります（目安: パソコンで10分、スマホで3分まで）。必要な範囲だけをトリミングすることをおすすめします。"
+      },
+      "errors": {
+        "unsupportedFormat": "この形式の動画は読み込めません。MP4・MOV・WebM・MKV 形式の動画を指定してください。",
+        "noVideo": "動画トラックが見つかりませんでした。",
+        "cannotDecode": "このブラウザでは、この動画のコーデックを読み込めません。別のブラウザ（最新のChrome・Edge・Safari・Firefox）をお試しください。",
+        "cannotEncode": "このブラウザでは、選んだ形式でのエンコードに対応していません。別の出力形式（MP4 / WebM）や解像度をお試しください。",
+        "failed": "変換に失敗しました。"
+      },
+      "trimLabel": "範囲（トリミング）",
+      "start": "開始（秒）",
+      "end": "終了（秒）",
+      "useCurrentTime": "再生位置",
+      "clipLength": "長さ {seconds}秒",
+      "modeLabel": "変換方法",
+      "modeGif": "GIF変換",
+      "modeCompress": "動画圧縮",
+      "fps": "フレームレート",
+      "width": "幅",
+      "loop": "ループ",
+      "loops": {
+        "infinite": "無限ループ",
+        "once": "1回だけ再生",
+        "twice": "2回再生",
+        "three": "3回再生"
+      },
+      "palette": "パレット（減色）",
+      "paletteGlobal": "全フレーム共通（容量が小さい）",
+      "palettePerFrame": "フレームごと（色の再現性が高い）",
+      "dither": "ディザリング",
+      "ditherFloyd": "誤差拡散（Floyd–Steinberg）",
+      "ditherBayer": "規則的（Bayer）",
+      "ditherNone": "なし",
+      "gifEstimate": "出力: {width}×{height}px・{frames}フレーム・目安 約{size}（内容により大きく変わります）",
+      "format": "出力形式",
+      "qualityMode": "圧縮の指定方法",
+      "byQuality": "画質で指定",
+      "byTargetSize": "目標サイズで指定",
+      "quality": "画質",
+      "qualities": {
+        "low": "低（小さい）",
+        "medium": "標準",
+        "high": "高",
+        "veryHigh": "最高（大きい）"
+      },
+      "targetSize": "目標ファイルサイズ（MB）",
+      "targetHint": "長さから映像のビットレートを計算します。実際のサイズは多少前後します。",
+      "resolution": "解像度（高さ）",
+      "frameRate": "フレームレート",
+      "original": "元のまま",
+      "audio": "音声",
+      "audioKeep": "残す",
+      "audioRemove": "削除する",
+      "audioBitrate": "音声のビットレート",
+      "compressNote": "画質はビットレートで指定します（ffmpeg の CRF 指定とは異なります）。ブラウザが対応していない場合は音声が削除されることがあります。",
+      "runGif": "GIFに変換",
+      "runCompress": "圧縮する",
+      "cancel": "キャンセル",
+      "progress": "{percent}% ・ 経過 {elapsed} ・ 残り約 {remaining}",
+      "resultLabel": "変換結果",
+      "resultSize": "{size}（元の {original} から {rate}）・処理時間 {seconds}秒",
+      "download": "ダウンロード"
     }
   }
 }

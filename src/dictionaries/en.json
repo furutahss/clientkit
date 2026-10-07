@@ -1574,6 +1574,78 @@
       "diffHeading": "Differences",
       "skippedLines": "{count} unchanged lines hidden",
       "diffTruncated": "The diff is large, so only part of it is shown."
+    },
+    "videoConverter": {
+      "safetyNote": "Your video is never uploaded. It is converted on your device using your browser's video processing features (WebCodecs).",
+      "dropLabel": "Drag and drop a video file",
+      "dropHint": "Supports MP4 / MOV / WebM / MKV (some formats such as AVI are not supported)",
+      "chooseFile": "Choose video",
+      "loadAnother": "Load another video",
+      "probing": "Analyzing...",
+      "warnings": {
+        "large": "This file is large, so processing will take a while and use a lot of memory (guideline: up to 500 MB on computers, 100 MB on phones).",
+        "long": "This video is long, so processing will take a while (guideline: up to 10 minutes on computers, 3 minutes on phones). Trimming to just the part you need is recommended."
+      },
+      "errors": {
+        "unsupportedFormat": "This video format can't be read. Choose an MP4, MOV, WebM, or MKV video.",
+        "noVideo": "No video track was found.",
+        "cannotDecode": "This browser can't decode this video's codec. Try another browser (latest Chrome, Edge, Safari, or Firefox).",
+        "cannotEncode": "This browser can't encode the selected format. Try a different output format (MP4 / WebM) or resolution.",
+        "failed": "Conversion failed."
+      },
+      "trimLabel": "Range (trim)",
+      "start": "Start (s)",
+      "end": "End (s)",
+      "useCurrentTime": "Current time",
+      "clipLength": "Length {seconds}s",
+      "modeLabel": "Conversion",
+      "modeGif": "To GIF",
+      "modeCompress": "Compress",
+      "fps": "Frame rate",
+      "width": "Width",
+      "loop": "Loop",
+      "loops": {
+        "infinite": "Loop forever",
+        "once": "Play once",
+        "twice": "Play twice",
+        "three": "Play 3 times"
+      },
+      "palette": "Palette (color reduction)",
+      "paletteGlobal": "Shared across frames (smaller)",
+      "palettePerFrame": "Per frame (better colors)",
+      "dither": "Dithering",
+      "ditherFloyd": "Error diffusion (Floyd–Steinberg)",
+      "ditherBayer": "Ordered (Bayer)",
+      "ditherNone": "None",
+      "gifEstimate": "Output: {width}×{height}px, {frames} frames, roughly {size} (varies a lot by content)",
+      "format": "Output format",
+      "qualityMode": "Compression setting",
+      "byQuality": "By quality",
+      "byTargetSize": "By target size",
+      "quality": "Quality",
+      "qualities": {
+        "low": "Low (smaller)",
+        "medium": "Standard",
+        "high": "High",
+        "veryHigh": "Very high (larger)"
+      },
+      "targetSize": "Target file size (MB)",
+      "targetHint": "The video bitrate is calculated from the length. The actual size may vary slightly.",
+      "resolution": "Resolution (height)",
+      "frameRate": "Frame rate",
+      "original": "Original",
+      "audio": "Audio",
+      "audioKeep": "Keep",
+      "audioRemove": "Remove",
+      "audioBitrate": "Audio bitrate",
+      "compressNote": "Quality is set by bitrate (unlike ffmpeg's CRF). Audio may be removed if your browser can't encode it.",
+      "runGif": "Convert to GIF",
+      "runCompress": "Compress",
+      "cancel": "Cancel",
+      "progress": "{percent}% · elapsed {elapsed} · about {remaining} left",
+      "resultLabel": "Result",
+      "resultSize": "{size} ({rate} from {original}) · took {seconds}s",
+      "download": "Download"
     }
   }
 }

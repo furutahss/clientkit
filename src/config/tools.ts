@@ -5,6 +5,7 @@ import {
   Binary,
   Braces,
   CalendarClock,
+  Clapperboard,
   Clock,
   CodeXml,
   Database,
@@ -1566,6 +1567,88 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["image/png", "image/jpeg", "image/webp", "image/bmp"],
       extensions: ["png", "jpg", "jpeg", "webp", "bmp"],
+    },
+  },
+  {
+    id: "video-converter",
+    name: { ja: "動画→GIF変換・動画圧縮", en: "Video to GIF & Video Compressor" },
+    description: {
+      ja: "動画をGIFアニメに変換したり、MP4・WebMに圧縮してファイルサイズを小さくしたりできます。",
+      en: "Convert videos to animated GIFs, or compress them to MP4 or WebM to reduce file size.",
+    },
+    longDescription: {
+      ja: "MP4・MOV・WebM・MKVの動画を、ブラウザ上だけでGIFアニメに変換したり、MP4（H.264）・WebM（VP9）に圧縮したりできるツールです。トリミング、フレームレート・幅・ループ回数・減色とディザリングの指定、画質や目標ファイルサイズ・解像度・音声の設定に対応し、動画がサーバーへアップロードされることはありません。",
+      en: "A tool that converts MP4, MOV, WebM, and MKV videos to animated GIFs, or compresses them to MP4 (H.264) or WebM (VP9), entirely in your browser. It supports trimming; frame rate, width, loop count, color reduction, and dithering for GIFs; and quality, target file size, resolution, and audio settings for compression. Your video is never uploaded to a server.",
+    },
+    howToUse: {
+      ja: [
+        "動画ファイルをドラッグ＆ドロップするか、「動画を選択」から読み込みます。",
+        "スライダーまたは秒数の入力で、変換する範囲（開始・終了）を指定します。「再生位置」で再生中の位置を開始・終了に設定できます。",
+        "「GIF変換」ではフレームレート・幅・ループ・パレット・ディザリングを、「動画圧縮」では出力形式・画質（または目標サイズ）・解像度・フレームレート・音声を選びます。",
+        "「GIFに変換」または「圧縮する」を押すと、進捗と残り時間の目安が表示されます。途中でキャンセルもできます。",
+        "変換結果をプレビューで確認し、サイズと削減率を見てから「ダウンロード」で保存します。",
+      ],
+      en: [
+        "Drag and drop a video file, or load one with \"Choose video\".",
+        "Set the range (start and end) with the slider or by entering seconds. \"Current time\" sets the start or end to the playback position.",
+        "For \"To GIF\", choose the frame rate, width, loop, palette, and dithering. For \"Compress\", choose the output format, quality (or target size), resolution, frame rate, and audio.",
+        "Click \"Convert to GIF\" or \"Compress\" to see the progress and estimated time remaining. You can cancel at any time.",
+        "Preview the result, check its size and reduction rate, and save it with \"Download\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "動画→GIF変換・動画圧縮ツールは、画面録画や撮影した動画を、チャットやドキュメントに貼りやすいGIFアニメにしたり、メールやアップロードの容量制限に合わせて小さくしたりするツールです。",
+          "動画の読み込みと書き出しには、ブラウザに組み込まれた動画処理機能（WebCodecs）を、mediabunny（MPL-2.0、ソースコードは https://github.com/Vanilagy/mediabunny で公開）を通じて使っています。大きな ffmpeg.wasm を読み込む必要がないため素早く使え、ハードウェアエンコードが使える環境では高速に処理できます。GIFは gifenc（MIT）で書き出し、全フレーム共通またはフレームごとのパレットによる減色と、誤差拡散・Bayer のディザリングを選べます。",
+          "処理はすべてWeb Worker上で行われ、動画がサーバーへアップロードされることはありません。対応している動画のコーデックや出力形式はブラウザによって異なります。AVIなど一部の形式や、ブラウザが対応していないコーデックの動画は変換できません。",
+        ],
+        en: [
+          "The Video to GIF & Video Compressor turns screen recordings and videos you've shot into animated GIFs that are easy to share in chats and documents, or shrinks them to fit email and upload size limits.",
+          "Videos are read and written using your browser's built-in video processing (WebCodecs) through mediabunny (MPL-2.0; source code available at https://github.com/Vanilagy/mediabunny). There's no need to download the large ffmpeg.wasm, so the tool starts quickly and can use hardware encoding where available. GIFs are written with gifenc (MIT), with color reduction using a shared or per-frame palette and error-diffusion or Bayer dithering.",
+          "All processing runs in a Web Worker, and your video is never uploaded to a server. Supported codecs and output formats depend on your browser. Some formats such as AVI, and videos with codecs your browser doesn't support, can't be converted.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "AVIなどの動画は変換できますか？", en: "Can I convert AVI and other formats?" },
+        answer: {
+          ja: "AVIには対応していません。対応しているのはMP4・MOV・WebM・MKVで、さらにブラウザがその動画のコーデック（H.264・HEVC・VP9・AV1など）を読み込める必要があります。読み込めない場合は別のブラウザをお試しください。",
+          en: "AVI isn't supported. MP4, MOV, WebM, and MKV are supported, provided your browser can decode the video's codec (H.264, HEVC, VP9, AV1, etc.). If it can't, try another browser.",
+        },
+      },
+      {
+        question: { ja: "GIFのファイルサイズを小さくするには？", en: "How can I make the GIF smaller?" },
+        answer: {
+          ja: "範囲を短くする、幅を小さくする、フレームレートを下げる（10fps前後）、パレットを「全フレーム共通」にする、ディザリングを「なし」にするなどが効果的です。長い動画や大きな画面の場合は、GIFよりも動画（MP4・WebM）で共有するほうが大幅に小さくなります。",
+          en: "Shorten the range, reduce the width, lower the frame rate (around 10 fps), use a shared palette, or turn dithering off. For long videos or large frames, sharing as a video (MP4 or WebM) is far smaller than a GIF.",
+        },
+      },
+      {
+        question: { ja: "目標サイズを指定するとぴったりのサイズになりますか？", en: "Will the output exactly match the target size?" },
+        answer: {
+          ja: "動画の長さから映像のビットレートを計算して変換するため、実際のサイズは多少前後します。上限を超えたくない場合は、少し小さめの値を指定してください。",
+          en: "The video bitrate is calculated from the video's length, so the actual size may vary slightly. If you must stay under a limit, enter a slightly smaller value.",
+        },
+      },
+      {
+        question: { ja: "動画がアップロードされることはありますか？", en: "Is my video uploaded?" },
+        answer: {
+          ja: "ありません。読み込みから変換・保存まで、すべてブラウザ内で処理されます。",
+          en: "No. Everything from loading to converting and saving happens in your browser.",
+        },
+      },
+    ],
+    category: "converter",
+    icon: Clapperboard,
+    keywords: {
+      ja: "動画 gif 変換 gifアニメ 圧縮 mp4 webm mov mkv 容量 小さく トリミング 画面録画 webcodecs",
+      en: "video to gif converter animated gif compress mp4 webm mov mkv reduce size trim screen recording webcodecs",
+    },
+    fileMatch: {
+      mimePrefixes: ["video/"],
+      extensions: ["mp4", "mov", "m4v", "webm", "mkv"],
     },
   },
   {

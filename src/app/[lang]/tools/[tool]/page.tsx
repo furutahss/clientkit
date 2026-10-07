@@ -45,6 +45,7 @@ import { TimestampConverterTool } from "@/components/tools/timestamp-converter-t
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
 import { UrlEncoderTool } from "@/components/tools/url-encoder-tool";
+import { VideoConverterTool } from "@/components/tools/video-converter-tool";
 import { siteConfig } from "@/config/site";
 import { getToolById, tools } from "@/config/tools";
 import { ogImage } from "@/config/og-image";
@@ -92,6 +93,7 @@ const toolComponents: Record<string, ComponentType> = {
   "code-formatter": CodeFormatterTool,
   "mermaid-editor": MermaidEditorTool,
   "text-normalizer": TextNormalizerTool,
+  "video-converter": VideoConverterTool,
 };
 
 export function generateStaticParams() {
