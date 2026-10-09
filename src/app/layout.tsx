@@ -26,6 +26,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: syncLangScript }} />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9520859844640159"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="flex min-h-full flex-col">
         <ThemeProvider
