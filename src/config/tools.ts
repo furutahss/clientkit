@@ -2724,6 +2724,72 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "uuid-generator",
+    name: { ja: "UUID生成", en: "UUID Generator" },
+    description: {
+      ja: "UUID v4/v7を最大1,000個まで一括生成し、コピー・テキスト保存できます。",
+      en: "Generate up to 1,000 UUID v4/v7 values at once, copy them, or save them as text.",
+    },
+    longDescription: {
+      ja: "UUID v4（ランダム）・v7（時刻順）をブラウザ内で最大1,000個まで一括生成するツールです。大文字・小文字やハイフンの有無を指定し、生成結果をまとめてコピー・テキスト保存できます。乱数には暗号論的に安全なcrypto.getRandomValuesを使用します。",
+      en: "Generate up to 1,000 UUIDs in your browser using v4 (random) or v7 (time-ordered). Choose uppercase or lowercase and whether to include hyphens, then copy all results or save them as text. Randomness comes from the cryptographically secure crypto.getRandomValues.",
+    },
+    howToUse: {
+      ja: [
+        "UUIDのバージョン（v4/v7）と生成する個数（1〜1,000個）を指定します。",
+        "必要に応じて「大文字で出力」「ハイフンを含める」を切り替えます。設定を変えると自動的に生成し直されます。",
+        "同じ設定で別のUUIDを生成したい場合は「再生成」を押します。",
+        "「クリップボードへコピー」または「テキストで保存」で生成結果をまとめて利用できます。",
+      ],
+      en: [
+        "Choose the UUID version (v4/v7) and how many to generate (1–1,000).",
+        "Toggle \"Uppercase\" or \"Include hyphens\" as needed. Changing a setting automatically regenerates the results.",
+        "Click \"Regenerate\" to generate new UUIDs with the same settings.",
+        "Use \"Copy to clipboard\" or \"Save as text\" to take all results at once.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "UUID（Universally Unique Identifier）は、データベースのレコードやAPIのリソースなどを識別するための128ビットのIDです。通常はハイフン付きの36文字で表現します。",
+          "v4は122ビットのランダム値を持ち、v7は先頭48ビットに生成時刻を含みます。このツールのv7は同じミリ秒内でもカウンターを使い、一括生成した値の順序を保ちます。生成はブラウザ内で完結し、生成結果をサーバーへ送信しません。",
+        ],
+        en: [
+          "A UUID (Universally Unique Identifier) is a 128-bit ID used to identify database records, API resources, and more. It is usually written as 36 characters including hyphens.",
+          "v4 has 122 random bits, while v7 contains the creation time in its first 48 bits. This tool uses a counter to keep a batch of v7 values in creation order even within the same millisecond. Generation happens entirely in your browser, and results are never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "UUID v4とv7はどう違いますか？",
+          en: "What is the difference between UUID v4 and v7?",
+        },
+        answer: {
+          ja: "v4はランダムなUUID、v7は生成時刻を含むUUIDです。生成順に並べたい場合はv7が便利ですが、IDから生成時刻を読み取れる点に注意してください。",
+          en: "v4 is a random UUID; v7 includes its creation time. v7 is useful when you want values to sort in creation order, but its creation time can be read from the ID.",
+        },
+      },
+      {
+        question: {
+          ja: "生成したUUIDはサーバーに送信されますか？",
+          en: "Are generated UUIDs sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。生成はお使いのブラウザ内でのみ行われ、ページを閉じると生成結果は消えます。必要な結果はコピーまたはテキスト保存してください。",
+          en: "No. UUIDs are generated only in your browser, and results disappear when you close the page. Copy or save any results you need.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: Fingerprint,
+    keywords: {
+      ja: "UUID GUID 生成 作成 ジェネレーター ID 一括 ランダム v4 v7 時刻順",
+      en: "uuid guid generator generate create id bulk random v4 v7 time ordered",
+    },
+  },
+  {
     id: "id-generator",
     name: { ja: "UUID/ULID・パスワード生成", en: "UUID/ULID & Password Generator" },
     description: {

@@ -745,6 +745,7 @@
       "reviewNote": "自動検出にはパターンによる限界があります。共有する前に、マスキング結果に機密情報が残っていないか必ず目視で確認してください。"
     },
     "idGenerator": {
+      "uuidSafetyNote": "UUIDはお使いのブラウザ内で、暗号論的に安全な乱数（crypto.getRandomValues）を使って生成しています。生成した値がサーバーへ送信されることはありません。",
       "safetyNote": "UUID・ULID・パスワードはすべてお使いのブラウザ内で、暗号論的に安全な乱数（crypto.getRandomValues）を使って生成しています。生成した値がサーバーへ送信されることはありません。",
       "tabUuid": "UUID",
       "tabUlid": "ULID",

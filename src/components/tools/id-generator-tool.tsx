@@ -51,7 +51,7 @@ const STRENGTH_CLASS: Record<Strength, string> = {
   veryStrong: "bg-emerald-600",
 };
 
-export function IdGeneratorTool() {
+export function IdGeneratorTool({ uuidOnly = false }: { uuidOnly?: boolean }) {
   const locale = useLocale();
   const dict = getDictionary(locale).tools.idGenerator;
 
@@ -139,26 +139,28 @@ export function IdGeneratorTool() {
     <div className="flex flex-col gap-4">
       <div className="flex items-start gap-2 rounded-md border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-        <span>{dict.safetyNote}</span>
+        <span>{uuidOnly ? dict.uuidSafetyNote : dict.safetyNote}</span>
       </div>
 
-      <div className="inline-flex w-fit rounded-md border p-1">
-        {TABS.map((item) => (
-          <button
-            key={item.value}
-            type="button"
-            onClick={() => selectTab(item.value)}
-            className={cn(
-              "rounded-sm px-3 py-1.5 text-sm font-medium transition-colors",
-              tab === item.value
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
+      {!uuidOnly && (
+        <div className="inline-flex w-fit rounded-md border p-1">
+          {TABS.map((item) => (
+            <button
+              key={item.value}
+              type="button"
+              onClick={() => selectTab(item.value)}
+              className={cn(
+                "rounded-sm px-3 py-1.5 text-sm font-medium transition-colors",
+                tab === item.value
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex flex-col gap-4 rounded-lg border p-4">
@@ -170,6 +172,7 @@ export function IdGeneratorTool() {
                   <button
                     key={version}
                     type="button"
+                    aria-pressed={uuidVersion === version}
                     onClick={() => setUuidVersion(version)}
                     className={cn(
                       "rounded-sm px-2.5 py-1 text-xs font-medium transition-colors",
@@ -359,4 +362,8 @@ export function IdGeneratorTool() {
       </div>
     </div>
   );
+}
+
+export function UuidGeneratorTool() {
+  return <IdGeneratorTool uuidOnly />;
 }

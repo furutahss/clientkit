@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-11",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "UUID生成ツールを追加（v4/v7、最大1,000個の一括生成、コピー・テキスト保存に対応）",
+          en: "Added a UUID generator (v4/v7, up to 1,000 values at once, clipboard copy, and text export)",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-10-07",
     entries: [
       {
