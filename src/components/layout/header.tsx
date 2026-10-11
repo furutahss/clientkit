@@ -15,15 +15,19 @@ export function Header({ lang }: { lang: Locale }) {
   const dict = getDictionary(lang);
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 flex h-14 items-center gap-1 border-b bg-background/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:gap-3 sm:px-4">
       <MobileSidebar />
 
-      <Link href={`/${lang}`} className="flex items-center gap-2 font-semibold">
+      <Link
+        href={`/${lang}`}
+        aria-label={siteConfig.name}
+        className="flex items-center gap-2 font-semibold"
+      >
         <ShieldCheck className="size-5 text-primary" aria-hidden="true" />
         <span className="hidden sm:inline">{siteConfig.name}</span>
       </Link>
 
-      <div className="flex-1 px-2 sm:px-4">
+      <div className="min-w-10 flex-1 sm:px-4">
         <HeaderSearch />
       </div>
 

@@ -1702,5 +1702,38 @@
       "download": "ダウンロード",
       "accuracyNote": "軽量なモデルを使っているため、髪の毛などの細かい部分や、背景と色が近い被写体はうまく切り抜けないことがあります。ブラシで修正してください。"
     }
+  },
+  "discovery": {
+    "homeTitle": "やりたいことから、すぐ見つかる。",
+    "homeDescription": "{count}のツール。登録不要・ブラウザだけで安全に処理。",
+    "searchPlaceholder": "ツール名や用途で検索…",
+    "searchExamples": [
+      "PDF 分割",
+      "画像 軽く",
+      "JSON 整形"
+    ],
+    "examplesLabel": "検索例：",
+    "categoriesHeading": "カテゴリーから探す",
+    "allTools": "すべてのツール",
+    "favorites": "お気に入り",
+    "recent": "最近使ったツール",
+    "viewAll": "すべて見る",
+    "back": "カテゴリーに戻る",
+    "resultCount": "{count}件",
+    "searchResults": "「{query}」の検索結果",
+    "noResults": "一致するツールがありません。別の言葉を試すか、カテゴリーから探してください。",
+    "emptyFavorites": "ツールの☆を押すと、ここからすぐに開けます。",
+    "emptyRecent": "使ったツールが直近5件まで、ここに表示されます。",
+    "clearRecent": "履歴を消去",
+    "localNote": "お気に入りと履歴は、このブラウザにのみ保存されます。",
+    "addFavorite": "{name}をお気に入りに追加",
+    "removeFavorite": "{name}をお気に入りから削除",
+    "searchHint": "↑↓で選択・Enterで開く・Escで閉じる",
+    "searchInitial": "ツール名や用途を入力してください。",
+    "closeSearch": "検索を閉じる",
+    "loadingTools": "ツールを読み込み中…",
+    "clearQuery": "検索をクリア",
+    "dropCompact": "ファイルをドロップして探す",
+    "quickAccess": "最近使ったツール・お気に入り"
   }
 }

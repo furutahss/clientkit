@@ -1702,5 +1702,38 @@
       "download": "Download",
       "accuracyNote": "Because a lightweight model is used, fine details such as hair, or subjects similar in color to the background, may not be cut out cleanly. Touch them up with the brush."
     }
+  },
+  "discovery": {
+    "homeTitle": "Find the right tool for the job.",
+    "homeDescription": "{count} tools. No sign-up. Process your data safely in your browser.",
+    "searchPlaceholder": "Search by tool name or task…",
+    "searchExamples": [
+      "PDF split",
+      "image resize",
+      "JSON format"
+    ],
+    "examplesLabel": "Try:",
+    "categoriesHeading": "Browse by category",
+    "allTools": "All tools",
+    "favorites": "Favorites",
+    "recent": "Recently used",
+    "viewAll": "View all",
+    "back": "Back to categories",
+    "resultCount": "{count} results",
+    "searchResults": "Results for “{query}”",
+    "noResults": "No matching tools. Try different words or browse by category.",
+    "emptyFavorites": "Select a tool’s star to find it here next time.",
+    "emptyRecent": "Your five most recently used tools will appear here.",
+    "clearRecent": "Clear history",
+    "localNote": "Favorites and history are saved only in this browser.",
+    "addFavorite": "Add {name} to favorites",
+    "removeFavorite": "Remove {name} from favorites",
+    "searchHint": "↑↓ to select · Enter to open · Esc to close",
+    "searchInitial": "Enter a tool name or task.",
+    "closeSearch": "Close search",
+    "loadingTools": "Loading tools…",
+    "clearQuery": "Clear search",
+    "dropCompact": "Drop a file to find tools",
+    "quickAccess": "Recent tools & favorites"
   }
 }
