@@ -15,7 +15,7 @@ import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool"
 import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
-import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
+import { IdGeneratorTool, UuidGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
 import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
@@ -78,6 +78,7 @@ const toolComponents: Record<string, ComponentType> = {
   "text-diff": TextDiffTool,
   "log-masker": LogMaskerTool,
   "id-generator": IdGeneratorTool,
+  "uuid-generator": UuidGeneratorTool,
   "timestamp-converter": TimestampConverterTool,
   "cron-explainer": CronExplainerTool,
   "data-format-converter": DataFormatConverterTool,

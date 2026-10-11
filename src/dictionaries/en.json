@@ -745,6 +745,7 @@
       "reviewNote": "Automatic detection has pattern-based limits. Always review the masked output for any remaining sensitive data before sharing it."
     },
     "idGenerator": {
+      "uuidSafetyNote": "UUIDs are generated entirely in your browser using a cryptographically secure random source (crypto.getRandomValues). Generated values are never sent to a server.",
       "safetyNote": "UUIDs, ULIDs, and passwords are generated entirely in your browser using a cryptographically secure random source (crypto.getRandomValues). Generated values are never sent to a server.",
       "tabUuid": "UUID",
       "tabUlid": "ULID",
