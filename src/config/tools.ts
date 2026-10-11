@@ -64,6 +64,7 @@ export type ToolAbout = {
 
 export type ToolCategory = {
   id: string;
+  icon: LucideIcon;
   label: LocalizedText;
   description: LocalizedText;
 };
@@ -108,26 +109,74 @@ export type Tool = {
 export const categories: ToolCategory[] = [
   {
     id: "text",
+    icon: TextCursorInput,
     label: { ja: "テキスト", en: "Text" },
     description: {
-      ja: "文字列の解析・集計に関するツール",
-      en: "Tools for analyzing and counting text",
+      ja: "文字数・差分・Markdown・正規表現",
+      en: "Word counts, diffs, Markdown, regex",
     },
   },
   {
-    id: "converter",
-    label: { ja: "変換", en: "Convert" },
+    id: "media",
+    icon: ImagePlus,
+    label: { ja: "画像・動画", en: "Images & Video" },
     description: {
-      ja: "エンコード・デコードやフォーマット変換ツール",
-      en: "Encoding, decoding, and format conversion tools",
+      ja: "圧縮・背景除去・OCR・GIF・色",
+      en: "Compression, backgrounds, OCR, GIF, colors",
     },
   },
   {
-    id: "developer",
-    label: { ja: "開発者向け", en: "Developer" },
+    id: "document",
+    icon: FileStack,
+    label: { ja: "PDF・書類", en: "PDF & Documents" },
     description: {
-      ja: "エンジニア向けの開発支援ツール",
-      en: "Development tools for engineers",
+      ja: "PDFの結合・分割・請求書",
+      en: "Merge and split PDFs, create invoices",
+    },
+  },
+  {
+    id: "data",
+    icon: Braces,
+    label: { ja: "JSON・CSV", en: "JSON & CSV" },
+    description: {
+      ja: "整形・Excel・YAML・TOML",
+      en: "Formatting, Excel, YAML, TOML",
+    },
+  },
+  {
+    id: "web",
+    icon: Link2,
+    label: { ja: "Web・通信", en: "Web & Network" },
+    description: {
+      ja: "URL・Base64・cURL・HAR・QR",
+      en: "URL, Base64, cURL, HAR, QR codes",
+    },
+  },
+  {
+    id: "security",
+    icon: KeyRound,
+    label: { ja: "セキュリティ・ID", en: "Security & IDs" },
+    description: {
+      ja: "UUID・パスワード・JWT・ハッシュ",
+      en: "UUIDs, passwords, JWT, hashes",
+    },
+  },
+  {
+    id: "time",
+    icon: CalendarClock,
+    label: { ja: "日時・スケジュール", en: "Date & Time" },
+    description: {
+      ja: "タイムスタンプ・タイムゾーン・cron",
+      en: "Timestamps, time zones, cron",
+    },
+  },
+  {
+    id: "code",
+    icon: CodeXml,
+    label: { ja: "コード・DB", en: "Code & Database" },
+    description: {
+      ja: "SQL・Prisma・コード生成・図",
+      en: "SQL, Prisma, code generation, diagrams",
     },
   },
 ];
@@ -472,7 +521,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "web",
     icon: Binary,
     keywords: {
       ja: "base64 エンコード デコード 変換",
@@ -560,7 +609,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "web",
     icon: Link2,
     keywords: {
       ja: "url エンコード デコード クエリパラメータ",
@@ -648,7 +697,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "data",
     icon: FileJson,
     keywords: {
       ja: "json 整形 フォーマット minify typescript 型定義 interface 変換",
@@ -736,7 +785,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "data",
     icon: ArrowLeftRight,
     keywords: {
       ja: "YAML TOML JSON 変換 相互変換 設定ファイル 構文チェック バリデーション",
@@ -828,7 +877,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "data",
     icon: FileSpreadsheet,
     keywords: {
       ja: "csv json 変換 テーブル スプレッドシート",
@@ -916,7 +965,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "data",
     icon: Table,
     keywords: {
       ja: "csv 加工 編集 表 テーブル 行 列 追加 削除",
@@ -1008,7 +1057,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "data",
     icon: Sheet,
     keywords: {
       ja: "excel エクセル xlsx xls xlsm ods スプレッドシート csv json 変換 シート shift_jis",
@@ -1107,7 +1156,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "text",
     icon: NotebookText,
     keywords: {
       ja: "markdown マークダウン html 変換 プレビュー gfm エディタ ファイル 読み込み md ビューア",
@@ -1199,7 +1248,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "time",
     icon: CalendarClock,
     keywords: {
       ja: "Unix タイムスタンプ エポック 秒 ミリ秒 日時 変換 タイムゾーン ISO 8601 UTC JST 時差",
@@ -1285,7 +1334,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: Palette,
     keywords: {
       ja: "カラーコード 色変換 hex rgb hsl hsv cmyk コントラスト比 wcag アクセシビリティ",
@@ -1373,10 +1422,10 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: ImageDown,
     keywords: {
-      ja: "画像 画像圧縮 画像変換 フォーマット変換 jpeg png webp リサイズ",
+      ja: "画像 画像圧縮 画像変換 フォーマット変換 jpeg jpg png webp リサイズ 写真 軽く 小さく 縮小 容量削減",
       en: "image compress image converter format conversion jpeg png webp resize",
     },
     fileMatch: {
@@ -1465,7 +1514,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: ImagePlus,
     keywords: {
       ja: "スクリーンショット 画像編集 モザイク ぼかし トリミング 矢印 テキスト 余白 角丸 結合",
@@ -1559,7 +1608,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: ScanText,
     keywords: {
       ja: "ocr 文字認識 文字起こし 画像 テキスト 抽出 読み取り スクリーンショット 日本語 縦書き tesseract",
@@ -1641,7 +1690,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: Clapperboard,
     keywords: {
       ja: "動画 gif 変換 gifアニメ 圧縮 mp4 webm mov mkv 容量 小さく トリミング 画面録画 webcodecs",
@@ -1723,7 +1772,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: Scissors,
     keywords: {
       ja: "背景除去 背景透過 切り抜き 透過png 背景削除 被写体 ai 商品画像 白背景 背景ぼかし",
@@ -1815,7 +1864,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: ImageOff,
     keywords: {
       ja: "EXIF 位置情報 GPS 削除 メタデータ 写真 プライバシー 撮影情報 一括",
@@ -1907,7 +1956,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: Shapes,
     keywords: {
       ja: "SVG 最適化 圧縮 軽量化 svgo PNG 変換 ベクター アイコン ロゴ",
@@ -1999,7 +2048,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "media",
     icon: Sparkles,
     keywords: {
       ja: "ファビコン favicon ICO アイコン 生成 apple-touch-icon manifest.json PWA",
@@ -2091,7 +2140,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "web",
     icon: QrCode,
     keywords: {
       ja: "QRコード 生成 作成 読み取り スキャン URL 誤り訂正 SVG PNG",
@@ -2183,7 +2232,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "document",
     icon: FileStack,
     keywords: {
       ja: "PDF 結合 分割 抽出 ページ 並べ替え 回転 マージ 削除",
@@ -2265,7 +2314,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "converter",
+    category: "document",
     icon: ReceiptJapaneseYen,
     keywords: {
       ja: "請求書 見積書 納品書 領収書 インボイス 適格請求書 登録番号 消費税 軽減税率 源泉徴収 pdf フリーランス 個人事業主",
@@ -2353,7 +2402,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "text",
     icon: Regex,
     keywords: {
       ja: "正規表現 regex regexp テキスト抽出 パターンマッチ",
@@ -2441,7 +2490,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "data",
     icon: Braces,
     keywords: {
       ja: "JSONPath JSON クエリ 抽出 フィルター 検索 パス XPath API レスポンス",
@@ -2533,7 +2582,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "security",
     icon: Fingerprint,
     keywords: {
       ja: "ハッシュ hash md5 sha1 sha256 sha384 sha512 チェックサム",
@@ -2624,7 +2673,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "security",
     icon: KeyRound,
     keywords: {
       ja: "jwt json web token デコード 認証 header payload 有効期限",
@@ -2712,7 +2761,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "security",
     icon: FileBadge,
     keywords: {
       ja: "X.509 証明書 SSL TLS PEM デコード 有効期限 期限切れ SAN フィンガープリント CRT",
@@ -2782,7 +2831,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "security",
     icon: Fingerprint,
     keywords: {
       ja: "UUID GUID 生成 作成 ジェネレーター ID 一括 ランダム v4 v7 時刻順",
@@ -2870,7 +2919,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "security",
     icon: Dices,
     keywords: {
       ja: "UUID ULID GUID パスワード 生成 ランダム 乱数 ID 一括 v4 v7",
@@ -2958,7 +3007,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "web",
     icon: Activity,
     keywords: {
       ja: "har har解析 ネットワーク パフォーマンス セキュリティヘッダー devtools",
@@ -3038,7 +3087,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "web",
     icon: Terminal,
     keywords: {
       ja: "curl コード変換 fetch axios python requests c# httpclient go net/http api リクエスト 開発者ツール copy as curl",
@@ -3126,7 +3175,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "security",
     icon: EyeOff,
     keywords: {
       ja: "マスキング 伏せ字 ログ HAR 機密情報 Cookie トークン 個人情報 匿名化 墨消し",
@@ -3220,7 +3269,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: FolderTree,
     keywords: {
       ja: "フォルダ ディレクトリ 構成 階層 ツリー tree コマンド zip tar 圧縮ファイル 一覧 README",
@@ -3312,7 +3361,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "time",
     icon: Clock,
     keywords: {
       ja: "cron crontab cron式 スケジュール 定期実行 次回実行 解説 GitHub Actions",
@@ -3400,7 +3449,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: Database,
     keywords: {
       ja: "sql 整形 フォーマッター mysql postgresql クエリ",
@@ -3476,7 +3525,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: CodeXml,
     keywords: {
       ja: "html css scss less javascript typescript jsx 整形 フォーマット prettier minify 圧縮 terser csso beautify",
@@ -3568,7 +3617,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: DatabaseZap,
     keywords: {
       ja: "SQL DDL CREATE TABLE Prisma schema.prisma 変換 モデル マイグレーション PostgreSQL MySQL",
@@ -3650,7 +3699,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: Workflow,
     keywords: {
       ja: "mermaid マーメイド 図 フローチャート シーケンス図 er図 クラス図 状態遷移図 ガントチャート マインドマップ svg png 作図",
@@ -3744,7 +3793,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: Waypoints,
     keywords: {
       ja: "prisma schema er図 可視化 リレーション データモデル",
@@ -3832,7 +3881,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: ShieldCheck,
     keywords: {
       ja: "Prisma Zod スキーマ 生成 バリデーション schema.prisma TypeScript 型 変換",
@@ -3926,7 +3975,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: Layers,
     keywords: {
       ja: "prisma repository コード生成 デザインパターン typescript express di",
@@ -4017,7 +4066,7 @@ export const tools: Tool[] = [
         },
       },
     ],
-    category: "developer",
+    category: "code",
     icon: FlaskConical,
     keywords: {
       ja: "モックデータ mock repository テストコード vitest jest ダミーデータ typescript prisma",
@@ -4042,16 +4091,41 @@ export function getToolPath(locale: Locale, id: string): string {
   return `/${locale}/tools/${id}`;
 }
 
-export function searchTools(locale: Locale, query: string): Tool[] {
-  const normalized = query.trim().toLowerCase();
-  if (!normalized) return tools;
+function normalizeSearch(text: string): string {
+  return text.normalize("NFKC").toLowerCase();
+}
 
-  return tools.filter((tool) => {
-    const haystack = [tool.name[locale], tool.description[locale], tool.keywords[locale]]
-      .join(" ")
-      .toLowerCase();
-    return haystack.includes(normalized);
-  });
+export function searchTools(locale: Locale, query: string): Tool[] {
+  const normalized = normalizeSearch(query).trim();
+  if (!normalized) return tools;
+  const terms = normalized.split(/\s+/);
+
+  return tools
+    .map((tool) => {
+      const names = [tool.name[locale], ...Object.values(tool.name)].map(
+        normalizeSearch,
+      );
+      const haystack = normalizeSearch(
+        [
+          tool.id,
+          ...Object.values(tool.name),
+          ...Object.values(tool.description),
+          ...Object.values(tool.keywords),
+        ].join(" "),
+      );
+      const matches = terms.every((term) => haystack.includes(term));
+      const score = names.some((name) => name === normalized)
+        ? 3
+        : names.some((name) => name.startsWith(normalized))
+          ? 2
+          : names.some((name) => terms.every((term) => name.includes(term)))
+            ? 1
+            : 0;
+      return { tool, matches, score };
+    })
+    .filter(({ matches }) => matches)
+    .sort((a, b) => b.score - a.score)
+    .map(({ tool }) => tool);
 }
 
 function getFileExtension(fileName: string): string {

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { FileUp, UploadCloud, X } from "lucide-react";
+import { UploadCloud, X } from "lucide-react";
 
 import { ToolCard } from "@/components/home/tool-card";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import { cn, formatTemplate } from "@/lib/utils";
 export function SmartDrop() {
   const locale = useLocale();
   const dict = getDictionary(locale).smartDrop;
+  const discovery = getDictionary(locale).discovery;
 
   const [file, setFile] = React.useState<File | null>(null);
   const [isDragActive, setIsDragActive] = React.useState(false);
@@ -22,10 +23,10 @@ export function SmartDrop() {
 
   const matches = React.useMemo(
     () => (file ? getToolsForFile(file) : []),
-    [file]
+    [file],
   );
 
-  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+  function handleDrop(e: React.DragEvent<HTMLButtonElement>) {
     e.preventDefault();
     setIsDragActive(false);
     const dropped = e.dataTransfer.files?.[0];
@@ -43,12 +44,7 @@ export function SmartDrop() {
   }
 
   return (
-    <section className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-xl font-semibold">{dict.heading}</h2>
-        <p className="text-sm text-muted-foreground">{dict.description}</p>
-      </div>
-
+    <section className="flex flex-col gap-3" aria-label={dict.heading}>
       {file ? (
         <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border p-3 text-sm">
           <div className="flex flex-col gap-0.5">
@@ -63,7 +59,8 @@ export function SmartDrop() {
           </Button>
         </div>
       ) : (
-        <div
+        <button
+          type="button"
           onDragOver={(e) => {
             e.preventDefault();
             setIsDragActive(true);
@@ -71,49 +68,33 @@ export function SmartDrop() {
           onDragLeave={() => setIsDragActive(false)}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              fileInputRef.current?.click();
-            }
-          }}
           className={cn(
-            "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed p-8 text-center transition-colors",
-            isDragActive ? "border-primary bg-primary/5" : "border-border"
+            "flex min-h-16 cursor-pointer flex-wrap items-center gap-3 rounded-xl border border-dashed p-4 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2",
+            isDragActive ? "border-primary bg-primary/5" : "border-border",
           )}
         >
           <UploadCloud
             className={cn(
-              "size-8",
-              isDragActive ? "text-primary" : "text-muted-foreground"
+              "size-5 shrink-0",
+              isDragActive ? "text-primary" : "text-muted-foreground",
             )}
             aria-hidden="true"
           />
-          <p className="text-sm font-medium">
-            {isDragActive ? dict.dropActive : dict.dropLabel}
-          </p>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              fileInputRef.current?.click();
-            }}
-          >
-            <FileUp className="size-4" />
+          <span className="text-sm font-medium">
+            {isDragActive ? dict.dropActive : discovery.dropCompact}
+          </span>
+          <span className="ml-auto text-xs text-muted-foreground underline underline-offset-4">
             {dict.chooseFile}
-          </Button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            className="hidden"
-            onChange={handleFileInputChange}
-          />
-        </div>
+          </span>
+        </button>
       )}
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        onChange={handleFileInputChange}
+        aria-label={dict.chooseFile}
+      />
 
       {file &&
         (matches.length > 0 ? (

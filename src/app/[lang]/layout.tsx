@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
+import { ToolHistoryTracker } from "@/components/layout/tool-history-tracker";
 import { SyncHtmlLang } from "@/components/sync-html-lang";
 import { siteConfig, getSiteText } from "@/config/site";
 import { ogImage, twitterImage } from "@/config/og-image";
@@ -55,6 +56,7 @@ export default async function LocaleLayout(props: LayoutProps<"/[lang]">) {
   return (
     <>
       <SyncHtmlLang lang={lang} />
+      <ToolHistoryTracker />
       <Header lang={lang} />
       <div className="flex flex-1">
         <Sidebar />
