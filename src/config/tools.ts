@@ -26,6 +26,7 @@ import {
   KeyRound,
   Layers,
   Link2,
+  LockKeyhole,
   NotebookText,
   Palette,
   QrCode,
@@ -2505,37 +2506,37 @@ export const tools: Tool[] = [
     id: "hash-generator",
     name: { ja: "ハッシュ値生成・照合", en: "Hash Generator & Checker" },
     description: {
-      ja: "MD5/SHA-1/SHA-256/SHA-384/SHA-512を計算し、期待値と照合します。",
-      en: "Compute MD5, SHA-1, SHA-256, SHA-384, and SHA-512, and compare against an expected value.",
+      ja: "MD5・SHA-1/2・SHA-3・BLAKE2/3・CRC32など17種類のハッシュ値を計算し、期待値と照合します。",
+      en: "Compute 17 hashes including MD5, SHA-1/2, SHA-3, BLAKE2/3, and CRC32, and compare against an expected value.",
     },
     longDescription: {
-      ja: "テキストやファイルからMD5・SHA-1・SHA-256・SHA-384・SHA-512のハッシュ値をWeb Crypto APIでブラウザ内で計算できるツールです。ファイルのドラッグ＆ドロップに対応し、期待値との一致（Match/Mismatch）判定も行えます。",
-      en: "A tool that computes MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or a file using the Web Crypto API, right in your browser. It supports drag-and-drop file input and can check whether a hash matches an expected value.",
+      ja: "テキストやファイルからMD5・SHA-1・SHA-2（SHA-224/256/384/512）・SHA-3・Keccak-256・BLAKE2b/BLAKE2s・BLAKE3・RIPEMD-160・CRC32・xxHash64のハッシュ値をブラウザ内で計算できるツールです。ファイルのドラッグ＆ドロップに対応し、期待値との一致（Match/Mismatch）判定も行えます。",
+      en: "A tool that computes MD5, SHA-1, SHA-2 (SHA-224/256/384/512), SHA-3, Keccak-256, BLAKE2b/BLAKE2s, BLAKE3, RIPEMD-160, CRC32, and xxHash64 hashes from text or a file, right in your browser. It supports drag-and-drop file input and can check whether a hash matches an expected value.",
     },
     howToUse: {
       ja: [
         "テキストを入力するか、ファイルをドラッグ＆ドロップ（または「ファイルを選択」）します。",
-        "MD5・SHA-1・SHA-256・SHA-384・SHA-512の各ハッシュ値がリアルタイムに計算され、一覧表示されます。",
+        "MD5・SHA-2・SHA-3・BLAKE・CRC32などの各ハッシュ値がリアルタイムに計算され、系統ごとに一覧表示されます。",
         "各ハッシュ値はコピーボタンでクリップボードにコピーできます。",
-        "配布元などで公開されている「期待値」のハッシュ値を入力欄に貼り付けると、一致する行に「Match」、一致しない行に「Mismatch」と表示されます。",
+        "配布元などで公開されている「期待値」のハッシュ値を入力欄に貼り付けると、一致する行に「Match」、一致しない行に「Mismatch」と表示され、どのアルゴリズムと一致したかもまとめて表示されます。",
       ],
       en: [
         "Type text, or drag and drop a file (or click \"Choose file\").",
-        "MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes are computed in real time and listed.",
+        "MD5, SHA-2, SHA-3, BLAKE, CRC32, and other hashes are computed in real time and listed by family.",
         "Each hash can be copied to the clipboard with its copy button.",
-        "Paste an \"expected\" hash value published by a distributor into the input field, and the matching row shows \"Match\" while a mismatched row shows \"Mismatch\".",
+        "Paste an \"expected\" hash value published by a distributor into the input field, and the matching row shows \"Match\" while a mismatched row shows \"Mismatch\". A summary also tells you which algorithm matched.",
       ],
     },
     about: {
       paragraphs: {
         ja: [
-          "ハッシュ値生成・照合ツールは、テキストやファイルからMD5・SHA-1・SHA-256・SHA-384・SHA-512のハッシュ値をブラウザ内で計算できるツールです。ダウンロードしたファイルの改ざん検知や、配布されているチェックサムとの照合、APIキーやパスワードのハッシュ化の動作確認などに利用できます。",
-          "SHA-1・SHA-256・SHA-384・SHA-512の計算にはブラウザ標準のWeb Crypto API（SubtleCrypto）を使用しています。MD5はセキュリティ上の理由からWeb Crypto APIには実装されていないため、本ツールでは検証済みの純粋なJavaScript実装によって計算しています。",
+          "ハッシュ値生成・照合ツールは、テキストやファイルからMD5・SHA-1・SHA-2・SHA-3・BLAKE2・BLAKE3・RIPEMD-160・CRC32・xxHash64など17種類のハッシュ値をブラウザ内で計算できるツールです。ダウンロードしたファイルの改ざん検知や、配布されているチェックサムとの照合、APIキーのハッシュ化やEthereumアドレス計算（Keccak-256）の動作確認などに利用できます。パスワードの保存用ハッシュ（Argon2id・bcryptなど）は「パスワードハッシュ生成・検証」ツールを使ってください。",
+          "SHA-1・SHA-256・SHA-384・SHA-512の計算にはブラウザ標準のWeb Crypto API（SubtleCrypto）を使用しています。MD5はセキュリティ上の理由からWeb Crypto APIには実装されていないため、検証済みの純粋なJavaScript実装で計算しています。SHA-224・SHA-3・BLAKE・RIPEMD-160・CRC32・xxHash64はWeb Crypto APIにないため、WebAssembly実装（hash-wasm）で計算しています。",
           "ファイルはサイズの大きなものでも、ブラウザのメモリが許す範囲であれば処理できます。ファイルの中身がサーバーに送信されることはありません。",
         ],
         en: [
-          "This tool computes MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or a file, right in your browser. It's useful for detecting tampering in a downloaded file, checking it against a published checksum, or verifying the hashing behavior of an API key or password.",
-          "SHA-1, SHA-256, SHA-384, and SHA-512 are computed using the browser's standard Web Crypto API (SubtleCrypto). MD5 isn't implemented in the Web Crypto API for security reasons, so this tool uses a verified pure JavaScript implementation for it instead.",
+          "This tool computes 17 hashes, including MD5, SHA-1, SHA-2, SHA-3, BLAKE2, BLAKE3, RIPEMD-160, CRC32, and xxHash64, from text or a file, right in your browser. It's useful for detecting tampering in a downloaded file, checking it against a published checksum, or verifying how an API key is hashed or an Ethereum address is derived (Keccak-256). For password storage hashes such as Argon2id and bcrypt, use the Password Hash Generator & Verifier tool.",
+          "SHA-1, SHA-256, SHA-384, and SHA-512 are computed using the browser's standard Web Crypto API (SubtleCrypto). MD5 isn't implemented in the Web Crypto API for security reasons, so a verified pure JavaScript implementation is used instead. SHA-224, SHA-3, BLAKE, RIPEMD-160, CRC32, and xxHash64 aren't in the Web Crypto API either, so they're computed with a WebAssembly implementation (hash-wasm).",
           "Even large files can be processed as long as your browser's memory allows it. File contents are never sent to a server.",
         ],
       },
@@ -2573,23 +2574,123 @@ export const tools: Tool[] = [
       },
       {
         question: {
+          ja: "SHA3-256とKeccak-256の値が違うのはなぜですか？",
+          en: "Why are SHA3-256 and Keccak-256 different?",
+        },
+        answer: {
+          ja: "Keccak-256はSHA-3として標準化される前のKeccakで、パディングの規則だけがSHA3-256と異なります。EthereumやSolidityの keccak256 はこちらを使うため、両方を表示しています。",
+          en: "Keccak-256 is the original Keccak before it was standardized as SHA-3; only the padding rule differs from SHA3-256. Ethereum and Solidity's keccak256 use it, so both are shown.",
+        },
+      },
+      {
+        question: {
           ja: "入力したファイルやテキストはサーバーに送信されますか？",
           en: "Is my input file or text sent to a server?",
         },
         answer: {
-          ja: "送信されません。ハッシュ計算はすべてブラウザ内のWeb Crypto APIおよびJavaScriptで実行されます。",
-          en: "No. Hash computation all happens in your browser using the Web Crypto API and JavaScript.",
+          ja: "送信されません。ハッシュ計算はすべてブラウザ内のWeb Crypto API・JavaScript・WebAssemblyで実行されます。",
+          en: "No. Hash computation all happens in your browser using the Web Crypto API, JavaScript, and WebAssembly.",
         },
       },
     ],
     category: "security",
     icon: Fingerprint,
     keywords: {
-      ja: "ハッシュ hash md5 sha1 sha256 sha384 sha512 チェックサム",
-      en: "hash md5 sha1 sha256 sha384 sha512 checksum",
+      ja: "ハッシュ hash md5 sha1 sha224 sha256 sha384 sha512 sha3 keccak blake2 blake3 ripemd160 crc32 xxhash チェックサム",
+      en: "hash md5 sha1 sha224 sha256 sha384 sha512 sha3 keccak blake2 blake3 ripemd160 crc32 xxhash checksum",
     },
     fileMatch: {
       any: true,
+    },
+  },
+  {
+    id: "password-hash",
+    name: { ja: "パスワードハッシュ生成・検証（Argon2id/bcrypt）", en: "Password Hash Generator & Verifier (Argon2id/bcrypt)" },
+    description: {
+      ja: "Argon2id・bcrypt・scrypt・PBKDF2でパスワードハッシュを生成し、既存のハッシュと照合します。",
+      en: "Generate password hashes with Argon2id, bcrypt, scrypt, or PBKDF2, and verify existing hashes.",
+    },
+    longDescription: {
+      ja: "Argon2id・Argon2i・Argon2d・bcrypt・scrypt・PBKDF2でパスワードハッシュをブラウザ内で生成できるツールです。メモリ量・反復回数・コストなどのパラメータやソルトを指定でき、Argon2のPHC文字列やbcryptのハッシュがパスワードと一致するかの検証もできます。",
+      en: "A tool that generates password hashes with Argon2id, Argon2i, Argon2d, bcrypt, scrypt, and PBKDF2 right in your browser. You can set parameters such as memory, iterations, and cost, choose the salt, and verify whether an Argon2 PHC string or bcrypt hash matches a password.",
+    },
+    howToUse: {
+      ja: [
+        "「ハッシュ生成」タブでアルゴリズム（Argon2・bcrypt・scrypt・PBKDF2）を選びます。",
+        "パスワードを入力します。ソルトは自動でランダムに生成されますが、既存のハッシュを再現したい場合は16進数またはテキストで指定できます。",
+        "必要に応じてメモリ量・反復回数・並列度・コストなどのパラメータを調整し、「ハッシュを生成」を押します。初期値はOWASPの推奨値です。",
+        "Argon2・bcryptはそのまま保存できるエンコード済み文字列、scrypt・PBKDF2は16進数・Base64のハッシュが表示され、コピーできます。",
+        "「ハッシュ検証」タブにハッシュ文字列とパスワードを入力して「照合する」を押すと、一致するかどうかを判定できます。",
+      ],
+      en: [
+        "On the Generate tab, choose an algorithm (Argon2, bcrypt, scrypt, or PBKDF2).",
+        "Enter the password. A random salt is generated automatically, or you can enter one in hex or text to reproduce an existing hash.",
+        "Adjust parameters such as memory, iterations, parallelism, or cost if needed, and click \"Generate hash\". The defaults follow OWASP recommendations.",
+        "Argon2 and bcrypt produce an encoded string ready to store; scrypt and PBKDF2 show the hash in hex and Base64. Each can be copied.",
+        "On the Verify tab, enter a hash string and a password and click \"Verify\" to check whether they match.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "パスワードハッシュ生成・検証ツールは、パスワードの保存に使う「遅いハッシュ関数（鍵導出関数）」をブラウザ内で計算できるツールです。SHA-256のような高速なハッシュは総当たり攻撃に弱いため、パスワードの保存には計算コストを調整できるArgon2id・bcrypt・scrypt・PBKDF2を使うのが一般的です。",
+          "Argon2idはPassword Hashing Competitionの優勝方式で、OWASPが最初に推奨しているアルゴリズムです。生成結果は $argon2id$v=19$m=19456,t=2,p=1$<ソルト>$<ハッシュ> というPHC文字列形式で出力され、各言語のArgon2ライブラリでそのまま検証できます。bcryptは $2a$<コスト>$... 形式で出力され、PHPの $2y$ 形式の検証にも対応しています。",
+          "計算はWeb Worker上のWebAssembly実装（hash-wasm）とWeb Crypto APIで行うため、重いパラメータでも画面が固まらず、途中で中止することもできます。入力したパスワードやソルトがサーバーに送信されることはありません。",
+        ],
+        en: [
+          "This tool computes the slow hash functions (key derivation functions) used to store passwords, right in your browser. Fast hashes like SHA-256 are vulnerable to brute-force attacks, so passwords are normally stored with Argon2id, bcrypt, scrypt, or PBKDF2, whose cost can be tuned.",
+          "Argon2id won the Password Hashing Competition and is OWASP's first recommendation. Results are output as a PHC string such as $argon2id$v=19$m=19456,t=2,p=1$<salt>$<hash>, which Argon2 libraries in any language can verify directly. bcrypt is output in $2a$<cost>$... format, and PHP's $2y$ format can be verified too.",
+          "Hashing runs in a Web Worker using a WebAssembly implementation (hash-wasm) and the Web Crypto API, so the page stays responsive even with heavy parameters, and you can cancel midway. Your password and salt are never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: {
+          ja: "どのアルゴリズムとパラメータを使えばよいですか？",
+          en: "Which algorithm and parameters should I use?",
+        },
+        answer: {
+          ja: "新規システムではArgon2id（メモリ19MiB・反復2回・並列度1以上）が推奨されます。Argon2が使えない環境ではscrypt（N=2^17・r=8・p=1）、既存システムとの互換性が必要ならbcrypt（コスト10以上）、FIPS準拠が必要ならPBKDF2-HMAC-SHA256（600,000回以上）を選びます。本ツールの初期値はこれらのOWASP推奨値です。",
+          en: "For new systems, Argon2id (19 MiB of memory, 2 iterations, parallelism 1 or more) is recommended. Where Argon2 isn't available, use scrypt (N=2^17, r=8, p=1); for compatibility with existing systems, bcrypt (cost 10 or more); and where FIPS compliance is required, PBKDF2-HMAC-SHA256 (600,000 iterations or more). This tool's defaults are these OWASP recommendations.",
+        },
+      },
+      {
+        question: {
+          ja: "同じパスワードでも生成するたびに結果が変わるのはなぜですか？",
+          en: "Why does the result change every time for the same password?",
+        },
+        answer: {
+          ja: "ソルト（ランダムな値）が毎回変わるためです。ソルトによって同じパスワードでも異なるハッシュになり、事前計算した表を使った攻撃を防げます。同じ結果を得たい場合は、同じソルトとパラメータを指定してください。",
+          en: "Because the salt (a random value) changes each time. The salt makes the same password produce different hashes, which defeats attacks using precomputed tables. To get the same result, specify the same salt and parameters.",
+        },
+      },
+      {
+        question: {
+          ja: "bcryptで長いパスワードがエラーになります。",
+          en: "bcrypt rejects my long password.",
+        },
+        answer: {
+          ja: "bcryptは仕様上、パスワードの先頭72バイトまでしか扱えません。日本語などのマルチバイト文字は1文字あたり3バイト程度になるため注意してください。長いパスワードを扱う場合はArgon2idを使うことをおすすめします。",
+          en: "By design, bcrypt only uses the first 72 bytes of a password, and multibyte characters take several bytes each. For long passwords, Argon2id is recommended.",
+        },
+      },
+      {
+        question: {
+          ja: "入力したパスワードはサーバーに送信されますか？",
+          en: "Is my password sent to a server?",
+        },
+        answer: {
+          ja: "送信されません。ハッシュの生成・検証はすべてブラウザ内のWeb WorkerとWeb Crypto APIで実行されます。",
+          en: "No. Generating and verifying hashes all happens in your browser using a Web Worker and the Web Crypto API.",
+        },
+      },
+    ],
+    category: "security",
+    icon: LockKeyhole,
+    keywords: {
+      ja: "パスワード ハッシュ ハッシュ化 argon2 argon2id argon2i bcrypt scrypt pbkdf2 ソルト 鍵導出 検証 照合 PHC",
+      en: "password hash hashing argon2 argon2id argon2i bcrypt scrypt pbkdf2 salt key derivation kdf verify phc",
     },
   },
   {

@@ -19,6 +19,25 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-15",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "パスワードハッシュ生成・検証ツールを追加（Argon2id/Argon2i/Argon2d・bcrypt・scrypt・PBKDF2、パラメータ・ソルト指定とハッシュの照合に対応）",
+          en: "Added a password hash generator and verifier (Argon2id/Argon2i/Argon2d, bcrypt, scrypt, and PBKDF2, with custom parameters and salts, plus hash verification)",
+        },
+      },
+      {
+        type: "improvement",
+        title: {
+          ja: "ハッシュ値生成・照合ツールにSHA-224・SHA-3・Keccak-256・BLAKE2b/BLAKE2s・BLAKE3・RIPEMD-160・CRC32・xxHash64を追加",
+          en: "Added SHA-224, SHA-3, Keccak-256, BLAKE2b/BLAKE2s, BLAKE3, RIPEMD-160, CRC32, and xxHash64 to the hash generator",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-10-11",
     entries: [
       {
