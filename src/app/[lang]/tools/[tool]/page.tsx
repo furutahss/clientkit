@@ -27,6 +27,7 @@ import {
   InvoiceGeneratorTool,
   MermaidEditorTool,
   OcrTool,
+  PasswordHashTool,
   TextNormalizerTool,
   VideoConverterTool,
 } from "@/components/tools/lazy-tools";
@@ -64,6 +65,7 @@ const toolComponents: Record<string, ComponentType> = {
   "regex-tester": RegexTesterTool,
   "url-encoder": UrlEncoderTool,
   "hash-generator": HashGeneratorTool,
+  "password-hash": PasswordHashTool,
   "sql-formatter": SqlFormatterTool,
   "color-converter": ColorConverterTool,
   "jwt-decoder": JwtDecoderTool,

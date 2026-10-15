@@ -20,3 +20,4 @@ export const VideoConverterTool = dynamic(() => import("@/components/tools/video
 export const BackgroundRemoverTool = dynamic(() =>
   import("@/components/tools/background-remover-tool").then((m) => m.BackgroundRemoverTool)
 );
+export const PasswordHashTool = dynamic(() => import("@/components/tools/password-hash-tool").then((m) => m.PasswordHashTool));
