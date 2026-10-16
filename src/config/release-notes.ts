@@ -19,6 +19,60 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-17",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "JSON構造比較ツールを追加",
+          en: "Added a JSON structural diff tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "CSV突合・差分抽出ツールを追加",
+          en: "Added a CSV reconcile and diff tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "Unicode・不可視文字解析ツールを追加",
+          en: "Added a Unicode and invisible character inspector",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "JSON Schemaバリデーターを追加（Draft 2020-12対応）",
+          en: "Added a JSON Schema validator (Draft 2020-12)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: ".env比較・整合チェックツールを追加",
+          en: "Added a .env compare and check tool",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "画像差分ビューアを追加（スライダー・重ね合わせ・ピクセル差分）",
+          en: "Added an image diff viewer (slider, overlay, and pixel diff)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "CSV・JSONからSQL INSERT文を生成するツールを追加（PostgreSQL向け）",
+          en: "Added a CSV / JSON to SQL INSERT generator (PostgreSQL)",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-10-15",
     entries: [
       {

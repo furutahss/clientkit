@@ -9,7 +9,9 @@ import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
 import { CsvJsonConverterTool } from "@/components/tools/csv-json-converter-tool";
+import { CsvReconcileTool } from "@/components/tools/csv-reconcile-tool";
 import { DataFormatConverterTool } from "@/components/tools/data-format-converter-tool";
+import { EnvCompareTool } from "@/components/tools/env-compare-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
 import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool";
 import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
@@ -17,7 +19,10 @@ import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { IdGeneratorTool, UuidGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
+import { ImageDiffTool } from "@/components/tools/image-diff-tool";
+import { JsonDiffTool } from "@/components/tools/json-diff-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
+import { JsonSchemaValidatorTool } from "@/components/tools/json-schema-validator-tool";
 import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
 import {
   BackgroundRemoverTool,
@@ -43,12 +48,14 @@ import { QrCodeTool } from "@/components/tools/qr-code-tool";
 import { RegexTesterTool } from "@/components/tools/regex-tester-tool";
 import { ScreenshotEditorTool } from "@/components/tools/screenshot-editor-tool";
 import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
+import { SqlInsertGeneratorTool } from "@/components/tools/sql-insert-generator-tool";
 import { SqlToPrismaTool } from "@/components/tools/sql-to-prisma-tool";
 import { SvgOptimizerTool } from "@/components/tools/svg-optimizer-tool";
 import { TextDiffTool } from "@/components/tools/text-diff-tool";
 import { TimestampConverterTool } from "@/components/tools/timestamp-converter-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
+import { UnicodeInspectorTool } from "@/components/tools/unicode-inspector-tool";
 import { UrlEncoderTool } from "@/components/tools/url-encoder-tool";
 import { siteConfig } from "@/config/site";
 import { getToolById, tools } from "@/config/tools";
@@ -101,6 +108,13 @@ const toolComponents: Record<string, ComponentType> = {
   "text-normalizer": TextNormalizerTool,
   "video-converter": VideoConverterTool,
   "background-remover": BackgroundRemoverTool,
+  "unicode-inspector": UnicodeInspectorTool,
+  "json-diff": JsonDiffTool,
+  "json-schema-validator": JsonSchemaValidatorTool,
+  "env-compare": EnvCompareTool,
+  "csv-reconcile": CsvReconcileTool,
+  "image-diff": ImageDiffTool,
+  "sql-insert-generator": SqlInsertGeneratorTool,
 };
 
 export function generateStaticParams() {
