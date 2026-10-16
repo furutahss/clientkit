@@ -170,3 +170,46 @@ export function tableToCsvText(
   }
   return lines.join("\r\n");
 }
+
+/** ヘッダー付きCSVを読み込んだ結果。レコード番号はヘッダーを1とした番号 */
+export type CsvTable = {
+  headers: string[];
+  rows: { record: number; cells: string[] }[];
+};
+
+export type CsvTableError =
+  | { type: "empty" }
+  | { type: "duplicateHeader"; column: string }
+  | { type: "emptyHeader"; index: number }
+  | { type: "fieldCount"; record: number; expected: number; actual: number };
+
+/** ヘッダー付きCSVを解析する。BOMは除去する。値はすべて文字列のまま保持する */
+export function parseCsvTable(text: string, delimiter: string): { table?: CsvTable; errors: CsvTableError[] } {
+  const records = parseCsv(text.replace(/^\uFEFF/, ""), delimiter).map((cells, index) => ({
+    record: index + 1,
+    cells,
+  }));
+  const [header, ...body] = records;
+  if (!header || (header.cells.length === 1 && header.cells[0] === "")) return { errors: [{ type: "empty" }] };
+  // 空行は読み飛ばす。ただし1列のCSVでは空行と空の値を区別できないため、末尾以外は値として残す
+  const isBlank = ({ cells }: { cells: string[] }) => cells.length === 1 && cells[0] === "";
+  const rows = header.cells.length === 1 ? body.slice(0, body.findLastIndex((row) => !isBlank(row)) + 1) : body.filter((row) => !isBlank(row));
+  const errors: CsvTableError[] = [];
+  const seen = new Set<string>();
+  header.cells.forEach((column, index) => {
+    if (column === "") errors.push({ type: "emptyHeader", index: index + 1 });
+    else if (seen.has(column)) errors.push({ type: "duplicateHeader", column });
+    seen.add(column);
+  });
+  for (const row of rows) {
+    if (row.cells.length !== header.cells.length) {
+      errors.push({
+        type: "fieldCount",
+        record: row.record,
+        expected: header.cells.length,
+        actual: row.cells.length,
+      });
+    }
+  }
+  return errors.length > 0 ? { errors } : { table: { headers: header.cells, rows }, errors };
+}

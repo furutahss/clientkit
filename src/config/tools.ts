@@ -1,5 +1,14 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  DatabaseBackup,
+  FileCheck,
+  FileDiff,
+  FileKey,
+  ScanText,
+  SquareSplitHorizontal,
+  TableProperties,
+} from "lucide-react";
+import {
   Activity,
   ArrowLeftRight,
   Binary,
@@ -297,6 +306,79 @@ export const tools: Tool[] = [
     },
     fileMatch: {
       mimeTypes: ["text/plain"],
+      extensions: ["txt"],
+    },
+  },
+  {
+    id: "unicode-inspector",
+    name: { ja: "Unicode・不可視文字解析", en: "Unicode & Invisible Character Inspector" },
+    description: {
+      ja: "空白・改行・ゼロ幅文字などの不可視文字を可視化し、コードポイントと正規化の結果を確認します。",
+      en: "Reveal invisible characters such as special spaces, line breaks, and zero-width characters, and inspect code points and normalization.",
+    },
+    longDescription: {
+      ja: "テキストに含まれる半角・全角スペース、NBSP、ゼロ幅スペース、改行コード（LF・CRLF・CR）などを可視化し、文字ごとのコードポイントと位置を表示するツールです。絵文字や結合文字の構成要素、NFC・NFD・NFKC・NFKDの正規化結果も確認でき、すべてブラウザ内で処理されます。",
+      en: "A tool that makes regular and full-width spaces, NBSP, zero-width spaces, and line endings (LF, CRLF, CR) visible, and shows each character's code point and position. You can also inspect the parts of emoji and combining characters and the NFC, NFD, NFKC, and NFKD normalization results — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "調べたいテキストを入力欄に貼り付けます。",
+        "「可視化」で、不可視文字や特殊な空白、改行コードが色付きのラベルで表示されます。",
+        "「文字ごとの詳細」で、各文字のコードポイント・位置・種別を確認します。不可視文字だけに絞り込むこともできます。",
+        "「Unicode正規化」で、各正規化形式の結果と元の文字列との違いを確認し、必要に応じてコピーします。",
+      ],
+      en: [
+        "Paste the text you want to inspect into the input field.",
+        "Under \"Visualized\", invisible characters, special spaces, and line endings appear as highlighted labels.",
+        "Under \"Character details\", check each character's code point, position, and kind. You can filter to invisible characters only.",
+        "Under \"Unicode normalization\", compare each normalization form with the input and copy the result if needed.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "見た目が同じ文字列なのに検索や入力チェックで一致しない場合、原因はNBSP（ノーブレークスペース）や全角スペース、ゼロ幅スペース、改行コードの違い、Unicode正規化の違いであることがよくあります。このツールでは、こうした目に見えない違いを文字単位で確認できます。",
+          "文字は「見た目の1文字」（書記素）ごとに区切って表示するため、絵文字がサロゲートペアの片割れに分かれることはありません。家族の絵文字や、濁点を結合文字で表した「か゛」のように複数のコードポイントで構成される文字は、その構成要素も表示します。",
+          "正規化の結果は確認・コピー用で、元の入力に自動で適用されることはありません。入力したテキストがサーバーへ送信されることもありません。",
+        ],
+        en: [
+          "When strings that look identical fail to match in a search or validation, the cause is often an NBSP (no-break space), a full-width space, a zero-width space, different line endings, or different Unicode normalization. This tool lets you see those invisible differences character by character.",
+          "Text is split into visible characters (grapheme clusters), so emoji are never broken into halves of a surrogate pair. Characters made of several code points, such as family emoji or letters with combining accents, show each of their components.",
+          "Normalized results are only for review and copying and are never applied to your input automatically. Nothing you enter is sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "「見た目の文字数」と「コードポイント数」が違うのはなぜですか？", en: "Why do \"Visible characters\" and \"Code points\" differ?" },
+        answer: {
+          ja: "絵文字の組み合わせや結合文字は、複数のコードポイントで1文字として表示されるためです。また、JavaScriptの length はUTF-16の単位数を数えるため、絵文字1文字が2になることがあります。",
+          en: "Combined emoji and combining characters display as one character made of several code points. JavaScript's length counts UTF-16 units, so a single emoji can count as 2.",
+        },
+      },
+      {
+        question: { ja: "NFCとNFKCはどう違いますか？", en: "What's the difference between NFC and NFKC?" },
+        answer: {
+          ja: "NFCは見た目と意味が同じ文字を1つの形にそろえます。NFKCはさらに互換文字（全角英数字や半角カナ、丸数字など）も標準的な文字に変換するため、元の文字列から見た目が変わる場合があります。",
+          en: "NFC unifies characters that look and mean the same into one form. NFKC also converts compatibility characters (such as full-width letters, half-width katakana, and circled numbers) into standard ones, so the text may look different afterward.",
+        },
+      },
+      {
+        question: { ja: "すべての文字の名前を表示できますか？", en: "Can it show the name of every character?" },
+        answer: {
+          ja: "初期版では、空白・改行・ゼロ幅文字・双方向制御文字など、問題になりやすい文字の名前だけを表示します。その他の文字はコードポイントで確認してください。",
+          en: "This version names only characters that commonly cause problems, such as spaces, line breaks, zero-width characters, and bidirectional controls. For other characters, use the code point.",
+        },
+      },
+    ],
+    category: "text",
+    icon: ScanText,
+    keywords: {
+      ja: "unicode ユニコード 不可視文字 ゼロ幅スペース nbsp 全角スペース 改行コード crlf lf コードポイント 正規化 nfc nfkc 絵文字 サロゲート",
+      en: "unicode invisible character zero width space nbsp line ending crlf lf code point normalization nfc nfd nfkc nfkd emoji surrogate",
+    },
+    fileMatch: {
+      mimePrefixes: ["text/"],
       extensions: ["txt"],
     },
   },
@@ -1927,6 +2009,148 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "json-diff",
+    name: { ja: "JSON構造比較", en: "JSON Structural Diff" },
+    description: {
+      ja: "2つのJSONをキーの順序や整形に左右されずに比較し、追加・削除・変更をパスつきで一覧表示します。",
+      en: "Compare two JSON documents regardless of key order or formatting, and list additions, removals, and changes by path.",
+    },
+    longDescription: {
+      ja: "APIレスポンスや設定ファイルなど2つのJSONを、構造に基づいて比較するツールです。オブジェクトのキーの順序や空白・インデントの違いは無視し、追加・削除・値の変更を対象のパスと変更前後の値つきで表示します。すべてブラウザ内で処理されます。",
+      en: "A tool that compares two JSON documents, such as API responses or config files, by structure. Key order, whitespace, and indentation are ignored, and additions, removals, and value changes are listed with their paths and before/after values — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左に変更前、右に変更後のJSONを貼り付けるか、ファイルを読み込みます。",
+        "差分が自動で計算され、「追加」「削除」「変更」がパスと変更前後の値つきで表示されます。",
+        "JSONに構文エラーがある場合は、左右どちらの何行目に問題があるかが表示されます。",
+        "「コピー」で差分の一覧をタブ区切りのテキストとしてコピーできます。",
+      ],
+      en: [
+        "Paste the original JSON on the left and the changed JSON on the right, or load files.",
+        "Differences are calculated automatically and listed as Added, Removed, or Changed with their paths and values.",
+        "If either side has a syntax error, the side and line number are shown.",
+        "Use \"Copy\" to copy the list of differences as tab-separated text.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "通常のテキスト差分では、キーの並び順や整形が違うだけでも大量の差分が出てしまいます。JSON構造比較ツールは、JSONを解析したうえで値同士を比較するため、意味のある変更だけを確認できます。",
+          "オブジェクトはキーで、配列はインデックス順で比較します。存在しないキーと null、数値の 1 と文字列の \"1\" は別の値として扱います。パスは $.user.name のような形式で、キーにドットや記号が含まれる場合は $[\"a.b\"] のように表記するため、対象を正確に特定できます。",
+          "配列内のオブジェクトをIDで突き合わせたり、並べ替えを検出したりする機能は現在ありません。入力したJSONがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "A plain text diff reports many changes even when only key order or formatting differs. The JSON Structural Diff parses both documents and compares their values, so you see only meaningful changes.",
+          "Objects are compared by key and arrays by index. A missing key and null, or the number 1 and the string \"1\", are treated as different. Paths look like $.user.name, and keys containing dots or symbols are written as $[\"a.b\"], so every location is unambiguous.",
+          "Matching array items by ID or detecting reordering is not supported yet. Your JSON is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "キーの順序が違うだけのJSONはどうなりますか？", en: "What happens if only the key order differs?" },
+        answer: {
+          ja: "差分なしと表示されます。空白やインデント、改行の違いも無視されます。",
+          en: "It's reported as identical. Differences in whitespace, indentation, and line breaks are ignored too.",
+        },
+      },
+      {
+        question: { ja: "配列の要素の順番が変わった場合は？", en: "What if array items are reordered?" },
+        answer: {
+          ja: "配列はインデックス順に比較するため、並べ替えは各インデックスでの値の変更として表示されます。IDによる突き合わせは今後の検討事項です。",
+          en: "Arrays are compared by index, so a reorder shows up as value changes at each index. Matching items by ID may be added in the future.",
+        },
+      },
+      {
+        question: { ja: "JSONがサーバーに送信されることはありますか？", en: "Is my JSON sent to a server?" },
+        answer: {
+          ja: "ありません。解析と比較はすべてブラウザ内で行われます。",
+          en: "No. Parsing and comparison happen entirely in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: FileDiff,
+    keywords: {
+      ja: "json 比較 差分 diff 構造 api レスポンス 設定 キー順 変更点",
+      en: "json compare diff structure structural api response config key order changes",
+    },
+    fileMatch: {
+      mimeTypes: ["application/json"],
+      extensions: ["json"],
+    },
+  },
+  {
+    id: "json-schema-validator",
+    name: { ja: "JSON Schemaバリデーター", en: "JSON Schema Validator" },
+    description: {
+      ja: "JSONをJSON Schema（Draft 2020-12）で検証し、型・必須項目・値の制約の違反をパスつきで表示します。",
+      en: "Validate JSON against a JSON Schema (Draft 2020-12) and list type, required, and value-constraint violations by path.",
+    },
+    longDescription: {
+      ja: "JSONとJSON Schemaを入力し、Draft 2020-12の仕様で検証するツールです。型の不一致、必須項目の欠落、enum、数値・文字列の制約などの違反を、データ内の場所とSchemaの場所、理由つきで一覧表示します。JSONの構文エラー、Schema自体の不備、データの検証エラーを区別して表示し、すべてブラウザ内で処理されます。",
+      en: "A tool that validates JSON against a JSON Schema using Draft 2020-12. Violations such as type mismatches, missing required properties, enum, and numeric or string constraints are listed with their data location, schema location, and reason. JSON syntax errors, schema problems, and validation errors are reported separately — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左に検証したいJSON、右にJSON Schemaを入力します。「サンプルを読み込む」で動作を試せます。",
+        "入力すると自動で検証され、「検証結果」に適合しているかどうかが表示されます。",
+        "違反がある場合は、データの場所（JSON Pointer）、理由、Schemaの場所が一覧で表示されます。",
+        "構文エラーやSchemaの不備、解決できない$refがある場合は、その内容が表示されます。",
+      ],
+      en: [
+        "Enter the JSON to validate on the left and the JSON Schema on the right. Use \"Load sample\" to try it out.",
+        "Validation runs automatically, and the result shows whether the JSON is valid.",
+        "If there are violations, each one is listed with its data location (JSON Pointer), reason, and schema location.",
+        "Syntax errors, schema problems, and unresolved $ref values are reported with details.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "JSON Schemaは、JSONデータの構造や型、値の制約を定義するための仕様です。APIのリクエスト・レスポンスや設定ファイルが期待どおりの形をしているかを確認するのに使われます。",
+          "このツールはDraft 2020-12に対応しています。$schema が別のバージョンを指している場合は、誤った仕様で検証しないよう対応外として表示します。同じSchema内の参照（#/$defs/... など）は解決できますが、外部URLの参照は自動で取得せず、未解決の参照として表示します。format キーワードは仕様の既定どおり注釈として扱い、検証しません。",
+          "入力したJSONとSchemaがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "JSON Schema is a specification for describing the structure, types, and value constraints of JSON data. It's used to check that API requests and responses or configuration files have the expected shape.",
+          "This tool supports Draft 2020-12. If $schema points to another version, it's reported as unsupported instead of being validated with the wrong rules. References within the same schema (such as #/$defs/...) are resolved, but external URLs are never fetched and are reported as unresolved. The format keyword is treated as an annotation, which is the default in the specification.",
+          "Your JSON and schema are never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "Draft 7など古いバージョンのSchemaは使えますか？", en: "Can I use older drafts such as Draft 7?" },
+        answer: {
+          ja: "現在はDraft 2020-12のみに対応しています。$schema にDraft 7などが指定されている場合は、対応外の仕様として表示し、検証は行いません。",
+          en: "Only Draft 2020-12 is supported for now. If $schema specifies Draft 7 or another version, it's reported as unsupported and not validated.",
+        },
+      },
+      {
+        question: { ja: "email などの format は検証されますか？", en: "Is format (such as email) validated?" },
+        answer: {
+          ja: "Draft 2020-12の既定では format は注釈として扱われるため、このツールでも検証しません。形式を厳密に確認したい場合は pattern を使用してください。",
+          en: "In Draft 2020-12, format is an annotation by default, so this tool doesn't validate it. Use pattern if you need strict format checks.",
+        },
+      },
+      {
+        question: { ja: "外部ファイルを参照する$refは使えますか？", en: "Can I use $ref to external files?" },
+        answer: {
+          ja: "外部URLやファイルの参照は自動で取得しません。未解決の参照として表示されるため、参照先を同じSchemaの $defs に含めてください。",
+          en: "External URLs and files are never fetched. They're reported as unresolved, so include the referenced schema under $defs in the same schema.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: FileCheck,
+    keywords: {
+      ja: "json schema スキーマ バリデーション 検証 2020-12 draft 型 必須 enum ref api",
+      en: "json schema validator validation draft 2020-12 type required enum ref api",
+    },
+  },
+  {
     id: "hash-generator",
     name: { ja: "ハッシュ値生成・照合", en: "Hash Generator & Checker" },
     description: {
@@ -2470,6 +2694,78 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "env-compare",
+    name: { ja: ".env比較・整合チェック", en: ".env Compare & Check" },
+    description: {
+      ja: "2つの.envを比較し、キーの不足・重複・空値を一覧表示します。値は初期状態で隠されます。",
+      en: "Compare two .env files and list missing, duplicate, and empty keys. Values are hidden by default.",
+    },
+    longDescription: {
+      ja: ".env と .env.example など2つの設定ファイルを比較し、片方にしかないキー、重複して定義されたキー、値が空のキーを一覧表示するツールです。値は初期状態で隠され、必要なときだけ表示できます。入力内容はサーバーへ送信されず、ブラウザのストレージにも保存されません。",
+      en: "A tool that compares two configuration files, such as .env and .env.example, and lists keys found on only one side, keys defined more than once, and keys with empty values. Values are hidden by default and shown only when you choose. Nothing you enter is sent to a server or saved in browser storage.",
+    },
+    howToUse: {
+      ja: [
+        "左右に比較したい.envの内容を貼り付けるか、ファイルを読み込みます。",
+        "キーごとに、左右の定義状況（未定義・空値・重複）が表示されます。",
+        "「問題のあるキーのみ表示」で、不足・重複・空値のあるキーだけに絞り込めます。",
+        "値を確認したい場合は「値を表示」を押します。「コピー」では値を含まない結果をコピーできます。",
+      ],
+      en: [
+        "Paste the contents of the two .env files on the left and right, or load the files.",
+        "For each key, the status on each side (not defined, empty, or duplicate) is shown.",
+        "Use \"Show only keys with problems\" to filter to keys that are missing, duplicate, or empty.",
+        "Press \"Show values\" to reveal values. \"Copy\" copies the result without any values.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "環境ごとの .env で設定が漏れていたり、新しい環境変数を追加したのに .env.example の更新を忘れていたりすると、デプロイ後に思わぬ不具合につながります。このツールでは、キーの過不足を素早く確認できます。",
+          "コメントや空行は比較対象から除外します。値に含まれる = や、引用符で囲まれた値の中の # は区切りとして扱いません。同じキーが複数回定義されている場合は、後勝ちにせずすべての行を表示し、空値（KEY=）と未定義のキーも区別して表示します。解釈できない行は無視せず、行番号つきで表示します。",
+          "${VAR} などの変数展開やコマンドの実行は行いません。APIキーなどの機密情報を含むため、入力はサーバーへ送信せず、ブラウザのストレージにも保存しません。",
+        ],
+        en: [
+          "A missing setting in one environment's .env, or a new variable that never made it into .env.example, can cause surprising bugs after deployment. This tool lets you check for missing keys quickly.",
+          "Comments and blank lines are ignored. An = inside a value, or a # inside a quoted value, is not treated as a separator. If the same key is defined more than once, every line is shown instead of silently using the last one, and empty values (KEY=) are distinguished from undefined keys. Lines that can't be parsed are listed with their line numbers instead of being ignored.",
+          "Variable expansion such as ${VAR} and command execution are never performed. Because the input may contain secrets such as API keys, it's never sent to a server or saved in browser storage.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "値が他の人に見られることはありますか？", en: "Can anyone else see my values?" },
+        answer: {
+          ja: "入力内容はサーバーへ送信されず、ブラウザのストレージにも保存されません。画面上でも値は初期状態で隠されています。ページを閉じると入力内容は消えます。",
+          en: "Your input is never sent to a server or saved in browser storage, and values are hidden on screen by default. Closing the page clears everything.",
+        },
+      },
+      {
+        question: { ja: "値が違うキーは検出されますか？", en: "Are keys with different values flagged?" },
+        answer: {
+          ja: "環境ごとに値が異なるのは通常のことなので、値の違いは問題として扱いません。「値を表示」で左右の値を見比べることができます。",
+          en: "Values normally differ between environments, so different values aren't flagged. Use \"Show values\" to compare them side by side.",
+        },
+      },
+      {
+        question: { ja: "複数行の値や引用符は扱えますか？", en: "Are multi-line values and quotes supported?" },
+        answer: {
+          ja: "シングルクォート・ダブルクォート・バッククォートで囲んだ値に対応しており、複数行にまたがる値も扱えます。ダブルクォート内の \\n は改行として扱います。",
+          en: "Values wrapped in single quotes, double quotes, or backticks are supported, including values that span multiple lines. Inside double quotes, \\n is treated as a line break.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: FileKey,
+    keywords: {
+      ja: "env dotenv 環境変数 比較 チェック .env.example 設定漏れ 重複 空値 キー",
+      en: "env dotenv environment variables compare check .env.example missing duplicate empty keys",
+    },
+    fileMatch: {
+      extensions: ["env"],
+    },
+  },
+  {
     id: "folder-tree",
     name: { ja: "フォルダ構成ツリー出力", en: "Folder Tree Generator" },
     description: {
@@ -2561,6 +2857,152 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/zip", "application/x-zip-compressed", "application/x-tar", "application/gzip", "application/x-gzip"],
       extensions: ["zip", "tar", "tgz", "gz"],
+    },
+  },
+  {
+    id: "csv-reconcile",
+    name: { ja: "CSV突合・差分抽出", en: "CSV Reconcile & Diff" },
+    description: {
+      ja: "2つのCSVをキー列で突き合わせ、追加・削除・更新された行と変更されたセルを抽出します。",
+      en: "Match two CSV files by a key column and extract added, removed, and updated rows along with the changed cells.",
+    },
+    longDescription: {
+      ja: "新旧の顧客一覧や商品マスタなど、ヘッダー付きの2つのCSVをキー列で突き合わせるツールです。行の順序に関係なく追加・削除・更新された行を分類し、更新されたセルの変更前後を表示します。差分はCSVとして保存でき、すべてブラウザ内で処理されます。",
+      en: "A tool that matches two CSV files with headers, such as old and new customer lists or product masters, by a key column. Rows are classified as added, removed, or updated regardless of row order, and updated cells show their before and after values. The diff can be saved as CSV — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左に旧CSV、右に新CSVを貼り付けるか、ファイルを読み込みます。1行目はヘッダーとして扱います。",
+        "「キー列」で、行を突き合わせるための列（IDなど）を選びます。左右に共通する列から選べます。",
+        "追加・削除・更新された行が一覧表示され、更新された行は変更されたセルの前後の値が表示されます。",
+        "「差分をCSVで保存」で、差分の種別・キー・列・変更前後の値を含むCSVを保存できます。",
+      ],
+      en: [
+        "Paste the old CSV on the left and the new CSV on the right, or load the files. The first line is treated as the header.",
+        "Choose the \"Key column\" (such as an ID) used to match rows. You can choose from columns present on both sides.",
+        "Added, removed, and updated rows are listed, and updated rows show the before and after values of changed cells.",
+        "Use \"Save diff as CSV\" to save a CSV containing the change type, key, column, and before/after values.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "CSVをテキストとして比較すると、行の並び順が変わっただけでも差分が出てしまいます。CSV突合ツールはキー列の値で行を対応付けるため、実際に追加・削除・更新された行だけを確認できます。",
+          "引用符・カンマ・セル内の改行を含むCSVに対応しています。キーやセルの値は文字列として比較するため、「001」と「1」のような先頭ゼロの違いも区別されます。キーが重複している行や空の行がある場合は、曖昧なまま突き合わせず、該当する行を表示します。",
+          "左右で列構成が異なる場合は、片方にしかない列を明示したうえで、共通する列だけを比較します。複合キーやあいまい一致には対応していません。CSVがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "Comparing CSV files as text reports differences even when only the row order changes. CSV Reconcile matches rows by the value of a key column, so you see only rows that were actually added, removed, or updated.",
+          "CSV files with quotes, commas, and line breaks inside cells are supported. Keys and cell values are compared as strings, so leading zeros matter (\"001\" and \"1\" are different). If any key is duplicated or empty, the rows aren't matched ambiguously — the affected rows are listed instead.",
+          "If the column sets differ, columns found on only one side are listed explicitly and only the shared columns are compared. Composite keys and fuzzy matching are not supported. Your CSV files are never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "キーが重複しているとどうなりますか？", en: "What happens if keys are duplicated?" },
+        answer: {
+          ja: "どの行同士を比べるべきか決められないため、突合は行わず、重複しているキーと該当するレコード番号を表示します。データを修正するか、一意な別の列をキーに選んでください。",
+          en: "Since it's unclear which rows should be compared, matching is not performed. The duplicated keys and their record numbers are shown instead. Fix the data or choose another column with unique values as the key.",
+        },
+      },
+      {
+        question: { ja: "レコード番号とは何ですか？", en: "What is a record number?" },
+        answer: {
+          ja: "ヘッダーを1として数えたCSVの行（レコード）の番号です。セル内に改行がある場合、テキストエディタの行番号とは一致しないことがあります。",
+          en: "It's the number of the CSV row (record), counting the header as 1. If cells contain line breaks, it may differ from the line number in a text editor.",
+        },
+      },
+      {
+        question: { ja: "Excelで作ったCSVは読み込めますか？", en: "Can I load CSV files created in Excel?" },
+        answer: {
+          ja: "UTF-8のCSVであれば読み込めます。先頭のBOMは自動で取り除きます。保存するCSVもExcelで文字化けしないようBOM付きのUTF-8で出力します。",
+          en: "Yes, as long as the CSV is UTF-8. A leading BOM is removed automatically, and the saved CSV is written as UTF-8 with a BOM so Excel opens it correctly.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: TableProperties,
+    keywords: {
+      ja: "csv 突合 照合 比較 差分 diff キー 顧客 商品 マスタ 追加 削除 更新 excel",
+      en: "csv reconcile compare match diff key column customer product added removed updated excel",
+    },
+    fileMatch: {
+      mimeTypes: ["text/csv"],
+      extensions: ["csv", "tsv"],
+    },
+  },
+  {
+    id: "image-diff",
+    name: { ja: "画像差分ビューア", en: "Image Diff Viewer" },
+    description: {
+      ja: "2枚の画像をスライダー・重ね合わせ・ピクセル差分で比較し、見た目の変化を見つけます。",
+      en: "Compare two images with a slider, an overlay, or a pixel diff to spot visual changes.",
+    },
+    longDescription: {
+      ja: "UI修正前後のスクリーンショットなど2枚の画像を比較するツールです。左右を切り替えるスライダー、半透明の重ね合わせ、変更されたピクセルを赤で強調する差分表示の3つの方法で確認できます。PNG・JPEG・WebPに対応し、すべてブラウザ内で処理されます。",
+      en: "A tool that compares two images, such as screenshots before and after a UI change. You can check them with a slider that switches between the two, a semi-transparent overlay, or a diff that highlights changed pixels in red. PNG, JPEG, and WebP are supported — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "「変更前の画像」と「変更後の画像」に、それぞれ画像をドロップするか選択します。",
+        "「スライダー」では、境界を動かして変更前（左）と変更後（右）を見比べます。矢印キーでも操作できます。",
+        "「重ね合わせ」では、変更後の画像の不透明度を変えながら比較します。",
+        "「ピクセル差分」では、異なるピクセルが赤で表示されます。JPEGのノイズを無視したい場合は許容する色の差を上げます。",
+      ],
+      en: [
+        "Drop or choose an image for both \"Before image\" and \"After image\".",
+        "In \"Slider\" mode, move the divider to compare before (left) and after (right). The arrow keys work too.",
+        "In \"Overlay\" mode, change the opacity of the after image to compare them.",
+        "In \"Pixel diff\" mode, differing pixels are shown in red. Raise the color tolerance to ignore JPEG noise.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "CSSの修正やライブラリの更新のあと、意図しない見た目の変化がないかを目視だけで確認するのは大変です。画像差分ビューアを使うと、修正前後のスクリーンショットを並べるだけで、変わった箇所をすぐに見つけられます。",
+          "ピクセル差分では、各ピクセルのRGBと透明度（アルファ）を比較します。透明部分を含む画像も比較でき、両方とも完全に透明なピクセルは同じとみなします。画像のサイズが異なる場合は、差分を隠してしまわないよう自動でリサイズせず、サイズの違いを表示します。",
+          "自動の位置合わせやOCR、Webページの自動撮影には対応していません。画像がサーバーへアップロードされることはありません。",
+        ],
+        en: [
+          "After a CSS fix or a library update, checking for unintended visual changes by eye is tedious. With the Image Diff Viewer, you just load the before and after screenshots to find what changed.",
+          "The pixel diff compares the RGB and alpha (transparency) of each pixel. Images with transparent areas can be compared, and pixels that are fully transparent in both images are treated as identical. If the image sizes differ, they're never resized automatically, so differences aren't hidden — the size mismatch is reported instead.",
+          "Automatic alignment, OCR, and automatic web page capture are not supported. Your images are never uploaded to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "サイズの違う画像を比較できますか？", en: "Can I compare images of different sizes?" },
+        answer: {
+          ja: "自動でリサイズすると本当の差分が隠れてしまうため、サイズが同じ画像のみ比較できます。同じウィンドウサイズ・同じ表示倍率で撮影し直してください。",
+          en: "Only images of the same size can be compared, because automatic resizing could hide real differences. Recapture them at the same window size and zoom level.",
+        },
+      },
+      {
+        question: { ja: "JPEGで差分が多く出てしまいます。", en: "JPEG images show lots of differences." },
+        answer: {
+          ja: "JPEGは圧縮によって細かなノイズが生じます。「許容する色の差」を上げると、小さな色の違いを無視できます。正確に比較したい場合はPNGを使用してください。",
+          en: "JPEG compression introduces subtle noise. Raise the \"Color tolerance\" to ignore small color differences, or use PNG for exact comparisons.",
+        },
+      },
+      {
+        question: { ja: "画像がサーバーに送信されることはありますか？", en: "Are my images uploaded to a server?" },
+        answer: {
+          ja: "ありません。画像の読み込みと比較はすべてブラウザ内で行われます。",
+          en: "No. Images are loaded and compared entirely in your browser.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: SquareSplitHorizontal,
+    keywords: {
+      ja: "画像 比較 差分 diff スクリーンショット ui ビジュアル リグレッション 重ね合わせ スライダー ピクセル png jpeg webp",
+      en: "image compare diff screenshot ui visual regression overlay slider pixel png jpeg webp",
+    },
+    fileMatch: {
+      mimeTypes: ["image/png", "image/jpeg", "image/webp"],
+      extensions: ["png", "jpg", "jpeg", "webp"],
     },
   },
   {
@@ -2737,6 +3179,79 @@ export const tools: Tool[] = [
     keywords: {
       ja: "sql 整形 フォーマッター mysql postgresql クエリ",
       en: "sql formatter mysql postgresql query minify",
+    },
+  },
+  {
+    id: "sql-insert-generator",
+    name: { ja: "CSV・JSON → SQL INSERT生成", en: "CSV / JSON to SQL INSERT" },
+    description: {
+      ja: "CSVやJSONのデータから、PostgreSQL向けのINSERT文を生成します。エスケープやNULLの扱いも確認できます。",
+      en: "Generate PostgreSQL INSERT statements from CSV or JSON data, with clear handling of escaping and NULL.",
+    },
+    longDescription: {
+      ja: "ヘッダー付きCSVやオブジェクト配列のJSONを、検証用データベースに投入するためのPostgreSQL向けINSERT文に変換するツールです。テーブル名と出力する列を指定でき、文字列のエスケープやNULLの扱いを出力前に確認できます。生成したSQLはコピーやファイル保存ができ、すべてブラウザ内で処理されます。",
+      en: "A tool that converts a CSV with headers or a JSON array of objects into PostgreSQL INSERT statements for loading a test database. You can set the table name and columns, and review how strings are escaped and how NULL is handled before using the output. The SQL can be copied or saved as a file — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "入力形式（CSVまたはJSON）を選び、データを貼り付けるかファイルを読み込みます。",
+        "テーブル名（必要に応じてスキーマ名）を入力し、出力する列を選びます。",
+        "「値の扱い」で、エスケープやNULLのルールを確認します。CSVの空セルやJSONの欠落キーの扱いはここで選べます。",
+        "生成されたINSERT文を「コピー」するか、「SQLファイルを保存」で保存します。",
+      ],
+      en: [
+        "Choose the input format (CSV or JSON), then paste the data or load a file.",
+        "Enter the table name (and a schema name if needed), and choose the columns to include.",
+        "Check the escaping and NULL rules under \"How values are written\". You can choose how empty CSV cells and missing JSON keys are handled here.",
+        "\"Copy\" the generated INSERT statements or use \"Save SQL file\".",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "テスト用のデータをデータベースに投入したいとき、CSVやJSONを手作業でINSERT文に書き換えるのは手間がかかり、クォートのエスケープ漏れなどのミスも起きがちです。このツールでは、データを貼り付けるだけで正しく引用されたINSERT文を生成できます。",
+          "文字列内のシングルクォートは '' にエスケープし、テーブル名・列名はダブルクォートで囲んで識別子として扱います。CSVの値は既定ですべて文字列として扱うため、郵便番号などの先頭ゼロが失われることはなく、空のセルが勝手にNULLになることもありません。JSONでは null・数値・真偽値・文字列を区別し、キーが存在しない行やネストした値はエラーとして示します。",
+          "現在はPostgreSQL向けの構文のみに対応しています。データベースへの接続やSQLの実行、UPSERTは行いません。入力データがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "Rewriting CSV or JSON into INSERT statements by hand to load test data is tedious and error-prone — it's easy to miss escaping a quote. With this tool, you paste the data and get correctly quoted INSERT statements.",
+          "Single quotes inside strings are escaped as '', and table and column names are wrapped in double quotes as identifiers. CSV values are treated as strings by default, so leading zeros such as in postal codes are kept, and empty cells never silently become NULL. JSON null, numbers, booleans, and strings are kept distinct, and rows with missing keys or nested values are reported as errors.",
+          "Only PostgreSQL syntax is supported for now. No database connection is made, no SQL is executed, and UPSERT is not supported. Your data is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "CSVの数値が文字列として出力されるのはなぜですか？", en: "Why are CSV numbers written as strings?" },
+        answer: {
+          ja: "CSVには型の情報がないため、先頭ゼロや桁の大きい数値を失わないよう、すべて文字列として出力します。PostgreSQLは数値型の列に '123' のような文字列を挿入すると自動で変換します。",
+          en: "CSV has no type information, so every value is written as a string to avoid losing leading zeros or large numbers. PostgreSQL converts a string like '123' automatically when it's inserted into a numeric column.",
+        },
+      },
+      {
+        question: { ja: "JSONでキーがない行はどうなりますか？", en: "What happens to JSON rows with missing keys?" },
+        answer: {
+          ja: "既定ではエラーとして該当する行とキーを表示し、データを勝手に補完しません。「キーが存在しない行の扱い」で、NULL または DEFAULT（列の既定値）を入れるように変更できます。",
+          en: "By default, the row and key are reported as an error and nothing is filled in silently. You can change \"Rows where a key is missing\" to insert NULL or DEFAULT (the column default) instead.",
+        },
+      },
+      {
+        question: { ja: "MySQLやSQLiteでも使えますか？", en: "Does it work with MySQL or SQLite?" },
+        answer: {
+          ja: "現在はPostgreSQL向けのみです。識別子の引用符やバックスラッシュの扱いがデータベースによって異なるため、他のデータベースではそのまま使えない場合があります。",
+          en: "Only PostgreSQL is supported for now. Identifier quoting and backslash handling differ between databases, so the output may not work as-is elsewhere.",
+        },
+      },
+    ],
+    category: "developer",
+    icon: DatabaseBackup,
+    keywords: {
+      ja: "sql insert 生成 csv json postgresql postgres テストデータ 投入 エスケープ null シード",
+      en: "sql insert generator csv json postgresql postgres test data seed escape null",
+    },
+    fileMatch: {
+      mimeTypes: ["text/csv", "application/json"],
+      extensions: ["csv", "json"],
     },
   },
   {
