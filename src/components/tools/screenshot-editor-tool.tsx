@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
   Columns3,
@@ -15,6 +16,7 @@ import {
   Plus,
   Redo2,
   RefreshCw,
+  ScanText,
   Rows3,
   ShieldCheck,
   Square,
@@ -82,9 +84,10 @@ import {
   type Rect,
   type RectElement,
 } from "@/lib/screenshot-editor";
+import { getToolPath } from "@/config/tools";
 import { getDictionary } from "@/i18n/dictionaries";
 import { useLocale } from "@/i18n/use-locale";
-import { takePendingToolFile } from "@/lib/pending-tool-file";
+import { setPendingToolFile, takePendingToolFile } from "@/lib/pending-tool-file";
 import { cn } from "@/lib/utils";
 
 type ToolId =
@@ -234,6 +237,7 @@ function ColorField({
 export function ScreenshotEditorTool() {
   const locale = useLocale();
   const dict = React.useMemo(() => getDictionary(locale).tools.screenshotEditor, [locale]);
+  const router = useRouter();
 
   const DRAW_TOOLS: { id: ToolId; icon: LucideIcon; label: string }[] = [
     { id: "select", icon: MousePointer2, label: dict.toolSelect },
@@ -1019,6 +1023,20 @@ export function ScreenshotEditorTool() {
     }
   }
 
+  /** 編集後の画像をOCRツールに引き継いで開く */
+  async function handleOpenOcr() {
+    if (!doc) return;
+    setIsExporting(true);
+    try {
+      const blob = await canvasToBlob(bakeDocument(doc.canvas, doc.elements), "image/png");
+      setPendingToolFile("ocr", new File([blob], "screenshot.png", { type: "image/png" }));
+      router.push(getToolPath(locale, "ocr"));
+    } catch (error) {
+      setLoadError(error instanceof Error ? error.message : dict.exportErrorGeneric);
+      setIsExporting(false);
+    }
+  }
+
   const cursorClass =
     activeTool === "select"
       ? "cursor-default"
@@ -1426,6 +1444,10 @@ export function ScreenshotEditorTool() {
             <Button type="button" onClick={handleDownload} disabled={isExporting} className="self-end">
               <Download className="size-4" />
               {isExporting ? dict.exporting : dict.download}
+            </Button>
+            <Button type="button" variant="outline" onClick={handleOpenOcr} disabled={isExporting} className="self-end">
+              <ScanText className="size-4" />
+              {dict.openOcr}
             </Button>
           </div>
         </div>

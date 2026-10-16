@@ -19,13 +19,19 @@ export function ThemeToggle({ ariaLabel }: { ariaLabel: string }) {
 
   return (
     <div className="flex items-center gap-2">
-      <Sun className="size-4 text-muted-foreground" aria-hidden="true" />
+      <Sun
+        className="hidden size-4 text-muted-foreground sm:block"
+        aria-hidden="true"
+      />
       <Switch
         checked={isDark}
         onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
         aria-label={ariaLabel}
       />
-      <Moon className="size-4 text-muted-foreground" aria-hidden="true" />
+      <Moon
+        className="hidden size-4 text-muted-foreground sm:block"
+        aria-hidden="true"
+      />
     </div>
   );
 }

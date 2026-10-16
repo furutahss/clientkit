@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { formatBytes } from "@/lib/format-bytes";
 import {
   computeAllHashes,
+  HASH_ALGORITHMS,
+  HASH_GROUPS,
   normalizeHashForCompare,
   type HashAlgorithm,
 } from "@/lib/hash";
@@ -179,6 +181,14 @@ export function HashGeneratorTool() {
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
+  const matchedAlgorithms =
+    hashes && expected.trim()
+      ? HASH_ALGORITHMS.filter(
+          (algorithm) =>
+            normalizeHashForCompare(hashes[algorithm]) === normalizeHashForCompare(expected)
+        )
+      : null;
+
   return (
     <div className="flex flex-col gap-4">
       {fileInfo ? (
@@ -258,22 +268,40 @@ export function HashGeneratorTool() {
           spellCheck={false}
           className="font-mono text-sm"
         />
-      </div>
-
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        {(["MD5", "SHA-1", "SHA-256", "SHA-384", "SHA-512"] as HashAlgorithm[]).map(
-          (algorithm) => (
-            <HashRow
-              key={algorithm}
-              algorithm={algorithm}
-              value={hashes ? hashes[algorithm] : null}
-              expected={expected}
-              isPending={(!!file || !!text) && !hashes}
-              dict={dict}
-            />
-          )
+        {matchedAlgorithms && (
+          <p
+            role="status"
+            className={cn(
+              "text-sm",
+              matchedAlgorithms.length > 0
+                ? "text-emerald-700 dark:text-emerald-300"
+                : "text-destructive"
+            )}
+          >
+            {matchedAlgorithms.length > 0
+              ? formatTemplate(dict.matchedSummary, { algorithms: matchedAlgorithms.join(", ") })
+              : dict.noMatchSummary}
+          </p>
         )}
       </div>
+
+      {HASH_GROUPS.map((group) => (
+        <section key={group.id} className="flex flex-col gap-2">
+          <h2 className="text-sm font-semibold">{dict.groups[group.id]}</h2>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {group.algorithms.map((algorithm) => (
+              <HashRow
+                key={algorithm}
+                algorithm={algorithm}
+                value={hashes ? hashes[algorithm] : null}
+                expected={expected}
+                isPending={(!!file || !!text) && !hashes}
+                dict={dict}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }

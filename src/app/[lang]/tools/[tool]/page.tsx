@@ -17,13 +17,25 @@ import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool"
 import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
-import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
+import { IdGeneratorTool, UuidGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { ImageDiffTool } from "@/components/tools/image-diff-tool";
 import { JsonDiffTool } from "@/components/tools/json-diff-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
 import { JsonSchemaValidatorTool } from "@/components/tools/json-schema-validator-tool";
 import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
+import {
+  BackgroundRemoverTool,
+  CodeFormatterTool,
+  CurlConverterTool,
+  ExcelConverterTool,
+  InvoiceGeneratorTool,
+  MermaidEditorTool,
+  OcrTool,
+  PasswordHashTool,
+  TextNormalizerTool,
+  VideoConverterTool,
+} from "@/components/tools/lazy-tools";
 import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { LogMaskerTool } from "@/components/tools/log-masker-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
@@ -60,6 +72,7 @@ const toolComponents: Record<string, ComponentType> = {
   "regex-tester": RegexTesterTool,
   "url-encoder": UrlEncoderTool,
   "hash-generator": HashGeneratorTool,
+  "password-hash": PasswordHashTool,
   "sql-formatter": SqlFormatterTool,
   "color-converter": ColorConverterTool,
   "jwt-decoder": JwtDecoderTool,
@@ -74,6 +87,7 @@ const toolComponents: Record<string, ComponentType> = {
   "text-diff": TextDiffTool,
   "log-masker": LogMaskerTool,
   "id-generator": IdGeneratorTool,
+  "uuid-generator": UuidGeneratorTool,
   "timestamp-converter": TimestampConverterTool,
   "cron-explainer": CronExplainerTool,
   "data-format-converter": DataFormatConverterTool,
@@ -85,6 +99,15 @@ const toolComponents: Record<string, ComponentType> = {
   "svg-optimizer": SvgOptimizerTool,
   "qr-code": QrCodeTool,
   "folder-tree": FolderTreeTool,
+  "excel-converter": ExcelConverterTool,
+  "ocr": OcrTool,
+  "invoice-generator": InvoiceGeneratorTool,
+  "curl-converter": CurlConverterTool,
+  "code-formatter": CodeFormatterTool,
+  "mermaid-editor": MermaidEditorTool,
+  "text-normalizer": TextNormalizerTool,
+  "video-converter": VideoConverterTool,
+  "background-remover": BackgroundRemoverTool,
   "unicode-inspector": UnicodeInspectorTool,
   "json-diff": JsonDiffTool,
   "json-schema-validator": JsonSchemaValidatorTool,

@@ -21,6 +21,7 @@ import {
   parseCsv,
 } from "@/lib/csv";
 import { locateJsonError, type JsonErrorLocation } from "@/lib/json-error";
+import { takePendingToolFile } from "@/lib/pending-tool-file";
 import { getDictionary } from "@/i18n/dictionaries";
 import { useLocale } from "@/i18n/use-locale";
 import { cn, formatTemplate } from "@/lib/utils";
@@ -43,6 +44,17 @@ export function CsvJsonConverterTool() {
   const [delimiterKey, setDelimiterKey] = React.useState<DelimiterKey>("comma");
   const [hasHeader, setHasHeader] = React.useState(true);
   const [jsonFormat, setJsonFormat] = React.useState<JsonFormat>("pretty");
+
+  // 他のツール（Excel→CSV/JSON変換など）から引き継いだCSVを読み込む
+  React.useEffect(() => {
+    const pending = takePendingToolFile("csv-json-converter");
+    if (!pending) return;
+    pending.text().then((text) => {
+      setMode("csvToJson");
+      setDelimiterKey("comma");
+      setInput(text);
+    });
+  }, []);
 
   const DELIMITER_OPTIONS: { value: DelimiterKey; label: string }[] = [
     { value: "comma", label: dict.delimiterComma },
