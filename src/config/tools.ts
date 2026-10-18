@@ -3,7 +3,9 @@ import {
   Activity,
   ArrowLeftRight,
   Binary,
+  Bot,
   Braces,
+  Bug,
   CalendarClock,
   Clapperboard,
   Clock,
@@ -15,27 +17,35 @@ import {
   EyeOff,
   FileBadge,
   FileCheck,
+  FileCode,
   FileDiff,
   FileJson,
   FileKey,
   FileSpreadsheet,
   FileStack,
+  FileX,
   Fingerprint,
   FlaskConical,
   FolderTree,
+  Gauge,
   GitCompare,
   ImageDown,
   ImageOff,
   ImagePlus,
   KeyRound,
+  Languages,
   Layers,
   Link2,
+  Lock,
   LockKeyhole,
+  Network,
   NotebookText,
+  Package,
   Palette,
   QrCode,
   ReceiptJapaneseYen,
   Regex,
+  Route,
   ScanText,
   Scissors,
   Shapes,
@@ -2724,6 +2734,148 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "json-schema-generator",
+    name: { ja: "JSON → JSON Schema生成", en: "JSON to JSON Schema Generator" },
+    description: {
+      ja: "サンプルJSONから型とプロパティを抽出し、JSON Schema（Draft 2020-12）のたたき台を生成します。",
+      en: "Extract types and properties from sample JSON and generate a starting JSON Schema (Draft 2020-12).",
+    },
+    longDescription: {
+      ja: "APIレスポンスや設定ファイルのサンプルJSONから、JSON Schema Draft 2020-12 のたたき台を生成するツールです。ネストしたオブジェクトや型が混在する配列にも対応し、サンプルから断定できない required や enum などの制約は付加しません。生成したSchemaで元のサンプルを検証でき、コピー・保存も可能です。すべてブラウザ内で処理されます。",
+      en: "A tool that generates a starting JSON Schema (Draft 2020-12) from sample JSON such as API responses or config files. Nested objects and mixed-type arrays are supported, and constraints that can't be inferred from a sample, such as required and enum, are never added. The original sample is validated against the generated schema, which you can copy or save — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "サンプルJSONを貼り付けるか、ファイルを読み込みます。",
+        "右側にJSON Schemaが自動で生成されます。構文エラーがある場合は行・列が表示されます。",
+        "生成したSchemaで元のサンプルを検証した結果が表示されます。",
+        "「コピー」または「保存」でSchemaを取り出し、必要な制約（required・enum・format など）を追記します。",
+      ],
+      en: [
+        "Paste sample JSON or load a file.",
+        "A JSON Schema is generated on the right. Syntax errors show the line and column.",
+        "The result of validating the original sample against the generated schema is shown.",
+        "Use \"Copy\" or \"Save\" and add any constraints you need (required, enum, format, and so on).",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "入力検証用のJSON Schemaを一から書くのは手間がかかります。このツールはサンプルJSONの型とプロパティの構造を読み取り、Schemaのたたき台を作ります。整数は integer、小数を含む数値は number として出力します。",
+          "サンプル1件からは、どの項目が必須か、どんな値が許されるかは分かりません。そのため required・enum・format・最小値・additionalProperties などは付加せず、型と構造だけを出力します。配列の要素は全要素をまとめて1つのSchemaにし、複数のオブジェクトに分かれて現れるプロパティもまとめます。",
+          "生成したSchemaは JSON Schemaバリデーターと同じ検証エンジンで元のサンプルを検証し、適合することを確認できます。入力したJSONがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "Writing a JSON Schema for validation from scratch takes time. This tool reads the types and structure of sample JSON and builds a starting schema. Whole numbers become integer and numbers with decimals become number.",
+          "A single sample can't tell which fields are required or which values are allowed, so required, enum, format, minimums, and additionalProperties are never added — only types and structure. All array items are merged into one schema, and properties that appear in different objects are combined.",
+          "The original sample is validated against the generated schema with the same engine as the JSON Schema Validator. Your JSON is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "required が出力されないのはなぜですか？", en: "Why isn't required included?" },
+        answer: {
+          ja: "サンプルに含まれている項目が、常に存在する必須項目なのかを判断できないためです。必須にしたい項目は生成後に required へ追記してください。",
+          en: "A sample can't show whether a field is always present. Add the fields that must be present to required after generating.",
+        },
+      },
+      {
+        question: { ja: "空の配列はどう出力されますか？", en: "How are empty arrays handled?" },
+        answer: {
+          ja: "要素の型が分からないため、items を付けずに type: array だけを出力します。空のオブジェクトも同様に type: object だけになります。",
+          en: "The item type is unknown, so only type: array is output without items. Empty objects likewise become just type: object.",
+        },
+      },
+      {
+        question: { ja: "型が混在する配列はどうなりますか？", en: "What about arrays with mixed types?" },
+        answer: {
+          ja: "文字列や数値などが混在する場合は type に複数の型を並べます。オブジェクトや配列と他の型が混在する場合は anyOf で表します。",
+          en: "Mixed primitive types are listed together in type. When objects or arrays are mixed with other types, anyOf is used.",
+        },
+      },
+    ],
+    category: "data",
+    icon: FileCode,
+    keywords: {
+      ja: "json schema スキーマ 生成 作成 変換 型 推論 draft 2020-12 バリデーション api レスポンス",
+      en: "json schema generate generator create infer types draft 2020-12 validation api response",
+    },
+    fileMatch: {
+      mimeTypes: ["application/json"],
+      extensions: ["json"],
+    },
+  },
+  {
+    id: "i18n-placeholder-checker",
+    name: { ja: "翻訳プレースホルダー整合チェック", en: "Translation Placeholder Checker" },
+    description: {
+      ja: "基準言語と翻訳先のJSONを比較し、キーの過不足と {name} 形式の変数の欠落・追加をキーのパス付きで表示します。",
+      en: "Compare source and translation JSON to list missing or extra keys and missing or added {name} placeholders by key path.",
+    },
+    longDescription: {
+      ja: "多言語対応の翻訳ファイル（JSON）で、キーの不足・余分なキー、{name} 形式のプレースホルダーの欠落・追加・名前の変更を見つけるツールです。変数の順序の違いは問題とせず、型の不一致やICUのplural・selectなど対象外の構文も区別して表示します。すべてブラウザ内で処理されます。",
+      en: "A tool that finds missing or extra keys and missing, added, or renamed {name} placeholders in translation JSON files. Different placeholder order isn't flagged, and type mismatches and unsupported syntax such as ICU plural and select are reported separately — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左に基準言語（例: ja.json）、右に翻訳先（例: en.json）のJSONを貼り付けるか、ファイルを読み込みます。",
+        "ネストしたキーごとに、キーの過不足・型の不一致・変数の過不足が一覧表示されます。",
+        "「変数の不一致」では、翻訳先にない変数と基準にない変数が表示されます。両方ある場合は変数名が変更された可能性があります。",
+        "「コピー」で結果をタブ区切りのテキストとしてコピーできます。",
+      ],
+      en: [
+        "Paste the source language JSON (e.g. en.json) on the left and the translation (e.g. ja.json) on the right, or load files.",
+        "Missing and extra keys, type mismatches, and placeholder differences are listed for each nested key.",
+        "Placeholder mismatches show variables missing from the translation and variables not in the source. If both appear, a variable may have been renamed.",
+        "Use \"Copy\" to copy the results as tab-separated text.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "翻訳作業で「こんにちは、{name}さん」の {name} が消えたり {username} に変わったりすると、画面に名前が表示されない、変数がそのまま表示されるといった不具合になります。このツールは翻訳文の内容ではなく、キーと変数の整合性だけを確認します。",
+          "変数は名前の集合で比較するため、語順の違いで出現順序が変わっても問題になりません。エスケープはICU MessageFormatと同じ規則で、'{name}' のようにアポストロフィで囲んだ部分は変数として扱いません。",
+          "{count, plural, ...} などのICU構文は初期版の対象外で、正常と誤判定しないよう「対象外の構文」として表示します。数値や真偽値などの文字列以外の値、基準と翻訳先で型が違う値も区別して表示します。入力したJSONが書き換えられたり、サーバーへ送信されたりすることはありません。",
+        ],
+        en: [
+          "If {name} in \"Hello, {name}\" is dropped or renamed to {username} during translation, the screen may show no name or the raw placeholder. This tool checks only keys and placeholders, not the wording of translations.",
+          "Placeholders are compared as a set of names, so a different order caused by word order isn't a problem. Escaping follows ICU MessageFormat: text quoted with apostrophes, such as '{name}', isn't treated as a placeholder.",
+          "ICU syntax such as {count, plural, ...} isn't supported in this version and is reported as unsupported rather than passed. Non-string values such as numbers and booleans, and values whose types differ between files, are reported separately. Your JSON is never modified or sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "i18next の {{name}} 形式には対応していますか？", en: "Does it support i18next's {{name}} format?" },
+        answer: {
+          ja: "初期版は {name} 形式のみに対応しています。{{name}} は解析できない構文として表示されます。",
+          en: "This version supports only the {name} format. {{name}} is reported as unparseable syntax.",
+        },
+      },
+      {
+        question: { ja: "変数の順番が違うとエラーになりますか？", en: "Is a different placeholder order an error?" },
+        answer: {
+          ja: "なりません。言語によって語順が変わるため、変数名の集合が同じであれば問題なしと判定します。",
+          en: "No. Word order varies between languages, so it passes as long as the set of placeholder names is the same.",
+        },
+      },
+      {
+        question: { ja: "配列の値もチェックされますか？", en: "Are array values checked?" },
+        answer: {
+          ja: "はい。配列はインデックスごとに比較し、$.list[0] のようなパスで表示します。",
+          en: "Yes. Arrays are compared by index and shown with paths such as $.list[0].",
+        },
+      },
+    ],
+    category: "data",
+    icon: Languages,
+    keywords: {
+      ja: "翻訳 i18n 多言語 ローカライズ プレースホルダー 変数 キー 不足 チェック json icu messageformat",
+      en: "translation i18n l10n localization placeholder variable missing key check json icu messageformat",
+    },
+  },
+  {
     id: "hash-generator",
     name: { ja: "ハッシュ値生成・照合", en: "Hash Generator & Checker" },
     description: {
@@ -3417,6 +3569,211 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "openapi-compat",
+    name: { ja: "OpenAPI互換性チェッカー", en: "OpenAPI Compatibility Checker" },
+    description: {
+      ja: "変更前後のOpenAPI定義を比較し、エンドポイントの削除や項目の必須化など既存クライアントに影響する変更を見つけます。",
+      en: "Compare two OpenAPI definitions and find changes that break existing clients, such as removed endpoints or newly required fields.",
+    },
+    longDescription: {
+      ja: "変更前後のOpenAPI 3.0.x定義（JSONまたはYAML）を比較し、パス・HTTPメソッドの削除、リクエスト項目の必須化、型の変更など、既存のAPI利用者に影響する変更を検出するツールです。変更箇所・変更前後・影響する理由をエンドポイントごとに表示し、外部参照など判定できない箇所は未判定として示します。すべてブラウザ内で処理されます。",
+      en: "A tool that compares OpenAPI 3.0.x definitions (JSON or YAML) before and after a change and detects changes that affect existing API clients, such as removed paths and methods, newly required request fields, and type changes. Each finding shows the location, before and after, and why it matters, grouped by endpoint. Parts that can't be checked, such as external references, are marked unchecked — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左に変更前、右に変更後のOpenAPI定義（JSONまたはYAML）を貼り付けるか、ファイルを読み込みます。",
+        "互換性に影響する変更が、メソッドとパスごとにまとめて表示されます。",
+        "各変更の場所（パラメーター・リクエストボディ・レスポンスとプロパティのパス）と、影響する理由を確認します。",
+        "「未判定」は外部参照や合成スキーマなど、このツールでは判定できない箇所です。必要に応じて手動で確認してください。",
+      ],
+      en: [
+        "Paste the definition before the change on the left and after on the right (JSON or YAML), or load files.",
+        "Changes that affect compatibility are grouped by method and path.",
+        "Check each change's location (parameter, request body, or response, plus the property path) and why it matters.",
+        "\"Unchecked\" marks parts this tool can't evaluate, such as external references or composed schemas. Review them manually as needed.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "APIを更新するとき、任意だったリクエスト項目を必須にしたり、レスポンスの型を変えたりすると、旧バージョンのクライアントがエラーになることがあります。このツールはOpenAPIの意味に基づいて定義を比較し、公開前にこうした変更を見つけます。",
+          "キーの順序や整形、JSONとYAMLの違いは問題として扱いません。パスパラメーターの名前だけを変えた場合（/users/{id} → /users/{userId}）は同じエンドポイントとして比較します。リクエストでは integer から number への変更のように受け付ける値が広がる変更、レスポンスではその逆を互換として扱います。",
+          "検査は限定的で、enum・format・レスポンスのプロパティ削除・セキュリティ定義などは対象外です。検出がなくても完全な互換性を保証するものではありません。入力した定義がサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "When an API changes, making an optional request field required or changing a response type can break older clients. This tool compares definitions by their OpenAPI meaning to catch these changes before release.",
+          "Key order, formatting, and JSON versus YAML aren't treated as changes. Paths that only rename a path parameter (/users/{id} → /users/{userId}) are compared as the same endpoint. Changes that widen what requests accept, such as integer to number, are compatible, and the reverse applies to responses.",
+          "The check is limited: enum, format, removed response properties, security definitions, and more are not covered, so no findings doesn't guarantee full compatibility. Your definitions are never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "OpenAPI 3.1 や Swagger 2.0 に対応していますか？", en: "Does it support OpenAPI 3.1 or Swagger 2.0?" },
+        answer: {
+          ja: "初期版は OpenAPI 3.0.x のみに対応しています。それ以外のバージョンは対応外として表示し、判定しません。",
+          en: "This version supports only OpenAPI 3.0.x. Other versions are reported as unsupported and not checked.",
+        },
+      },
+      {
+        question: { ja: "$ref は解決されますか？", en: "Are $ref references resolved?" },
+        answer: {
+          ja: "#/components/schemas/User のような同じ文書内の参照は解決します。外部ファイルやURLへの参照は取得せず、未判定として表示します。",
+          en: "References within the same document, such as #/components/schemas/User, are resolved. External files and URLs are never fetched and are marked unchecked.",
+        },
+      },
+      {
+        question: { ja: "新しいエンドポイントの追加は表示されますか？", en: "Are new endpoints listed?" },
+        answer: {
+          ja: "追加は既存クライアントに影響しないため表示しません。差分全体を確認したい場合は JSON構造比較ツールを使ってください。",
+          en: "Additions don't affect existing clients, so they aren't listed. Use the JSON Structural Diff to see every difference.",
+        },
+      },
+    ],
+    category: "web",
+    icon: Route,
+    keywords: {
+      ja: "openapi swagger api 互換性 破壊的変更 breaking change 比較 差分 yaml スキーマ 必須 エンドポイント",
+      en: "openapi swagger api compatibility breaking change compare diff yaml schema required endpoint",
+    },
+  },
+  {
+    id: "robots-txt-tester",
+    name: { ja: "robots.txt検証", en: "robots.txt Tester" },
+    description: {
+      ja: "robots.txtの内容とUser-Agentから、URLごとにクロールが許可されるかと、適用されたルール・行番号を表示します。",
+      en: "Check whether each URL may be crawled for a user agent, with the group, rule, and line number that applied.",
+    },
+    longDescription: {
+      ja: "robots.txtの内容・User-Agent・URLを入力し、RFC 9309に沿ってクロールの許可・禁止を判定するツールです。適用したグループ・ルール・行番号を表示し、Allow／Disallowの競合やワイルドカード（*）、末尾指定（$）の扱いを確認できます。サイトへのアクセスは行わず、すべてブラウザ内で処理されます。",
+      en: "A tool that checks whether URLs may be crawled based on robots.txt contents and a user agent, following RFC 9309. It shows the group, rule, and line number that applied, so you can verify conflicting Allow/Disallow rules, wildcards (*), and end anchors ($). No site is accessed — everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "robots.txtの内容を貼り付けるか、ファイルを読み込みます。",
+        "User-Agent（例: Googlebot）と、判定したいURLまたはパスを1行に1つ入力します。",
+        "URLごとにクロール許可・禁止と、適用したルールと行番号が表示されます。",
+        "Crawl-delayなど判定に使わないディレクティブや、解釈できない行は一覧の下に表示されます。",
+      ],
+      en: [
+        "Paste the robots.txt contents or load the file.",
+        "Enter a user agent (e.g. Googlebot) and the URLs or paths to check, one per line.",
+        "Each URL shows whether crawling is allowed, plus the rule and line number that applied.",
+        "Directives not used for matching, such as Crawl-delay, and lines that can't be parsed are listed below.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "robots.txtの書き方を誤ると、公開ページがクロールされなくなったり、管理画面がクロールされたりします。このツールは公開前のrobots.txtで、意図したURLが許可・禁止になるかを確認できます。",
+          "判定はRFC 9309に沿っています。User-Agentに一致するグループ（なければ * のグループ）を選び、URLのパスに最も長く一致したルールを採用します。同じ長さのAllowとDisallowが競合した場合はAllowが優先されます。",
+          "クロールの許可と検索結果への掲載は別の仕組みです。Disallowしたページも外部リンクからURLだけが掲載される場合があり、掲載を防ぐには noindex を使います。サイトへのアクセスやrobots.txtの自動取得は行いません。",
+        ],
+        en: [
+          "A mistake in robots.txt can stop public pages from being crawled or expose admin pages to crawlers. This tool lets you check that URLs are allowed or disallowed as intended before publishing.",
+          "Matching follows RFC 9309: the group matching the user agent (or the * group if none) is chosen, and the rule with the longest match on the URL path wins. When an Allow and a Disallow of the same length conflict, Allow wins.",
+          "Crawling and appearing in search results are separate. A disallowed page can still be listed by URL if other sites link to it; use noindex to keep it out. No site is accessed and robots.txt is never fetched automatically.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "User-Agentには何を入力すればよいですか？", en: "What should I enter as the user agent?" },
+        answer: {
+          ja: "Googlebot や Bingbot のようなクローラーの製品トークンを入力します。ブラウザのUser-Agent文字列全体ではありません。大文字・小文字は区別しません。",
+          en: "Enter the crawler's product token, such as Googlebot or Bingbot — not a full browser user-agent string. Case doesn't matter.",
+        },
+      },
+      {
+        question: { ja: "一致するルールがない場合はどうなりますか？", en: "What if no rule matches?" },
+        answer: {
+          ja: "クロール許可として扱います。User-Agentに該当するグループがない場合も同様です。",
+          en: "It's treated as allowed. The same applies when no group matches the user agent.",
+        },
+      },
+      {
+        question: { ja: "Crawl-delay は判定に使われますか？", en: "Is Crawl-delay used?" },
+        answer: {
+          ja: "使いません。RFC 9309の対象外のため、判定に使わないディレクティブとして行番号付きで表示します。",
+          en: "No. It's outside RFC 9309, so it's listed with its line number as a directive not used for matching.",
+        },
+      },
+    ],
+    category: "web",
+    icon: Bot,
+    keywords: {
+      ja: "robots.txt ロボッツ クローラー クロール seo user-agent googlebot disallow allow 検証 テスト",
+      en: "robots.txt robots crawler crawl seo user agent googlebot disallow allow tester validator",
+    },
+  },
+  {
+    id: "cidr-calculator",
+    name: { ja: "IPv4 CIDR・サブネット計算", en: "IPv4 CIDR & Subnet Calculator" },
+    description: {
+      ja: "CIDR表記からネットワークアドレス・サブネットマスク・範囲・アドレス数を計算し、IPアドレスが範囲に含まれるかを判定します。",
+      en: "Calculate the network address, subnet mask, range, and address counts from CIDR notation, and check whether IPs are in range.",
+    },
+    longDescription: {
+      ja: "192.168.10.0/24 のようなIPv4のCIDR表記から、ネットワークアドレス、サブネットマスク、最終アドレス、総アドレス数と利用可能ホスト数を計算するツールです。アクセス許可リストやネットワーク設定で、指定したIPアドレスが範囲に含まれるかも判定できます。すべてブラウザ内で処理されます。",
+      en: "A tool that calculates the network address, subnet mask, last address, total addresses, and usable hosts from IPv4 CIDR notation such as 192.168.10.0/24. It also checks whether given IP addresses fall within the range, which is handy for allowlists and network settings — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "IPv4アドレスとプレフィックス長を 192.168.10.0/24 のようなCIDR表記で入力します。",
+        "ネットワークアドレス・サブネットマスク・範囲・総アドレス数・利用可能ホスト数が表示されます。",
+        "範囲に含まれるか調べたいIPv4アドレスを1行に1つ入力すると、範囲内・範囲外が表示されます。",
+      ],
+      en: [
+        "Enter an IPv4 address and prefix length in CIDR notation, such as 192.168.10.0/24.",
+        "The network address, subnet mask, range, total addresses, and usable hosts are shown.",
+        "Enter IPv4 addresses to check, one per line, to see whether each one is in range.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "ファイアウォールやクラウドのセキュリティグループ、アクセス許可リストでは、IPアドレスの範囲をCIDR表記で指定します。このツールでは、指定した範囲に含まれるアドレスと、許可したいサーバーのIPが範囲内かをすぐに確認できます。",
+          "192.168.10.37/24 のようにホスト部を含むアドレスを入力した場合は、ネットワークアドレス 192.168.10.0/24 に正規化して計算し、その旨を表示します。総アドレス数は範囲に含まれるすべてのアドレスの数で、利用可能ホスト数はネットワークアドレスとブロードキャストアドレスを除いた数です。/31（ポイントツーポイント用）と /32（単一アドレス）は別扱いになります。",
+          "IPv6や実ネットワークへの接続は対象外です。先頭にゼロが付いた表記（010 など）は8進数と解釈される場合があるため、エラーとして扱います。",
+        ],
+        en: [
+          "Firewalls, cloud security groups, and allowlists specify IP ranges in CIDR notation. This tool shows which addresses a range covers and whether the server IPs you want to allow are inside it.",
+          "If the address includes host bits, as in 192.168.10.37/24, it's normalized to the network 192.168.10.0/24 and a note is shown. Total addresses counts every address in the range, while usable hosts excludes the network and broadcast addresses. /31 (point-to-point) and /32 (a single address) are handled separately.",
+          "IPv6 and real network connections are not covered. Numbers with leading zeros (such as 010) are rejected because some systems read them as octal.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "/24 の利用可能ホスト数が254なのはなぜですか？", en: "Why does /24 have 254 usable hosts?" },
+        answer: {
+          ja: "256個のアドレスのうち、先頭のネットワークアドレスと最後のブロードキャストアドレスはホストに割り当てられないためです。",
+          en: "Of the 256 addresses, the first (network) and last (broadcast) can't be assigned to hosts.",
+        },
+      },
+      {
+        question: { ja: "/31 と /32 はどう扱われますか？", en: "How are /31 and /32 handled?" },
+        answer: {
+          ja: "/31 はRFC 3021のポイントツーポイント用として2つとも利用可能、/32 は単一のアドレスとして1つを利用可能と表示します。",
+          en: "/31 shows both addresses as usable for point-to-point links per RFC 3021, and /32 shows its single address as usable.",
+        },
+      },
+      {
+        question: { ja: "IPv6には対応していますか？", en: "Is IPv6 supported?" },
+        answer: {
+          ja: "初期版はIPv4のみに対応しています。",
+          en: "This version supports IPv4 only.",
+        },
+      },
+    ],
+    category: "web",
+    icon: Network,
+    keywords: {
+      ja: "cidr サブネット subnet ip アドレス ネットマスク ネットワーク ipv4 範囲 計算 ブロードキャスト ホスト数 許可リスト",
+      en: "cidr subnet calculator ip address netmask network ipv4 range broadcast hosts allowlist",
+    },
+  },
+  {
     id: "log-masker",
     name: { ja: "ログ・HARの機密情報マスキング", en: "Log & HAR Data Masker" },
     description: {
@@ -3506,6 +3863,75 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/json", "text/plain"],
       extensions: ["har", "log", "txt", "json"],
+    },
+  },
+  {
+    id: "chmod-calculator",
+    name: { ja: "chmodパーミッション計算", en: "chmod Permission Calculator" },
+    description: {
+      ja: "所有者・グループ・その他の権限をチェックボックスで指定し、755 などの8進数と rwxr-xr-x 形式を相互変換します。",
+      en: "Set owner, group, and others permissions with checkboxes and convert between octal such as 755 and rwxr-xr-x.",
+    },
+    longDescription: {
+      ja: "Unix系環境のファイル権限を、所有者・グループ・その他の読み取り・書き込み・実行のチェックボックスで指定し、chmodで使う3桁の8進数とrwx表記を相互変換するツールです。各区分に与えられる権限と、ディレクトリでの実行権限の意味も確認できます。すべてブラウザ内で処理されます。",
+      en: "A tool that sets Unix file permissions with read, write, and execute checkboxes for owner, group, and others, and converts between the three-digit octal used by chmod and rwx notation. It also explains what each class can do and what execute means on a directory — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "所有者・グループ・その他ごとに、読み取り・書き込み・実行のチェックボックスを切り替えます。",
+        "8進数（例: 755）またはrwx表記（例: rwxr-xr-x）を直接入力しても、他の表記に反映されます。",
+        "よく使う値のボタンで 644 や 755 などをすぐに設定できます。",
+        "結果の chmod コマンドをコピーして使います。",
+      ],
+      en: [
+        "Toggle read, write, and execute for owner, group, and others.",
+        "Or type octal (e.g. 755) or symbolic notation (e.g. rwxr-xr-x) directly; the other forms update.",
+        "Use the common value buttons to set 644, 755, and others quickly.",
+        "Copy the resulting chmod command.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "chmod 755 の各桁は、所有者・グループ・その他の権限を表します。読み取りが4、書き込みが2、実行が1で、その合計が各桁の値です。例えば755は、所有者が読み取り・書き込み・実行、グループとその他が読み取り・実行を許可されます。",
+          "ディレクトリの場合、実行権限は中に入ってファイルにアクセスする権限、読み取り権限はファイル名の一覧を取得する権限を意味します。そのため、ディレクトリには通常、読み取りと実行をセットで与えます。",
+          "setuid・setgid・スティッキービット（4桁目）やACLは初期版の対象外です。実際のファイルの権限を読み取ったり変更したりすることはありません。",
+        ],
+        en: [
+          "Each digit of chmod 755 is the permission for owner, group, and others. Read is 4, write is 2, and execute is 1, and each digit is their sum. 755 lets the owner read, write, and execute, while group and others can read and execute.",
+          "On a directory, execute means entering it and accessing files inside, and read means listing file names. That's why directories usually get read and execute together.",
+          "setuid, setgid, the sticky bit (the fourth digit), and ACLs are not covered in this version. No real file permissions are read or changed.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "644 と 755 はどう使い分けますか？", en: "When should I use 644 versus 755?" },
+        answer: {
+          ja: "一般的に、通常のファイルは644（所有者だけが書き込み可能）、実行するスクリプトやディレクトリは755にします。",
+          en: "Typically, regular files use 644 (only the owner can write), and executable scripts and directories use 755.",
+        },
+      },
+      {
+        question: { ja: "4桁の値（例: 4755）は使えますか？", en: "Can I use four-digit values such as 4755?" },
+        answer: {
+          ja: "特殊ビットは対象外のため、先頭が0以外の4桁はエラーになります。0755 のように先頭が0なら3桁と同じ扱いです。",
+          en: "Special bits aren't supported, so four digits not starting with 0 are rejected. A leading 0, as in 0755, is treated like three digits.",
+        },
+      },
+      {
+        question: { ja: "ls -l の表示を貼り付けられますか？", en: "Can I paste the output of ls -l?" },
+        answer: {
+          ja: "-rw-r--r-- や drwxr-xr-x のように、先頭に種別が付いた10文字の表記も入力できます。",
+          en: "Yes. Ten-character notation with a leading type, such as -rw-r--r-- or drwxr-xr-x, is accepted.",
+        },
+      },
+    ],
+    category: "security",
+    icon: Lock,
+    keywords: {
+      ja: "chmod パーミッション 権限 permission unix linux 755 644 777 rwx 8進数 所有者 グループ",
+      en: "chmod permission calculator unix linux 755 644 777 rwx octal symbolic owner group others",
     },
   },
   {
@@ -3672,6 +4098,144 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/zip", "application/x-zip-compressed", "application/x-tar", "application/gzip", "application/x-gzip"],
       extensions: ["zip", "tar", "tgz", "gz"],
+    },
+  },
+  {
+    id: "gitignore-tester",
+    name: { ja: ".gitignoreルール検証", en: ".gitignore Tester" },
+    description: {
+      ja: ".gitignoreの内容とパス一覧から、各パスが無視対象になるかと、原因となったルール・行番号を表示します。",
+      en: "Check whether each path is ignored by a .gitignore, with the rule and line number responsible.",
+    },
+    longDescription: {
+      ja: "ルートの.gitignoreの内容と、ファイル・ディレクトリの相対パス一覧を入力し、各パスがGitの無視対象になるかと、適用されたルール・行番号を表示するツールです。ワイルドカード、ディレクトリ指定、否定ルール、ルールの順序、親ディレクトリが除外された場合の挙動を確認できます。すべてブラウザ内で処理されます。",
+      en: "A tool that takes a root .gitignore and a list of relative file and directory paths, and shows whether Git ignores each path along with the rule and line number that applied. You can verify wildcards, directory patterns, negation, rule order, and what happens when a parent directory is excluded — all processed in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左に.gitignoreの内容を貼り付けるか、ファイルを読み込みます。",
+        "右に判定したいパスを1行に1つ入力します。ディレクトリは末尾に / を付けます（例: dist/）。",
+        "パスごとに「無視される」「無視されない」と、適用されたルールの行番号が表示されます。",
+        "親ディレクトリの除外によって否定ルールが効かない場合は、その理由も表示されます。",
+      ],
+      en: [
+        "Paste the .gitignore contents on the left or load the file.",
+        "Enter paths to check on the right, one per line. End directories with / (e.g. dist/).",
+        "Each path shows Ignored or Not ignored, with the line number of the rule that applied.",
+        "When a negation rule has no effect because a parent directory is excluded, the reason is shown.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "ビルド成果物は除外しつつ特定の設定ファイルだけ残したい、といった.gitignoreは、否定ルール（!）や順序の扱いで意図どおりにならないことがよくあります。このツールでは、各パスにどのルールが最後に一致したかを行番号付きで確認できます。",
+          "Gitは除外されたディレクトリの中を探索しないため、dist/ を除外すると !dist/keep.json のような否定ルールは効きません。この場合は親ディレクトリが原因であることを表示します。dist/** のようにディレクトリの中身を除外すれば、否定ルールで特定のファイルを戻せます。",
+          "入力したパスは未追跡のファイルとして判定します。すでに追跡されているファイルには.gitignoreが適用されません。サブディレクトリの.gitignoreやグローバル設定は初期版の対象外です。",
+        ],
+        en: [
+          "Patterns like \"exclude build output but keep one config file\" often fail because of how negation (!) and rule order work. This tool shows which rule last matched each path, with its line number.",
+          "Git doesn't look inside excluded directories, so after excluding dist/, a negation like !dist/keep.json has no effect. In that case the parent directory is shown as the cause. Excluding the contents instead, as in dist/**, lets a negation re-include a specific file.",
+          "Paths are treated as untracked files; .gitignore doesn't apply to files already tracked. Nested .gitignore files and global settings are not covered in this version.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "!で否定したファイルが無視されたままなのはなぜですか？", en: "Why is a file still ignored after negating it with !?" },
+        answer: {
+          ja: "親ディレクトリが除外されていると、Gitはその中を探索しないため否定ルールが効きません。ディレクトリではなく中身を除外（dir/**）してから否定してください。",
+          en: "If a parent directory is excluded, Git never looks inside, so the negation has no effect. Exclude the contents (dir/**) instead of the directory, then negate.",
+        },
+      },
+      {
+        question: { ja: "コミット済みのファイルも判定できますか？", en: "Does it apply to files already committed?" },
+        answer: {
+          ja: ".gitignoreは追跡済みのファイルには適用されません。このツールは未追跡のパスとして判定します。追跡をやめるには git rm --cached を使います。",
+          en: ".gitignore doesn't apply to tracked files. This tool treats paths as untracked. Use git rm --cached to stop tracking a file.",
+        },
+      },
+      {
+        question: { ja: "末尾の / は何を意味しますか？", en: "What does a trailing / mean?" },
+        answer: {
+          ja: ".gitignoreのルールでは、ディレクトリだけに一致する指定です。パス一覧でも、末尾に / を付けたものをディレクトリとして扱います。",
+          en: "In a rule, it matches directories only. In the path list, entries ending with / are treated as directories.",
+        },
+      },
+    ],
+    category: "code",
+    icon: FileX,
+    keywords: {
+      ja: "gitignore git 無視 除外 ルール 否定 ワイルドカード 検証 テスト パス",
+      en: "gitignore git ignore exclude rule negation wildcard pattern tester check path",
+    },
+  },
+  {
+    id: "semver-range",
+    name: { ja: "SemVer範囲チェッカー", en: "SemVer Range Checker" },
+    description: {
+      ja: "^1.2.0 や ~1.4 などnpm形式のバージョン範囲に、候補のバージョンが含まれるかを一覧で判定します。",
+      en: "Check which candidate versions satisfy an npm-style range such as ^1.2.0 or ~1.4.",
+    },
+    longDescription: {
+      ja: "package.jsonで使うnpm形式のバージョン範囲（^、~、比較演算子、||、ハイフン範囲）と候補バージョンを入力し、それぞれが範囲に含まれるかを判定するツールです。0.x系やプレリリースの扱い、範囲を展開した条件も確認でき、latestなどのタグやGit URLは範囲と区別して表示します。レジストリへの問い合わせは行わず、すべてブラウザ内で処理されます。",
+      en: "A tool that checks whether candidate versions satisfy an npm-style range from package.json (^, ~, comparators, ||, and hyphen ranges). You can see how 0.x versions and prereleases are handled and the expanded condition, and tags such as latest or Git URLs are distinguished from ranges. The registry is never queried — everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "バージョン範囲（例: ^1.2.0）を入力します。展開した条件（>=1.2.0 <2.0.0-0 など）が表示されます。",
+        "判定したい候補バージョンを1行に1つ入力します。",
+        "候補ごとに「範囲に含まれる」「範囲外」「不正なバージョン」が表示されます。",
+        "プレリリースを常に含めたい場合は、--include-prerelease 相当のチェックを入れます。",
+      ],
+      en: [
+        "Enter a version range (e.g. ^1.2.0). The expanded condition (such as >=1.2.0 <2.0.0-0) is shown.",
+        "Enter candidate versions, one per line.",
+        "Each candidate shows In range, Out of range, or Invalid version.",
+        "Check the --include-prerelease option to always include prereleases.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "package.jsonの依存関係のバージョン指定によって、npm install や更新でどのバージョンが入りうるかが決まります。このツールでは、^1.2.0 に 1.9.0 や 2.0.0 が含まれるかといった判定を、npmと同じ semver ライブラリで確認できます。",
+          "^ は0以外の最も左の桁を固定するため、^0.2.3 は 0.2.x の範囲だけ、^0.0.3 は 0.0.3 だけを含みます。プレリリース（1.3.0-beta.1 など）は、範囲の条件に同じ major.minor.patch のプレリリースが書かれている場合だけ含まれます。",
+          "latest や next などのdist-tag、Git URL、ローカルパスは、指すバージョンがレジストリや外部の状態で決まるため、範囲として判定しません。入力した候補バージョンだけを判定し、レジストリへの問い合わせは行いません。",
+        ],
+        en: [
+          "The version ranges in package.json decide which versions npm install and updates can pick. This tool checks questions like whether ^1.2.0 includes 1.9.0 or 2.0.0 using the same semver library as npm.",
+          "^ locks the leftmost non-zero digit, so ^0.2.3 covers only 0.2.x and ^0.0.3 covers only 0.0.3. Prereleases (such as 1.3.0-beta.1) are only included when the range has a comparator with a prerelease on the same major.minor.patch.",
+          "dist-tags such as latest or next, Git URLs, and local paths depend on the registry or external state, so they aren't checked as ranges. Only the candidate versions you enter are checked; the registry is never queried.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "^ と ~ の違いは何ですか？", en: "What's the difference between ^ and ~?" },
+        answer: {
+          ja: "^1.2.3 はメジャーバージョンが同じ範囲（>=1.2.3 <2.0.0）、~1.2.3 はマイナーバージョンまで同じ範囲（>=1.2.3 <1.3.0）を許可します。",
+          en: "^1.2.3 allows the same major version (>=1.2.3 <2.0.0), while ~1.2.3 allows the same minor version (>=1.2.3 <1.3.0).",
+        },
+      },
+      {
+        question: { ja: "1.10.0-beta.1 が ^1.2.0 の範囲外になるのはなぜですか？", en: "Why is 1.10.0-beta.1 outside ^1.2.0?" },
+        answer: {
+          ja: "npmでは、範囲の条件に同じバージョンのプレリリースが書かれていない限り、プレリリースは含まれません。含めたい場合はプレリリースを含めるオプションを有効にします。",
+          en: "npm excludes prereleases unless the range has a prerelease comparator on the same version. Enable the include-prerelease option to include them.",
+        },
+      },
+      {
+        question: { ja: "latest を入力するとどうなりますか？", en: "What happens if I enter latest?" },
+        answer: {
+          ja: "dist-tagとして表示し、範囲としては判定しません。タグが指すバージョンはレジストリの状態で決まるためです。",
+          en: "It's identified as a dist-tag and not checked as a range, because the version it points to depends on the registry.",
+        },
+      },
+    ],
+    category: "code",
+    icon: Package,
+    keywords: {
+      ja: "semver セマンティックバージョニング バージョン 範囲 npm package.json キャレット チルダ ^ ~ 依存 プレリリース",
+      en: "semver semantic versioning version range npm package.json caret tilde dependency prerelease satisfies",
     },
   },
   {
@@ -4070,6 +4634,75 @@ export const tools: Tool[] = [
     },
   },
   {
+    id: "pg-explain-viewer",
+    name: { ja: "PostgreSQL実行計画ビューア", en: "PostgreSQL EXPLAIN Viewer" },
+    description: {
+      ja: "EXPLAIN (ANALYZE, FORMAT JSON) の出力をツリー表示し、時間のかかるノードや推定行数のずれを強調します。",
+      en: "Show EXPLAIN (ANALYZE, FORMAT JSON) output as a tree and highlight slow nodes and row misestimates.",
+    },
+    longDescription: {
+      ja: "PostgreSQLの EXPLAIN (ANALYZE, FORMAT JSON) の出力を貼り付けると、実行計画をノードのツリーとして表示するツールです。ノード種別、推定行数、実測行数、ループ回数、実測時間を確認でき、ループ回数を考慮した自身の時間や推定行数と実測行数のずれを強調します。DB接続は行わず、すべてブラウザ内で処理されます。",
+      en: "A tool that shows PostgreSQL EXPLAIN (ANALYZE, FORMAT JSON) output as a tree of plan nodes. You can check node types, estimated and actual rows, loops, and actual time, with self time that accounts for loops and highlighted row misestimates. No database connection is made — everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "検証環境などで EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) SELECT ...; を実行し、出力を取得します。",
+        "出力を貼り付けるか、ファイルを読み込みます。psqlの表形式で出力された見出しや行末の + は自動で取り除いて読み込みます。",
+        "上部の概要で、自身の時間が長いノードと、推定行数と実測行数のずれが大きいノードを確認します。",
+        "ツリーで各ノードを展開・折りたたみし、条件（Filter・Index Cond など）や除外された行数を確認します。",
+      ],
+      en: [
+        "Run EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) SELECT ...; in a test environment and copy the output.",
+        "Paste the output or load a file. Headers and trailing + from psql's table output are removed automatically.",
+        "Use the summary to find nodes with the most self time and the largest row misestimates.",
+        "Expand and collapse nodes in the tree to check conditions (Filter, Index Cond, and so on) and rows removed.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "遅いSQLの原因は、実行計画のどこで時間がかかっているか、プランナーの推定行数が実際と大きくずれていないかを見ると分かることが多くあります。このツールは、読みにくいJSON形式の実行計画をツリーにして、そうした箇所を強調します。",
+          "PostgreSQLの実測時間と行数は1ループあたりの値で、子ノードの時間を含みます。このツールはループ回数を掛けた合計から子ノードの時間を引いて「自身」の時間を概算するため、各ノードの時間を単純に足し合わせて誤解することがありません。並列実行（Gather配下）はプロセス数で割って概算します。",
+          "ANALYZEなしの計画では、実測値を0ではなく「—」として表示します。推定行数が0の場合も最低1行として比較するため、計算エラーにはなりません。DBへの接続やSQLの実行は行わず、貼り付けた計画だけを解析します。",
+        ],
+        en: [
+          "The cause of a slow query is often visible in where the plan spends time and where the planner's row estimates are far off. This tool turns hard-to-read JSON plans into a tree and highlights those spots.",
+          "PostgreSQL reports actual time and rows per loop, and a node's time includes its children. This tool multiplies by loops and subtracts the children's time to estimate each node's self time, so you aren't misled by simply adding up times. Parallel nodes under Gather are divided by the number of processes.",
+          "For plans without ANALYZE, actual values are shown as \"—\" rather than 0. An estimate of 0 rows is compared as at least 1 row, so there are no calculation errors. No database connection or SQL execution happens — only the plan you paste is analyzed.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "テキスト形式のEXPLAINには対応していますか？", en: "Does it support text-format EXPLAIN?" },
+        answer: {
+          ja: "初期版は FORMAT JSON の出力のみに対応しています。EXPLAIN (ANALYZE, FORMAT JSON) で取得してください。",
+          en: "This version supports FORMAT JSON output only. Capture the plan with EXPLAIN (ANALYZE, FORMAT JSON).",
+        },
+      },
+      {
+        question: { ja: "「自身」の時間は正確ですか？", en: "Is the self time exact?" },
+        answer: {
+          ja: "概算です。CTEやInitPlan、並列実行では時間の計上方法が異なるため、ずれる場合があります。負になる場合は0として表示します。",
+          en: "It's an estimate. CTEs, InitPlans, and parallel execution account for time differently, so it may be off. Negative values are shown as 0.",
+        },
+      },
+      {
+        question: { ja: "本番DBの実行計画を貼り付けても安全ですか？", en: "Is it safe to paste plans from production?" },
+        answer: {
+          ja: "計画はサーバーへ送信されず、ブラウザ内だけで解析されます。ただし EXPLAIN ANALYZE は実際にSQLを実行するため、取得は検証環境で行うことをおすすめします。",
+          en: "Plans are analyzed only in your browser and never sent to a server. Note that EXPLAIN ANALYZE actually runs the query, so capture plans in a test environment when possible.",
+        },
+      },
+    ],
+    category: "code",
+    icon: Gauge,
+    keywords: {
+      ja: "postgresql postgres explain analyze 実行計画 クエリプラン sql 遅い チューニング パフォーマンス 推定行数 インデックス",
+      en: "postgresql postgres explain analyze query plan visualizer sql slow query tuning performance row estimate index",
+    },
+  },
+  {
     id: "code-formatter",
     name: { ja: "HTML/CSS/JS整形・Minify", en: "HTML/CSS/JS Formatter & Minifier" },
     description: {
@@ -4147,6 +4780,78 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["text/html", "text/css", "text/javascript", "application/javascript"],
       extensions: ["html", "htm", "css", "scss", "less", "js", "mjs", "cjs", "jsx", "ts", "tsx"],
+    },
+  },
+  {
+    id: "source-map-resolver",
+    name: { ja: "Source Mapスタックトレース復元", en: "Source Map Stack Trace Resolver" },
+    description: {
+      ja: "Source Mapを使って、圧縮されたJavaScriptのエラー位置を元のソースファイルの行・列に戻します。",
+      en: "Use a source map to map minified JavaScript error locations back to the original source file, line, and column.",
+    },
+    longDescription: {
+      ja: "Source Map v3 の.mapファイルとスタックトレースを入力し、app.min.js:1:24050 のような圧縮後のエラー位置を、元のソースファイルの行・列に対応付けるツールです。sourcesContentが含まれる場合は該当箇所のソースも表示します。外部のMapやソースを取得せず、すべてブラウザ内で処理されます。",
+      en: "A tool that takes a Source Map v3 file and a stack trace and maps minified locations such as app.min.js:1:24050 back to the original source file, line, and column. When sourcesContent is included, the matching source lines are shown. External maps and sources are never fetched — everything runs in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "左に.mapファイルの内容を貼り付けるか、ファイルを読み込みます。",
+        "右に本番環境などで記録されたスタックトレースを貼り付けます。",
+        "必要に応じて生成済みJavaScriptのファイル名を指定します。省略するとMapの file の値を使います。",
+        "フレームごとに元のファイル名・行・列と、該当箇所のソースが表示されます。結果はコピーできます。",
+      ],
+      en: [
+        "Paste the .map file contents on the left or load the file.",
+        "Paste a stack trace, such as one recorded in production, on the right.",
+        "Optionally enter the generated JavaScript file name. If omitted, the map's file field is used.",
+        "Each frame shows the original file, line, column, and the matching source. You can copy the result.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "本番環境のJavaScriptは圧縮されているため、エラーの位置が app.min.js:1:24050 のように表示され、どのコードで発生したか分かりません。ビルド時に生成したSource Mapを使えば、元のソースファイルの位置に戻せます。",
+          "ブラウザのスタックトレースの行・列は1始まりですが、Source Mapの内部表現では列が0始まりです。このツールは基準の違いを変換して位置ずれを防ぎ、0始まりの列番号を出力するツール向けの切り替えも用意しています。対応付けできないフレームや別ファイルのフレームは、元の行をそのまま残して理由を表示します。",
+          "初期版は分割されていない単一のMapが対象で、sections を持つインデックスMapには対応していません。sourcesContentがない場合も位置の復元は利用できます。Mapやスタックトレースがサーバーへ送信されることはありません。",
+        ],
+        en: [
+          "Production JavaScript is minified, so errors point to places like app.min.js:1:24050, which tells you nothing about the code. With the source map generated at build time, you can map them back to the original source.",
+          "Browser stack traces use 1-based lines and columns, while source maps use 0-based columns internally. This tool converts between them to avoid off-by-one errors, with an option for tools that output 0-based columns. Frames that can't be mapped or belong to other files keep their original text with an explanation.",
+          "This version supports a single, non-sectioned map; indexed maps with sections aren't supported. Locations can be resolved even without sourcesContent. Your map and stack trace are never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "どのブラウザのスタックトレースに対応していますか？", en: "Which browsers' stack traces are supported?" },
+        answer: {
+          ja: "Chrome・Edge（at fn (url:行:列)）と Firefox・Safari（fn@url:行:列）の形式に対応しています。",
+          en: "Chrome and Edge (at fn (url:line:column)) and Firefox and Safari (fn@url:line:column) formats are supported.",
+        },
+      },
+      {
+        question: { ja: "復元した位置が1文字ずれます。", en: "The resolved location is off by one." },
+        answer: {
+          ja: "列番号の基準が合っていない可能性があります。ブラウザのスタックトレースは1始まりです。0始まりで出力するツールの場合は、基準を切り替えてください。",
+          en: "The column numbering may not match. Browser stack traces are 1-based; switch the setting if your tool outputs 0-based columns.",
+        },
+      },
+      {
+        question: { ja: "Source Mapを公開せずに使えますか？", en: "Can I use it without publishing my source map?" },
+        answer: {
+          ja: "はい。Mapはブラウザ内だけで読み込まれ、サーバーへ送信されることはありません。",
+          en: "Yes. The map is read only in your browser and never sent to a server.",
+        },
+      },
+    ],
+    category: "code",
+    icon: Bug,
+    keywords: {
+      ja: "source map ソースマップ スタックトレース エラー 復元 minify 圧縮 javascript デバッグ sourcemap",
+      en: "source map sourcemap stack trace error resolve unminify minified javascript debug symbolicate",
+    },
+    fileMatch: {
+      extensions: ["map"],
     },
   },
   {

@@ -19,6 +19,81 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-18",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "OpenAPI互換性チェッカーを追加（OpenAPI 3.0.x対応）",
+          en: "Added an OpenAPI compatibility checker (OpenAPI 3.0.x)",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: ".gitignoreルール検証ツールを追加",
+          en: "Added a .gitignore tester",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "SemVer範囲チェッカーを追加",
+          en: "Added a SemVer range checker",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "IPv4 CIDR・サブネット計算ツールを追加",
+          en: "Added an IPv4 CIDR and subnet calculator",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "JSONからJSON Schemaを生成するツールを追加",
+          en: "Added a JSON to JSON Schema generator",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "chmodパーミッション計算ツールを追加",
+          en: "Added a chmod permission calculator",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "PostgreSQL実行計画ビューアを追加",
+          en: "Added a PostgreSQL EXPLAIN viewer",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "Source Mapによるスタックトレース復元ツールを追加",
+          en: "Added a source map stack trace resolver",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "robots.txtルール検証ツールを追加",
+          en: "Added a robots.txt tester",
+        },
+      },
+      {
+        type: "feature",
+        title: {
+          ja: "翻訳プレースホルダー整合チェックツールを追加",
+          en: "Added a translation placeholder checker",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-10-17",
     entries: [
       {

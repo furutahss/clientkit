@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { Base64Tool } from "@/components/tools/base64-tool";
 import { CertificateDecoderTool } from "@/components/tools/certificate-decoder-tool";
 import { CharacterCountTool } from "@/components/tools/character-count-tool";
+import { ChmodCalculatorTool } from "@/components/tools/chmod-calculator-tool";
+import { CidrCalculatorTool } from "@/components/tools/cidr-calculator-tool";
 import { ColorConverterTool } from "@/components/tools/color-converter-tool";
 import { CronExplainerTool } from "@/components/tools/cron-explainer-tool";
 import { CsvEditorTool } from "@/components/tools/csv-editor-tool";
@@ -15,13 +17,16 @@ import { EnvCompareTool } from "@/components/tools/env-compare-tool";
 import { ExifRemoverTool } from "@/components/tools/exif-remover-tool";
 import { FaviconGeneratorTool } from "@/components/tools/favicon-generator-tool";
 import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
+import { GitignoreTesterTool } from "@/components/tools/gitignore-tester-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
+import { I18nPlaceholderCheckerTool } from "@/components/tools/i18n-placeholder-checker-tool";
 import { IdGeneratorTool, UuidGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { ImageDiffTool } from "@/components/tools/image-diff-tool";
 import { JsonDiffTool } from "@/components/tools/json-diff-tool";
 import { JsonFormatterTool } from "@/components/tools/json-formatter-tool";
+import { JsonSchemaGeneratorTool } from "@/components/tools/json-schema-generator-tool";
 import { JsonSchemaValidatorTool } from "@/components/tools/json-schema-validator-tool";
 import { JsonPathTesterTool } from "@/components/tools/jsonpath-tester-tool";
 import {
@@ -40,13 +45,18 @@ import { JwtDecoderTool } from "@/components/tools/jwt-decoder-tool";
 import { LogMaskerTool } from "@/components/tools/log-masker-tool";
 import { MarkdownEditorTool } from "@/components/tools/markdown-editor-tool";
 import { MockRepoGeneratorTool } from "@/components/tools/mock-repo-generator-tool";
+import { OpenapiCompatTool } from "@/components/tools/openapi-compat-tool";
 import { PdfToolkitTool } from "@/components/tools/pdf-toolkit-tool";
+import { PgExplainViewerTool } from "@/components/tools/pg-explain-viewer-tool";
 import { PrismaRepoGeneratorTool } from "@/components/tools/prisma-repo-generator-tool";
 import { PrismaSchemaVisualizerTool } from "@/components/tools/prisma-schema-visualizer-tool";
 import { PrismaZodGeneratorTool } from "@/components/tools/prisma-zod-generator-tool";
 import { QrCodeTool } from "@/components/tools/qr-code-tool";
 import { RegexTesterTool } from "@/components/tools/regex-tester-tool";
+import { RobotsTxtTesterTool } from "@/components/tools/robots-txt-tester-tool";
 import { ScreenshotEditorTool } from "@/components/tools/screenshot-editor-tool";
+import { SemverRangeTool } from "@/components/tools/semver-range-tool";
+import { SourceMapResolverTool } from "@/components/tools/source-map-resolver-tool";
 import { SqlFormatterTool } from "@/components/tools/sql-formatter-tool";
 import { SqlInsertGeneratorTool } from "@/components/tools/sql-insert-generator-tool";
 import { SqlToPrismaTool } from "@/components/tools/sql-to-prisma-tool";
@@ -115,6 +125,16 @@ const toolComponents: Record<string, ComponentType> = {
   "csv-reconcile": CsvReconcileTool,
   "image-diff": ImageDiffTool,
   "sql-insert-generator": SqlInsertGeneratorTool,
+  "chmod-calculator": ChmodCalculatorTool,
+  "cidr-calculator": CidrCalculatorTool,
+  "gitignore-tester": GitignoreTesterTool,
+  "i18n-placeholder-checker": I18nPlaceholderCheckerTool,
+  "json-schema-generator": JsonSchemaGeneratorTool,
+  "openapi-compat": OpenapiCompatTool,
+  "pg-explain-viewer": PgExplainViewerTool,
+  "robots-txt-tester": RobotsTxtTesterTool,
+  "semver-range": SemverRangeTool,
+  "source-map-resolver": SourceMapResolverTool,
 };
 
 export function generateStaticParams() {
