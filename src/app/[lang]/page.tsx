@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { localizedAlternates } from "@/config/seo";
 import { Suspense } from "react";
 import { ToolExplorer } from "@/components/home/tool-explorer";
+import { ToolDirectory } from "@/components/home/tool-directory";
 import { ToolCategories } from "@/components/home/tool-categories";
 import { tools } from "@/config/tools";
 import { formatTemplate } from "@/lib/utils";
@@ -34,6 +35,7 @@ export default async function Home(props: PageProps<"/[lang]">) {
       <Suspense fallback={<ToolCategories lang={lang} />}>
         <ToolExplorer />
       </Suspense>
+      <ToolDirectory lang={lang} />
     </div>
   );
 }

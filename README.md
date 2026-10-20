@@ -61,3 +61,16 @@ src/
     tools.ts              # ツールレジストリ（一元管理）
     site.ts                # サイト全体の設定
 ```
+
+## SEOの検証と配信
+
+```bash
+npm run build
+npm test
+npm run lint
+npm run seo:content
+```
+
+別ターミナルで`npm run preview:seo`を起動し、`npm run seo:links`で本番出力の全内部リンクとメタ情報を検証できます。本文の改善前・改善後の測定、運営者情報の確認待ち項目、デプロイ後の手順は[SEO監査](docs/seo-audit.md)を参照してください。
+
+URL正規化には`worker/index.mjs`を使います。Cloudflare Workersへ`npx wrangler deploy`で静的資産とWorkerを一緒に反映してください。`out/`だけのアップロードではHTTP/wwwの統一処理は反映されません。

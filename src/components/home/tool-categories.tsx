@@ -28,7 +28,7 @@ export function ToolCategories({ lang }: { lang: Locale }) {
           return (
             <Link
               key={category.id}
-              href={`/${lang}?category=${category.id}`}
+              href={`/${lang}#category-${category.id}`}
               className="flex items-center gap-3 rounded-xl border p-4 transition-colors hover:border-primary/40 hover:bg-accent/40 focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-secondary">

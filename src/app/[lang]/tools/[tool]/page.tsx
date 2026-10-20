@@ -64,6 +64,7 @@ import { SvgOptimizerTool } from "@/components/tools/svg-optimizer-tool";
 import { TextDiffTool } from "@/components/tools/text-diff-tool";
 import { TimestampConverterTool } from "@/components/tools/timestamp-converter-tool";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
+import { RelatedTools } from "@/components/tools/related-tools";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
 import { UnicodeInspectorTool } from "@/components/tools/unicode-inspector-tool";
 import { UrlEncoderTool } from "@/components/tools/url-encoder-tool";
@@ -197,6 +198,7 @@ export default async function ToolPage(
           answer: item.answer[lang],
         }))}
       />
+      <RelatedTools tool={tool} lang={lang} />
     </div>
   );
 }
