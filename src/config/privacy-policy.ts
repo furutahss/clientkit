@@ -14,7 +14,7 @@ export type PrivacyPolicySection = {
 /** 制定日（ISO形式 YYYY-MM-DD） */
 export const privacyPolicyEstablishedAt = "2026-10-03";
 /** 最終更新日（ISO形式 YYYY-MM-DD）。内容を変更したら更新する。 */
-export const privacyPolicyUpdatedAt = "2026-10-03";
+export const privacyPolicyUpdatedAt = "2026-10-20";
 
 /**
  * プライバシーポリシー本文。
@@ -46,14 +46,21 @@ export const privacyPolicySections: PrivacyPolicySection[] = [
     ],
   },
   {
+    heading: { ja: "サイト表示と資産の取得", en: "Page delivery and asset downloads" },
+    paragraphs: [{
+      ja: "ページ表示、OCRの言語データ、背景除去モデル、PDF用フォントなどの取得ではネットワーク通信が発生します。配信サーバーは要求されたURLや接続に必要なIPアドレス等を扱います。入力の解析を端末内で行うことと、ページ・広告の読み込みで通信が発生することは別です。Markdown内の外部画像など、入力に含まれる外部リソースを表示する場合は、その配信先にアクセスします。",
+      en: "Network requests load pages and assets such as OCR language data, a background removal model, and PDF fonts. Delivery servers handle requested URLs and connection information such as IP addresses. Local input processing is separate from page and advertising requests. Displaying an external resource included in your input, such as an image in Markdown, contacts that resource’s host.",
+    }],
+  },
+  {
     heading: {
       ja: "アクセス解析ツールについて",
       en: "Analytics",
     },
     paragraphs: [
       {
-        ja: "当サイトでは、サイトの利用状況を把握し改善に役立てるため、Cloudflare, Inc. が提供するアクセス解析サービス「Cloudflare Web Analytics」を利用しています。",
-        en: "To understand how this site is used and to improve it, we use Cloudflare Web Analytics, an analytics service provided by Cloudflare, Inc.",
+        ja: "配信基盤のCloudflareでは、ホスティング側でWeb Analyticsが有効な場合、ページ表示の統計が収集されます。リポジトリには専用の解析スクリプトを設置していませんが、配信時に追加される解析にはCloudflareのポリシーが適用されます。",
+        en: "Cloudflare, the hosting provider, can collect page-view statistics when Web Analytics is enabled in the hosting configuration. No dedicated analytics script is installed in this repository; analytics injected during delivery are subject to Cloudflare’s policies.",
       },
       {
         ja: "Cloudflare Web Analytics は Cookie やローカルストレージを使用せず、利用者を追跡したり個人を特定したりする情報を収集しません。収集されるのは、閲覧されたページのURL、参照元、ブラウザやOSの種類、アクセス元の国・地域、ページの表示速度などの統計的なデータです。",
@@ -77,20 +84,20 @@ export const privacyPolicySections: PrivacyPolicySection[] = [
     },
     paragraphs: [
       {
-        ja: "当サイトでは、第三者配信の広告サービス「Google AdSense」を利用しています。Google などの第三者配信事業者は、Cookie を使用して、利用者が当サイトや他のウェブサイトに過去にアクセスした際の情報に基づいて広告を配信します。",
-        en: "This site uses Google AdSense, a third-party advertising service. Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this website and other websites.",
+        ja: "当サイトにはGoogle AdSenseの広告コードを設置しています。審査・配信状態や利用者の設定に応じ、Googleなどの第三者配信事業者がCookieを使って、当サイトや他のサイトへの過去のアクセスに基づく広告を配信する場合があります。",
+        en: "This site includes Google AdSense code. Depending on review status, ad availability, and your settings, third-party vendors including Google may use cookies to serve ads based on your previous visits to this and other websites.",
       },
       {
-        ja: "Google が広告 Cookie を使用することにより、Google やそのパートナーは、当サイトや他のサイトへのアクセス情報に基づいて利用者に適切な広告を表示できます。これらの情報には、氏名・住所・メールアドレス・電話番号など、個人を特定する情報は含まれません。",
-        en: "Google's use of advertising cookies enables it and its partners to serve ads to you based on your visits to this site and/or other sites on the Internet. This information does not include personally identifiable information such as your name, address, email address, or phone number.",
+        ja: "Google が広告 Cookie を使用することにより、Google やそのパートナーは、当サイトや他のサイトへのアクセス情報に基づいて利用者に適切な広告を表示できます。Cookie等による識別子や閲覧・端末情報の扱いは、Googleのプライバシーポリシーをご確認ください。",
+        en: "Google's use of advertising cookies enables it and its partners to serve ads to you based on your visits to this site and/or other sites on the Internet. Consult Google’s policies for its handling of cookie identifiers, browsing activity, and device information.",
       },
       {
         ja: "利用者は、Google の広告設定でパーソナライズ広告を無効にできます。また、aboutads.info にアクセスすることで、パーソナライズ広告に使用される第三者配信事業者の Cookie を無効にできます。",
         en: "You may opt out of personalized advertising by visiting Google's Ads Settings. You can also opt out of a third-party vendor's use of cookies for personalized advertising by visiting aboutads.info.",
       },
       {
-        ja: "お住まいの地域（欧州経済領域・英国・スイスなど）によっては、Cookie の使用やデータの利用について同意を求めるメッセージが表示される場合があります。同意の内容は、いつでも変更できます。",
-        en: "Depending on where you live (for example, the European Economic Area, the United Kingdom, or Switzerland), you may be asked for consent to the use of cookies and data. You can change your choices at any time.",
+        ja: "お住まいの地域（欧州経済領域・英国・スイスなど）によっては、Cookie の使用やデータの利用について同意を求めるメッセージが表示される場合があります。同意設定の画面が提供される場合は、その画面で選択内容をご確認ください。",
+        en: "Depending on where you live (for example, the European Economic Area, the United Kingdom, or Switzerland), you may be asked for consent to the use of cookies and data. Where consent settings are provided, use that interface to review your choices.",
       },
     ],
     links: [
@@ -143,8 +150,8 @@ export const privacyPolicySections: PrivacyPolicySection[] = [
     },
     paragraphs: [
       {
-        ja: "当サイトでは、ダークモードなどの表示設定を記憶するため、ブラウザのローカルストレージを使用することがあります。これらの情報は利用者のブラウザ内にのみ保存され、当サイトのサーバーへ送信されることはありません。",
-        en: "We may use your browser's local storage to remember display preferences such as dark mode. This information is stored only in your browser and is never sent to our servers.",
+        ja: "表示設定、お気に入り・ツールの利用履歴、テキスト正規化の設定にlocalStorageを使います。請求書の入力とMermaid図のソースもブラウザ内に保存されます。Mermaidの共有URLでは図の内容がURLのフラグメントに含まれるため、URLを渡した相手も内容を復元できます。背景除去モデルはCache APIに保存されます。共用端末では各ツールのリセットとブラウザのサイトデータ削除を行ってください。これらの保存内容を当サイトの処理サーバーへ送信することはありません。",
+        en: "Local storage remembers display settings, favorites, tool history, and text normalization options. Invoice inputs and Mermaid diagram source are also saved in the browser. A Mermaid sharing URL contains diagram data in its fragment, so recipients can recover that content. The background removal model is stored with the Cache API. On shared devices, reset the relevant tool and clear browser site data. These saved contents are not uploaded to our processing servers.",
       },
     ],
   },
@@ -155,8 +162,8 @@ export const privacyPolicySections: PrivacyPolicySection[] = [
     },
     paragraphs: [
       {
-        ja: "当サイトのツールや掲載情報の正確性・安全性には十分注意していますが、その内容を保証するものではありません。当サイトの利用によって生じたいかなる損害についても、当サイトは責任を負いかねます。また、当サイトからリンクやバナーなどで移動した外部サイトで提供される情報・サービスについても、当サイトは責任を負いません。",
-        en: "While we make every effort to ensure the accuracy and safety of our tools and content, we make no guarantees. We are not liable for any damages arising from the use of this site, nor for information or services provided on external sites reached via links or banners from this site.",
+        ja: "当サイトのツールや掲載情報の正確性・安全性には十分注意していますが、その内容を保証するものではありません。結果は元データと照合して利用してください。責任の範囲は適用法令に従います。また、当サイトからリンクやバナーなどで移動した外部サイトで提供される情報・サービスについても、当サイトは責任を負いません。",
+        en: "While we make every effort to ensure the accuracy and safety of our tools and content, we make no guarantees. Verify results against the original data before use. Liability is subject to applicable law. External sites reached through links or banners have their own terms and policies.",
       },
     ],
   },
@@ -179,8 +186,8 @@ export const privacyPolicySections: PrivacyPolicySection[] = [
     },
     paragraphs: [
       {
-        ja: "本プライバシーポリシーに関するお問い合わせは、当サイトの GitHub リポジトリの Issues からご連絡ください。",
-        en: "If you have any questions about this Privacy Policy, please contact us by opening an issue on our GitHub repository.",
+        ja: "運営責任者はTODO_OPERATOR_NAME、非公開の連絡先はTODO_OPERATOR_EMAIL（運営者による記入待ち）です。公開可能な不具合はGitHub Issuesでも受け付けます。問い合わせで提供された情報は回答と調査に使用します。公開の投稿に個人情報や秘密情報を含めないでください。",
+        en: "The responsible operator is TODO_OPERATOR_NAME. Private contact: TODO_OPERATOR_EMAIL (awaiting completion by the operator). Public bugs can also be reported on GitHub Issues. Information provided in correspondence is used for replies and investigation. Do not include personal or confidential information in public posts.",
       },
     ],
   },

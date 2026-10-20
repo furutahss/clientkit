@@ -149,3 +149,11 @@
 基準未達: 2件。
 - ja/uuid-generator: 本文・FAQ基準未達 (561字/30語)
 - en/uuid-generator: 本文・FAQ基準未達 (935字/200語)
+
+## B: 信頼性ページの整備
+
+日英のAbout・運営者情報・お問い合わせ・利用規約を追加し、プライバシーポリシーを更新。全ローカライズページのフッターに5種類の情報ページを掲載。問い合わせは実在する公開GitHub Issuesと、確定待ちの非公開メールを明確に区別する。個人情報は`TODO_OPERATOR_NAME`、`TODO_OPERATOR_EMAIL`、`TODO_OPERATOR_ADDRESS`のみ。広告コードは変更していない。
+
+実装上確認したlocalStorage（請求書入力、Mermaidソース、設定・利用履歴）とモデルキャッシュ、静的資産の取得、外部画像を説明。配信環境での解析の有効化状況をリポジトリから断定しない。Google広告のCookie等の説明は[AdSense必須コンテンツ](https://support.google.com/adsense/answer/1348695?hl=en)を参照。
+
+検証: `npm run build`成功、`npm test`29ファイル336テスト成功、`npm run lint`成功。本文の全体基準とクロールはA/C/D統合後に再検証する。

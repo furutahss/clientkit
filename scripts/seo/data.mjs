@@ -5,12 +5,12 @@ import ts from 'typescript';
 // 型を除いて実際の登録データを読む。アプリと監査で別のツール一覧を持たない。
 export function loadConfig(file = 'src/config/tools.ts') {
   const require = createRequire(new URL('../../' + file, import.meta.url));
-  const module = { exports: {} };
+  const compiledModule = { exports: {} };
   const compiled = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
-  new Function('require', 'module', 'exports', compiled)(require, module, module.exports);
-  return module.exports;
+  new Function('require', 'module', 'exports', compiled)(require, compiledModule, compiledModule.exports);
+  return compiledModule.exports;
 }
 export const { tools, categories } = loadConfig();
 export function body(tool, lang) {
