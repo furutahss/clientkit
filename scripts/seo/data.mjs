@@ -7,7 +7,7 @@ export function loadConfig(file = 'src/config/tools.ts') {
   const require = createRequire(new URL('../../' + file, import.meta.url));
   const compiledModule = { exports: {} };
   const compiled = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+    compilerOptions: { esModuleInterop: true, module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
   new Function('require', 'module', 'exports', compiled)(require, compiledModule, compiledModule.exports);
   return compiledModule.exports;

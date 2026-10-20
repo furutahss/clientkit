@@ -81,7 +81,9 @@ def target(url):
     parsed = urllib.parse.urlsplit(url)
     return base + parsed.path + (('?' + parsed.query) if parsed.query else '')
 
-registry = json.loads(subprocess.check_output(['node', '--input-type=module', '-e', "import { tools } from './scripts/seo/data.mjs'; console.log(JSON.stringify(tools.map(t=>t.id)))"], text=True))
+tool_content = json.loads(subprocess.check_output(['node', '--input-type=module', '-e', "import { tools } from './scripts/seo/data.mjs'; console.log(JSON.stringify(tools.map(t=>({id:t.id,paragraphs:t.about.paragraphs}))))"], text=True))
+registry = [tool['id'] for tool in tool_content]
+paragraphs = {tool['id']: tool['paragraphs'] for tool in tool_content}
 expected = {ORIGIN + '/' + lang + suffix for lang in ['ja', 'en'] for suffix in ['', '/about', '/operator', '/contact', '/terms', '/privacy-policy', '/release-notes'] + ['/tools/' + tool for tool in registry]}
 status, headers, xml = get(base + '/sitemap.xml')
 check(status == 200, f'sitemap status {status}')
@@ -128,6 +130,9 @@ while queue:
         check('/' + lang + '/' + info in page.footer, f'{url}: footer {info}なし')
     if '/tools/' in path:
         text = ''.join(page.body)
+        rendered = re.sub(r'\s', '', text)
+        tool_id = path.split('/')[-1]
+        check(all(re.sub(r'\s', '', p) in rendered for p in paragraphs[tool_id][lang]), f'{url}: 登録された解説段落がHTMLに存在しない')
         measure = len(re.sub(r'\s', '', text)) if lang == 'ja' else len(re.findall(r"\b[\w'-]+\b", text))
         check(measure >= (600 if lang == 'ja' else 200), f'{url}: 描画本文不足 {measure}')
         check(len(set(page.related)) >= 2, f'{url}: 関連ツール不足')
