@@ -167,3 +167,13 @@
 ユーザーの追加承認により`/ja/tools/uuid-generator`と`/en/tools/uuid-generator`は削除し、既存の`id-generator`へ301で統合。UUID v4/v7生成機能はID生成ページに残す。検索語「UUID生成」も統合先へ対応させた。追加した`public/_redirects`は静的資産配信時の旧URL転送、配信Workerでも同じ統合先を使用する。
 
 検証: `npm test`34ファイル351テスト成功、`npm run lint`成功、`npm run build`成功。`node scripts/seo/content-audit.mjs`は122ページ未達0件、最大類似度0.400（上限0.55）。HTTP検証で本文も実HTMLに存在することを確認。広告コードは変更していない。
+
+## C: URL・インデックス・リンク検証
+
+正規形を`https://clientkit.dev/{ja|en}/...`（wwwなし・末尾スラッシュなし）へ統一。言語版は別々の正規ページとし、各ページは自分自身をcanonicalに指定、同じ内容のja/enと日本語のx-defaultを相互指定する。検索・お気に入り等のホームのクエリURLはホームcanonicalへ集約。
+
+sitemapは登録済みツールと公開情報ページだけから生成し、各URLの言語対応も記載する。ルート`/`・旧UUIDページ・404・noindexは含めない。根拠のない毎ビルドのlastModifiedを削除。robotsはクロール許可と正規sitemapの指定を確認した。
+
+静的エクスポートではNext.jsのリダイレクト設定は実行されないため、Cloudflare WorkerでHTTP/HTTPS・www・末尾スラッシュ・index.html・.html・ルート・旧UUIDを正規化する。`wrangler.jsonc`は両方のCustom Domainを明示し、Workerを通してASSETSを配信する。ローカル実行は`dev.host`を明示して本番ホストへの転送と分ける。[Cloudflare HTML handling](https://developers.cloudflare.com/workers/static-assets/routing/advanced/html-handling/)、[Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)、[静的資産のredirects](https://developers.cloudflare.com/workers/static-assets/redirects/)を参照した。
+
+検証: 実Cloudflareローカル実行環境で136 sitemap URLがすべて200、内部リンク先142件で404・リダイレクト経由0件。旧URL等131件は正しい301。アンカー、canonical、hreflang、meta description、noindex除外を確認。`npm test`351テスト成功、lint・本番ビルド成功、`wrangler deploy --dry-run`成功。本番のDNS/TLSや既存のCloudflareルールはローカルでは検証できないため、実デプロイ後の手順を下記に残す。実デプロイは行っていない。

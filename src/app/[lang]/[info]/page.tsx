@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Breadcrumb } from '@/components/layout/breadcrumb';
 import { trustPages } from '@/config/trust-pages';
+import { localizedAlternates } from "@/config/seo";
 import { siteConfig } from '@/config/site';
 import { locales, type Locale } from '@/i18n/config';
 
@@ -14,7 +15,7 @@ export async function generateMetadata(props: PageProps<'/[lang]/[info]'>): Prom
   const { lang, info } = await props.params;
   const page = trustPages[info];
   if (!page || !locales.includes(lang as Locale)) return {};
-  return { title: page.title[lang as Locale], description: page.description[lang as Locale] };
+  return { title: page.title[lang as Locale], description: page.description[lang as Locale], alternates: localizedAlternates(lang as Locale, `/${info}`) };
 }
 
 export default async function InfoPage(props: PageProps<'/[lang]/[info]'>) {

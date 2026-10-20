@@ -51,7 +51,7 @@ const STRENGTH_CLASS: Record<Strength, string> = {
   veryStrong: "bg-emerald-600",
 };
 
-export function IdGeneratorTool({ uuidOnly = false }: { uuidOnly?: boolean }) {
+export function IdGeneratorTool() {
   const locale = useLocale();
   const dict = getDictionary(locale).tools.idGenerator;
 
@@ -139,11 +139,10 @@ export function IdGeneratorTool({ uuidOnly = false }: { uuidOnly?: boolean }) {
     <div className="flex flex-col gap-4">
       <div className="flex items-start gap-2 rounded-md border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-        <span>{uuidOnly ? dict.uuidSafetyNote : dict.safetyNote}</span>
+        <span>{dict.safetyNote}</span>
       </div>
 
-      {!uuidOnly && (
-        <div className="inline-flex w-fit rounded-md border p-1">
+      <div className="inline-flex w-fit rounded-md border p-1">
           {TABS.map((item) => (
             <button
               key={item.value}
@@ -159,8 +158,7 @@ export function IdGeneratorTool({ uuidOnly = false }: { uuidOnly?: boolean }) {
               {item.label}
             </button>
           ))}
-        </div>
-      )}
+      </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="flex flex-col gap-4 rounded-lg border p-4">
@@ -362,8 +360,4 @@ export function IdGeneratorTool({ uuidOnly = false }: { uuidOnly?: boolean }) {
       </div>
     </div>
   );
-}
-
-export function UuidGeneratorTool() {
-  return <IdGeneratorTool uuidOnly />;
 }

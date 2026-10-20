@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { releaseNotes, type ReleaseNoteType } from "@/config/release-notes";
+import { localizedAlternates } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/i18n/dictionaries";
 import { locales, type Locale } from "@/i18n/config";
@@ -18,6 +19,7 @@ export async function generateMetadata(
   const dict = getDictionary(lang);
 
   return {
+    alternates: localizedAlternates(lang, "/release-notes"),
     title: dict.releaseNotes.pageTitle,
     description: dict.releaseNotes.pageDescription,
     openGraph: {

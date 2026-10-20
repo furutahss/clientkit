@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Self-hosted vendor assets copied from node_modules:
     "public/vendor/**",
+    ".wrangler/**",
   ]),
 ]);
 

@@ -6,6 +6,7 @@ import {
   privacyPolicySections,
   privacyPolicyUpdatedAt,
 } from "@/config/privacy-policy";
+import { localizedAlternates } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/i18n/dictionaries";
 import { locales, type Locale } from "@/i18n/config";
@@ -27,13 +28,7 @@ export async function generateMetadata(
       title: dict.privacyPolicy.pageTitle,
       description: dict.privacyPolicy.pageDescription,
     },
-    alternates: {
-      canonical: `/${lang}/privacy-policy`,
-      languages: {
-        ja: "/ja/privacy-policy",
-        en: "/en/privacy-policy",
-      },
-    },
+    alternates: localizedAlternates(lang, "/privacy-policy"),
   };
 }
 

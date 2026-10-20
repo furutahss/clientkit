@@ -41,12 +41,6 @@ export async function generateMetadata(
       description: siteText.description,
       images: [{ ...twitterImage, alt: siteConfig.name }],
     },
-    alternates: {
-      languages: {
-        ja: "/ja",
-        en: "/en",
-      },
-    },
   };
 }
 

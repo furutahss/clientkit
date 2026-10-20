@@ -1,38 +1,18 @@
-import type { MetadataRoute } from "next";
+import type { MetadataRoute } from 'next';
+import { siteConfig } from '@/config/site';
+import { getToolPath, tools } from '@/config/tools';
+import { trustPages } from '@/config/trust-pages';
+import { locales } from '@/i18n/config';
+import { localizedAlternates } from '@/config/seo';
 
-import { siteConfig } from "@/config/site";
-import { getToolPath, tools } from "@/config/tools";
-import { locales } from "@/i18n/config";
-
-export const dynamic = "force-static";
+export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
-  return locales.flatMap((lang) => [
-    {
-      url: `${siteConfig.url}/${lang}`,
-      lastModified,
-      changeFrequency: "weekly" as const,
-      priority: 1.0,
-    },
-    {
-      url: `${siteConfig.url}/${lang}/release-notes`,
-      lastModified,
-      changeFrequency: "weekly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${siteConfig.url}/${lang}/privacy-policy`,
-      lastModified,
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
-    },
-    ...tools.map((tool) => ({
-      url: `${siteConfig.url}${getToolPath(lang, tool.id)}`,
-      lastModified,
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    })),
-  ]);
+  return locales.flatMap(lang => {
+    const paths = ['', '/release-notes', '/privacy-policy', ...Object.keys(trustPages).map(id => `/${id}`), ...tools.map(tool => getToolPath(lang, tool.id).slice(3))];
+    return paths.map(suffix => ({
+      url: `${siteConfig.url}/${lang}${suffix}`,
+      alternates: { languages: localizedAlternates(lang, suffix).languages },
+    }));
+  });
 }

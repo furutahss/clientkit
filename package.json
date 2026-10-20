@@ -9,7 +9,10 @@
     "lint": "eslint",
     "test": "vitest run",
     "predev": "node scripts/copy-vendor-assets.mjs",
-    "prebuild": "node scripts/copy-vendor-assets.mjs"
+    "prebuild": "node scripts/copy-vendor-assets.mjs",
+    "seo:content": "node scripts/seo/content-audit.mjs",
+    "seo:links": "python3 scripts/seo/crawl.py",
+    "preview:seo": "wrangler dev --local --ip 127.0.0.1 --port 8787"
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans-jp": "^0.4.4",
@@ -73,6 +76,7 @@
     "eslint-config-next": "16.3.5",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "wrangler": "^4.151.3"
   }
 }

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { localizedAlternates } from "@/config/seo";
 import { Suspense } from "react";
 import { ToolExplorer } from "@/components/home/tool-explorer";
 import { ToolCategories } from "@/components/home/tool-categories";
@@ -8,6 +10,11 @@ import { getDictionary } from "@/i18n/dictionaries";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
+}
+
+export async function generateMetadata(props: PageProps<"/[lang]">): Promise<Metadata> {
+  const { lang } = await props.params;
+  return { alternates: localizedAlternates(lang as Locale) };
 }
 
 export default async function Home(props: PageProps<"/[lang]">) {

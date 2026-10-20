@@ -1,43 +1,13 @@
-"use client";
+import type { Metadata } from 'next';
+import Link from 'next/link';
 
-import { useEffect } from "react";
-
-import { defaultLocale, locales, type Locale } from "@/i18n/config";
-
-function detectLocale(): Locale {
-  if (typeof navigator === "undefined") return defaultLocale;
-
-  const candidates = navigator.languages?.length
-    ? navigator.languages
-    : [navigator.language];
-
-  for (const candidate of candidates) {
-    const lang = candidate.toLowerCase().split("-")[0];
-    if ((locales as readonly string[]).includes(lang)) {
-      return lang as Locale;
-    }
-  }
-
-  return defaultLocale;
-}
+// 通常は配信Workerが/jaへ301転送する。静的ファイル単体で開いた際の導線も残す。
+export const metadata: Metadata = {
+  title: 'ClientKit — Language selection',
+  robots: { index: false, follow: true },
+  alternates: { canonical: 'https://clientkit.dev/ja' },
+};
 
 export default function RootPage() {
-  useEffect(() => {
-    const locale = detectLocale();
-    window.location.replace(`/${locale}`);
-  }, []);
-
-  return (
-    <div className="flex flex-1 items-center justify-center p-6 text-center text-sm text-muted-foreground">
-      <p>
-        Redirecting... / リダイレクト中...
-        <noscript>
-          <br />
-          <a href={`/${defaultLocale}`} className="underline">
-            Continue to ClientKit
-          </a>
-        </noscript>
-      </p>
-    </div>
-  );
+  return <main className="p-6"><h1>ClientKit</h1><nav className="flex gap-4"><Link href="/ja">日本語</Link><Link href="/en">English</Link></nav></main>;
 }

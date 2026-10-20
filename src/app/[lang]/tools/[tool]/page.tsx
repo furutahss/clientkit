@@ -21,7 +21,7 @@ import { GitignoreTesterTool } from "@/components/tools/gitignore-tester-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
 import { I18nPlaceholderCheckerTool } from "@/components/tools/i18n-placeholder-checker-tool";
-import { IdGeneratorTool, UuidGeneratorTool } from "@/components/tools/id-generator-tool";
+import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
 import { ImageDiffTool } from "@/components/tools/image-diff-tool";
 import { JsonDiffTool } from "@/components/tools/json-diff-tool";
@@ -67,6 +67,7 @@ import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
 import { UnicodeInspectorTool } from "@/components/tools/unicode-inspector-tool";
 import { UrlEncoderTool } from "@/components/tools/url-encoder-tool";
+import { localizedAlternates } from "@/config/seo";
 import { siteConfig } from "@/config/site";
 import { getToolById, tools } from "@/config/tools";
 import { ogImage } from "@/config/og-image";
@@ -97,7 +98,6 @@ const toolComponents: Record<string, ComponentType> = {
   "text-diff": TextDiffTool,
   "log-masker": LogMaskerTool,
   "id-generator": IdGeneratorTool,
-  "uuid-generator": UuidGeneratorTool,
   "timestamp-converter": TimestampConverterTool,
   "cron-explainer": CronExplainerTool,
   "data-format-converter": DataFormatConverterTool,
@@ -158,9 +158,11 @@ export async function generateMetadata(
   return {
     title: tool.name[lang],
     description,
+    alternates: localizedAlternates(lang, `/tools/${tool.id}`),
     openGraph: {
       title: tool.name[lang],
       description,
+      url: `${siteConfig.url}/${lang}/tools/${tool.id}`,
       images: [{ ...ogImage, alt: siteConfig.name }],
     },
   };
