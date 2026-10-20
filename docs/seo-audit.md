@@ -1,5 +1,7 @@
 # ClientKit SEO監査
 
+最新状態: 2026-10-20、本番公開済み。運営者情報を含むアプリコミット`5ec873f`をCloudflareへ反映し、本番HTTPクロールも全項目成功。以下の「未デプロイ」は各検証段階の履歴を示す。
+
 調査日: 2026-10-20。Search Consoleの件数は依頼時の情報であり、具体的な未登録URLは提供されていない。審査不合格の原因を確定する情報ではなく、リポジトリで確認できる問題を改善する。
 
 ## 構成と改善計画
@@ -367,3 +369,13 @@ Search Consoleの42件の具体URLがないため、過去の404やリダイレ�
 ## 運営者情報確定後の再検証
 
 運営者名furutahss、連絡先contact@furutahss.comを日英へ反映し、所在地欄と記入待ち文言を削除した。`npm run build`・`npm test`（351件）・`npm run lint`・`npm run seo:content`成功。日英の運営者情報・お問い合わせ・プライバシーポリシー計6ページの出力HTMLに名前・メールが存在し、運営者プレースホルダーが残っていないことを確認。HTTPクロールもsitemap136 URL全200、内部リンク先142件、301確認131件、失敗0件。本番へのデプロイは行っていない。
+
+## 本番デプロイ・検証
+
+ユーザーのプッシュ・デプロイ指示に基づき、`main`のアプリコミット`5ec873f919be41744b221b5d88e7f5ad5b1a6258`をoriginへプッシュした。直前のビルド・351テスト・lint・本文監査はすべて成功。
+
+`npx wrangler deploy`で`clientkit.dev`と`www.clientkit.dev`に公開。Cloudflare Version ID: `dee8c0fa-3280-4ae2-a66f-cb55638dfd68`。
+
+`python3 scripts/seo/crawl.py --base https://clientkit.dev`を実行し、sitemap136 URL全200、HTML応答142件、内部リンク先142件、301確認131件、HTTP/wwwの実経路3件を検証し、失敗0件だった。本文の全解説段落・文字数、canonical、hreflang、固有メタ情報、フッター、関連ツール、カテゴリ・ホーム到達性、robotsと未知URLの404も成功。本番DNS/TLSを含む確認待ちは解消した。
+
+Search Consoleのsitemap再送信・主要URLのインデックス登録リクエスト、AdSenseの再審査申請は管理画面で行う後続作業として残る。本記録はドキュメントのみの更新であり、追加デプロイは不要。
