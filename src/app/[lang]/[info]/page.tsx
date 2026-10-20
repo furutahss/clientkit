@@ -34,6 +34,7 @@ export default async function InfoPage(props: PageProps<'/[lang]/[info]'>) {
           {section.paragraphs.map((p, i) => <p key={i} className="text-sm leading-relaxed">{p[lang]}</p>)}
         </section>
       ))}
+      {(info === 'contact' || info === 'operator') && <p className="text-sm"><a href="mailto:contact@furutahss.com" className="underline">contact@furutahss.com</a></p>}
       <p className="text-sm"><a href={`${siteConfig.githubUrl}/issues`} target="_blank" rel="noreferrer noopener" className="underline">GitHub Issues</a></p>
       <nav aria-label={lang === 'ja' ? 'サイト情報' : 'Site information'} className="flex flex-wrap gap-4 text-sm underline">
         {Object.entries(trustPages).filter(([id]) => id !== info).map(([id, p]) => <Link key={id} href={`/${lang}/${id}`}>{p.title[lang]}</Link>)}

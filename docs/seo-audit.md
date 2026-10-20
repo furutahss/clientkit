@@ -192,19 +192,21 @@ sitemapは登録済みツールと公開情報ページだけから生成し、�
 
 Search Consoleの42件の具体URLがないため、過去の404やリダイレクトの個別原因を断定しない。公開レジストリ・sitemap・全ページの現在の内部リンクはスクリプトで検査済み。
 
-## 運営者の確認待ち（許容された未確定項目）
+## 運営者情報（確認済み）
 
-- `TODO_OPERATOR_NAME`: 公開する運営者名・責任者名
-- `TODO_OPERATOR_EMAIL`: 実際に受信できる非公開連絡用メールアドレス
-- `TODO_OPERATOR_ADDRESS`: 所在地・住所の公開表記（公開範囲は運営者が決める）
+運営者の回答に基づき、日英の運営者情報・お問い合わせ・プライバシーポリシーを以下へ更新した。
 
-運営者ページ・お問い合わせページ・プライバシーポリシーの該当箇所を確定し、プレースホルダーが残った状態で再審査を申請しない。
+- 運営者名: `furutahss`
+- メール: `contact@furutahss.com`（運営者情報・お問い合わせにはmailtoリンクも掲載）
+- 所在地: 公開欄を設けない。住所のプレースホルダーも削除。
+
+当初の運営者プレースホルダーは公開ページからすべて解消した。AdSenseの[必須コンテンツ](https://support.google.com/adsense/answer/1348695?hl=en)には、運営者住所をサイト上に公開する一般的な要件は記載されていない。無料ツールの現状では住所の常時公開欄を設けず、有料販売等を始める場合は[消費者庁の通信販売広告の表示要件](https://www.no-trouble.caa.go.jp/what/mailorder/advertising.htmljp)を別途確認する。保有個人データの取り扱いに関しては、サイトへの一律掲載と、本人の求めに応じた情報提供義務を混同しない（[個人情報保護委員会ガイドライン](https://www.ppc.go.jp/personalinfo/legal/guidelines_tsusoku/)）。
 
 ## 再実行とデプロイ後の手順
 
 1. `npm run build`、`npm test`、`npm run lint`、`npm run seo:content`。
 2. 別ターミナルで`npm run preview:seo`、`npm run seo:links`。クロールは301を自動追従せず、リダイレクト経由の内部リンクも失敗扱いにする。
-3. 運営者情報を確定し、ビルドをやり直す。デプロイは既存のWorkersプロジェクトで`npx wrangler deploy`を使用し、`out/`だけでなく`worker/index.mjs`と両Custom Domain設定も反映する。旧来の静的ファイルだけの公開ではHTTP/wwwの正規化処理が実行されない。
+3. 最新の運営者情報を含めてビルドする。デプロイは既存のWorkersプロジェクトで`npx wrangler deploy`を使用し、`out/`だけでなく`worker/index.mjs`と両Custom Domain設定も反映する。旧来の静的ファイルだけの公開ではHTTP/wwwの正規化処理が実行されない。
 4. `python3 scripts/seo/crawl.py --base https://clientkit.dev`で本番の全URL、旧UUID・末尾スラッシュ・HTTP/wwwの応答を再確認。既存のCDNルールやDNS/TLSを含む実配信は、この時点で確認する。
 5. Search Consoleで`sitemap.xml`を再送信し、変更した主要ツールとAbout等をURL検査→公開URLテスト→インデックス登録リクエスト。旧UUID URLはリダイレクト扱い、正規URLを登録対象とする。登録・再クロールの時期はGoogleの判断による。
 6. 本番で内容・リンク・運営者情報が反映され、クローラーが閲覧できることを確認してからAdSenseの「サイト」から再審査を依頼する。固定の待機日数を合格条件とはしない。管理画面に再申請可能日の指定がある場合はそれに従う。[Google公式の修正後の審査手順](https://support.google.com/adsense/answer/12176698?hl=ja)を参照。本文の文字数や今回の検査成功だけでAdSense承認を保証するものではない。
@@ -360,4 +362,8 @@ Search Consoleの42件の具体URLがないため、過去の404やリダイレ�
 - 登録された全解説段落が実HTTPレスポンスの可視本文に存在することを確認。sitemap136 URLは全200、内部リンク先142件は切れ・リダイレクト経由0件、131件の301検査成功。
 - 全ローカライズページで自己canonical・対応するja/en/x-default・固有title/description・5種類の信頼性ページへのフッターリンクを確認。ホームから全ツールへの直接リンク・各ツールの関連リンク・カテゴリのアンカーも成功。
 - WorkerのHTTP/wwwを含む正規化テスト成功、Cloudflare最終設定のdry-run成功。DNS/TLSを伴う本番応答の確認はデプロイ後の上記手順で行う。
-- 独立レビューで重大な指摘なし。運営者プレースホルダー以外にリポジトリ内の実装・検証の未解決事項なし。本番公開・Google側の審査/登録結果はこの作業で実行・保証していない。
+- 独立レビューで重大な指摘なし。運営者プレースホルダーは後続の確認で解消済み。リポジトリ内の実装・検証の未解決事項なし。本番公開・Google側の審査/登録結果はこの作業で実行・保証していない。
+
+## 運営者情報確定後の再検証
+
+運営者名furutahss、連絡先contact@furutahss.comを日英へ反映し、所在地欄と記入待ち文言を削除した。`npm run build`・`npm test`（351件）・`npm run lint`・`npm run seo:content`成功。日英の運営者情報・お問い合わせ・プライバシーポリシー計6ページの出力HTMLに名前・メールが存在し、運営者プレースホルダーが残っていないことを確認。HTTPクロールもsitemap136 URL全200、内部リンク先142件、301確認131件、失敗0件。本番へのデプロイは行っていない。

@@ -27,10 +27,8 @@ export const trustPages: Record<string, TrustPage> = {
     description: { ja: 'ClientKitの運営責任者、連絡窓口、情報更新と不具合対応の方針を掲載します。', en: 'Operator details, contact information, and the approach to maintaining ClientKit and addressing reported issues.' },
     sections: [
       { heading: { ja: '運営責任者と連絡先', en: 'Responsible operator and contact details' }, paragraphs: [
-        { ja: '運営者名: TODO_OPERATOR_NAME', en: 'Operator name: TODO_OPERATOR_NAME' },
-        { ja: '連絡用メールアドレス: TODO_OPERATOR_EMAIL', en: 'Contact email address: TODO_OPERATOR_EMAIL' },
-        { ja: '所在地・住所の公開表記: TODO_OPERATOR_ADDRESS', en: 'Published location or address: TODO_OPERATOR_ADDRESS' },
-        { ja: 'これらの項目は運営者による確認・記入待ちです。記載のプレースホルダーは実際の氏名・連絡先・住所ではありません。', en: 'These fields await confirmation and completion by the operator. The placeholders are not actual names, contact details, or addresses.' },
+        { ja: '運営者名: furutahss', en: 'Operator name: furutahss' },
+        { ja: '連絡用メールアドレス: contact@furutahss.com', en: 'Contact email address: contact@furutahss.com' },
       ] },
       { heading: { ja: '運営と更新', en: 'Maintenance' }, paragraphs: [
         { ja: 'ClientKitのソースコードと公開の不具合報告窓口はGitHubで公開しています。機能の変更は更新履歴で案内します。入力データの内容を収集して不具合を調べる方式ではないため、ご報告の際は機密情報を含まない最小限の再現例をお知らせください。', en: 'ClientKit provides its source code and a public issue tracker on GitHub. Feature changes are described in the release notes. We do not collect tool inputs to investigate failures, so a report should include a minimal reproduction example that contains no confidential information.' },
@@ -43,7 +41,7 @@ export const trustPages: Record<string, TrustPage> = {
     sections: [
       { heading: { ja: '連絡窓口', en: 'Contact channels' }, paragraphs: [
         { ja: '公開してよい不具合や改善提案は、下記のGitHub Issuesから送れます。GitHubのアカウントが必要です。投稿した内容は公開されるため、入力した実データ、パスワード、トークン、氏名などは載せないでください。', en: 'Use the GitHub issue tracker linked below for bugs and suggestions that can be discussed publicly. A GitHub account is required. Posts are public: do not include real input files, passwords, tokens, names, or other private data.' },
-        { ja: '非公開の連絡用メールアドレス: TODO_OPERATOR_EMAIL。運営者がこの項目を確定するまではメール窓口は利用できません。', en: 'Private contact email: TODO_OPERATOR_EMAIL. This email channel is unavailable until the operator supplies the actual address.' },
+        { ja: '個別のお問い合わせは contact@furutahss.com へお送りください。プライバシーに関するご連絡もこちらで受け付けます。', en: 'For private correspondence, including privacy questions, email contact@furutahss.com.' },
       ] },
       { heading: { ja: '不具合報告に含める情報', en: 'What to include in a bug report' }, paragraphs: [
         { ja: 'ツール名またはページのURL、ブラウザ名、操作手順、期待した結果と実際の結果をお知らせください。サンプルは個人情報を取り除いた短いものにしてください。ファイル処理では拡張子や選んだ出力設定があると調査に役立ちます。', en: 'Include the tool name or page URL, browser name, steps, expected output, and actual output. Use a short, anonymized sample. For file operations, the extension and output settings help reproduce the problem.' },

@@ -186,8 +186,8 @@ export const privacyPolicySections: PrivacyPolicySection[] = [
     },
     paragraphs: [
       {
-        ja: "運営責任者はTODO_OPERATOR_NAME、非公開の連絡先はTODO_OPERATOR_EMAIL（運営者による記入待ち）です。公開可能な不具合はGitHub Issuesでも受け付けます。問い合わせで提供された情報は回答と調査に使用します。公開の投稿に個人情報や秘密情報を含めないでください。",
-        en: "The responsible operator is TODO_OPERATOR_NAME. Private contact: TODO_OPERATOR_EMAIL (awaiting completion by the operator). Public bugs can also be reported on GitHub Issues. Information provided in correspondence is used for replies and investigation. Do not include personal or confidential information in public posts.",
+        ja: "運営責任者はfurutahss、個別の連絡先はcontact@furutahss.comです。公開可能な不具合はGitHub Issuesでも受け付けます。問い合わせで提供された情報は回答と調査に使用します。公開の投稿に個人情報や秘密情報を含めないでください。",
+        en: "The responsible operator is furutahss. Private correspondence: contact@furutahss.com. Public bugs can also be reported on GitHub Issues. Information provided in correspondence is used for replies and investigation. Do not include personal or confidential information in public posts.",
       },
     ],
   },
