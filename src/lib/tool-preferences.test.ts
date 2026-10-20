@@ -34,7 +34,7 @@ describe("お気に入り・履歴", () => {
       "base64",
       "ocr",
       "pdf-toolkit",
-      "uuid-generator",
+      "id-generator",
       "text-diff",
       "json-formatter",
       "ocr",
@@ -43,7 +43,7 @@ describe("お気に入り・履歴", () => {
       "ocr",
       "json-formatter",
       "text-diff",
-      "uuid-generator",
+      "id-generator",
       "pdf-toolkit",
     ]);
     store.clearRecentTools();

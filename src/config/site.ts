@@ -11,12 +11,12 @@ const localizedSiteText: Record<Locale, { tagline: string; description: string }
   ja: {
     tagline: "ブラウザ完結で安全・高速",
     description:
-      "サーバーにデータを送信せず、すべての処理をブラウザ上で完結させる安全なWebツール集。",
+      "入力テキストやファイルを処理サーバーへ送らず、ブラウザ上で変換・解析できるWebツール集。",
   },
   en: {
     tagline: "Secure and fast, fully in your browser",
     description:
-      "A collection of safe web tools that run entirely in your browser — no data is ever sent to a server.",
+      "Web tools that transform and analyze text and files in your browser without uploading tool inputs to a processing server.",
   },
 };
 

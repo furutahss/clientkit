@@ -1,0 +1,212 @@
+{
+  "character-count": {
+    "ja": [
+      "例えば「猫 cat」を入力すると、文字数5、空白を除く文字数4、単語数2、行数1、UTF-8のバイト数7になります。日本語と英語を混ぜた原稿では、文字数とバイト数が別の制限を表すことを、この短い例で確認できます。",
+      "文字数はJavaScriptのUTF-16単位で数えるため、「😀」は2文字、4バイトとして表示されます。見た目の文字数で制限する投稿先とは一致しない場合があるので、絵文字を含む原稿は投稿先の判定も確認してください。"
+    ],
+    "en": [
+      "Enter “猫 cat” to get 5 characters, 4 characters without spaces, 2 words, 1 line, and 7 UTF-8 bytes. This small example shows why a character limit and a byte limit can mean different things when a draft mixes Japanese and English.",
+      "The character total counts JavaScript UTF-16 units, so “😀” appears as 2 characters and 4 bytes. A publishing service may count visible characters differently; check its own counter when your draft includes emoji."
+    ]
+  },
+  "text-diff": {
+    "ja": [
+      "変更前に「price=100」、変更後に「price=120」を入力すると、削除1行・追加1行として表示され、文字単位では変更された数字が強調されます。1文字だけの価格や設定値の修正を、行全体の置換と区別して読む練習にも使えます。",
+      "末尾の改行の有無は比較で無視されます。また、長い行では文字単位の強調を省略するため、強調がないことだけで同一内容とは判断できません。追加・削除の行表示と合わせて確認すると、長いログでも変更の範囲を追いやすくなります。"
+    ],
+    "en": [
+      "Compare “price=100” with “price=120” to see 1 removed line and 1 added line. Character mode highlights the changed digits, helping you distinguish a small price or configuration edit from the replacement of an entire line.",
+      "A final newline difference is ignored. Character highlighting is also skipped for long lines, so the absence of darker highlights does not establish equality. Read the added and removed line markers alongside character highlights when reviewing long logs."
+    ]
+  },
+  "unicode-inspector": {
+    "ja": [
+      "例えば「é」と、eの後ろに結合アクセントU+0301を付けた「é」は、どちらも見た目は1文字です。後者を入力するとコードポイントはU+0065とU+0301の2つになり、NFCの結果は「é」になります。検索で一致しない文字列の調査に使える例です。",
+      "通常の空白も可視化されますが、特殊文字数には半角スペースを含めません。特殊文字だけの表示では結合文字など複数のコードポイントからなる文字も残るため、表示された項目すべてが除去対象という意味ではありません。"
+    ],
+    "en": [
+      "“é” and “é” made from e followed by combining accent U+0301 each look like one character. Enter the latter to see two code points, U+0065 and U+0301, while its NFC result becomes “é”. This is a useful example when visually identical strings fail to match.",
+      "Ordinary spaces are visualized but excluded from the special-character total. The special-only view also retains characters made from multiple code points, including combining sequences; appearing in that view does not mean a character should be removed."
+    ]
+  },
+  "text-normalizer": {
+    "ja": [
+      "「ＡＢＣ１２３ ｶﾞ」を入力し、「文書校正用」を選ぶと「ABC123 ガ」になります。全角英数字と半角カナを一度に整えつつ、間の半角スペースは残るため、商品コードと日本語名が混在するデータの確認例として使えます。",
+      "プリセットにはUnicode正規化以外の変換も含まれます。例えば丸数字を残したい場合は、NFKCを避けるだけでなく機種依存文字の変換設定も確認してください。変換件数と差分を見て、人名や型番の表記を意図せず変えていないか判断できます。"
+    ],
+    "en": [
+      "Enter “ＡＢＣ１２３ ｶﾞ” and select the proofreading preset to get “ABC123 ガ”. Full-width letters and digits and half-width kana are normalized together while the separating space stays, making this a useful check for mixed product codes and Japanese names.",
+      "Presets apply more than Unicode normalization. To preserve circled digits, for example, check the dependent-character conversion setting as well as avoiding NFKC. Review the counts and diff before accepting changes to personal names or model numbers."
+    ]
+  },
+  "base64": {
+    "ja": [
+      "エンコードで「Hello」を入力すると「SGVsbG8=」になり、結果を入力欄に反映してデコードへ切り替えると「Hello」に戻ります。末尾の「=」も含めてコピーすれば、APIのテキスト項目を往復変換する流れを確認できます。",
+      "Base64は暗号化ではなく、読み取れる形へ戻せる表現変換です。このツールのデコード結果はUTF-8テキストとして扱うため、画像やZIPなどのバイナリを貼り付けても元のファイルを保存する機能にはなりません。"
+    ],
+    "en": [
+      "Encoding “Hello” produces “SGVsbG8=”. Use the swap action to put that result into the input and decode it back to “Hello”. Copy the trailing “=” too when checking a round trip for a text field from an API.",
+      "Base64 is a reversible representation, rather than encryption. This tool displays decoded bytes as UTF-8 text, so pasting encoded image or ZIP data does not provide a way to save the original binary file."
+    ]
+  },
+  "url-encoder": {
+    "ja": [
+      "「a b+c」をencodeURIComponentでエンコードすると「a%20b%2Bc」になります。一方、クエリ分解に「https://example.com/?q=a+b」を入れると、qの値は「a b」です。生のプラス記号と空白の扱いを比較できます。",
+      "クエリの再生成はURLSearchParamsを使うため、値の空白は「+」、本来のプラス記号は「%2B」として出力されます。パラメータ値が同じでも元のURLと文字表現が変わる場合があるので、URL文字列そのものを照合する用途では確認してください。"
+    ],
+    "en": [
+      "Encoding “a b+c” with encodeURIComponent produces “a%20b%2Bc”. By contrast, parsing “https://example.com/?q=a+b” shows the q value as “a b”. These examples distinguish a literal plus sign from a space in a query.",
+      "Query reconstruction uses URLSearchParams: spaces in values become “+”, and literal plus signs become “%2B”. Equivalent parameter values can therefore produce a URL spelled differently from the original, which matters when comparing URL strings exactly."
+    ]
+  },
+  "json-formatter": {
+    "ja": [
+      "「{\"active\":true,\"count\":2}」を入力して型生成を選ぶと、RootObjectのフィールドは「active: boolean;」「count: number;」になります。整形タブで1行化を選べば同じ値を短いJSONとして取り出せます。",
+      "生成する型は入力されたサンプルの値から推定します。空配列はunknown[]、nullはnullとして扱い、未掲載の項目や実際のAPIで許される別の値までは補えません。複数の実例を確認し、必要な型の範囲を調整して利用してください。"
+    ],
+    "en": [
+      "Enter “{\"active\":true,\"count\":2}” and select type generation to get RootObject fields “active: boolean;” and “count: number;”. Choose Minify on the formatting tab to export the same values as compact JSON.",
+      "Generated types are inferred from the supplied sample. An empty array becomes unknown[] and null becomes null; fields absent from the sample and other values accepted by the real API cannot be inferred. Compare several real responses and adjust the types accordingly."
+    ]
+  },
+  "data-format-converter": {
+    "ja": [
+      "YAMLからJSONを選び、「port: 8080」を入力すると、portを数値8080として持つ「{\"port\":8080}」相当のJSONが出力されます。「port: \"8080\"」なら文字列になるため、引用符が型に与える違いも確かめられます。",
+      "TOMLに含まれるJavaScriptの安全な整数範囲を超える整数は、JSONへ変換すると文字列になり、警告が表示されます。設定の見た目だけでなく型も変わるので、出力先が数値を要求する項目では利用前に値の扱いを決めてください。"
+    ],
+    "en": [
+      "Select YAML to JSON and enter “port: 8080” to get JSON equivalent to “{\"port\":8080}”, with a numeric port. Using “port: \"8080\"” instead produces a string, demonstrating how quotes affect the resulting type.",
+      "TOML integers beyond JavaScript's safe integer range become strings when converted to JSON, with a warning. Check the resulting types as well as formatting, and decide how to handle such values before using them in a destination that requires numbers."
+    ]
+  },
+  "csv-json-converter": {
+    "ja": [
+      "カンマ区切り・ヘッダーあり・1行化で「code,qty」の次の行に「001,2」を入力すると、「[{\"code\":\"001\",\"qty\":\"2\"}]」になります。先頭ゼロを保持する一方、数量も文字列になることを具体的に確認できます。",
+      "CSVには数値や真偽値の型情報がないため、読み込んだセルは文字列としてJSONへ移します。JSONからCSVへ戻す場合もネストしたオブジェクトを自動で列に展開しないため、平らなレコードへ整えてから変換すると列構造を保ちやすくなります。"
+    ],
+    "en": [
+      "With comma delimiter, headers enabled, and compact output, enter “code,qty” followed by a new line containing “001,2”. The result is “[{\"code\":\"001\",\"qty\":\"2\"}]”: the leading zeros survive, and the quantity is also a string.",
+      "CSV carries no number or boolean type information, so cells become JSON strings. In the reverse direction, nested objects are not automatically expanded into columns. Flatten records before converting when you need to preserve a clear column structure."
+    ]
+  },
+  "csv-editor": {
+    "ja": [
+      "ヘッダーありで「name,city」の次の行に「Aki,Tokyo」を読み込み、cityのセルを「Osaka」に変えると、出力は「name,city」と次行の「Aki,Osaka」になります。保存前にコピー結果を見れば、変更したセルと列の順序を確認できます。",
+      "セルに「Tokyo, Japan」と入力した場合は、出力時に引用符で囲まれ、カンマを含む1つの値として保存されます。読み込んだ列数を基準に表を作るため、ヘッダーより列が多いデータは事前に列数をそろえてから読み込んでください。"
+    ],
+    "en": [
+      "Load “name,city” followed by “Aki,Tokyo” with headers enabled, then change the city cell to “Osaka”. The output becomes “name,city” followed by “Aki,Osaka”. Review the copied text to check the edited value and column order before saving.",
+      "A cell containing “Tokyo, Japan” is quoted on export so its comma remains part of one value. The editor builds rows to the header width; align the column counts before loading data that contains more fields than its header."
+    ]
+  },
+  "excel-converter": {
+    "ja": [
+      "ExcelのA1を「item」、B1を「qty」、A2を「Pen」、B2を数値3にして保存し、JSONのオブジェクト配列・ヘッダーありで変換すると「[{\"item\":\"Pen\",\"qty\":3}]」相当が出力されます。数値セルはJSONでも数値として取り出せます。",
+      "CSVと違い、JSONの配列出力では文字列・数値・真偽値の区別が残ります。ただし数式を再計算する機能はなく、保存済みの計算結果を使います。元のブックを更新した場合はExcelなどで再計算して保存してから読み込んでください。"
+    ],
+    "en": [
+      "Create an Excel sheet with item in A1, qty in B1, Pen in A2, and numeric 3 in B2. Convert it to a JSON object array with headers enabled to get the equivalent of “[{\"item\":\"Pen\",\"qty\":3}]”. Numeric cells remain JSON numbers.",
+      "Unlike CSV, JSON array output preserves strings, numbers, and booleans as distinct types. Formulas are not recalculated; their saved results are used. If the workbook changed, recalculate and save it in Excel or another spreadsheet application before loading it here."
+    ]
+  },
+  "markdown-editor": {
+    "ja": [
+      "「## Release」を入力するとHTMLコードは「<h2>Release</h2>」になります。「~~draft~~」なら「<del>draft</del>」へ変換されます。HTMLコードのコピーは本文の断片で、HTMLのダウンロードはスタイルを含む文書になる点も確認できます。",
+      "通常の改行だけではHTMLの強制改行になりません。段落を分けるときは空行、行を明示的に折るときはMarkdownの改行記法を使います。入力中の画像URLはプレビューで参照されるため、外部画像を含む文書ではその配信元への通信が発生します。"
+    ],
+    "en": [
+      "Enter “## Release” to generate “<h2>Release</h2>”, or “~~draft~~” to generate “<del>draft</del>”. Copying HTML gives you a body fragment, while downloading HTML produces a document with styles.",
+      "A single ordinary newline does not force an HTML line break. Use a blank line for a new paragraph or Markdown's explicit line-break syntax. Image URLs are loaded in the preview, so documents containing external images can make requests to those image hosts."
+    ]
+  },
+  "timestamp-converter": {
+    "ja": [
+      "単位を秒にして「0」を入力すると、UTCでは「1970-01-01T00:00:00.000Z」、Asia/Tokyoでは「1970-01-01T09:00:00.000+09:00」になります。同じ瞬間でも地域ごとに表示時刻が変わることを、基準時刻で確認できます。",
+      "変換結果はミリ秒精度です。マイクロ秒やナノ秒の入力も扱えますが、ミリ秒未満の端数は保持されません。精密な計測ログで元の細かい桁まで往復変換したい場合は、表示結果だけでなく元の数値も残してください。"
+    ],
+    "en": [
+      "Set the unit to seconds and enter “0”. UTC shows “1970-01-01T00:00:00.000Z”, while Asia/Tokyo shows “1970-01-01T09:00:00.000+09:00”. The epoch makes it easy to verify that different local times describe the same instant.",
+      "Results have millisecond precision. Microsecond and nanosecond inputs are accepted, but sub-millisecond fractions are discarded. Retain the original number when working with measurement logs that must preserve every digit through a round trip."
+    ]
+  },
+  "color-converter": {
+    "ja": [
+      "HEXに「#FF0000」を入力すると、RGBは「rgb(255, 0, 0)」、HSLは「hsl(0, 100%, 50%)」になります。文字色を「#000000」、背景を「#FFFFFF」にすると、コントラスト比は21:1で、通常文字のAA・AAAとも合格になります。",
+      "HEX入力は3桁または6桁に対応し、8桁のアルファ付きHEXは対象外です。コントラスト比も指定した2色から計算するため、半透明の文字や画像背景では、実際に合成された色を確認してから値を入力すると判断しやすくなります。"
+    ],
+    "en": [
+      "Entering “#FF0000” gives “rgb(255, 0, 0)” and “hsl(0, 100%, 50%)”. Set the text to “#000000” and background to “#FFFFFF” for a 21:1 contrast ratio, passing both AA and AAA for normal text.",
+      "HEX input supports 3 or 6 digits, excluding 8-digit HEX with alpha. Contrast is calculated from the two chosen colors. For translucent text or an image background, determine the actual composited colors before entering values for comparison."
+    ]
+  },
+  "image-converter": {
+    "ja": [
+      "1200×800pxのPNGを読み込み、縦横比を維持して幅を600px、形式をJPEGにすると、600×400pxのJPEGを書き出せます。透過部分があるPNGでは、その部分は白く塗られるため、写真とロゴで出力形式を選び分ける参考になります。",
+      "JPEGやWebPは画質設定を使って再エンコードし、PNGもCanvasに描き直して保存します。元ファイルのメタデータやアニメーションを保持する変換ではありません。動くGIFを静止画として扱いたい場合と、動きを残したい場合を区別して利用してください。"
+    ],
+    "en": [
+      "Load a 1200×800 PNG, keep its aspect ratio, set the width to 600, and select JPEG to export a 600×400 JPEG. Transparent parts of the PNG are filled white, which helps illustrate why photos and transparent logos may need different output formats.",
+      "JPEG and WebP are re-encoded with the quality setting; PNG is also redrawn through Canvas before saving. This conversion does not preserve the original metadata or animation. Decide whether you need a still image or the motion from an animated GIF before using it."
+    ]
+  },
+  "screenshot-editor": {
+    "ja": [
+      "800×600pxの画像に、余白を上下左右それぞれ20px追加してPNGで保存すると、出力は840×640pxになります。矢印や説明文だけの追加なら元の縦横サイズを保ち、余白・トリミング・結合では画像全体のサイズが変わります。",
+      "編集要素は書き出す際に画像へ焼き込まれるため、保存したPNGを再度開いても矢印や文字を個別選択することはできません。後から変更する可能性がある部分は、ページ内で位置と内容を確認し、書き出す前にUndoで戻せる状態で調整してください。"
+    ],
+    "en": [
+      "Add 20 pixels of padding on every side of an 800×600 image and save as PNG to get 840×640 pixels. Adding arrows or labels alone keeps the original dimensions; padding, cropping, and composition change the overall image size.",
+      "Annotations are flattened into pixels on export. Reopening the saved PNG will not let you select its arrows or text separately. Finalize their positions and wording while the page still offers editable elements and Undo, then export the finished image."
+    ]
+  },
+  "ocr": {
+    "ja": [
+      "例えば英語で「Hello」と印刷したPNGを読み込み、認識言語を英語にすると、期待する抽出テキストは「Hello」です。画像そのものではなくコピー可能な文字列を得られますが、文字の形や解像度で誤認識するため、出力は原画像と照合してください。",
+      "日本語のスペース除去では、抽出結果の「東 京」を「東京」に整えますが、英文の単語間スペースは残します。認識用エンジンと言語データの取得には通信が必要です。入力画像はブラウザ内のWorkerで認識し、サーバーへ送って認識する方式ではありません。"
+    ],
+    "en": [
+      "For example, load a PNG containing printed “Hello” and choose English recognition. The expected extracted text is “Hello”, available as copyable text rather than an image. Font shapes and image resolution can cause mistakes, so compare the output with the original.",
+      "Japanese-space cleanup turns extracted “東 京” into “東京” while leaving spaces between English words. Downloading the recognition engine and language data requires network access. Recognition itself runs in a browser Worker, without sending your input image to a recognition server."
+    ]
+  },
+  "video-converter": {
+    "ja": [
+      "640×360pxの対応MP4を読み込み、範囲を0〜2秒、GIFの幅を320px、フレームレートを10fpsに設定すると、320×180pxのGIFを作れます。GIFには音声が入らないため、操作説明を動きだけで共有したいときの設定例です。",
+      "MP4圧縮ではH.264とAAC、WebMではVP9とOpusを使います。音声を残す設定でもブラウザが音声のエンコードに対応しなければ音声は除外されます。動画の保存後は、サイズだけでなく再生と音声の有無も確認すると用途に合うか判断できます。"
+    ],
+    "en": [
+      "Load a supported 640×360 MP4, select 0–2 seconds, and set GIF width to 320 and frame rate to 10 fps to produce a 320×180 GIF. GIF carries no audio, making this a useful setup for sharing a short visual demonstration.",
+      "MP4 compression uses H.264 and AAC; WebM uses VP9 and Opus. Even with Keep audio selected, audio is omitted if the browser cannot encode it. Play the saved result and check its audio as well as its size before sharing it."
+    ]
+  },
+  "background-remover": {
+    "ja": [
+      "商品を写したJPEGを読み込み、背景を「透過」、保存形式をPNGにすると、背景を透明にしたPNGを書き出せます。「単色」で白を選べば白背景の画像になるため、同じ切り抜きを商品一覧と資料への重ね合わせで使い分けられます。",
+      "モデルが作るマスクをしきい値やブラシで修正して合成します。初回のモデル取得は通信しますが、写真をサーバーへ送信する処理はありません。GPU利用にはWebGPUだけでなくJSPI対応も必要で、条件を満たさない場合はCPUで処理します。"
+    ],
+    "en": [
+      "Load a product JPEG, choose a transparent background, and export as PNG to obtain an image with transparency. Choose white under Solid color for a white background, letting you reuse the same cutout for a product listing or a document overlay.",
+      "The model produces a mask that you can refine with threshold settings and brushes before compositing. The initial model download uses the network, but your photo is not sent to a server. GPU processing requires JSPI as well as WebGPU; otherwise processing uses the CPU."
+    ]
+  },
+  "exif-remover": {
+    "ja": [
+      "GPS情報を含むJPEGを読み込み、向きを残す設定で保存すると、JPEG形式のまま位置情報を除去できます。向きが6の写真なら、その値だけを最小限のEXIFとして残します。出力をもう一度読み込めば、GPS表示が消えたか確かめられます。",
+      "向きを保持したファイルではEXIF自体が残る場合があるため、EXIFが存在することと位置情報が残っていることは別です。また、写真に写った住所や看板などの画素は変更しないため、公開前には画像内容も目で確認してください。"
+    ],
+    "en": [
+      "Load a JPEG containing GPS data and save with orientation preservation enabled to remove the location while keeping JPEG format. For a photo with orientation 6, only that value is retained in minimal EXIF. Reload the output to check that the GPS display has disappeared.",
+      "Preserving orientation can leave an EXIF block, so the presence of EXIF does not establish that GPS data remains. The tool also leaves visible image content unchanged; check for addresses or signs in the photo before publishing."
+    ]
+  },
+  "svg-optimizer": {
+    "ja": [
+      "widthとheightが24、viewBoxが「0 0 24 24」のアイコンSVGを読み込み、PNG変換で2xを選ぶと48×48pxのPNGになります。背景を指定しなければ透明部分を維持でき、同じアイコンから表示密度に合わせた画像を作れます。",
+      "PNGのサイズはSVGのwidth・height、なければviewBoxを基準にします。最適化済みSVGはベクターとして拡大できますが、書き出したPNGは固定の画素数です。大きな画像が必要になった場合はPNGを引き伸ばさず、SVGから必要な寸法で再出力してください。"
+    ],
+    "en": [
+      "Load an icon SVG with width and height 24 and viewBox “0 0 24 24”, then choose 2x for PNG export to get a 48×48 PNG. Leaving the background unset preserves transparency, so one icon can supply images for different display densities.",
+      "PNG dimensions start from SVG width and height, falling back to viewBox. The optimized SVG remains scalable vector artwork, while the exported PNG has fixed pixel dimensions. When you need a larger version, export again from the SVG at the required size."
+    ]
+  }
+}

@@ -48,7 +48,7 @@ export function ToolContentSections({
   };
 
   return (
-    <div className="flex flex-col gap-10 border-t pt-8">
+    <div data-tool-content className="flex flex-col gap-10 border-t pt-8">
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">{dict.toolPage.usageHeading}</h2>
         <ol className="flex flex-col gap-1.5 pl-5 text-sm text-muted-foreground marker:text-foreground/60 list-decimal">

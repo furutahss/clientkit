@@ -10,7 +10,7 @@ describe("ツール検索", () => {
     ["ja", "Character Count", "character-count"],
     ["en", "文字数", "character-count"],
     ["en", "jpg resize", "image-converter"],
-    ["ja", "UUID生成", "uuid-generator"],
+    ["ja", "UUID生成", "id-generator"],
     ["ja", "argon2id", "password-hash"],
     ["en", "bcrypt", "password-hash"],
     ["ja", "sha3", "hash-generator"],

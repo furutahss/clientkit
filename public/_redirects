@@ -1,0 +1,3 @@
+# UUID生成はID生成ツールへ統合（2026-10-20）
+/ja/tools/uuid-generator /ja/tools/id-generator 301
+/en/tools/uuid-generator /en/tools/id-generator 301

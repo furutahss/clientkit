@@ -202,7 +202,7 @@
       "patternAriaLabel": "Regular expression pattern",
       "presetSelectPlaceholder": "Common patterns",
       "targetTextLabel": "Target text",
-      "sampleText": "Contact us at support@example.com. See https://clientkit.dev/docs for details. Call us at 555-123-4567.",
+      "sampleText": "Contact us at support@example.com. See https://clientkit.dev/en/about for details. Call us at 555-123-4567.",
       "highlightLabel": "Highlighted view",
       "highlightEmpty": "Enter target text to highlight matches",
       "matchListLabel": "Matches ({count})",
@@ -394,7 +394,7 @@
       "tabPreview": "Preview",
       "tabHtml": "HTML code",
       "downloadHtml": "Download HTML (.html)",
-      "sampleMarkdown": "# ClientKit Markdown Editor\n\n**ClientKit** is a collection of safe tools that run entirely in your browser.\n\n## Features\n\n- Real-time preview\n- GitHub Flavored Markdown support\n- One-click conversion to `HTML`\n\n## Sample\n\n1. Table\n\n| Feature | Description |\n| --- | --- |\n| Secure | No data is ever sent to a server |\n| Fast | Everything runs in your browser |\n\n2. Task list\n\n- [x] Write some Markdown\n- [ ] Check the preview\n\n> Blockquotes are supported too.\n\nTake a look at [ClientKit](https://clientkit.dev).\n"
+      "sampleMarkdown": "# ClientKit Markdown Editor\n\n**ClientKit** is a collection of safe tools that run entirely in your browser.\n\n## Features\n\n- Real-time preview\n- GitHub Flavored Markdown support\n- One-click conversion to `HTML`\n\n## Sample\n\n1. Table\n\n| Feature | Description |\n| --- | --- |\n| Secure | No data is ever sent to a server |\n| Fast | Everything runs in your browser |\n\n2. Task list\n\n- [x] Write some Markdown\n- [ ] Check the preview\n\n> Blockquotes are supported too.\n\nTake a look at [ClientKit](https://clientkit.dev/en).\n"
     },
     "harAnalyzer": {
       "safetyNote": "HAR files are analyzed entirely in your browser. Your data is never sent to an external server.",
@@ -998,7 +998,7 @@
         "not-yet-valid": "Not yet valid (starts in {days} days)"
       },
       "caBadge": "CA certificate",
-      "selfSignedBadge": "Self-signed",
+      "selfSignedBadge": "Self-issued (matching names)",
       "fieldSubject": "Subject",
       "fieldIssuer": "Issuer",
       "fieldNotBefore": "Valid from",

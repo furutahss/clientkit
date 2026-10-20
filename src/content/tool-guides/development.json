@@ -1,0 +1,202 @@
+{
+  "log-masker": {
+    "ja": [
+      "たとえばメールアドレスだけを対象にし、ラベル付きで「連絡先 alice@example.com、再送先 alice@example.com」を入力すると、両方が [EMAIL_1] になります。同じ連絡先が複数のログ行に現れる関係を残したまま、問い合わせ用の資料を作れます。",
+      "検出は文字列のパターンやJSON内の項目名に基づくため、社内だけで使う識別子まで自動で意味を理解するわけではありません。任意の文字列も指定し、出力を確認してから共有してください。元データの置換処理はブラウザ内で行います。"
+    ],
+    "en": [
+      "For a simple check, enable only email masking and choose labeled output. Enter “Contact alice@example.com, resend to alice@example.com”: both addresses become [EMAIL_1]. This preserves the fact that two log entries refer to the same contact without exposing the address.",
+      "Detection uses text patterns and JSON field names; it cannot infer every internal identifier. Add custom terms for those values and inspect the result before sharing it. Replacement of the original data takes place in your browser."
+    ]
+  },
+  "chmod-calculator": {
+    "ja": [
+      "秘密情報を置く通常ファイルの権限を確認する例では、8進数に600を入れると rw------- になります。所有者の読み取り4と書き込み2だけが有効になり、グループとその他には権限がありません。逆にこのrwx表記を入力しても600へ戻せます。",
+      "ここで得られるのは権限ビットの表現とコマンド例です。ブラウザから実際のファイルへchmodを実行する機能はありません。実行先で必要なアクセス範囲を判断し、特殊ビットやACLが必要な設定は別途確認してください。"
+    ],
+    "en": [
+      "To inspect permissions for a private regular file, enter 600. The symbolic result is rw-------: only the owner has read (4) and write (2) permissions. Entering the same symbolic form converts it back to 600.",
+      "The calculator produces permission notation and a command example. It does not execute chmod on your files. Decide which users need access in the target environment, and check special bits or ACL settings separately."
+    ]
+  },
+  "env-compare": {
+    "ja": [
+      "左に「PORT=3000」と「TOKEN=」、右に「PORT=8080」を各行で入力すると、TOKENは左で空値、右で未定義として見つかります。PORTの値が異なるだけでは問題にならないため、環境差として正常な値の違いと、設定漏れを分けて確認できます。",
+      "値を伏せた結果のコピーは、設定の不足をチームへ伝える用途に向いています。ただし入力欄そのものには元の.envが表示されるため、画面共有時は入力側も確認してください。解析対象はブラウザ内で扱い、変数の展開やコマンド実行は行いません。"
+    ],
+    "en": [
+      "Enter PORT=3000 and TOKEN= on separate lines on the left, and PORT=8080 on the right. TOKEN is reported as empty on the left and undefined on the right. The different PORT values alone are not considered a problem, helping separate expected environment differences from missing settings.",
+      "Copying the report without values is useful for discussing configuration gaps. The input areas still display the original .env text, so inspect those before sharing your screen. Parsing happens locally without expanding variables or running commands."
+    ]
+  },
+  "folder-tree": {
+    "ja": [
+      "projectの中にsrc/index.tsとREADME.mdがあるフォルダを読み込み、ファイル表示を有効にして深さを1にすると、直下のsrcとREADME.mdが出力され、index.tsは表示されません。深さを2へ変えるとsrc配下のindex.tsも現れ、説明に必要な粒度を選べます。",
+      "除外指定は個々の名前に対するワイルドカードで、*.logならログファイル名をまとめて省けます。READMEへ載せる際は隠しファイルの表示設定も合わせて確認しましょう。構成の取得とテキストの組み立てにサーバーへのアップロードは不要です。"
+    ],
+    "en": [
+      "Load a project folder containing src/index.ts and README.md. With files visible and depth set to 1, the output includes src and README.md but not index.ts. Increasing the depth to 2 reveals index.ts inside src, letting you choose the detail needed for your explanation.",
+      "Exclusion patterns match individual names: *.log omits matching log filenames. Check the hidden-file setting as well when preparing a tree for a README. Reading the structure and assembling the text requires no upload to a server."
+    ]
+  },
+  "gitignore-tester": {
+    "ja": [
+      "ルールを「*.log」、次の行を「!keep.log」とし、パスにdebug.logとkeep.logを入力すると、debug.logは無視され、keep.logは無視されません。後の否定ルールで例外が戻ることと、判定に使われた行番号をセットで確認できます。",
+      "入力するのはリポジトリからの相対パスで、ディレクトリには末尾の / が必要です。実際のGit管理状態を読み取る機能はないため、結果は未追跡パスについてのルール検証として使います。パターンの解析と一致判定はブラウザ内で完結します。"
+    ],
+    "en": [
+      "Use *.log as the first rule and !keep.log as the second, then test debug.log and keep.log. debug.log is ignored, while keep.log is included again by the later exception. The reported rule line identifies which entry determined each result.",
+      "Enter paths relative to the repository and add a trailing / for directories. The tool does not inspect Git tracking state, so use its results to test rules for untracked paths. Pattern parsing and matching run in the browser."
+    ]
+  },
+  "semver-range": {
+    "ja": [
+      "範囲に ~1.2.3、候補に1.2.9と1.3.0を1行ずつ入力すると、1.2.9は範囲内、1.3.0は範囲外になります。次に範囲を ^1.2.3 へ変えると1.3.0も含まれ、依存設定を変更した際に許容する更新範囲を比較できます。",
+      "候補一覧は利用者が与えるもので、公開済みバージョンを自動取得するものではありません。範囲内という結果も、その版の存在や動作互換性を保証しません。ネットワーク照会なしで条件を評価するため、実際の更新候補を貼り付けて確認してください。"
+    ],
+    "en": [
+      "With ~1.2.3 as the range, test 1.2.9 and 1.3.0 on separate lines. The first matches and the second does not. Changing the range to ^1.2.3 also admits 1.3.0, making the effect of changing a dependency constraint easy to compare.",
+      "You supply the candidate versions; the tool does not retrieve published releases. A match does not establish that a release exists or that it is compatible with your application. Paste the versions you are considering to evaluate the constraint without a registry request."
+    ]
+  },
+  "csv-reconcile": {
+    "ja": [
+      "旧CSVを「id,name\n1,Aki\n2,Ren」、新CSVを「id,name\n2,Ren\n1,Aoi\n3,Mio」としてidをキーに選ぶと、1はnameの更新、3は追加、2は変更なしになります。行が入れ替わっても、同じidのレコードを対応付けて結果を確認できます。",
+      "キーもセルも文字列の完全一致で扱うため、空白や先頭ゼロの差は残ります。番号を数値として丸めずに比較したい名簿や商品一覧に適しています。重複キーがある場合は先に解消してから突合し、元CSVの送信なしで差分を取り出せます。"
+    ],
+    "en": [
+      "Use id,name\n1,Aki\n2,Ren as the old CSV and id,name\n2,Ren\n1,Aoi\n3,Mio as the new CSV, choosing id as the key. Record 1 has a name update, record 3 is added, and record 2 is unchanged despite the reordered rows.",
+      "Keys and cells use exact string comparisons, preserving whitespace and leading-zero differences. This suits lists whose identifiers must not be treated as numbers. Resolve duplicate keys before reconciliation; the original CSV is not sent to a server."
+    ]
+  },
+  "image-diff": {
+    "ja": [
+      "同じPNGを変更前と変更後の両方へ読み込み、許容する色の差を0にすると、ピクセル差分の変更数は0になります。次に片方の画像の一部だけを塗り替えたPNGへ差し替えると、その領域が強調され、比較対象の取り違えも確認できます。",
+      "判定は各ピクセルのRGBA差に基づき、文章や部品の意味を認識するものではありません。撮影位置のずれも変更として現れるため、スクリーンショットの寸法と表示倍率を揃えると読み取りやすくなります。画像データはCanvasで読み取り、ブラウザ内で比較します。"
+    ],
+    "en": [
+      "Load the same PNG on both sides and set the color-difference threshold to 0. The changed-pixel count is 0. Replace one side with a PNG in which a small region has been repainted, and that region is highlighted, providing a straightforward check of your comparison setup.",
+      "The comparison measures RGBA differences rather than recognizing text or interface elements. Positional shifts also appear as changes, so capture screenshots at matching dimensions and zoom levels. Canvas reads the image data and the browser performs the comparison locally."
+    ]
+  },
+  "cron-explainer": {
+    "ja": [
+      "式に */15 * * * * を入力すると、分の一覧が0・15・30・45となり、毎時15分刻みの予定を確認できます。秒を含めたい場合は0 */15 * * * *とすると、秒が0に固定された6フィールドの式として解析されます。",
+      "選択したタイムゾーンは、式の時・分をどの地域の時計で解釈するかを決めます。式自体にタイムゾーン情報は含まれません。実行予定は現在時刻を基準にブラウザ内で計算されるため、日時一覧は開いた時点に応じて変わります。"
+    ],
+    "en": [
+      "Enter */15 * * * * to see minute values 0, 15, 30, and 45: a run every quarter hour. To include an explicit seconds field, use 0 */15 * * * *, which is parsed as a six-field expression with seconds fixed at 0.",
+      "The selected time zone determines which local clock is used to interpret the expression’s hours and minutes; the expression contains no zone itself. Future runs are calculated in your browser relative to the current time, so the displayed dates change depending on when you open the tool."
+    ]
+  },
+  "sql-formatter": {
+    "ja": [
+      "「select id from users where id=1;」を貼り付け、予約語を大文字に設定すると、SELECT・FROM・WHEREが大文字になり、句ごとに改行されたSQLを確認できます。次に1行化へ切り替えると、読みやすさを優先した配置から空白をまとめた表現へ変わります。",
+      "整形はクエリの見通しを良くする処理で、実行計画やインデックスの改善を判定する機能はありません。DBへ接続せず入力文字列だけをブラウザ内で処理するため、実テーブルの有無や列の型は確認できません。出力の用途に合わせて方言を選んでください。"
+    ],
+    "en": [
+      "Paste select id from users where id=1; and choose uppercase keywords. SELECT, FROM, and WHERE become uppercase, with clauses arranged across lines. Switching to Minify collapses the layout into a compact single-line representation.",
+      "Formatting makes a query easier to read; it does not assess execution plans or index improvements. Since it processes the input locally without connecting to a database, it cannot check whether tables exist or verify column types. Select the dialect for the intended database."
+    ]
+  },
+  "sql-insert-generator": {
+    "ja": [
+      "入力をJSONにして [{\"id\":1,\"name\":\"O'Brien\"}] を貼り付け、テーブル名をusers、列をidとnameにすると、INSERT INTO \"users\" (\"id\", \"name\") VALUES (1, 'O''Brien'); が得られます。数値の1には引用符を付けず、名前の中の引用符だけを二重化します。",
+      "同じ1でもCSVから読み込むと文字列として引用されるため、型を明示したいデータにはJSONが向いています。生成はブラウザ内の文字列変換で、DBにデータを追加する操作は行いません。投入先の制約や既定値との整合は、実行前に別途確かめてください。"
+    ],
+    "en": [
+      "Choose JSON input, paste [{\"id\":1,\"name\":\"O'Brien\"}], set the table to users, and select id and name. The output is INSERT INTO \"users\" (\"id\", \"name\") VALUES (1, 'O''Brien');. The numeric 1 stays unquoted, while the apostrophe in the name is doubled.",
+      "CSV input would treat the same 1 as a string, so JSON is useful when explicit value types matter. Generation is a local text transformation and does not insert rows into a database. Check the target constraints and defaults before executing the result."
+    ]
+  },
+  "pg-explain-viewer": {
+    "ja": [
+      "最小例として [{\"Plan\":{\"Node Type\":\"Seq Scan\",\"Relation Name\":\"users\",\"Plan Rows\":10}}] を入力すると、usersを対象にしたSeq Scanのツリーが表示されます。実測情報を含まないため、実測時間を0と断定せず、取得されていない値として扱います。",
+      "推定行数と実測行数のずれは調査の手掛かりですが、それだけで特定のインデックスが必要とは決まりません。条件や実行回数も合わせて読みます。ここで解析するのは貼り付けたJSONだけで、ブラウザからPostgreSQLへ問い合わせることはありません。"
+    ],
+    "en": [
+      "As a minimal example, paste [{\"Plan\":{\"Node Type\":\"Seq Scan\",\"Relation Name\":\"users\",\"Plan Rows\":10}}]. The tree shows a Seq Scan on users. Because no measured execution data is provided, actual time is treated as unavailable rather than assumed to be zero.",
+      "A gap between estimated and actual rows is a clue, not proof that a particular index is needed. Read conditions and loop counts alongside it. The viewer only parses the JSON you provide and does not query PostgreSQL from the browser."
+    ]
+  },
+  "code-formatter": {
+    "ja": [
+      "言語をJavaScript、モードを整形、セミコロンとダブルクォートを有効にして const x={name:\"Aki\"} を入力すると、const x = { name: \"Aki\" }; のように空白と終端が整います。TypeScriptを選んだ場合も型注釈を残して整形し、JavaScriptへの変換は行いません。",
+      "整形と圧縮では目的が異なります。レビューに使うなら整形、配布用の短いコードが欲しいなら対応言語のMinifyを選びます。ライブラリの読込は発生しますが、入力コードを処理サービスへ送る構成ではなく、Web Worker内で出力を組み立てます。"
+    ],
+    "en": [
+      "Select JavaScript and Format, enable semicolons and double quotes, then enter const x={name:\"Aki\"}. The result is const x = { name: \"Aki\" }; with consistent spacing and termination. Formatting TypeScript preserves type annotations rather than compiling it to JavaScript.",
+      "Choose formatting for review and Minify for compact output in a supported language. The page loads the required libraries, but it does not send your code to a processing service; a Web Worker produces the result in your browser."
+    ]
+  },
+  "source-map-resolver": {
+    "ja": [
+      "Mapに {\"version\":3,\"file\":\"app.js\",\"sources\":[\"src/main.ts\"],\"names\":[],\"mappings\":\"AAAA\"}、スタックに at fn (app.js:1:1) を入力し、列を1始まりにすると、src/main.tsの1行1列へ復元されます。この例は位置だけを含み、元ソース本文の表示はありません。",
+      "本番ファイルとMapは同じビルドの組み合わせを使ってください。古いMapでも読み込み自体はできるため、対応しない版では結果の位置を信頼できません。外部のソースやMapを取得する機能はなく、貼り付けた資料をブラウザ内で照合します。"
+    ],
+    "en": [
+      "For the map, enter {\"version\":3,\"file\":\"app.js\",\"sources\":[\"src/main.ts\"],\"names\":[],\"mappings\":\"AAAA\"}. Resolve at fn (app.js:1:1) using one-based columns: the result is src/main.ts at line 1, column 1. This map contains positions only, so no original source excerpt is available.",
+      "Use a map from the same build as the production file. An older map may still load successfully while producing irrelevant positions. The resolver does not fetch external maps or sources; it compares the material you provide locally."
+    ]
+  },
+  "sql-to-prisma": {
+    "ja": [
+      "PostgreSQLを選び、命名規則への変換を有効にして CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL); を入力すると、Usersモデルにid Int @idとname Stringが作られ、@@map(\"users\")で元のテーブル名が保持されます。",
+      "NOT NULLのない列は通常「?」付きになり、アプリ側の必須入力とDBのNULL許容を見直す際にも使えます。接続先のDBを直接調べる機能はなく、DDLに書かれていない設定は補えません。ローカルで生成したモデルは実プロジェクトで検証してから組み込んでください。"
+    ],
+    "en": [
+      "Select PostgreSQL, enable naming conventions, and enter CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL);. The Users model contains id Int @id and name String, with @@map(\"users\") preserving the database table name.",
+      "Columns without NOT NULL generally become nullable fields marked with ?, which helps review database nullability alongside application requirements. The converter does not inspect a live database or infer settings absent from the DDL. Validate the locally generated models in your actual project before adopting them."
+    ]
+  },
+  "mermaid-editor": {
+    "ja": [
+      "エディタに「flowchart LR」、次の行に「A[入力] --> B[確認]」と入力すると、入力から確認へ左から右に矢印が伸びる2つのノードが表示されます。LRをTDへ変えれば上から下の配置になり、図の向きを短い記述で調整できます。",
+      "作業内容はブラウザのlocalStorageへ自動保存されます。共有リンクにも復元用の内容が含まれるため、リンクを受け取る相手へ図を渡すつもりで扱ってください。描画を外部サービスへ依頼する方式ではなく、端末上のMermaidで画像を生成します。"
+    ],
+    "en": [
+      "Enter flowchart LR followed by A[Input] --> B[Review] on the next line. The preview shows two nodes connected from left to right. Replacing LR with TD changes the direction to top to bottom without requiring you to reposition nodes manually.",
+      "Your work is saved automatically in browser localStorage. A share link also contains the information needed to restore the diagram, so treat sending that link as sharing the diagram itself. Mermaid renders the image on your device rather than sending the definition to a diagram service."
+    ]
+  },
+  "prisma-schema-visualizer": {
+    "ja": [
+      "「model User {」「id Int @id」「email String @unique」「}」を改行して入力すると、Userカードにidとemailが並び、主キーとユニーク制約を区別して確認できます。メール列が単なるStringなのか、一意制約付きなのかをレビュー時に説明する小さな例です。",
+      "表示は入力したスキーマの読み取り結果で、データベースの実際の制約や保存済みレコードと照合するものではありません。モデル名の検索は表示対象を絞る用途に使えます。カード化とリレーションの抽出はブラウザ内で行われ、スキーマのアップロードは不要です。"
+    ],
+    "en": [
+      "Enter model User {, id Int @id, email String @unique, and } on separate lines. The User card lists id and email with distinct primary-key and unique indicators. This provides a small review example for explaining that email has a uniqueness constraint beyond its String type.",
+      "The display reflects the supplied schema rather than checking live database constraints or stored records. Search by model name to narrow the cards shown. Card construction and relation extraction happen in the browser without uploading the schema."
+    ]
+  },
+  "prisma-zod-generator": {
+    "ja": [
+      "「model User {」「id Int @id」「email String?」「}」を改行して入力すると、UserSchemaのidはz.number().int()、emailはz.string().nullable()になります。読み取り用のemailはnullを許可しますが、省略可能という意味の.optional()とは区別されます。",
+      "作成用スキーマを有効にすると、NULL許容列などを省略できる定義も追加されます。DBの型から分からない「メール形式であること」などの業務ルールは、自動では付加されません。ブラウザ内で生成したコードに、APIやフォームで必要な検証を足して使ってください。"
+    ],
+    "en": [
+      "Enter model User {, id Int @id, email String?, and } on separate lines. In UserSchema, id becomes z.number().int() and email becomes z.string().nullable(). In the read schema, allowing null is distinct from making the field optional with .optional().",
+      "Enabling create schemas also generates definitions that permit omission of fields such as nullable columns. Business rules absent from the database type, such as requiring a valid email address, are not added automatically. Extend the locally generated code with the checks your API or form needs."
+    ]
+  },
+  "prisma-repo-generator": {
+    "ja": [
+      "「model User {」「id Int @id」「name String」「}」を改行して入力し、Iプレフィックスと戻り値の型付与を選ぶと、IUserRepositoryに findUnique(id: number): Promise<User | null> が生成されます。主キーをStringへ変えれば引数もstringへ変わります。",
+      "PrismaClientを受け取る実装は、生成時にDBへ問い合わせるのではなく、プロジェクトに組み込むコードです。複合主キーなど単一のid引数に収まらない設計は出力を調整してください。入力スキーマの解析と3種類のコード生成はブラウザ内で行います。"
+    ],
+    "en": [
+      "Enter model User {, id Int @id, name String, and } on separate lines. With I-prefix naming and explicit return types enabled, IUserRepository contains findUnique(id: number): Promise<User | null>. Changing the primary key to String changes the parameter type to string.",
+      "The PrismaClient implementation is code to integrate into your project later; generation itself does not query a database. Adjust the output for designs such as composite keys that do not fit a single id parameter. Parsing and generation of all three code views run locally."
+    ]
+  },
+  "mock-repo-generator": {
+    "ja": [
+      "「interface User {」「id: number;」「email: string;」「}」を改行して入力し、生成件数を1にすると、ダミーデータは [{\"id\":1,\"email\":\"user1@example.com\"}] になります。フィールド名emailの推測が値に反映され、画面やテストの初期データとして使えます。",
+      "値は型と名前に基づく定型的な例で、実在のユーザーから取得するものではありません。未知の型はnullになる場合があり、業務上の境界値や異常系はコピー後に追加する必要があります。型解析とJSON・モッククラスの生成に、DB接続や入力の送信は伴いません。"
+    ],
+    "en": [
+      "Enter interface User {, id: number;, email: string;, and } on separate lines, then set the count to 1. The dummy data is [{\"id\":1,\"email\":\"user1@example.com\"}]. The email field name influences the generated value, providing starter data for a screen or test.",
+      "Values are template examples inferred from types and names, not records retrieved from real users. Unknown types may produce null, and business-specific boundary or failure cases need to be added after copying. Parsing and generation of the JSON and mock class require neither a database connection nor sending your input away."
+    ]
+  }
+}

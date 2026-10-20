@@ -1,0 +1,202 @@
+{
+  "favicon-generator": {
+    "ja": [
+      "たとえば512×512pxのPNGを読み込み、アプリ名を「Sample」、短い名前を空欄にすると、manifest.jsonのnameとshort_nameは両方「Sample」になります。ZIPには180×180pxのapple-touch-icon.pngも入り、画像の寸法と設定値を別々に確認できます。",
+      "横長のロゴは縦横比を保って正方形の中央へ配置されます。文字の多いロゴでは小さいタブ用画像で読めるかを確認し、必要ならシンボルだけの画像に差し替えてください。manifest内のアイコンパスはルート基準なので、サブディレクトリで配信する際は配置先に合わせて修正します。"
+    ],
+    "en": [
+      "Load a 512×512px PNG, set the app name to Sample, and leave the short name blank. Both name and short_name in manifest.json will be Sample. The ZIP also contains a 180×180px apple-touch-icon.png, so you can check image dimensions separately from manifest settings.",
+      "A wide logo keeps its aspect ratio and is centered on a square canvas. Check whether text remains legible in the small tab icons; a symbol-only source may work better. Icon paths in the manifest start at the site root, so adjust them if the files will live in a subdirectory."
+    ]
+  },
+  "qr-code": {
+    "ja": [
+      "「https://example.com/menu」を入力してPNGを保存し、その画像を「読み取り」タブへ入れると、同じURL文字列を取り出せます。生成から読み取りまで一往復して確かめると、印刷前に別ページのURLや余分な文字を埋め込んでいないか確認できます。",
+      "このQRコードには入力文字列そのものが入るため、配布済みの画像を変えずにリンク先の文字列を書き換えることはできません。掲載先の変更が見込まれる場合は、自分で管理できる案内ページのURLを使うと、QR画像を作り直す機会を減らせます。"
+    ],
+    "en": [
+      "Enter https://example.com/menu, save the PNG, and load that image on the Read tab. The decoded text will be the same URL. This round trip helps catch a wrong destination or extra characters before you print the code.",
+      "The code contains the actual text you enter. You cannot change that text inside an image already distributed. If the destination may change, encode the URL of a landing page you control, then update that page when needed."
+    ]
+  },
+  "pdf-toolkit": {
+    "ja": [
+      "5ページのPDFを読み込み、一覧を変更せず「ページ抽出」に「5, 1-2」を指定すると、元の5・1・2ページがこの順で並ぶ3ページのPDFになります。同じ指定を「分割」で使うと、5ページ目だけのPDFと1〜2ページ目のPDFに分かれます。",
+      "指定する番号は現在のページ一覧を基準にします。先にページを削除したり並べ替えたりした場合は、元ファイルの番号のつもりで指定すると別のページを選ぶ可能性があります。書き出す前に一覧の順序と抽出範囲を照合してください。"
+    ],
+    "en": [
+      "Load a five-page PDF without editing the page list and enter 5, 1-2 in Extract pages. The result is a three-page PDF containing original pages 5, 1, and 2 in that order. Using the same specification in Split produces one PDF for page 5 and another for pages 1–2.",
+      "Page specifications refer to the current page list. If you have deleted or reordered pages, using their original file numbers may select different content. Check the list order against the extraction range before exporting."
+    ]
+  },
+  "invoice-generator": {
+    "ja": [
+      "税抜入力・源泉徴収なしで、数量2、単価1,000円、税率10%の明細を1行入れると、小計2,000円、消費税200円、請求金額2,200円になります。まずこのような単純な明細で入力方法を確認してから、値引きや複数税率を加えると計算を追いやすくなります。",
+      "PDF作成に使う日本語フォントはサイト内の資産として取得しますが、宛先や明細を送信してPDFを作る仕組みではありません。テンプレートを別端末へ移すときはJSONを書き出して取り込みます。共有するJSONには発行者情報なども含まれるため、内容を確認してください。"
+    ],
+    "en": [
+      "With tax-exclusive entry and withholding disabled, one line with quantity 2, unit price ¥1,000, and 10% tax produces a ¥2,000 subtotal, ¥200 tax, and ¥2,200 amount due. Start with a simple line like this before adding discounts or mixed tax rates.",
+      "The Japanese font used for PDF output is downloaded as a site asset; recipient details and line items are not sent away to generate the PDF. Export and import JSON to move templates between devices. Review that JSON before sharing, since it includes information such as issuer details."
+    ]
+  },
+  "regex-tester": {
+    "ja": [
+      "パターンに「ID-(\\d+)」、フラグにg、対象に「ID-12 ID-34」を指定すると、ID-12とID-34の2件が一致し、キャプチャには12と34が入ります。gを外すと先頭のID-12だけになるため、一括抽出と存在確認の違いを同じ入力で試せます。",
+      "パターン欄には区切り用のスラッシュを付けず、フラグは画面のボタンで指定します。評価にはJavaScriptのRegExpを使うので、別言語へ移す際は同じ式でも対応する構文や改行の扱いを実行先で確かめてください。"
+    ],
+    "en": [
+      "Use ID-(\\d+) as the pattern, enable g, and enter ID-12 ID-34 as the text. The two matches are ID-12 and ID-34, with captures 12 and 34. Disable g to keep only the first match, making it easy to compare extraction with a first-match check.",
+      "Enter the pattern without slash delimiters and select flags using the buttons. Evaluation uses JavaScript RegExp. Before moving an expression to another language, check that runtime's supported syntax and newline behavior."
+    ]
+  },
+  "jsonpath-tester": {
+    "ja": [
+      "JSONに {\"items\":[{\"id\":1},{\"id\":2}]}、式に「$.items[*].id」を入れると、抽出結果は [1,2] になります。「$.items[0].id」なら結果は [1] となり、1件の値でもコピーする内容は配列として扱えます。",
+      "値だけで判断しにくいときは「パス」で出現位置も確認できます。同じ値が複数の場所にあるレスポンスでは、再帰検索で取りすぎていないかの確認に便利です。JSONPathの実装によって拡張構文が異なるため、外部のツールに式を移す際はそのツールでも結果を照合します。"
+    ],
+    "en": [
+      "For {\"items\":[{\"id\":1},{\"id\":2}]}, the query $.items[*].id returns [1,2]. Changing it to $.items[0].id returns [1], so copied values remain an array even when only one value matches.",
+      "Switch to Paths when values alone do not identify their source. This is useful for spotting an overly broad recursive query in a response containing repeated values. JSONPath implementations have different extensions, so check results again when moving a query to another tool."
+    ]
+  },
+  "json-diff": {
+    "ja": [
+      "変更前を {\"count\":1,\"active\":true}、変更後を {\"active\":true,\"count\":\"1\"} にすると、$.countの数値1から文字列「1」への変更だけが表示されます。activeの位置が変わったことは差分にならず、型の変化に絞って確認できます。",
+      "空のオブジェクトとキーがない状態も区別します。APIの返却値を比べる場合は、毎回変わる時刻や識別子も通常の差分になるため、まず業務上重要なパスを確認すると判断しやすくなります。差分表示から入力の値が書き換えられることはありません。"
+    ],
+    "en": [
+      "Compare {\"count\":1,\"active\":true} with {\"active\":true,\"count\":\"1\"}. The only finding is $.count changing from the number 1 to the string \"1\". Moving active to a different position produces no finding.",
+      "An empty object also differs from an absent key. When comparing API responses, changing timestamps and identifiers appear as ordinary differences, so focus first on paths relevant to the behavior under review. Viewing differences does not rewrite either input."
+    ]
+  },
+  "json-schema-validator": {
+    "ja": [
+      "データを {\"age\":\"20\"}、Schemaを {\"type\":\"object\",\"properties\":{\"age\":{\"type\":\"integer\"}}} にすると、/ageに型違反が出ます。データを {\"age\":20} に直すと適合します。数字に見える文字列が自動で整数に変換されることはありません。",
+      "propertiesに書いた項目も、requiredで指定しなければ省略可能です。この例では {} も適合するため、型を確認したいのか、必須入力も確認したいのかを分けてSchemaを設計します。エラーのパスと制約の種類を一緒に見ると修正箇所を絞れます。"
+    ],
+    "en": [
+      "Validate {\"age\":\"20\"} against {\"type\":\"object\",\"properties\":{\"age\":{\"type\":\"integer\"}}}. A type violation appears at /age. Changing the data to {\"age\":20} passes; numeric strings are not automatically converted to integers.",
+      "A property declared under properties is still optional unless required says otherwise. The empty object {} therefore passes this example too. Decide separately whether to check a value's type and whether to require its presence. Use the error path together with the constraint keyword to locate the fix."
+    ]
+  },
+  "json-schema-generator": {
+    "ja": [
+      "[1,2.5] を入力すると、生成結果のtypeはarray、itemsのtypeはnumberになります。整数を含めて数値としてまとめるため、itemsにintegerとnumberを重複して並べません。[1,\"2\"] ならitemsのtypeはintegerとstringの配列になります。",
+      "生成元のサンプルが適合していても、将来のデータを十分に制限できるとは限りません。たとえば注文数の項目には負の整数も通り得るため、実際の入力条件に合わせてminimumを追記し、許可したい例と拒否したい例の両方で検証してください。"
+    ],
+    "en": [
+      "For [1,2.5], the generated schema has type array and items with type number. The integer is covered by number rather than listed redundantly. For [1,\"2\"], items instead has a type array containing integer and string.",
+      "Passing the source sample does not mean the schema restricts future data sufficiently. An order quantity inferred as integer may still accept negative values. Add constraints such as minimum to match the actual rules, then validate both examples you want to accept and examples you want to reject."
+    ]
+  },
+  "i18n-placeholder-checker": {
+    "ja": [
+      "基準を {\"hello\":\"こんにちは{name}\"}、翻訳先を {\"hello\":\"Hello {user}\"} にすると、$.helloでnameの不足とuserの余分な変数が表示されます。翻訳先を「Hello {name}」に直すと、文言が違っていても変数の不一致はなくなります。",
+      "同じ変数が複数回登場しても、比較するのは名前の集合です。繰り返し回数の違いや翻訳そのものの自然さは検出しません。結果が問題なしでも、画面での表示や文章の意味は別途確認すると、変数の整合性と翻訳品質を分けて点検できます。"
+    ],
+    "en": [
+      "Compare {\"hello\":\"こんにちは{name}\"} with {\"hello\":\"Hello {user}\"}. At $.hello, name is reported missing and user extra. Replace the translation with Hello {name} and the placeholder mismatch disappears even though the wording differs.",
+      "The checker compares sets of variable names, so repeating a variable a different number of times is not an issue. It also does not judge translation quality. Review the rendered screen and the meaning separately to cover both placeholder consistency and natural language quality."
+    ]
+  },
+  "hash-generator": {
+    "ja": [
+      "改行なしの「abc」を入力した場合、SHA-256は ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad です。この値を期待値に入れるとSHA-256の行が一致します。末尾に改行を加えると別のバイト列になり、同じ期待値とは一致しません。",
+      "テキストはUTF-8のバイト列として計算します。一方、ファイル選択ではファイルの内容をそのまま使うため、文字コードや改行コードが違えば見た目が同じ文章でも値が変わります。照合が合わない場合は、アルゴリズムに加えて入力の保存形式を確認してください。"
+    ],
+    "en": [
+      "For abc without a newline, SHA-256 is ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad. Paste that value into the expected-hash field to get a match on the SHA-256 row. Adding a trailing newline changes the bytes and produces a mismatch.",
+      "Text is hashed as UTF-8 bytes, while file mode uses the file's actual contents. Different text encodings or line endings can therefore produce different hashes for visually identical text. When a comparison fails, check the stored input format as well as the algorithm."
+    ]
+  },
+  "password-hash": {
+    "ja": [
+      "再現用にはPBKDF2、SHA-256、パスワード「password」、テキストのソルト「salt」、反復1回、出力32バイトを指定します。16進数の結果は 120fb6cffcf8b32c43e7225256c4f837a86548c92ccc35480805987cb70be17b です。この低い反復回数は動作確認専用です。",
+      "別の実装との照合では、ソルトの文字列表現と実際のバイト列を混同しないことが大切です。テキストの「6162」と16進数の「6162」は異なるソルトになります。方式だけでなく、文字コード・反復回数・出力長もそろえて比較してください。"
+    ],
+    "en": [
+      "For a reproducible check, choose PBKDF2 with SHA-256, password password, text salt salt, one iteration, and a 32-byte output. The hex result is 120fb6cffcf8b32c43e7225256c4f837a86548c92ccc35480805987cb70be17b. This low iteration count is only for checking behavior.",
+      "When comparing implementations, distinguish a salt's displayed text from its actual bytes. Text 6162 and hexadecimal 6162 represent different salts. Match the encoding, iteration count, and output length as well as the algorithm."
+    ]
+  },
+  "jwt-decoder": {
+    "ja": [
+      "構造確認用の「eyJhbGciOiJub25lIn0.eyJzdWIiOiIxMjMifQ.」を入れると、Headerは {\"alg\":\"none\"}、Payloadは {\"sub\":\"123\"}、署名部分は空になります。これは有効な認証情報の例ではなく、3つの区画を確認するための入力です。",
+      "末尾のドットも区切りなので、コピー時に省くと3区画として解析できません。また、期限の判定は端末の現在時刻を使うため、時刻設定がずれていれば結果も影響を受けます。表示されたクレームの内容と、認証基盤で検証済みかどうかは分けて判断してください。"
+    ],
+    "en": [
+      "Enter eyJhbGciOiJub25lIn0.eyJzdWIiOiIxMjMifQ. to inspect the structure. The header is {\"alg\":\"none\"}, the payload is {\"sub\":\"123\"}, and the signature segment is empty. This is a structural example, not a valid authentication credential.",
+      "Keep the trailing dot: removing it leaves fewer than three segments. Expiry checks also depend on your device clock, so an incorrect clock affects the result. Treat displayed claim contents separately from whether your authentication system has verified the token."
+    ]
+  },
+  "certificate-decoder": {
+    "ja": [
+      "手元で「openssl req -x509 -newkey rsa:2048 -nodes -keyout test.key -out test.pem -days 1 -subj /CN=example.com」を実行して作ったtest.pemを読むと、サブジェクトと発行者にCN=example.com、公開鍵にRSA・2048ビットが表示されます。入力するのは証明書のtest.pemです。",
+      "発行者とサブジェクトが同じでも、その証明書の署名が正しいと確認できたことにはなりません。解析は記載内容を調べる用途に使い、サーバーへ配備した後のチェーン検証や失効確認はTLSの検証環境で行ってください。"
+    ],
+    "en": [
+      "Run openssl req -x509 -newkey rsa:2048 -nodes -keyout test.key -out test.pem -days 1 -subj /CN=example.com locally, then load test.pem. Both subject and issuer show CN=example.com, and the public key shows RSA with 2048 bits. The input file is the certificate test.pem.",
+      "Matching issuer and subject names do not prove that a certificate's signature is valid. Use decoding to inspect the recorded fields, and use a TLS validation environment to check the deployed chain and revocation status."
+    ]
+  },
+  "id-generator": {
+    "ja": [
+      "「パスワード」で文字数4、数字だけを有効、見間違えやすい文字の除外をオフ、個数2にすると、0〜9だけからなる4文字の結果が2行出ます。たとえば「4820」の形式で、値は毎回変わります。この短い設定は出力条件を確かめるための例です。",
+      "ULIDを選ぶと26文字のIDになり、UUIDのハイフン付き表記とは長さも使う文字も変わります。保存先の型や桁数に合わせて方式を選び、生成時刻を含むIDは利用者に時刻情報を見せてもよいかも検討してください。文字種の制限がある欄ではコピー前に形式を確認します。"
+    ],
+    "en": [
+      "On Password, choose length 4, digits only, ambiguous-character exclusion off, and count 2. The output contains two four-character lines using only 0–9, in the form 4820; the actual values change each time. This short configuration is just an example for checking output rules.",
+      "ULIDs use 26 characters, so their length and alphabet differ from hyphenated UUIDs. Choose a format that fits the destination's type and length limits. For IDs containing a timestamp, also consider whether exposing creation time is acceptable. Check the format before copying into a restricted field."
+    ]
+  },
+  "har-analyzer": {
+    "ja": [
+      "確認用のa.harに {\"log\":{\"entries\":[{\"request\":{\"url\":\"https://example.com/a\",\"method\":\"GET\"},\"response\":{\"status\":404}}]}} を保存して読み込むと、総リクエスト1件、エラー1件になります。記録のURLへ接続して404を再確認する処理ではありません。",
+      "診断対象はHARに記録された通信だけです。サーバーを修正しても結果は更新されないため、改善を確かめるには通信を取り直して新しいHARを読み込みます。記録にないヘッダーやサイズは補完できないので、スコアは調査の手がかりとして使ってください。"
+    ],
+    "en": [
+      "Save {\"log\":{\"entries\":[{\"request\":{\"url\":\"https://example.com/a\",\"method\":\"GET\"},\"response\":{\"status\":404}}]}} as a.har and load it. The result shows one request and one error. The tool does not contact the recorded URL to check the 404.",
+      "Analysis covers only the traffic recorded in the HAR. Fixing a server after loading the file does not update the results; capture new traffic and load a new HAR to assess the change. Missing headers and sizes cannot be recovered, so use the score as an investigation aid."
+    ]
+  },
+  "curl-converter": {
+    "ja": [
+      "「curl https://example.com/api」を入力してfetchを選ぶと、出力には const response = await fetch(\"https://example.com/api\"); が含まれます。解析結果のメソッドはGETで、変換するだけではそのURLへのリクエストは実行されません。",
+      "生成したfetchコードを実際にブラウザで動かす際は、接続先のCORS設定やブラウザが送信を制限するヘッダーの影響を受けます。cURLで成功した通信がコード変換だけで同じように動くとは限らないため、表示された注意書きと実行環境を合わせて確認してください。"
+    ],
+    "en": [
+      "Enter curl https://example.com/api and select fetch. The output includes const response = await fetch(\"https://example.com/api\");, and the parsed method is GET. Conversion itself does not send a request to that URL.",
+      "Running the generated fetch code in a browser is subject to the destination's CORS settings and browser restrictions on request headers. A request that succeeds in cURL may need environment-specific changes. Read the generated notes and check the intended runtime."
+    ]
+  },
+  "openapi-compat": {
+    "ja": [
+      "変更前に {\"openapi\":\"3.0.3\",\"paths\":{\"/ping\":{\"get\":{\"responses\":{\"200\":{\"description\":\"ok\"}}}}}}、変更後に {\"openapi\":\"3.0.3\",\"paths\":{}} を入れると、/pingの削除が破壊的変更として検出されます。",
+      "比較の向きは既存クライアントが変更後のAPIを使えるか、という基準です。左右を逆にすると削除が追加になり、結果も変わります。リリース前の定義を左、新しい定義を右に置き、未判定の参照先も含めて変更内容を確認してください。"
+    ],
+    "en": [
+      "Use {\"openapi\":\"3.0.3\",\"paths\":{\"/ping\":{\"get\":{\"responses\":{\"200\":{\"description\":\"ok\"}}}}}} as the old definition and {\"openapi\":\"3.0.3\",\"paths\":{}} as the new one. Removing /ping is reported as a breaking change.",
+      "The comparison asks whether existing clients can use the changed API. Reversing the inputs turns a removal into an addition and changes the result. Put the released definition on the left and the proposed definition on the right, then review unchecked references alongside the findings."
+    ]
+  },
+  "robots-txt-tester": {
+    "ja": [
+      "「User-agent: *」「Disallow: /admin/」「Allow: /admin/help」をこの順に改行して入力し、User-AgentをGooglebotにします。/admin/settingsは禁止、/admin/helpは許可となり、後者には3行目のAllowが適用されます。",
+      "「/admin/help」は前方一致なので「/admin/helpful」にも一致します。完全にそのパスだけを対象にしたい場合は末尾に$を付け、クエリ付きURLも含めて試してください。URLを入力してもサイトへアクセスせず、貼り付けたルールとパスの文字列で判定します。"
+    ],
+    "en": [
+      "Enter three lines: User-agent: *, Disallow: /admin/, and Allow: /admin/help. Set the user agent to Googlebot. /admin/settings is disallowed, while /admin/help is allowed by the Allow rule on line 3.",
+      "The /admin/help rule is a prefix match, so it also matches /admin/helpful. Add $ at the end to target an exact ending, and test URLs with query strings too. Entering a URL does not access the site; matching uses the pasted rules and path text."
+    ]
+  },
+  "cidr-calculator": {
+    "ja": [
+      "192.168.1.130/26を入力すると、ネットワークは192.168.1.128/26、マスクは255.255.255.192、範囲の末尾は192.168.1.191になります。照合欄の192.168.1.190は範囲内、192.168.1.192は範囲外です。",
+      "範囲内の判定とホストへ割り当てられるかは別です。この例の192.168.1.191も範囲には含まれますが、ブロードキャストなので利用可能ホストの末尾は.190です。許可リストの包含確認には範囲を、端末への割り当て計画には利用可能ホスト範囲を参照してください。"
+    ],
+    "en": [
+      "Enter 192.168.1.130/26. The network is 192.168.1.128/26, the mask is 255.255.255.192, and the range ends at 192.168.1.191. Checking 192.168.1.190 reports in range; 192.168.1.192 is out of range.",
+      "Being in range differs from being assignable to a host. In this example, 192.168.1.191 is included but serves as the broadcast address, so usable hosts end at .190. Use the full range for allowlist membership and the usable-host range when planning device assignments."
+    ]
+  }
+}

@@ -157,3 +157,13 @@
 実装上確認したlocalStorage（請求書入力、Mermaidソース、設定・利用履歴）とモデルキャッシュ、静的資産の取得、外部画像を説明。配信環境での解析の有効化状況をリポジトリから断定しない。Google広告のCookie等の説明は[AdSense必須コンテンツ](https://support.google.com/adsense/answer/1348695?hl=en)を参照。
 
 検証: `npm run build`成功、`npm test`29ファイル336テスト成功、`npm run lint`成功。本文の全体基準とクロールはA/C/D統合後に再検証する。
+
+## A: ツール本文の改善とUUID専用ページの統合
+
+全61ツール（日英122ページ）に、ツール固有の具体的な入力・出力例と、実装を確認した制限・結果の読み方を追加。既存の操作手順と3〜5件のFAQを活かし、長い説明を文字数だけのために削らない。入出力例は各lib関数で可能な範囲を照合し、画像・PDF等は処理経路と設定を確認した。
+
+既存本文の誤りも修正: UTF-16での文字数、JPEG/WebP再圧縮、OCR等の再取得、背景除去のWebGPU/JSPI条件、JWT署名の表示と検証鍵、HARの1秒以上の判定、証明書の残り日数・自己発行表示、cronのタイムゾーン解釈、TAR.GZの解凍走査、生成RepositoryのURLパラメーター変換。SQLの1行化は文字列リテラルを識別しない既存の簡易処理であり、コメント記号・連続空白を含むリテラルには使わない制限を日英FAQへ明記した。Markdownの外部画像は表示先への通信が起こる点を明記。
+
+ユーザーの追加承認により`/ja/tools/uuid-generator`と`/en/tools/uuid-generator`は削除し、既存の`id-generator`へ301で統合。UUID v4/v7生成機能はID生成ページに残す。検索語「UUID生成」も統合先へ対応させた。追加した`public/_redirects`は静的資産配信時の旧URL転送、配信Workerでも同じ統合先を使用する。
+
+検証: `npm test`34ファイル351テスト成功、`npm run lint`成功、`npm run build`成功。`node scripts/seo/content-audit.mjs`は122ページ未達0件、最大類似度0.400（上限0.55）。HTTP検証で本文も実HTMLに存在することを確認。広告コードは変更していない。

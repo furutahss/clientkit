@@ -1,3 +1,6 @@
+import textMediaGuides from "../content/tool-guides/text-media.json";
+import dataSecurityGuides from "../content/tool-guides/data-security.json";
+import developmentGuides from "../content/tool-guides/development.json";
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,
@@ -198,7 +201,7 @@ export const categories: ToolCategory[] = [
   },
 ];
 
-export const tools: Tool[] = [
+const toolDefinitions: Tool[] = [
   {
     id: "character-count",
     name: { ja: "文字数カウント", en: "Character Count" },
@@ -253,7 +256,7 @@ export const tools: Tool[] = [
           en: "How is the byte count calculated?",
         },
         answer: {
-          ja: "UTF-8エンコーディングでテキストをバイト列に変換した際のバイト数を計算しています。半角英数字は1文字1バイトですが、日本語などの全角文字は1文字あたり3バイトになるため、文字数とバイト数は一致しません。",
+          ja: "UTF-8エンコーディングでテキストをバイト列に変換した際のバイト数を計算しています。半角英数字は1文字1バイトですが、多くの日本語文字は3バイト、絵文字などは4バイトになるため、文字数とバイト数は一致しません。",
           en: "It calculates the number of bytes when the text is encoded as a UTF-8 byte sequence. Half-width alphanumeric characters are 1 byte each, but full-width characters like Japanese are typically 3 bytes each, so the character count and byte count won't match.",
         },
       },
@@ -586,8 +589,8 @@ export const tools: Tool[] = [
           en: "Why do I get an error when decoding?",
         },
         answer: {
-          ja: "入力された文字列がBase64として不正な形式（使用できない文字が含まれる、長さが不正など）の場合にエラーが表示されます。コピー時に余分な文字や改行が混入していないか確認してください。",
-          en: "An error appears when the input isn't valid Base64 (it contains disallowed characters, has an invalid length, etc.). Check that no extra characters or line breaks were included when you copied it.",
+          ja: "入力された文字列がBase64として不正な形式（使用できない文字が含まれる、長さが不正など）の場合にエラーが表示されます。余分な文字や欠落、Base64URL形式の記号が混ざっていないか確認してください。ASCII空白は通常無視されます。",
+          en: "An error appears when the input isn't valid Base64 (it contains disallowed characters, has an invalid length, etc.). Check for extra or missing characters and Base64URL symbols. Ordinary ASCII whitespace is ignored.",
         },
       },
       {
@@ -1553,12 +1556,12 @@ export const tools: Tool[] = [
         ja: [
           "スクリーンショット加工ツールは、SNSへ投稿する前に個人情報を隠したり、説明用のスクリーンショットに矢印や枠を付けたり、複数のスクリーンショットを1枚にまとめて共有したりする用途に特化したツールです。画像編集ソフトのような複雑さを避け、「少し加工してすぐ共有する」操作に絞っています。",
           "モザイク・ぼかし・四角形・矢印・テキストはあとから選び直して移動・リサイズ・削除できるベクター要素として保持され、Delete/Backspaceキーでも削除できます。トリミング・余白追加・角丸・画像結合は画像全体に対する変換として適用され、それぞれの操作はUndo（Cmd/Ctrl + Z）・Redo（Cmd/Ctrl + Shift + Z）の対象になります。",
-          "画像はキャンバス上では表示用に縮小されるだけで、元の解像度のデータはそのまま保持されます。書き出し時には常に元の解像度を基準にPNG・JPEG・WebPへ変換されるため、画質が劣化することはありません。読み込みから書き出しまで、画像データがサーバーへ送信されることは一切ありません。",
+          "画像はキャンバス上では表示用に縮小されるだけで、元の解像度のデータはそのまま保持されます。書き出し時には常に元の解像度を基準にPNG・JPEG・WebPへ変換します。JPEGやWebPでは画質設定によって再圧縮による劣化が生じる場合があります。読み込みから書き出しまで、画像データがサーバーへ送信されることは一切ありません。",
         ],
         en: [
           "The screenshot editor is built specifically for hiding personal information before posting to social media, adding arrows and boxes to explanatory screenshots, and combining multiple screenshots into one image to share. It avoids the complexity of full image editors and focuses on quick touch-ups you can share right away.",
           "Mosaic, blur, rectangle, arrow, and text are kept as vector-like elements you can reselect later to move, resize, or delete — including with the Delete/Backspace key. Crop, padding, rounded corners, and merging images are applied as whole-image transforms, and every action can be undone (Cmd/Ctrl+Z) or redone (Cmd/Ctrl+Shift+Z).",
-          "The image is only ever scaled down for on-screen display — the original resolution data is preserved throughout. Exporting always renders at the original resolution when converting to PNG, JPEG, or WebP, so there's no loss of quality. From loading to exporting, your image data is never sent to a server.",
+          "The image is only ever scaled down for on-screen display — the original resolution data is preserved throughout. Exporting always renders at the original resolution when converting to PNG, JPEG, or WebP. JPEG and WebP encoding can introduce quality loss depending on the selected settings. From loading to exporting, your image data is never sent to a server.",
         ],
       },
     },
@@ -1631,7 +1634,7 @@ export const tools: Tool[] = [
         "画像をドラッグ＆ドロップするか、「画像を選択」から読み込みます。スクリーンショットは Ctrl/⌘+V で貼り付けることもできます。",
         "「認識する言語」を選びます。日本語と英語が混在する場合は「日本語＋英語」、縦書きの文章は「日本語（縦書き）」を選びます。",
         "必要に応じて前処理（グレースケール・コントラスト・二値化・拡大・回転）を調整します。プレビュー上をドラッグすると、その範囲だけを認識できます。",
-        "「文字を認識」を押すと、結果がテキストエリアに表示されます。初回のみ認識モデルのダウンロードが行われます。",
+        "「文字を認識」を押すと、結果がテキストエリアに表示されます。必要に応じて認識モデルをダウンロードします。",
         "結果は編集でき、「クリップボードへコピー」または「.txtでダウンロード」で保存できます。",
       ],
       en: [
@@ -1647,12 +1650,12 @@ export const tools: Tool[] = [
         ja: [
           "OCRツールは、画像に写った文字を読み取ってテキストデータに変換するツールです。紙の資料を撮影した写真やスクリーンショット、PDFを画像にしたものなどから、文字を入力し直さずに取り出したいときに役立ちます。",
           "認識にはオープンソースのOCRエンジンTesseractをWebAssembly化したtesseract.js（Apache-2.0）を使い、Web Worker上で処理するため認識中も画面が固まりません。日本語の認識結果では文字の間に半角スペースが入りやすいため、それを除去する後処理や、段落内の改行を結合する後処理も用意しています。",
-          "認識エンジンと言語データはこのサイトから配信され、外部のCDNは使用しません。言語データは初回のみダウンロードしてブラウザに保存するため、2回目以降はすぐに使えます。画像はブラウザの外に出ることはありません。",
+          "認識エンジンと言語データはこのサイトから配信され、外部のCDNは使用しません。言語データはブラウザにキャッシュしますが、削除や保存の失敗があれば再取得が必要です。画像はブラウザの外に出ることはありません。",
         ],
         en: [
           "The OCR tool reads text in images and converts it into editable text. It's handy for pulling text out of photos of printed documents, screenshots, or PDFs saved as images without retyping it.",
           "Recognition uses tesseract.js (Apache-2.0), a WebAssembly build of the open-source Tesseract OCR engine, running in a Web Worker so the page stays responsive. Because Japanese results often contain stray spaces between characters, post-processing options are included to remove them and to join line breaks within paragraphs.",
-          "The recognition engine and language data are served from this site, not from an external CDN. Language data is downloaded only once and saved in your browser, so later runs start right away. Your image never leaves your browser.",
+          "The recognition engine and language data are served from this site, not from an external CDN. Language data is cached in your browser; it may need to be downloaded again if the cache is cleared or unavailable. Your image never leaves your browser.",
         ],
       },
     },
@@ -1673,8 +1676,8 @@ export const tools: Tool[] = [
           en: "How much data is downloaded?",
         },
         answer: {
-          ja: "初回のみ、認識エンジン（約3.9MB）と言語データ（日本語・縦書きは約2MB、英語は約2.9MB）をダウンロードします。言語データはブラウザに保存され、2回目以降は再ダウンロードしません。",
-          en: "The first time only, the recognition engine (about 3.9 MB) and language data (about 2 MB for Japanese or vertical Japanese, about 2.9 MB for English) are downloaded. Language data is saved in your browser and isn't downloaded again.",
+          ja: "キャッシュがない場合、認識エンジン（約3.9MB）と言語データ（日本語・縦書きは約2MB、英語は約2.9MB）をダウンロードします。言語データはブラウザに保存されますが、キャッシュが削除された場合などは再取得します。",
+          en: "When uncached, the recognition engine (about 3.9 MB) and language data (about 2 MB for Japanese or vertical Japanese, about 2.9 MB for English) are downloaded. Language data is cached in your browser and is downloaded again if that cache is no longer available.",
         },
       },
       {
@@ -1805,7 +1808,7 @@ export const tools: Tool[] = [
     howToUse: {
       ja: [
         "画像をドラッグ＆ドロップするか、「画像を選択」から読み込みます。Ctrl/⌘+V で貼り付けることもできます。",
-        "初回のみ認識モデル（約4.6MB）をダウンロードしたあと、自動で被写体が切り抜かれます。",
+        "必要に応じて認識モデル（約4.6MB）をダウンロードしたあと、自動で被写体が切り抜かれます。",
         "比較スライダーで元の画像と見比べながら、「背景」で透過・単色・ぼかし・別の画像を選びます。",
         "切り抜きが粗い場合は「仕上げ」のしきい値や縁の調整、「ブラシで修正」の消す・戻すで整えます。",
         "必要に応じて「被写体に合わせて余白を切り抜く」をオンにし、PNGまたはWebPでダウンロードします。",
@@ -1822,12 +1825,12 @@ export const tools: Tool[] = [
       paragraphs: {
         ja: [
           "画像の背景除去ツールは、商品写真やプロフィール画像、資料に使うイラストなどから被写体だけを切り抜くツールです。背景を透過にしてほかの画像と重ねたり、白背景の商品画像を作ったり、背景をぼかして被写体を目立たせたりできます。",
-          "被写体の検出には、商用利用できる Apache License 2.0 で公開されている U²-Net の軽量版（u2netp）を、onnxruntime-web（MIT）で動かしています。WebGPU に対応したブラウザではGPUを、それ以外ではCPU（WebAssembly）を使って推論します。モデルとエンジンはこのサイトから配信し、初回のみダウンロードしてブラウザに保存します。",
+          "被写体の検出には、商用利用できる Apache License 2.0 で公開されている U²-Net の軽量版（u2netp）を、onnxruntime-web（MIT）で動かしています。WebGPU・JSPI等の条件が揃い初期化に成功した環境ではGPUを、それ以外ではCPU（WebAssembly）を使います。モデルとエンジンはこのサイトから配信し、取得したモデルはブラウザにキャッシュします。キャッシュがない場合は再取得します。",
           "推論はWeb Workerで行われ、画像がサーバーへ送信されることはありません。画像の向き（EXIF）は自動で補正し、メモリ不足を防ぐため長辺4096pxを超える画像は縮小して処理します。軽量なモデルのため、髪の毛などの細かい部分はブラシでの修正をおすすめします。",
         ],
         en: [
           "The Background Remover cuts out just the subject from product photos, profile pictures, illustrations for documents, and more. You can make the background transparent to layer the subject over other images, create product images on a white background, or blur the background to make the subject stand out.",
-          "Subjects are detected with the lightweight version of U²-Net (u2netp), released under the commercially usable Apache License 2.0, running on onnxruntime-web (MIT). Browsers that support WebGPU use the GPU; others use the CPU via WebAssembly. The model and engine are served from this site, downloaded once, and saved in your browser.",
+          "Subjects are detected with the lightweight version of U²-Net (u2netp), released under the commercially usable Apache License 2.0, running on onnxruntime-web (MIT). The GPU is used when WebGPU, JSPI, and initialization requirements are met; otherwise inference uses the CPU via WebAssembly. The model and engine are served from this site, and model data is cached in your browser when possible. Missing cache data is downloaded again.",
           "Inference runs in a Web Worker, and your image is never sent to a server. Image orientation (EXIF) is corrected automatically, and images larger than 4096px on the long edge are scaled down to avoid running out of memory. Because the model is lightweight, touching up fine details such as hair with the brush is recommended.",
         ],
       },
@@ -3082,13 +3085,13 @@ export const tools: Tool[] = [
         "入力欄にJWT（JSON Web Token）文字列を貼り付けます。",
         "Header・Payloadが整形されたJSONとして自動的に表示されます。",
         "PayloadにexpやnbfなどのUnixタイムスタンプが含まれる場合、日時表記に変換した一覧が表示され、有効期限切れの場合は警告バッジが表示されます。",
-        "Signature部分はデコードされた値がそのまま（Base64URL文字列として）表示されます。",
+        "Signature部分は入力されたBase64URL文字列のまま表示されます。",
       ],
       en: [
         "Paste a JWT (JSON Web Token) string into the input field.",
         "The Header and Payload are automatically shown as formatted JSON.",
         "If the payload contains Unix timestamp claims like exp or nbf, a list showing them converted to readable dates is displayed, along with a warning badge if the token has expired.",
-        "The Signature is shown decoded as-is (as a Base64URL string).",
+        "The Signature is shown as the original Base64URL string, without decoding.",
       ],
     },
     about: {
@@ -3112,8 +3115,8 @@ export const tools: Tool[] = [
           en: "Can this tool verify whether the signature is valid?",
         },
         answer: {
-          ja: "できません。署名の検証にはJWTの発行に使われた秘密鍵または公開鍵が必要ですが、本ツールはそれらを扱わず、あくまでHeader・Payloadの中身をデコードして表示するだけです。",
-          en: "No. Verifying a signature requires the private or public key used to issue the JWT, which this tool doesn't handle — it only decodes and displays the contents of the Header and Payload.",
+          ja: "できません。署名の検証には方式に応じた共有シークレット（HMAC）または公開鍵（RSA・ECDSA等）が必要ですが、本ツールはそれらを扱わず、あくまでHeader・Payloadの中身をデコードして表示するだけです。",
+          en: "No. Verifying a signature requires a shared secret for HMAC or a public key for asymmetric methods such as RSA or ECDSA, which this tool doesn't handle — it only decodes and displays the contents of the Header and Payload.",
         },
       },
       {
@@ -3168,13 +3171,13 @@ export const tools: Tool[] = [
     howToUse: {
       ja: [
         "「-----BEGIN CERTIFICATE-----」から始まるPEM形式の証明書を貼り付けるか、.pem / .crt / .cer / .der ファイルを読み込みます。",
-        "証明書の内容が一覧で表示されます。上部のバッジで、有効・まもなく期限切れ（30日以内）・期限切れ・有効期間前かを確認できます。",
+        "証明書の内容が一覧で表示されます。上部のバッジで、有効・まもなく期限切れ（残り日数の切り捨て値が30以下）・期限切れ・有効期間前かを確認できます。",
         "サブジェクト代替名（SAN）で、証明書が有効なドメイン名やIPアドレスを確認します。フィンガープリントはコピーボタンでコピーできます。",
         "証明書チェーン（サーバー証明書と中間証明書など）をまとめて貼り付けると、各証明書を順番に表示します。",
       ],
       en: [
         "Paste a PEM certificate starting with \"-----BEGIN CERTIFICATE-----\", or load a .pem / .crt / .cer / .der file.",
-        "The certificate details are listed. The badge at the top shows whether it's valid, expiring soon (within 30 days), expired, or not yet valid.",
+        "The certificate details are listed. The badge at the top shows whether it's valid, expiring soon (remaining whole days rounded down to 30 or fewer), expired, or not yet valid.",
         "Check the Subject Alternative Names (SANs) to see which domain names and IP addresses the certificate covers. Copy fingerprints with the copy buttons.",
         "Paste a whole certificate chain (e.g. a server certificate plus intermediates) to see each certificate in order.",
       ],
@@ -3210,8 +3213,8 @@ export const tools: Tool[] = [
           en: "When is \"Expiring soon\" shown?",
         },
         answer: {
-          ja: "有効期限までの残りが30日以下になると「まもなく期限切れ」と表示します。判定にはお使いの端末の現在時刻を使用しています。",
-          en: "It's shown when 30 days or fewer remain until expiry. The check uses your device's current time.",
+          ja: "有効期限までの残り日数を切り捨てた値が30以下になると「まもなく期限切れ」と表示します。判定にはお使いの端末の現在時刻を使用しています。",
+          en: "It is shown when the remaining time, rounded down to whole days, is 30 or fewer. The check uses your device's current time.",
         },
       },
       {
@@ -3244,72 +3247,6 @@ export const tools: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/x-x509-ca-cert", "application/pkix-cert", "application/x-pem-file"],
       extensions: ["pem", "crt", "cer", "der", "cert"],
-    },
-  },
-  {
-    id: "uuid-generator",
-    name: { ja: "UUID生成", en: "UUID Generator" },
-    description: {
-      ja: "UUID v4/v7を最大1,000個まで一括生成し、コピー・テキスト保存できます。",
-      en: "Generate up to 1,000 UUID v4/v7 values at once, copy them, or save them as text.",
-    },
-    longDescription: {
-      ja: "UUID v4（ランダム）・v7（時刻順）をブラウザ内で最大1,000個まで一括生成するツールです。大文字・小文字やハイフンの有無を指定し、生成結果をまとめてコピー・テキスト保存できます。乱数には暗号論的に安全なcrypto.getRandomValuesを使用します。",
-      en: "Generate up to 1,000 UUIDs in your browser using v4 (random) or v7 (time-ordered). Choose uppercase or lowercase and whether to include hyphens, then copy all results or save them as text. Randomness comes from the cryptographically secure crypto.getRandomValues.",
-    },
-    howToUse: {
-      ja: [
-        "UUIDのバージョン（v4/v7）と生成する個数（1〜1,000個）を指定します。",
-        "必要に応じて「大文字で出力」「ハイフンを含める」を切り替えます。設定を変えると自動的に生成し直されます。",
-        "同じ設定で別のUUIDを生成したい場合は「再生成」を押します。",
-        "「クリップボードへコピー」または「テキストで保存」で生成結果をまとめて利用できます。",
-      ],
-      en: [
-        "Choose the UUID version (v4/v7) and how many to generate (1–1,000).",
-        "Toggle \"Uppercase\" or \"Include hyphens\" as needed. Changing a setting automatically regenerates the results.",
-        "Click \"Regenerate\" to generate new UUIDs with the same settings.",
-        "Use \"Copy to clipboard\" or \"Save as text\" to take all results at once.",
-      ],
-    },
-    about: {
-      paragraphs: {
-        ja: [
-          "UUID（Universally Unique Identifier）は、データベースのレコードやAPIのリソースなどを識別するための128ビットのIDです。通常はハイフン付きの36文字で表現します。",
-          "v4は122ビットのランダム値を持ち、v7は先頭48ビットに生成時刻を含みます。このツールのv7は同じミリ秒内でもカウンターを使い、一括生成した値の順序を保ちます。生成はブラウザ内で完結し、生成結果をサーバーへ送信しません。",
-        ],
-        en: [
-          "A UUID (Universally Unique Identifier) is a 128-bit ID used to identify database records, API resources, and more. It is usually written as 36 characters including hyphens.",
-          "v4 has 122 random bits, while v7 contains the creation time in its first 48 bits. This tool uses a counter to keep a batch of v7 values in creation order even within the same millisecond. Generation happens entirely in your browser, and results are never sent to a server.",
-        ],
-      },
-    },
-    faq: [
-      {
-        question: {
-          ja: "UUID v4とv7はどう違いますか？",
-          en: "What is the difference between UUID v4 and v7?",
-        },
-        answer: {
-          ja: "v4はランダムなUUID、v7は生成時刻を含むUUIDです。生成順に並べたい場合はv7が便利ですが、IDから生成時刻を読み取れる点に注意してください。",
-          en: "v4 is a random UUID; v7 includes its creation time. v7 is useful when you want values to sort in creation order, but its creation time can be read from the ID.",
-        },
-      },
-      {
-        question: {
-          ja: "生成したUUIDはサーバーに送信されますか？",
-          en: "Are generated UUIDs sent to a server?",
-        },
-        answer: {
-          ja: "送信されません。生成はお使いのブラウザ内でのみ行われ、ページを閉じると生成結果は消えます。必要な結果はコピーまたはテキスト保存してください。",
-          en: "No. UUIDs are generated only in your browser, and results disappear when you close the page. Copy or save any results you need.",
-        },
-      },
-    ],
-    category: "security",
-    icon: Fingerprint,
-    keywords: {
-      ja: "UUID GUID 生成 作成 ジェネレーター ID 一括 ランダム v4 v7 時刻順",
-      en: "uuid guid generator generate create id bulk random v4 v7 time ordered",
     },
   },
   {
@@ -3396,7 +3333,7 @@ export const tools: Tool[] = [
     category: "security",
     icon: Dices,
     keywords: {
-      ja: "UUID ULID GUID パスワード 生成 ランダム 乱数 ID 一括 v4 v7",
+      ja: "UUID生成 GUID生成 UUID ULID GUID パスワード 生成 ランダム 乱数 ID 一括 v4 v7",
       en: "uuid ulid guid password generator random id bulk v4 v7 secure",
     },
   },
@@ -3429,12 +3366,12 @@ export const tools: Tool[] = [
       paragraphs: {
         ja: [
           "HARアナライザーは、HTTP Archive（HAR）形式のファイルをブラウザ内で解析し、Webページのパフォーマンスやセキュリティ上の問題点を自動で洗い出せるツールです。障害調査やパフォーマンスチューニング、外部から共有されたHARファイルのレビューなど、生のJSONを1件ずつ目視で追うのが大変な場面で活用できます。",
-          "総合ヘルススコア（100点満点）は、4xx/5xxエラーの件数、応答時間が1秒を超えるリクエストの件数、主要なセキュリティヘッダー（CSP・HSTS・X-Frame-Optionsなど）の欠如、非HTTPS通信の有無、未圧縮・巨大なリソースの件数から減点方式で算出しており、各タブにはスコアの根拠となった問題点と具体的な改善アドバイスが表示されます。",
+          "総合ヘルススコア（100点満点）は、4xx/5xxエラーの件数、応答時間が1秒以上のリクエストの件数、主要なセキュリティヘッダー（CSP・HSTS・X-Frame-Optionsなど）の欠如、非HTTPS通信の有無、未圧縮・巨大なリソースの件数から減点方式で算出しており、各タブにはスコアの根拠となった問題点と具体的な改善アドバイスが表示されます。",
           "リソースはURLの拡張子やMIMEタイプ、Chrome系DevToolsが付与する`_resourceType`などの情報をもとに、ドキュメント・JavaScript・CSS・画像・フォント・API/XHR・メディア・その他の8種類に自動分類され、種類ごとのファイルサイズとリクエスト数の比率を確認できます。",
         ],
         en: [
           "The HAR Analyzer parses HTTP Archive (HAR) files entirely in your browser and automatically surfaces performance and security issues on a web page. It's useful for incident investigations, performance tuning, or reviewing a HAR file someone shared with you — cases where manually scanning raw JSON entry by entry would be tedious.",
-          "The overall health score (out of 100) is computed by deducting points for the number of 4xx/5xx errors, requests that take over 1 second to respond, missing key security headers (CSP, HSTS, X-Frame-Options, and more), the presence of non-HTTPS traffic, and uncompressed or oversized resources. Each tab shows the specific issues behind the score along with concrete improvement advice.",
+          "The overall health score (out of 100) is computed by deducting points for the number of 4xx/5xx errors, requests that take at least 1 second to respond, missing key security headers (CSP, HSTS, X-Frame-Options, and more), the presence of non-HTTPS traffic, and uncompressed or oversized resources. Each tab shows the specific issues behind the score along with concrete improvement advice.",
           "Resources are automatically categorized into eight types — document, JavaScript, CSS, image, font, API/XHR, media, and other — based on the URL extension, MIME type, and metadata such as the `_resourceType` field added by Chromium-based DevTools, so you can see the file size and request count ratio for each type.",
         ],
       },
@@ -3456,8 +3393,8 @@ export const tools: Tool[] = [
           en: "How is the overall health score calculated?",
         },
         answer: {
-          ja: "100点を満点として、5xxエラー・4xxエラーの件数、1秒を超える低速リクエストの件数、未適用のセキュリティヘッダー数、非HTTPS通信の有無、未圧縮・巨大なリソースの件数に応じて減点する方式で算出しています。スコアの内訳は各タブの診断結果として確認できます。",
-          en: "Starting from a perfect score of 100, points are deducted based on the number of 5xx and 4xx errors, requests slower than 1 second, missing security headers, the presence of non-HTTPS traffic, and uncompressed or oversized resources. The breakdown behind the score is shown in each diagnostic tab.",
+          ja: "100点を満点として、5xxエラー・4xxエラーの件数、1秒以上の低速リクエストの件数、未適用のセキュリティヘッダー数、非HTTPS通信の有無、未圧縮・巨大なリソースの件数に応じて減点する方式で算出しています。スコアの内訳は各タブの診断結果として確認できます。",
+          en: "Starting from a perfect score of 100, points are deducted based on the number of 5xx and 4xx errors, requests taking at least 1 second, missing security headers, the presence of non-HTTPS traffic, and uncompressed or oversized resources. The breakdown behind the score is shown in each diagnostic tab.",
         },
       },
       {
@@ -4037,12 +3974,12 @@ export const tools: Tool[] = [
       paragraphs: {
         ja: [
           "フォルダ構成ツリー出力ツールは、フォルダの中身を「├──」「└──」などの罫線を使ったツリー形式のテキストに変換するツールです。READMEや設計書にディレクトリ構成を載せたいとき、プロジェクトの構成をチャットやAIに説明したいとき、受け取った圧縮ファイルの中身を展開前に確認したいときなどに役立ちます。",
-          "圧縮ファイルは中身を展開せず、ファイル名とサイズの情報だけを読み取ります。ZIPはファイル末尾にある一覧（中央ディレクトリ）だけを読むため、大きなファイルでもすぐに表示できます。日本語版Windowsで作られた、ファイル名がShift_JISのZIPにも対応しています。",
+          "ZIPは末尾の中央ディレクトリ、TARはヘッダーを走査して名前やサイズを取得します。TAR.GZはブラウザ内でgzip解凍しながら走査し、ファイルをディスクへ展開保存しません。日本語版Windowsで作られた、ファイル名がShift_JISのZIPにも対応しています。",
           "フォルダはブラウザの機能を使って読み込み、ファイルの中身は一切読みません。読み込んだ情報がサーバーへ送信されることもありません。",
         ],
         en: [
           "The Folder Tree Generator turns the contents of a folder into tree-style text using box-drawing lines such as \"├──\" and \"└──\". It's handy for adding a directory layout to a README or design document, explaining a project's structure in a chat or to an AI, or checking what's inside an archive before extracting it.",
-          "Archives are never extracted — only file names and sizes are read. For ZIP files, only the listing at the end of the file (the central directory) is read, so even large archives show up instantly. ZIP files with Shift_JIS file names, created on Japanese Windows, are supported too.",
+          "ZIP names and sizes come from the central directory; TAR headers are scanned sequentially. TAR.GZ is decompressed as a stream in the browser, without writing extracted files to disk. ZIP files with Shift_JIS file names, created on Japanese Windows, are supported too.",
           "Folders are read using your browser's built-in features, and file contents are never read. Nothing you load is sent to a server.",
         ],
       },
@@ -4450,8 +4387,8 @@ export const tools: Tool[] = [
           en: "Can I use this to check GitHub Actions schedules?",
         },
         answer: {
-          ja: "使えます。GitHub ActionsのcronはUTCで評価されるため、タイムゾーンに「UTC」を指定して確認してください。日本時間で確認したい場合は「Asia/Tokyo」を指定すると、UTCの式が日本時間で何時に実行されるかがわかります。",
-          en: "Yes. GitHub Actions evaluates cron in UTC, so set the time zone to \"UTC\". To see when a UTC schedule runs in your local time, switch the time zone to your own region.",
+          ja: "使えます。GitHub ActionsのcronはUTCで評価されるため、タイムゾーンに「UTC」を指定して確認してください。「Asia/Tokyo」を選ぶと式自体を日本時間として評価します。UTCでの予定を日本時間へ表示変換する機能ではありません。",
+          en: "Yes. GitHub Actions evaluates cron in UTC, so set the time zone to \"UTC\". Selecting a different zone evaluates the expression in that zone; it does not convert the display of an existing UTC schedule.",
         },
       },
       {
@@ -4538,8 +4475,8 @@ export const tools: Tool[] = [
           en: "What happens to comments when minifying?",
         },
         answer: {
-          ja: "「--」による行コメントと「/* */」によるブロックコメントはいずれも除去され、残りの空白・改行が1つのスペースに畳まれた1行のSQLが生成されます。",
-          en: "Both line comments starting with \"--\" and block comments using \"/* */\" are removed, and the remaining whitespace and line breaks are collapsed into single spaces to produce a single-line SQL statement.",
+          ja: "コメントと連続空白を正規表現で取り除く簡易処理です。文字列リテラルを識別しないため、引用符内にコメント記号や連続空白があるSQLには1行化を使わず、整形機能を利用してください。",
+          en: "Comments and whitespace are simplified with regular expressions, without recognizing string literals. Avoid Minify when quoted strings contain comment markers or repeated spaces; use Format instead.",
         },
       },
       {
@@ -5258,8 +5195,8 @@ export const tools: Tool[] = [
           en: "Can I use the generated code directly in my project?",
         },
         answer: {
-          ja: "`@prisma/client`が生成済みで、`PrismaClient`と対象モデルの型（例: `User`, `Prisma.UserCreateInput`）が利用可能なプロジェクトであれば、そのまま貼り付けて利用できます。ファイル名やディレクトリ構成は必要に応じて調整してください。",
-          en: "Yes, as long as your project has already generated `@prisma/client` and has the model's types available (e.g. `User`, `Prisma.UserCreateInput`), you can paste the code in directly. Adjust file names and directory structure as needed for your project.",
+          ja: "`@prisma/client`が生成済みであることが前提のコード例です。インポートパスやルート構成を調整してください。特にInt・BigInt主キーではURLパラメーターを明示的に変換・検証する必要があり、型アサーションだけでは値は変換されません。",
+          en: "These are examples for a project with a generated `@prisma/client`. Adjust imports and route structure. For Int or BigInt primary keys, explicitly convert and validate URL parameters: a TypeScript assertion does not convert their runtime values.",
         },
       },
       {
@@ -5392,6 +5329,23 @@ export const tools: Tool[] = [
     },
   },
 ];
+
+const toolGuides: Record<string, LocalizedTextArray> = {
+  ...textMediaGuides,
+  ...dataSecurityGuides,
+  ...developmentGuides,
+};
+
+export const tools: Tool[] = toolDefinitions.map(tool => ({
+  ...tool,
+  about: {
+    ...tool.about,
+    paragraphs: {
+      ja: [...tool.about.paragraphs.ja, ...(toolGuides[tool.id]?.ja ?? [])],
+      en: [...tool.about.paragraphs.en, ...(toolGuides[tool.id]?.en ?? [])],
+    },
+  },
+}));
 
 export function getToolById(id: string): Tool | undefined {
   return tools.find((tool) => tool.id === id);
