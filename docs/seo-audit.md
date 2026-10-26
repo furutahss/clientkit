@@ -379,3 +379,34 @@ Search Consoleの42件の具体URLがないため、過去の404やリダイレ�
 `python3 scripts/seo/crawl.py --base https://clientkit.dev`を実行し、sitemap136 URL全200、HTML応答142件、内部リンク先142件、301確認131件、HTTP/wwwの実経路3件を検証し、失敗0件だった。本文の全解説段落・文字数、canonical、hreflang、固有メタ情報、フッター、関連ツール、カテゴリ・ホーム到達性、robotsと未知URLの404も成功。本番DNS/TLSを含む確認待ちは解消した。
 
 Search Consoleのsitemap再送信・主要URLのインデックス登録リクエスト、AdSenseの再審査申請は管理画面で行う後続作業として残る。本記録はドキュメントのみの更新であり、追加デプロイは不要。
+
+## 2026-10-26 Search Console未登録増加の再調査
+
+ユーザー提供画像と、ログイン済みSearch Consoleの表示を照合した。集計では未登録42→50、登録済み78→81。未登録の内訳は次のとおり。
+
+| 理由 | 依頼時 | 今回の集計 | 差分・判断 |
+| --- | ---: | ---: | --- |
+| 検出・未登録 | 24 | 27 | +3。集計上は未クロール。最新のURL検査と区別する |
+| クロール済み・未登録 | 3 | 8 | +5。8件中3件はtwitter-image・apple-icon・favicon.icoという画像資産で、ツール本文ページではない |
+| ユーザー未選択の重複 | 10 | 9 | -1。例示はすべてHTTP URL。現行はHTTPSへ301 |
+| Googleが異なるcanonicalを選択 | 0 | 1 | /en。最新のURL検査ではすでに自己canonicalで登録済み |
+| 404 | 4 | 4 | 増えてはいないが、多言語化前の/tools/...が未転送だった |
+| リダイレクト | 1 | 1 | HTTPルート。意図した301のため旧URL自体は登録不要 |
+
+集計画面の最終更新表示は2026/10/19だが、一部の行には10/20のクロール日時がある。日付表示だけで前後関係を断定せず、個別のURL検査を優先した。/enの最新検査は「URLはGoogleに登録されています」、前回クロール2026/10/24 20:04:08、ユーザー指定canonicalはhttps://clientkit.dev/en、Google選択canonicalも検査対象URL。画像の重複分類より新しい状態を確認できた。
+
+また「クロール済み・未登録」に並んでいた/ja/tools/unicode-inspector、/en/tools/unicode-inspector、/en/tools/json-schema-validator、/ja/tools/pg-explain-viewer、/ja/tools/chmod-calculatorのツール5件すべてが、個別URL検査では「URLはGoogleに登録されています」だった。集計50件を現在の未登録実ページ50件と解釈できない。
+
+### 実装・検証範囲の不足を修正
+
+前回のクロール検査は現行sitemapと現行内部リンク、言語付きの旧UUID URLを対象としており、多言語化前の言語なしURLの移行を検査していなかった。実際にhttps://clientkit.dev/tools/hash-generatorが404を返すことを再現した。
+
+Workerに、/tools/{id}から/ja/tools/{id}への301を追加した。転送先の静的資産へHEADで存在確認し、実在するページだけを転送する。未知の/tools/missing-toolは404を維持し、旧UUIDは統合先/ja/tools/id-generatorへ直接転送する。HTTP・www・末尾スラッシュ・クエリを含む場合も、最終URLへ1回の301にまとめる。現行61ツール全件を単体テストとHTTP検証へ加えた。
+
+ローカル検証はビルド・413テスト・lint・本文監査が成功。Cloudflareローカル実行環境でsitemap136 URL全200、内部リンク先142件、301検査254件、失敗0。dry-runも成功。今回の修正は旧URLの移行であり、本文や広告コードは変更しない。
+
+### 判断と次の確認
+
+[Googleのページ登録レポートの説明](https://support.google.com/webmasters/answer/7440203?hl=en)では、重複URL・転送元等の除外は正常な場合があり、全URLの登録を目標にしないとされる。修正後の旧4 URLが「リダイレクト」として未登録に残っても、それ自体は失敗ではない。登録対象は転送先の日本語ツールページである。画像資産をHTML本文ページと合算してコンテンツ品質を判断しない。
+
+未登録27件のすべてが現在登録済みだとは確認していない。必要なURLについて集計ではなく個別URL検査を使う。AdSenseは[サイト全体のポリシー適合性を審査する](https://support.google.com/adsense/answer/7584263?hl=en)ものであり、今回の未登録合計だけから審査結果を予測しない。インデックス登録やAdSense承認を検証コマンドの成功と同一視しない。

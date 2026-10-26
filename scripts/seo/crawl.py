@@ -172,10 +172,14 @@ for lang in ['ja', 'en']:
     for tool in registry:
         path = '/' + lang + '/tools/' + tool
         redirects[path + '/'] = path
+for tool in registry:
+    redirects['/tools/' + tool] = '/ja/tools/' + tool
+    redirects['/tools/' + tool + '/'] = '/ja/tools/' + tool
+redirects['/tools/uuid-generator'] = '/ja/tools/id-generator'
 for source, dest in redirects.items():
     status, headers, _ = get(base + source)
     check(status == 301 and headers.get('Location') in (base + dest, ORIGIN + dest), f'{source}: 301→{dest}でない ({status}, {headers.get("Location")})')
-for path in ['/ja/tools/missing-tool', '/en/missing-page', '/fr', '/ja/missing.html']:
+for path in ['/ja/tools/missing-tool', '/tools/missing-tool', '/en/missing-page', '/fr', '/ja/missing.html']:
     status, _, _ = get(base + path)
     # .htmlは拡張子なしへ正規化後に404が必要。
     if path.endswith('.html'):
