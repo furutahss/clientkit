@@ -38,6 +38,7 @@ import {
   MermaidEditorTool,
   OcrTool,
   PasswordHashTool,
+  TexImageTool,
   TextNormalizerTool,
   VideoConverterTool,
 } from "@/components/tools/lazy-tools";
@@ -136,6 +137,7 @@ const toolComponents: Record<string, ComponentType> = {
   "robots-txt-tester": RobotsTxtTesterTool,
   "semver-range": SemverRangeTool,
   "source-map-resolver": SourceMapResolverTool,
+  "tex-image": TexImageTool,
 };
 
 export function generateStaticParams() {

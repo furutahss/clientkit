@@ -62,6 +62,7 @@ import {
   Terminal,
   TextCursorInput,
   Waypoints,
+  Sigma,
   Workflow,
 } from "lucide-react";
 
@@ -4881,6 +4882,82 @@ const toolDefinitions: Tool[] = [
     fileMatch: {
       mimeTypes: ["application/sql"],
       extensions: ["sql"],
+    },
+  },
+  {
+    id: "tex-image",
+    name: { ja: "TeX数式→画像変換（PNG・SVG）", en: "TeX Formula to Image (PNG, SVG)" },
+    description: {
+      ja: "TeXの数式を入力すると、その数式の画像をPNG・SVGで作成できます。記号や構造を挿入するボタン付きで、文字の大きさや余白も調整できます。",
+      en: "Type a TeX formula and turn it into a PNG or SVG image. Buttons insert symbols and structures, and you can adjust the size and padding.",
+    },
+    longDescription: {
+      ja: "TeX（LaTeX）の数式を入力すると、プレビューを見ながらPNG・SVGの画像として保存できるツールです。分数・積分・行列・ギリシャ文字・矢印・集合記号など200近い補助ボタンで記号を挿入でき、文字の大きさ・余白・文字色・背景色（透過）・PNGの解像度（1x〜4x）を調整できます。スライドや資料、ブログ、チャットに数式を貼りたいときに使え、描画はすべてブラウザ内で行われます。",
+      en: "A tool for turning TeX (LaTeX) formulas into PNG or SVG images with a live preview. Nearly 200 helper buttons insert fractions, integrals, matrices, Greek letters, arrows, set symbols, and more, and you can adjust the font size, padding, text color, background color (or transparency), and PNG resolution (1x–4x). Use it to put formulas into slides, documents, blog posts, or chats — everything is rendered in your browser.",
+    },
+    howToUse: {
+      ja: [
+        "入力欄にTeXの数式を入力します（$ や \\[ \\] で囲む必要はありません）。「例」から代表的な数式を読み込むこともできます。",
+        "補助ボタンの分類（構造・括弧・行列・装飾/書体・ギリシャ文字など）を選び、ボタンを押すとカーソル位置に挿入されます。文字列を選択してから押すと、その文字列を分数の分子などの中に入れられます。",
+        "「文字の大きさ」「余白」「文字色」「背景色」で画像の見た目と大きさを調整します。プレビューの横に出力される画像のピクセル数が表示されます。",
+        "「PNGをダウンロード」「SVGをダウンロード」で保存するか、「画像をコピー」でクリップボードにコピーしてそのまま貼り付けます。PNGは1x〜4xの解像度を選べます。",
+      ],
+      en: [
+        "Type a TeX formula in the input (no need to wrap it in $ or \\[ \\]). You can also load a typical formula from \"Examples\".",
+        "Pick a button group (structures, brackets, matrices, accents/fonts, Greek letters, and more) and press a button to insert it at the cursor. Select text first to wrap it, for example as a fraction's numerator.",
+        "Adjust the image with \"Font size\", \"Padding\", \"Text color\", and \"Background\". The output size in pixels is shown next to the preview.",
+        "Save with \"Download PNG\" or \"Download SVG\", or use \"Copy image\" to paste it straight into another app. PNG can be exported at 1x to 4x.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "TeX数式→画像変換は、TeX（LaTeX）の数式記法で書いた式を、スライドや文書、Webページなどに貼れる画像に変換するツールです。数式エディタを持たないアプリでも、画像としてなら数式をきれいに載せられます。",
+          "描画にはMathJax（Apache-2.0）を使い、AMS数学パッケージ（aligned・cases・pmatrixなど）、mathtools、physics、cancel、colorなど主要な拡張を利用できます。SVGは文字をパスとして含むため、フォントのない環境でも同じ見た目で表示できます。",
+          "MathJaxはこのツールのページを開いたときにだけ読み込まれます。入力した数式はこのブラウザ（localStorage）に保存されるだけで、サーバーへ送信されることはありません。",
+        ],
+        en: [
+          "The TeX Formula to Image tool converts formulas written in TeX (LaTeX) notation into images you can paste into slides, documents, and web pages. Even apps without an equation editor can show clean formulas as images.",
+          "Formulas are rendered with MathJax (Apache-2.0), with the main extensions available, including the AMS math packages (aligned, cases, pmatrix, and so on), mathtools, physics, cancel, and color. The SVG contains glyphs as paths, so it looks the same even on devices without math fonts.",
+          "MathJax is loaded only when you open this tool. Your formula is only saved in this browser (localStorage) and is never sent to a server.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "$ や \\begin{equation} で囲む必要はありますか？", en: "Do I need to wrap the formula in $ or \\begin{equation}?" },
+        answer: {
+          ja: "不要です。数式の中身だけを入力してください。複数行の式は aligned 環境（補助ボタンの「行列・環境」にあります）と \\\\ で改行できます。",
+          en: "No. Enter just the formula itself. For multi-line formulas, use the aligned environment (under \"Matrices & environments\" in the helper buttons) and \\\\ for line breaks.",
+        },
+      },
+      {
+        question: { ja: "画像の大きさはどう決まりますか？", en: "How is the image size determined?" },
+        answer: {
+          ja: "「文字の大きさ」（1文字の高さの目安となるpx）と「余白」から画像の幅と高さが決まり、PNGではさらに解像度（1x〜4x）を掛けた大きさになります。高解像度ディスプレイや印刷用には2x以上がおすすめです。",
+          en: "The width and height come from the \"Font size\" (the size of 1em in px) and \"Padding\"; PNGs are further multiplied by the resolution (1x–4x). Use 2x or higher for high-DPI screens or print.",
+        },
+      },
+      {
+        question: { ja: "\\text{} の日本語は画像に含まれますか？", en: "Is Japanese text in \\text{} included in the image?" },
+        answer: {
+          ja: "含まれますが、\\text{} 内の日本語は数式フォントではなく端末のフォントで描画されます。SVGを別の端末で開くと字形が変わる場合があるため、見た目を固定したい場合はPNGで保存してください。",
+          en: "Yes, but Japanese text in \\text{} is drawn with your device's fonts rather than math fonts. An SVG may look different on another device, so save as PNG if you need a fixed appearance.",
+        },
+      },
+      {
+        question: { ja: "使えないコマンドはありますか？", en: "Are there commands that don't work?" },
+        answer: {
+          ja: "\\usepackage や \\require による追加パッケージの読み込みと、数式以外の文書レイアウト用コマンドは使えません。未定義のコマンドはエラーとして表示されます。",
+          en: "Loading extra packages with \\usepackage or \\require, and document layout commands outside of math, are not supported. Undefined commands are shown as errors.",
+        },
+      },
+    ],
+    category: "document",
+    icon: Sigma,
+    keywords: {
+      ja: "tex latex 数式 画像 png svg mathjax 数式エディタ 数式画像 変換 分数 積分 行列",
+      en: "tex latex math formula equation image png svg mathjax equation editor converter",
     },
   },
   {

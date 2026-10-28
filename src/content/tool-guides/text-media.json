@@ -208,5 +208,15 @@
       "Load an icon SVG with width and height 24 and viewBox “0 0 24 24”, then choose 2x for PNG export to get a 48×48 PNG. Leaving the background unset preserves transparency, so one icon can supply images for different display densities.",
       "PNG dimensions start from SVG width and height, falling back to viewBox. The optimized SVG remains scalable vector artwork, while the exported PNG has fixed pixel dimensions. When you need a larger version, export again from the SVG at the required size."
     ]
+  },
+  "tex-image": {
+    "ja": [
+      "入力欄に「\\frac{a}{b}」と入力すると、aが分子、bが分母の分数が表示されます。次に「b」を選択して補助ボタンの「√」を押すと「\\frac{a}{\\sqrt{b}}」になり、選んだ部分だけを構造の中に入れられることを確認できます。",
+      "画像の大きさは「文字の大きさ」と「余白」で決まり、PNGの解像度はそこに倍率を掛けたピクセル数になります。SVGはベクター画像のため拡大しても粗くなりませんが、\\text{} 内の日本語は端末のフォントで描画されます。数式の変換はブラウザ内のMathJaxで行い、入力内容は送信されません。"
+    ],
+    "en": [
+      "Enter \\frac{a}{b} and the preview shows a fraction with a over b. Then select b and press the √ button: the input becomes \\frac{a}{\\sqrt{b}}, showing that a button wraps only the selected part in the new structure.",
+      "Image dimensions come from the font size and padding, and PNG resolution multiplies those pixels by the chosen scale. SVG stays sharp at any size, but Japanese text in \\text{} is drawn with your device's fonts. MathJax converts the formula in your browser, so your input is never sent anywhere."
+    ]
   }
 }
