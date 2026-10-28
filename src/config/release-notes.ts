@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-28",
+    entries: [
+      {
+        type: "feature",
+        title: {
+          ja: "TeXの数式をPNG・SVG画像に変換するツールを追加",
+          en: "Added a TeX formula to image (PNG, SVG) converter",
+        },
+      },
+    ],
+  },
+  {
     date: "2026-10-18",
     entries: [
       {
