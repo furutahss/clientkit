@@ -19,6 +19,16 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-10-29",
+    entries: [{
+      type: "feature",
+      title: {
+        ja: "バイナリファイルを16進数・ASCIIで確認できるHexビューアを追加",
+        en: "Added a binary and hex viewer with hexadecimal and ASCII output",
+      },
+    }],
+  },
+  {
     date: "2026-10-28",
     entries: [
       {

@@ -2456,6 +2456,20 @@
         "indexed": "sections を持つインデックスMapは対象外です。分割されていない単一のMapを入力してください。",
         "invalid": "Source Mapの内容が不正です（{message}）。"
       }
+    },
+    "hexViewer": {
+      "dropHint": "ここにファイルをドラッグ＆ドロップ",
+      "chooseFile": "ファイルを選択",
+      "localHint": "ファイルは送信されません。1ページ1 KiBずつブラウザ内で読み込みます。コピー対象は現在のページです。",
+      "fileSize": "{size} バイト",
+      "previous": "前のページ",
+      "next": "次のページ",
+      "page": "ページ",
+      "columns": "オフセット（16進数） / バイト（16進数・1行16バイト） / ASCII（印字不可は .）",
+      "outputLabel": "バイナリの16進数・ASCII表示",
+      "loading": "読み込み中…",
+      "readError": "ファイルを読み込めませんでした。もう一度ファイルを選択してください。",
+      "emptyFile": "空のファイルです（0バイト）。"
     }
   },
   "discovery": {

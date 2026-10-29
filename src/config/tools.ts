@@ -204,6 +204,71 @@ export const categories: ToolCategory[] = [
 
 const toolDefinitions: Tool[] = [
   {
+    id: "hex-viewer",
+    name: { ja: "バイナリ・Hexビューア", en: "Binary & Hex Viewer" },
+    description: {
+      ja: "ファイルの中身をオフセット・16進数・ASCIIで表示します。",
+      en: "Inspect file bytes as hexadecimal and ASCII with offsets.",
+    },
+    longDescription: {
+      ja: "バイナリファイルをブラウザ内で読み込み、オフセット・16進数・ASCIIを並べて確認できるHexビューアです。大きなファイルは1 KiBずつページ表示し、表示中のダンプをコピーできます。サーバーへの送信はありません。",
+      en: "Inspect binary files locally with a hex viewer showing offsets, hexadecimal bytes, and ASCII side by side. Browse large files in 1 KiB pages and copy the current dump without uploading your file.",
+    },
+    howToUse: {
+      ja: [
+        "「ファイルを選択」から開くか、確認したいファイルをドロップ領域へドラッグ＆ドロップします。拡張子やファイル形式は問いません。",
+        "左側にファイル先頭からのオフセット、中央に1行16バイトの16進数、右側に対応するASCII文字が表示されます。",
+        "前・次のページボタン、またはページ番号の入力で確認する位置を変更します。1ページは最大1,024バイトです。",
+        "コピーすると現在のページのダンプを取得できます。「クリア」で読み込んだファイルを解除できます。",
+      ],
+      en: [
+        "Choose a file or drag it into the drop area. Any file extension or format is accepted, including files without a recognized MIME type.",
+        "Read the hexadecimal offset on the left, sixteen bytes per row in the middle, and their corresponding ASCII characters on the right.",
+        "Use Previous, Next, or the page number field to move through the file. Each page contains at most 1,024 bytes.",
+        "Copy the dump for the current page to share an excerpt, or use Clear to release the selected file.",
+      ],
+    },
+    about: {
+      paragraphs: {
+        ja: [
+          "バイナリ・Hexビューアは、画像、実行ファイル、圧縮ファイルなどを構成する生のバイト列を確認するツールです。テキストエディタでは文字化けするデータも、各バイトを00からFFまでの16進数として表示することで、値をそのまま確認できます。ファイルヘッダーの確認、仕様書に記載された固定値の照合、データ形式の調査などに利用できます。",
+          "オフセットはファイル先頭を0とする16進数の位置です。行ごとに16バイト進むため、00000000の次は00000010となります。ASCII欄では20から7Eまでの印字可能な文字だけを表示し、制御文字や日本語などの範囲外のバイトはドットに置き換えます。ドットは元のデータを書き換えたものではなく、読みやすくするための表示です。",
+        ],
+        en: [
+          "The binary and hex viewer exposes the raw bytes that make up images, archives, executables, and other files. Each byte is represented by two hexadecimal digits from 00 through FF, allowing you to inspect values that a text editor might replace or interpret incorrectly. This is useful for examining headers, comparing fixed values against a format specification, and investigating unfamiliar file structures.",
+          "Offsets are hexadecimal positions measured from the beginning of the original file, starting at zero. Sixteen bytes fit on each row, so the row after 00000000 begins at 00000010. The ASCII column shows printable bytes from 20 through 7E and replaces everything else with a dot. These dots are display placeholders; the original file remains untouched. Multibyte text such as Japanese is not decoded in this column.",
+        ],
+      },
+    },
+    faq: [
+      {
+        question: { ja: "大容量のファイルも開けますか？", en: "Can I open large files?" },
+        answer: {
+          ja: "ファイル全体ではなく、表示するページの最大1 KiBだけを読み込みます。ページ番号を指定すれば末尾付近へも移動できます。コピー対象も現在のページのみで、全体のダンプを一括出力する機能はありません。",
+          en: "Only the current page, up to 1 KiB, is read into memory. Enter a page number to jump near the end of a large file. Copy also applies only to the current page, rather than generating a dump of the entire file.",
+        },
+      },
+      {
+        question: { ja: "バイトの編集やファイル形式の解析はできますか？", en: "Can I edit bytes or parse file formats?" },
+        answer: {
+          ja: "このツールは閲覧専用です。バイトの編集や保存、ファイル形式の自動判定、画像やZIPの内部構造の解析には対応していません。右側のASCII欄もUTF-8などの文字コードで文章を復元する機能ではありません。",
+          en: "This is a read-only viewer. It does not edit or save bytes, identify formats automatically, or parse internal structures such as ZIP entries. The ASCII column does not decode UTF-8 text.",
+        },
+      },
+      {
+        question: { ja: "ファイルは外部へ送信されますか？", en: "Is my file uploaded?" },
+        answer: {
+          ja: "ファイルの読み込みと表示はすべてブラウザ内で行われます。ファイルの内容をサーバーへ送信することはありません。コピーした内容には元のデータが含まれるため、共有前に機密情報が含まれていないか確認してください。",
+          en: "File reading and rendering happen locally in your browser without sending file contents to a server. Copied excerpts still contain original data, so check them before sharing.",
+        },
+      },
+    ],
+    category: "code",
+    icon: Binary,
+    keywords: { ja: "バイナリ hex ビューア ダンプ 16進数 ASCII ファイル 中身", en: "binary hex viewer dump hexadecimal ascii file bytes inspect" },
+    fileMatch: { any: true },
+  },
+  {
     id: "character-count",
     name: { ja: "文字数カウント", en: "Character Count" },
     description: {
