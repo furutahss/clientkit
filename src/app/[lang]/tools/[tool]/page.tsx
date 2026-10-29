@@ -20,6 +20,7 @@ import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
 import { GitignoreTesterTool } from "@/components/tools/gitignore-tester-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
+import { HexViewerTool } from "@/components/tools/hex-viewer-tool";
 import { I18nPlaceholderCheckerTool } from "@/components/tools/i18n-placeholder-checker-tool";
 import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
@@ -85,6 +86,7 @@ const toolComponents: Record<string, ComponentType> = {
   "regex-tester": RegexTesterTool,
   "url-encoder": UrlEncoderTool,
   "hash-generator": HashGeneratorTool,
+  "hex-viewer": HexViewerTool,
   "password-hash": PasswordHashTool,
   "sql-formatter": SqlFormatterTool,
   "color-converter": ColorConverterTool,

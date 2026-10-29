@@ -14,6 +14,8 @@ describe("ツール検索", () => {
     ["ja", "argon2id", "password-hash"],
     ["en", "bcrypt", "password-hash"],
     ["ja", "sha3", "hash-generator"],
+    ["ja", "バイナリ", "hex-viewer"],
+    ["en", "hex dump", "hex-viewer"],
   ] as const)("%s: %s の最適なツールを先頭に表示する", (locale, query, id) => {
     expect(searchTools(locale, query)[0]?.id).toBe(id);
   });
@@ -45,5 +47,9 @@ describe("分類とファイルからの検索", () => {
     expect(
       getToolsForFile({ name: "sample.pdf", type: "application/pdf" })[0]?.id,
     ).toBe("pdf-toolkit");
+  });
+
+  it("種類の不明なバイナリもHexビューアで開ける", () => {
+    expect(getToolsForFile({ name: "sample.bin", type: "" }).map((tool) => tool.id)).toContain("hex-viewer");
   });
 });

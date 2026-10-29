@@ -2456,6 +2456,20 @@
         "indexed": "Indexed maps with sections aren't supported. Enter a single, non-sectioned map.",
         "invalid": "The source map is invalid ({message})."
       }
+    },
+    "hexViewer": {
+      "dropHint": "Drag and drop a file here",
+      "chooseFile": "Choose file",
+      "localHint": "Files stay in your browser. Only 1 KiB is read per page. Copy includes the current page only.",
+      "fileSize": "{size} bytes",
+      "previous": "Previous page",
+      "next": "Next page",
+      "page": "Page",
+      "columns": "Offset (hex) / Bytes (hex, 16 per row) / ASCII (non-printable bytes shown as .)",
+      "outputLabel": "Hexadecimal and ASCII file contents",
+      "loading": "Loading…",
+      "readError": "Could not read the file. Please select it again.",
+      "emptyFile": "This file is empty (0 bytes)."
     }
   },
   "discovery": {
