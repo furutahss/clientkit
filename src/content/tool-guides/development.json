@@ -198,5 +198,15 @@
       "Enter interface User {, id: number;, email: string;, and } on separate lines, then set the count to 1. The dummy data is [{\"id\":1,\"email\":\"user1@example.com\"}]. The email field name influences the generated value, providing starter data for a screen or test.",
       "Values are template examples inferred from types and names, not records retrieved from real users. Unknown types may produce null, and business-specific boundary or failure cases need to be added after copying. Parsing and generation of the JSON and mock class require neither a database connection nor sending your input away."
     ]
+  },
+  "hex-viewer": {
+    "ja": [
+      "例えばPNG画像の先頭は89 50 4E 47 0D 0A 1A 0Aで始まります。ASCII欄の.PNGという表示と16進数を照合すれば、拡張子だけでは分からないファイル先頭の値を確認できます。既知の形式のヘッダーと比較するときは、対象形式の仕様書も参照してください。",
+      "1ページは64行、最大1,024バイトです。ページを切り替えてもオフセットはファイル先頭を基準に表示されます。巨大なファイルを一度に文字列化しないためのページ表示であり、読み取り専用です。空ファイルには0バイトの案内を表示し、読み込みに失敗した場合は再選択を案内します。"
+    ],
+    "en": [
+      "For example, a PNG image starts with 89 50 4E 47 0D 0A 1A 0A. Compare these bytes with the .PNG text in the ASCII column to inspect the actual header independently of the filename extension. Consult the relevant format specification when interpreting a known signature.",
+      "Each page contains up to 64 rows, or 1,024 bytes. Offsets remain relative to the beginning of the original file as you change pages. Paging avoids turning a huge file into one enormous string. Empty files show a zero-byte notice, and read failures prompt you to choose the file again."
+    ]
   }
 }

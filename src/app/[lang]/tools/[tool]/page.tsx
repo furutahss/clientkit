@@ -20,6 +20,7 @@ import { FolderTreeTool } from "@/components/tools/folder-tree-tool";
 import { GitignoreTesterTool } from "@/components/tools/gitignore-tester-tool";
 import { HarAnalyzerTool } from "@/components/tools/har-analyzer-tool";
 import { HashGeneratorTool } from "@/components/tools/hash-generator-tool";
+import { HexViewerTool } from "@/components/tools/hex-viewer-tool";
 import { I18nPlaceholderCheckerTool } from "@/components/tools/i18n-placeholder-checker-tool";
 import { IdGeneratorTool } from "@/components/tools/id-generator-tool";
 import { ImageConverterTool } from "@/components/tools/image-converter-tool";
@@ -39,6 +40,7 @@ import {
   OcrTool,
   PasswordHashTool,
   PasswordStrengthTool,
+  TexImageTool,
   TextNormalizerTool,
   VideoConverterTool,
 } from "@/components/tools/lazy-tools";
@@ -85,6 +87,7 @@ const toolComponents: Record<string, ComponentType> = {
   "regex-tester": RegexTesterTool,
   "url-encoder": UrlEncoderTool,
   "hash-generator": HashGeneratorTool,
+  "hex-viewer": HexViewerTool,
   "password-hash": PasswordHashTool,
   "password-strength": PasswordStrengthTool,
   "sql-formatter": SqlFormatterTool,
@@ -138,6 +141,7 @@ const toolComponents: Record<string, ComponentType> = {
   "robots-txt-tester": RobotsTxtTesterTool,
   "semver-range": SemverRangeTool,
   "source-map-resolver": SourceMapResolverTool,
+  "tex-image": TexImageTool,
 };
 
 export function generateStaticParams() {

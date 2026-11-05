@@ -22,3 +22,4 @@ export const BackgroundRemoverTool = dynamic(() =>
 );
 export const PasswordHashTool = dynamic(() => import("@/components/tools/password-hash-tool").then((m) => m.PasswordHashTool));
 export const PasswordStrengthTool = dynamic(() => import("@/components/tools/password-strength-tool").then((m) => m.PasswordStrengthTool));
+export const TexImageTool = dynamic(() => import("@/components/tools/tex-image-tool").then((m) => m.TexImageTool));
