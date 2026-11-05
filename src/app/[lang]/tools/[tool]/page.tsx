@@ -38,6 +38,7 @@ import {
   MermaidEditorTool,
   OcrTool,
   PasswordHashTool,
+  PasswordStrengthTool,
   TextNormalizerTool,
   VideoConverterTool,
 } from "@/components/tools/lazy-tools";
@@ -85,6 +86,7 @@ const toolComponents: Record<string, ComponentType> = {
   "url-encoder": UrlEncoderTool,
   "hash-generator": HashGeneratorTool,
   "password-hash": PasswordHashTool,
+  "password-strength": PasswordStrengthTool,
   "sql-formatter": SqlFormatterTool,
   "color-converter": ColorConverterTool,
   "jwt-decoder": JwtDecoderTool,

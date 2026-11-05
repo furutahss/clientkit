@@ -2980,6 +2980,57 @@ const toolDefinitions: Tool[] = [
     },
   },
   {
+    id: "password-strength",
+    name: { ja: "パスワード強度チェッカー", en: "Password Strength Checker" },
+    description: {
+      ja: "パスワードの文字数と予測しやすいパターンをブラウザ内で確認し、強度の目安を表示します。",
+      en: "Check password length and predictable patterns locally and see a basic strength rating.",
+    },
+    longDescription: {
+      ja: "パスワードの長さ、よくある語句、連続文字、繰り返しをブラウザ内で確認する無料ツールです。入力と同時に4段階の強度の目安と注意点を表示します。入力内容の送信・保存は行いません。漏えい照合や安全性の保証は行わない簡易判定です。",
+      en: "A free local tool that checks password length, common terms, sequences, and repetition. See a four-level basic rating and feedback as you type, without sending or saving your input. This is a heuristic, not a breach check or security guarantee.",
+    },
+    howToUse: {
+      ja: [
+        "入力欄に確認用の文字列を入力します。実際に使っているパスワードの入力は避けてください。",
+        "強度の目安、文字数、検出された予測しやすいパターンを確認します。結果は入力に合わせて自動更新されます。",
+        "必要なときだけ目のボタンで表示を切り替え、終了したら「クリア」で入力と判定を消去します。",
+      ],
+      en: [
+        "Enter a candidate string. Avoid entering passwords you actually use.",
+        "Review the basic strength rating, character count, and detected predictable patterns. Results update as you type.",
+        "Use the eye button to reveal the input only when needed. Choose Clear to remove the input and reset the result.",
+      ],
+    },
+    about: { paragraphs: {
+      ja: [
+        "パスワード強度チェッカーは、入力した候補が短すぎないか、予測しやすい特徴を含んでいないかを確認するためのツールです。文字数を基に4段階で評価し、よくある語句、その一部の文字置換、数字やアルファベットの並び、キーボード上の連続、同じ文字列の繰り返しを見つけた場合は低い評価に抑えます。文字種を増やすだけで高評価になる仕組みではありません。",
+        "単語リストと検出ルールは限定的で、人名や誕生日、文章の意味、組み合わせの予測しやすさまでは判断しません。長い文字列が高く評価されても安全であると断定できません。入力値はReactの画面状態だけで扱い、URL、ローカルストレージ、外部APIには渡しません。空白も入力の一部として扱い、文字数では日本語や絵文字もUnicodeコードポイントとして数えます。",
+      ],
+      en: [
+        "The Password Strength Checker helps you inspect whether a candidate is short or contains a few predictable features. Length determines the initial four-level rating. A small list of common terms, some character substitutions, alphabet and digit runs, keyboard sequences, and repeated strings can reduce that rating. Adding uppercase letters, digits, or punctuation alone does not automatically earn a high score.",
+        "The word list and pattern rules are limited. The tool does not understand names, birthdays, sentence meaning, or how predictable a combination of words might be. A high rating for a long string therefore does not prove that it is secure. The input lives only in React state and is not placed in a URL, browser storage, or an external API request. Spaces are preserved, and the displayed character count uses Unicode code points, including Japanese characters and emoji.",
+      ],
+    } },
+    faq: [
+      {
+        question: { ja: "入力した内容は送信・保存されますか？", en: "Is my input sent or saved?" },
+        answer: { ja: "このツールは入力をサーバーに送信せず、ブラウザの保存領域にも記録しません。クリアすると入力欄と判定がリセットされ、表示状態も非表示に戻ります。", en: "The tool does not send your input to a server or record it in browser storage. Clear resets both the field and the assessment, and hides the password again." },
+      },
+      {
+        question: { ja: "「強い」なら安全ですか？", en: "Does Strong mean secure?" },
+        answer: { ja: "安全性の保証ではありません。文字数と一部のパターンだけによる簡易判定で、漏えい済みのパスワードや辞書全体との照合、解読時間の推定は行いません。他のサービスでの使い回しも検出できません。", en: "No. This basic heuristic checks length and a few patterns. It does not check breach databases or a comprehensive dictionary, estimate cracking time, or detect reuse on other services." },
+      },
+      {
+        question: { ja: "長い文字列でも弱いと判定されるのはなぜですか？", en: "Why can a long string receive a weak rating?" },
+        answer: { ja: "よくある語句や連続文字、繰り返し、異なる文字の少なさを検出すると評価を下げます。たとえば同じ短い文字列を何度も繰り返して長くしても、評価は高くなりません。", en: "Detected common terms, sequences, repetition, or very few distinct characters lower the score. Repeating a short block many times increases its length without earning a higher rating." },
+      },
+    ],
+    category: "security",
+    icon: LockKeyhole,
+    keywords: { ja: "パスワード強度 チェッカー 安全性 長さ 連続文字 繰り返し password strength", en: "password strength checker length repeated sequences security" },
+  },
+  {
     id: "password-hash",
     name: { ja: "パスワードハッシュ生成・検証（Argon2id/bcrypt）", en: "Password Hash Generator & Verifier (Argon2id/bcrypt)" },
     description: {

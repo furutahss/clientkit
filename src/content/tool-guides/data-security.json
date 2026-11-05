@@ -198,5 +198,15 @@
       "Enter 192.168.1.130/26. The network is 192.168.1.128/26, the mask is 255.255.255.192, and the range ends at 192.168.1.191. Checking 192.168.1.190 reports in range; 192.168.1.192 is out of range.",
       "Being in range differs from being assignable to a host. In this example, 192.168.1.191 is included but serves as the broadcast address, so usable hosts end at .190. Use the full range for allowlist membership and the usable-host range when planning device assignments."
     ]
+  },
+  "password-strength": {
+    "ja": [
+      "たとえば「Password123!」は大文字・小文字・数字・記号を含みますが、よくある語句を含むため低い評価になります。「Ab1!」を4回繰り返した入力も繰り返しとして検出します。表示中の文字列を他人に見られないよう、通常は非表示のまま確認し、作業を終えたらクリアしてください。",
+      "初期評価は8文字未満、8〜11文字、12〜15文字、16文字以上で分かれます。検出対象の予測しやすいパターンがある場合は、長さにかかわらず最低段階に抑えます。入力上限は1,024 UTF-16コード単位で、一部の絵文字は上限に対して2単位を使います。文字数表示はコードポイント単位のため、複数の絵文字を結合した見た目の1文字とは一致しない場合があります。"
+    ],
+    "en": [
+      "For example, Password123! contains uppercase and lowercase letters, digits, and punctuation, but receives a low rating because it includes a common term. Repeating Ab1! four times is also detected as repetition. Keep the input hidden when other people might see your screen, and clear the field when you finish.",
+      "The initial rating uses these length ranges: under 8, 8–11, 12–15, and at least 16 characters. Any detected predictable pattern limits the result to the lowest level regardless of length. Input is limited to 1,024 UTF-16 code units; some emoji consume two units toward that limit. The displayed code-point count can differ from the number of visible symbols when a symbol combines multiple code points."
+    ]
   }
 }

@@ -13,6 +13,8 @@ describe("ツール検索", () => {
     ["ja", "UUID生成", "id-generator"],
     ["ja", "argon2id", "password-hash"],
     ["en", "bcrypt", "password-hash"],
+    ["ja", "パスワード強度", "password-strength"],
+    ["en", "password strength", "password-strength"],
     ["ja", "sha3", "hash-generator"],
   ] as const)("%s: %s の最適なツールを先頭に表示する", (locale, query, id) => {
     expect(searchTools(locale, query)[0]?.id).toBe(id);

@@ -2401,6 +2401,29 @@
         "indexed": "Indexed maps with sections aren't supported. Enter a single, non-sectioned map.",
         "invalid": "The source map is invalid ({message})."
       }
+    },
+    "passwordStrength": {
+      "safetyNote": "Your input is processed only in this browser. It is not sent to a server or saved in browser storage.",
+      "passwordLabel": "Password to check",
+      "show": "Show password",
+      "hide": "Hide password",
+      "clear": "Clear",
+      "strength": "Estimated strength",
+      "length": "Characters",
+      "limit": "Up to 1,024 UTF-16 code units. The character count uses Unicode code points.",
+      "empty": "Enter a password",
+      "weak": "Weak",
+      "fair": "Fair",
+      "good": "Good",
+      "strong": "Strong (basic check)",
+      "disclaimer": "This basic check uses length and a few predictable patterns. It does not perform comprehensive dictionary or breach checks, estimate cracking time, or guarantee security. Avoid entering passwords you actually use.",
+      "issues": {
+        "short": "Increasing the length to at least 16 characters improves this basic rating.",
+        "common": "Contains a common term or a character-substitution variant.",
+        "repeated": "Contains a repeated string or only whitespace.",
+        "sequence": "Contains a sequence of digits, letters, or keyboard keys.",
+        "lowVariety": "Uses few distinct characters and may be predictable."
+      }
     }
   },
   "discovery": {
