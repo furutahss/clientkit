@@ -13,6 +13,8 @@ describe("ツール検索", () => {
     ["ja", "UUID生成", "id-generator"],
     ["ja", "argon2id", "password-hash"],
     ["en", "bcrypt", "password-hash"],
+    ["ja", "パスワード強度", "password-strength"],
+    ["en", "password strength", "password-strength"],
     ["ja", "sha3", "hash-generator"],
     ["ja", "バイナリ", "hex-viewer"],
     ["en", "hex dump", "hex-viewer"],

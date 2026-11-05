@@ -19,6 +19,16 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-11-05",
+    entries: [{
+      type: "feature",
+      title: {
+        ja: "パスワード強度チェッカーを追加（ブラウザ内で簡易判定）",
+        en: "Added a password strength checker with a local, basic assessment",
+      },
+    }],
+  },
+  {
     date: "2026-10-29",
     entries: [{
       type: "feature",
