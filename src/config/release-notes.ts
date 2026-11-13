@@ -19,6 +19,18 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-11-13",
+    entries: [
+      { type: "feature", title: { ja: "Web・通信ツールを追加（HTTPヘッダー診断、OGP・JSON-LD・sitemap検証、SPF/DKIM/DMARC、メールヘッダー、IPv6、アクセスログ、OpenAPIビューア）", en: "Added web and network tools: HTTP header analyzer, OGP, JSON-LD, and sitemap checkers, SPF/DKIM/DMARC, email headers, IPv6, access logs, and an OpenAPI viewer" } },
+      { type: "feature", title: { ja: "セキュリティ系ツールを追加（JWT署名・検証、Webhook署名検証、鍵のPEM⇄JWK変換、SSH鍵・CSR解析、TOTP、テキスト暗号化、SAML、SRI、ID解析、チェックディジット、IAMポリシー解説）", en: "Added security tools: JWT signing and verification, webhook signatures, PEM ⇄ JWK keys, SSH key and CSR inspection, TOTP, text encryption, SAML, SRI, ID inspection, check digits, and an IAM policy explainer" } },
+      { type: "feature", title: { ja: "データ変換ツールを追加（jq、JSON修復、JSON→各言語の型、JSON Schema→サンプル、XML・XPath、MessagePack/CBOR、Protobuf、GraphQL、NDJSON、ダミーデータ、Markdown表、ZIP）", en: "Added data tools: jq, JSON repair, JSON to types, schema samples, XML and XPath, MessagePack/CBOR, Protobuf, GraphQL, NDJSON, dummy data, Markdown tables, and ZIP" } },
+      { type: "feature", title: { ja: "テキスト・日時ツールを追加（文字コード判定・文字化け修復、エスケープ、ケース変換、行の操作、基数変換・ビット演算、IEEE 754、Intlプレイグラウンド）", en: "Added text tools: encoding detection and mojibake repair, escaping, case conversion, line tools, radix and bitwise calculator, IEEE 754, and an Intl playground" } },
+      { type: "feature", title: { ja: "開発・インフラ系ツールを追加（CSS詳細度・単位・グラデーション、HTML→JSX、glob、diffビューア、MySQL EXPLAIN、スキーマ差分、Terraform plan、Kubernetes、Docker、GitHub Actions、ロックファイル差分、package.jsonチェック、フォルダ比較、バンドル内訳）", en: "Added developer and infrastructure tools: CSS specificity, units, and gradients, HTML to JSX, glob, a diff viewer, MySQL EXPLAIN, schema diff, Terraform plan, Kubernetes, Docker, GitHub Actions, lockfile diff, a package.json checker, folder compare, and a bundle analyzer" } },
+      { type: "feature", title: { ja: "画像・フォント系ツールを追加（BlurHash、レスポンシブ画像、OGP画像、バーコード、フォント情報、カラースケール）。キーボードイベント検査も追加", en: "Added image and font tools: BlurHash, responsive images, OGP images, barcodes, a font inspector, and color scales, plus a keyboard event inspector" } },
+      { type: "chore", title: { ja: "SEO監査スクリプトが、追加ツールの定義（複数ファイル）を読み込めるように対応", en: "Updated the SEO audit script to load the new multi-file tool definitions" } },
+    ],
+  },
+  {
     date: "2026-11-05",
     entries: [{
       type: "feature",

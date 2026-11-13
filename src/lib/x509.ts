@@ -476,3 +476,53 @@ export function getValidityStatus(certificate: ParsedCertificate, now: number): 
   const days = Math.floor(remaining / dayMs);
   return { status: days <= EXPIRING_SOON_DAYS ? "expiring" : "valid", days };
 }
+
+export type ParsedCsr = {
+  version: number;
+  subject: DistinguishedNameEntry[];
+  publicKey: ParsedCertificate["publicKey"];
+  signatureAlgorithm: string;
+  subjectAltNames: SubjectAltName[];
+  requestedExtensions: string[];
+};
+
+/** PKCS#10 証明書署名要求（CSR）のDERを解析する。署名の検証は行わない */
+export function parseCsrDer(der: Uint8Array): ParsedCsr {
+  const root = readNode(der, 0);
+  const [info, sigAlg] = root.children;
+  if (!info || !sigAlg || info.children.length < 3) throw new CertificateParseError("not a CSR");
+  const csr: ParsedCsr = {
+    version: content(der, info.children[0])[0] + 1,
+    subject: parseName(der, info.children[1]),
+    publicKey: parsePublicKey(der, info.children[2]),
+    signatureAlgorithm: oidName(decodeOid(content(der, sigAlg.children[0]))),
+    subjectAltNames: [],
+    requestedExtensions: [],
+  };
+  const attributes = info.children.find((c) => c.tagClass === 2 && c.tagNumber === 0);
+  for (const attribute of attributes?.children ?? []) {
+    if (decodeOid(content(der, attribute.children[0])) !== "1.2.840.113549.1.9.14") continue;
+    for (const extension of attribute.children[1]?.children[0]?.children ?? []) {
+      const oid = decodeOid(content(der, extension.children[0]));
+      csr.requestedExtensions.push(oidName(oid));
+      if (oid !== "2.5.29.17") continue;
+      const valueBytes = content(der, extension.children[extension.children.length - 1]);
+      for (const name of readNode(valueBytes, 0).children) {
+        const data = content(valueBytes, name);
+        const text = new TextDecoder("latin1").decode(data);
+        if (name.tagNumber === 2) csr.subjectAltNames.push({ type: "DNS", value: text });
+        else if (name.tagNumber === 7) csr.subjectAltNames.push({ type: "IP", value: formatIp(data) });
+        else if (name.tagNumber === 1) csr.subjectAltNames.push({ type: "email", value: text });
+        else if (name.tagNumber === 6) csr.subjectAltNames.push({ type: "URI", value: text });
+        else csr.subjectAltNames.push({ type: "other", value: `[${name.tagNumber}]` });
+      }
+    }
+  }
+  return csr;
+}
+
+export function parseCsrPem(text: string): ParsedCsr {
+  const m = /-----BEGIN (?:NEW )?CERTIFICATE REQUEST-----([\s\S]*?)-----END (?:NEW )?CERTIFICATE REQUEST-----/.exec(text);
+  const body = m ? m[1] : text;
+  return parseCsrDer(base64ToBytes(body));
+}
