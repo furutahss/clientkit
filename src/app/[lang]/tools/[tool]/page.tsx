@@ -66,6 +66,8 @@ import { SqlToPrismaTool } from "@/components/tools/sql-to-prisma-tool";
 import { SvgOptimizerTool } from "@/components/tools/svg-optimizer-tool";
 import { TextDiffTool } from "@/components/tools/text-diff-tool";
 import { TimestampConverterTool } from "@/components/tools/timestamp-converter-tool";
+import { MoreToolHost } from "@/components/tools/more/registry";
+import { CUSTOM_IDS, SPEC_IDS } from "@/components/tools/more/spec-ids";
 import { ToolContentSections } from "@/components/tools/tool-content-sections";
 import { RelatedTools } from "@/components/tools/related-tools";
 import { ToolPageHeader } from "@/components/tools/tool-page-header";
@@ -144,6 +146,8 @@ const toolComponents: Record<string, ComponentType> = {
   "tex-image": TexImageTool,
 };
 
+const moreToolIds = new Set<string>([...Object.values(SPEC_IDS).flat(), ...CUSTOM_IDS]);
+
 export function generateStaticParams() {
   return locales.flatMap((lang) =>
     tools.map((tool) => ({ lang, tool: tool.id }))
@@ -185,13 +189,14 @@ export default async function ToolPage(
   const tool = getToolById(toolId);
   if (!tool) notFound();
 
+  const isMore = moreToolIds.has(tool.id);
   const ToolComponent = toolComponents[tool.id];
-  if (!ToolComponent) notFound();
+  if (!isMore && !ToolComponent) notFound();
 
   return (
     <div className="flex flex-col gap-6">
       <ToolPageHeader tool={tool} lang={lang} />
-      <ToolComponent />
+      {isMore ? <MoreToolHost id={tool.id} /> : <ToolComponent />}
       <ToolContentSections
         lang={lang}
         howToUse={tool.howToUse[lang]}

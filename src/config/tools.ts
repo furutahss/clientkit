@@ -1,6 +1,7 @@
 import textMediaGuides from "../content/tool-guides/text-media.json";
 import dataSecurityGuides from "../content/tool-guides/data-security.json";
 import developmentGuides from "../content/tool-guides/development.json";
+import { moreGuides, moreTools } from "./more-tools";
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,
@@ -5527,9 +5528,10 @@ const toolGuides: Record<string, LocalizedTextArray> = {
   ...textMediaGuides,
   ...dataSecurityGuides,
   ...developmentGuides,
+  ...moreGuides,
 };
 
-export const tools: Tool[] = toolDefinitions.map(tool => ({
+export const tools: Tool[] = [...toolDefinitions, ...moreTools].map(tool => ({
   ...tool,
   about: {
     ...tool.about,

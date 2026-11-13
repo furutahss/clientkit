@@ -42,6 +42,15 @@ npm run build
 3. `src/components/tools/` にツール本体のUIコンポーネント（クライアントコンポーネント）を実装する。
 4. 共通のクリア・コピーアクションには `src/components/tools/tool-actions.tsx` の `ToolActions` を利用する。
 
+入力→結果表示の形で動くツール（テキスト・ファイルを受け取り、表・テキスト・ダウンロードを返すもの）は、`src/components/tools/more/` の共通部品で、少ないコードで追加できます。
+
+1. `src/lib/more/<name>.ts` に純粋な処理を書き、`<name>.test.ts` でテストする。
+2. `src/components/tools/more/specs/<group>.ts(x)` に、入力欄・オプション・`run()` からなる `ToolSpec` を追加する。
+3. `src/config/more-tools/<group>.ts` に `define(...)` で日英の説明・FAQ・キーワードを追加し、`faq-extra.ts` に3つ目のFAQを足す。
+4. `src/components/tools/more/spec-ids.ts` にIDを追加する（専用UIが必要な場合は `CUSTOM_IDS` と `registry.tsx`）。
+
+登録漏れ・FAQ件数・検索は `src/config/more-tools/more-tools.test.ts` と `npm run seo:content` で検証されます。
+
 サイドバー・トップページのツール一覧・検索機能はすべて `src/config/tools.ts` を参照して動的に生成されるため、上記の登録だけで自動的に反映されます。
 
 ## ディレクトリ構成（抜粋）
