@@ -1,8 +1,26 @@
-import { ArrowDownUp, Calculator, CaseSensitive, Cpu, Globe, Languages, Replace } from "lucide-react";
+import { ArrowDownUp, CalendarDays, Calculator, CaseSensitive, Cpu, Globe, Languages, Replace } from "lucide-react";
 
 import { define } from "./define";
 
 export const textMeta = [
+  define("icalendar-inspector", "time", CalendarDays, {
+    name: "iCalendar予定プレビュー（.ics）", desc: ".icsの予定をカレンダーに登録する前に確認します。",
+    steps: [".icsファイルを選ぶか内容を貼り付けます。", "件名・日時・場所の一覧を確認します。", "詳細で説明・参加者・繰り返し指定を確認します。"],
+    about: "iCalendar 2.0の予定をブラウザ内で読み取り、件名、日時、場所と詳細を表示します。カレンダーには登録しません。",
+    example: "終日の終了日は含まれない日として表示します。UTC、タイムゾーンID、タイムゾーン指定なしを区別します。",
+    limits: "入力は1 MiB、予定は500件、1フィールドは16 KiBまでです。タイムゾーン変換や繰り返しの展開は行いません。",
+    faq: [["ファイルは送信されますか？", "いいえ。ブラウザ内だけで処理し、保存しません。"], ["繰り返しは展開されますか？", "いいえ。指定された値をそのまま表示します。"]],
+    keywords: "icalendar ics カレンダー 予定 プレビュー 日時 招待",
+  }, {
+    name: "iCalendar Event Preview (.ics)", desc: "Preview events in an .ics file before importing them.",
+    steps: ["Select an .ics file or paste its contents.", "Review the event summary, dates and location.", "Open details for descriptions, attendees and recurrence."],
+    about: "Read iCalendar 2.0 events in your browser and inspect their details without adding them to a calendar.",
+    example: "All-day end dates are exclusive. UTC, time zone IDs and floating times are shown distinctly.",
+    limits: "Input is limited to 1 MiB, 500 events and 16 KiB per field. Time zones and recurrences are not expanded.",
+    faq: [["Are files uploaded?", "No. Processing stays in the browser and data is not saved."], ["Are recurrences expanded?", "No. Their specified values are displayed as text."]],
+    keywords: "icalendar ics calendar event preview schedule invitation",
+  }, { mimeTypes: ["text/calendar"], extensions: ["ics"] }),
+
   define("encoding-converter", "text", Languages, {
     name: "文字コード判定・変換・文字化け修復（Shift_JIS・EUC-JP・UTF-8）",
     desc: "テキストファイルの文字コードを判定してUTF-8などに変換し、文字化けしたテキストの修復候補も示します。",
