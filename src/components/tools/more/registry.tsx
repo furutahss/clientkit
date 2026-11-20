@@ -33,6 +33,7 @@ const loaders: Record<keyof typeof SPEC_IDS, () => Promise<SpecModule>> = {
 const moreToolComponents: Record<string, ComponentType> = {
   ...Object.fromEntries((Object.keys(SPEC_IDS) as (keyof typeof SPEC_IDS)[]).flatMap((group) => SPEC_IDS[group].map((id) => [id, fromSpecs(id, loaders[group])]))),
   "keyboard-inspector": custom(() => import("@/components/tools/more/keyboard-inspector-tool").then((m) => ({ default: m.KeyboardInspectorTool }))),
+  "icalendar-inspector": custom(() => import("@/components/tools/more/icalendar-inspector-tool").then((m) => ({ default: m.IcalendarInspectorTool }))),
   "folder-compare": custom(() => import("@/components/tools/more/folder-compare-tool").then((m) => ({ default: m.FolderCompareTool }))),
 };
 
