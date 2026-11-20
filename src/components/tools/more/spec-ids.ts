@@ -8,4 +8,4 @@ export const SPEC_IDS = {
   media: ["blurhash-generator", "srcset-generator", "og-image-generator", "barcode-tool", "font-inspector", "sourcemap-bundle-analyzer"],
 } as const;
 
-export const CUSTOM_IDS = ["keyboard-inspector", "folder-compare", "icalendar-inspector"] as const;
+export const CUSTOM_IDS = ["keyboard-inspector", "folder-compare", "upload-test-file-generator", "icalendar-inspector"] as const;

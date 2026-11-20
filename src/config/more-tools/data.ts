@@ -3,6 +3,26 @@ import { Binary, Braces, Dices, FileArchive, FileJson, FileText, GitCompareArrow
 import { define } from "./define";
 
 export const dataMeta = [
+  define("upload-test-file-generator", "data", Binary, {
+    name: "アップロードテストファイル生成",
+    desc: "指定したバイト数のゼロ埋めファイルをブラウザ内で生成します。",
+    steps: ["バイト数を入力します。", "生成してダウンロードを押します。", "保存したファイルで制限を確認します。"],
+    about: "アップロードのファイル単体のサイズ制限を試すため、指定したバイト数のゼロ埋めバイナリを生成します。サーバーには送信しません。",
+    example: "10 MiB の上限には 10485759、10485760、10485761 バイトで境界を確認できます。",
+    limits: "0〜16 MiB。サイズはファイル単体で、multipart のオーバーヘッドを含みません。圧縮後のサイズや特定の MIME タイプ・シグネチャの検証には適しません。",
+    faq: [["ファイルは送信されますか？", "いいえ。ブラウザ内で生成します。"], ["リクエスト全体の制限を検証できますか？", "いいえ。multipart のヘッダーなどは含まれません。"], ["0バイトのファイルを作れますか？", "はい。0を入力してください。"]],
+    keywords: "アップロード テスト ファイル バイト サイズ 制限 境界 生成",
+  }, {
+    name: "Upload Test File Generator",
+    desc: "Generate a zero-filled file of a specified byte size in your browser.",
+    steps: ["Enter the size in bytes.", "Select Generate and download.", "Use the saved file to test the limit."],
+    about: "Generate a zero-filled binary of an exact size to test per-file upload limits. Nothing is sent to a server.",
+    example: "Test a 10 MiB limit with 10485759, 10485760, and 10485761 bytes.",
+    limits: "0–16 MiB. Size applies to the file alone and excludes multipart overhead. This is unsuitable for testing compressed size or specific MIME types or signatures.",
+    faq: [["Is the file uploaded?", "No. It is generated in your browser."], ["Can this test whole-request limits?", "No. Multipart headers and other overhead are excluded."], ["Can it create an empty file?", "Yes. Enter 0 bytes."]],
+    keywords: "upload test file byte size limit boundary generator binary",
+  }),
+
   define("jq-playground", "data", Terminal, {
     name: "jqプレイグラウンド（JSON抽出・変換）",
     desc: "jqのフィルターをブラウザ上で試して、JSONの抽出・絞り込み・変換ができます。",
