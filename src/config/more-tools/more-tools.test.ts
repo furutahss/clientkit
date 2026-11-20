@@ -9,7 +9,7 @@ import { specs as text } from "@/components/tools/more/specs/text";
 import { specs as web } from "@/components/tools/more/specs/web";
 
 import { moreGuides, moreTools } from ".";
-import { categories, searchTools, tools } from "../tools";
+import { categories, getToolsForFile, searchTools, tools } from "../tools";
 
 const modules = { web, security, data, text, code, media };
 
@@ -20,6 +20,12 @@ describe("追加ツールの登録", () => {
     const registered = [...specIds, ...CUSTOM_IDS].sort();
     expect(registered).toEqual(moreTools.map((t) => t.id).sort());
     expect(new Set(registered).size).toBe(registered.length);
+  });
+
+  it(".ics と text/calendar をスマートドロップで提案する", () => {
+    for (const file of [{ name: "event.ics", type: "" }, { name: "event", type: "text/calendar" }]) {
+      expect(getToolsForFile(file).some((tool) => tool.id === "icalendar-inspector")).toBe(true);
+    }
   });
 
   it("グループごとのspecsにIDが過不足なくある", () => {
@@ -51,6 +57,8 @@ describe("追加ツールの登録", () => {
 
   it("日本語・英語のキーワードで目的のツールが先頭に出る", () => {
     for (const [locale, query, id] of [
+      ["ja", "icalendar", "icalendar-inspector"],
+      ["en", "icalendar", "icalendar-inspector"],
       ["ja", "jq", "jq-playground"],
       ["en", "jq", "jq-playground"],
       ["ja", "文字化け", "encoding-converter"],
