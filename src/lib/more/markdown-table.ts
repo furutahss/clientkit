@@ -13,7 +13,7 @@ function splitRow(line: string): string[] {
     else cur += t[i];
   }
   cells.push(cur.trim());
-  return cells;
+  return cells.map((c) => c.replace(/<br\s*\/?>/gi, "\n"));
 }
 
 const isSeparator = (cells: string[]) => cells.length > 0 && cells.every((c) => /^:?-{1,}:?$/.test(c));
@@ -64,7 +64,8 @@ export function formatMarkdownTable(g: Grid, align?: Align): string {
   return [line(cells[0]), `| ${g.header.map((_, i) => sep(i)).join(" | ")} |`, ...cells.slice(1).map(line)].join("\n");
 }
 
+/** TSVはExcel・Googleスプレッドシートへ貼り付けられる形（改行・タブ・"を含むセルは引用符で囲む）で出力する */
 export function gridToDelimited(g: Grid, d: "," | "\t"): string {
-  const esc = (s: string) => (d === "," && /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : d === "\t" ? s.replace(/[\t\n]/g, " ") : s);
+  const esc = (s: string) => (new RegExp(`["${d}\n]`).test(s) ? `"${s.replace(/"/g, '""')}"` : s);
   return [g.header, ...g.rows].map((r) => r.map(esc).join(d)).join("\n");
 }

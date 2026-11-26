@@ -19,6 +19,12 @@ export type ReleaseNoteGroup = {
  */
 export const releaseNotes: ReleaseNoteGroup[] = [
   {
+    date: "2026-11-26",
+    entries: [
+      { type: "improvement", title: { ja: "Markdown表ツールがExcelに対応（コピーしたセルを貼り付けるとMarkdownの表に、Markdownの表はExcelへ貼り付けられる形に自動で変換）", en: "The Markdown table tool now works with Excel: pasted cells become a Markdown table, and a Markdown table becomes cells you can paste back into Excel" } },
+    ],
+  },
+  {
     date: "2026-11-13",
     entries: [
       { type: "feature", title: { ja: "Web・通信ツールを追加（HTTPヘッダー診断、OGP・JSON-LD・sitemap検証、SPF/DKIM/DMARC、メールヘッダー、IPv6、アクセスログ、OpenAPIビューア）", en: "Added web and network tools: HTTP header analyzer, OGP, JSON-LD, and sitemap checkers, SPF/DKIM/DMARC, email headers, IPv6, access logs, and an OpenAPI viewer" } },

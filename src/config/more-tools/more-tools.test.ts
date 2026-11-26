@@ -69,6 +69,8 @@ describe("追加ツールの登録", () => {
       ["en", "terraform plan", "terraform-plan-viewer"],
       ["ja", "ロックファイル 差分", "lockfile-diff"],
       ["en", "ipv6", "ipv6-calculator"],
+      ["ja", "エクセル マークダウン", "markdown-table"],
+      ["en", "excel to markdown", "markdown-table"],
     ] as const) expect(searchTools(locale, query)[0]?.id, `${locale}: ${query}`).toBe(id);
   });
 });

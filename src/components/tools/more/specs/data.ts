@@ -230,17 +230,19 @@ export const specs: Specs = {
   },
 
   "markdown-table": {
-    inputs: [{ id: "text", label: ["CSV / TSV / Markdown表", "CSV / TSV / Markdown table"], rows: 10 }],
+    inputs: [{ id: "text", label: ["Excelのセル・CSV・Markdown表を貼り付け", "Paste Excel cells, CSV, or a Markdown table"], rows: 10 }],
     files: { accept: ".csv,.tsv,.md,.txt", label: ["ファイルをドロップ（任意）", "Drop a file (optional)"] },
     options: [
-      { id: "to", kind: "select", label: ["出力", "Output"], default: "md", choices: [{ value: "md", label: ["Markdown表（整形）", "Markdown table (formatted)"] }, { value: "csv", label: "CSV" }, { value: "tsv", label: "TSV" }, { value: "json", label: "JSON" }] },
-      { id: "align", kind: "select", label: ["配置（Markdown出力）", "Alignment (Markdown output)"], default: "none", choices: [{ value: "none", label: ["そのまま", "Keep"] }, { value: "left", label: ["左揃え", "Left"] }, { value: "center", label: ["中央揃え", "Center"] }, { value: "right", label: ["右揃え", "Right"] }], hidden: (v) => v.to !== "md" },
+      { id: "to", kind: "select", label: ["出力", "Output"], default: "auto", choices: [{ value: "auto", label: ["自動（Excel・CSV→Markdown／Markdown→Excel）", "Auto (Excel/CSV → Markdown, Markdown → Excel)"] }, { value: "md", label: ["Markdown表（整形）", "Markdown table (formatted)"] }, { value: "tsv", label: ["Excel・スプレッドシート貼り付け用（TSV）", "For pasting into Excel or Sheets (TSV)"] }, { value: "csv", label: "CSV" }, { value: "json", label: "JSON" }] },
+      { id: "align", kind: "select", label: ["配置（Markdown出力）", "Alignment (Markdown output)"], default: "none", choices: [{ value: "none", label: ["そのまま", "Keep"] }, { value: "left", label: ["左揃え", "Left"] }, { value: "center", label: ["中央揃え", "Center"] }, { value: "right", label: ["右揃え", "Right"] }], hidden: (v) => v.to === "csv" || v.to === "tsv" || v.to === "json" },
     ],
     sample: { text: "名前,部署,メモ\n田中,開発,\"A, B\"\nSmith,営業,x|y" },
     run: ({ inputs, files, opts, t }) => {
       const src = textOrFile(inputs.text, files);
-      const grid = parseMarkdownTable(src) ?? gridFromRows(parseDelimited(src));
+      const md = parseMarkdownTable(src);
+      const grid = md ?? gridFromRows(parseDelimited(src));
       if (!grid.header.some(Boolean)) return { error: t("表として読み取れません。", "Cannot read the input as a table.") };
+      if (opts.to === "auto" && md) return { text: gridToDelimited(grid, "\t"), notes: [t("Markdown表をExcel貼り付け用（TSV）に変換しました。コピーしてセルに貼り付けてください。", "Converted the Markdown table to TSV. Copy it and paste into a cell in Excel or Sheets.")] };
       switch (opts.to) {
         case "csv": return { text: gridToDelimited(grid, ",") };
         case "tsv": return { text: gridToDelimited(grid, "\t") };
