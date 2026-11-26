@@ -18,12 +18,19 @@ describe("Markdown表", () => {
   it("Markdown表をCSV・TSVに戻す", () => {
     const g = parseMarkdownTable("| a | b |\n| --- | --- |\n| x \\| y | \"q\" |")!;
     expect(gridToDelimited(g, ",")).toBe('a,b\nx | y,"""q"""');
-    expect(gridToDelimited(g, "\t")).toBe('a\tb\nx | y\t"q"');
+    expect(gridToDelimited(g, "\t")).toBe('a\tb\nx | y\t"""q"""');
     expect(parseMarkdownTable("not a table")).toBeNull();
   });
 
   it("TSVや引用符内の改行・セミコロン区切りを解析する", () => {
     expect(parseDelimited("a\tb\n1\t2")).toEqual([["a", "b"], ["1", "2"]]);
     expect(parseDelimited('a;b\n"x\ny";2')).toEqual([["a", "b"], ["x\ny", "2"]]);
+  });
+
+  it("Excelからのコピー（引用符付きのセル内改行、末尾のCRLF）とMarkdown→Excelの往復", () => {
+    const excel = '項目\t備考\r\n"1行目\n2行目"\tA, B\r\n';
+    const md = formatMarkdownTable(gridFromRows(parseDelimited(excel)));
+    expect(md).toBe(["| 項目           | 備考 |", "| -------------- | ---- |", "| 1行目<br>2行目 | A, B |"].join("\n"));
+    expect(gridToDelimited(parseMarkdownTable(md)!, "\t")).toBe('項目\t備考\n"1行目\n2行目"\tA, B');
   });
 });
